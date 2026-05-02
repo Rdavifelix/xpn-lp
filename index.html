@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A Máquina de Reuniões da XPN Digital — sistema completo que gera agendamentos qualificados para empresários que faturam R$30k+/mês. +R$14MI em vendas, 2.500 agendamentos, ROAS médio 12x.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="XPN Digital — A Máquina de Reuniões">
+  <meta property="og:description" content="Sistema completo que gerou +R$14 milhões em vendas e +2.500 agendamentos qualificados nos últimos 3 anos.">
+  <meta property="og:image" content="https://placehold.co/1200x630/000000/FE063B?text=XPN+Digital">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>XPN Digital — A Máquina de Reuniões | Agendamentos Qualificados</title>
+  <link rel="icon" href="https://placehold.co/32x32/FE063B/FFFFFF?text=X" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== VARIÁVEIS CSS ===== */
+    :root {
+      --xpn-vermelho:        #FE063B;
+      --xpn-vermelho-hover:  #CF0707;
+      --xpn-vermelho-banner: #F91D1D;
+      --xpn-preto:           #000000;
+      --xpn-cinza-card:      #151414;
+      --xpn-borda:           #880000;
+      --xpn-azul-faq:        #04112C;
+      --xpn-branco:          #FFFFFF;
+      --xpn-cinza-texto:     #F2F2F2;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    h5, h6, .subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== CTA BUTTON ===== */
+    .cta-btn {
+      display: inline-block;
+      background: var(--xpn-vermelho);
+      color: var(--xpn-branco);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 18px 40px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      animation: pulse-cta 2.5s ease-in-out infinite;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: var(--xpn-vermelho-hover);
+      transform: translateY(-2px);
+      animation: none;
+    }
+    @keyframes pulse-cta {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(254,6,59,0.4); }
+      50% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(254,6,59,0); }
+    }
+
+    /* ===== SEÇÃO — FADE IN ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CARD HOVER UNIVERSAL ===== */
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(254,6,59,0.18);
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ============================================================
+       BLOCO 1 — TOP BAR
+    ============================================================ */
+    #bloco1-topbar {
+      background: var(--xpn-vermelho-banner);
+      text-align: center;
+      padding: 12px 20px;
+    }
+    #bloco1-topbar p {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--xpn-branco);
+    }
+    @media (max-width: 768px) {
+      #bloco1-topbar p { font-size: 0.7rem; letter-spacing: 0.03em; }
+    }
+
+    /* ============================================================
+       BLOCO 2 — HERO
+    ============================================================ */
+    #bloco2-hero {
+      background: var(--xpn-preto);
+      padding: 72px 20px 80px;
+      text-align: center;
+    }
+    #bloco2-hero .logo-xpn {
+      width: 120px;
+      margin: 0 auto 40px;
+    }
+    #bloco2-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--xpn-branco);
+      max-width: 860px;
+      margin: 0 auto 20px;
+    }
+    #bloco2-hero h1 span { color: var(--xpn-vermelho); }
+    #bloco2-hero .hero-sub {
+      font-size: 1.05rem;
+      color: var(--xpn-cinza-texto);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+    }
+    #bloco2-hero .vsl-wrapper {
+      max-width: 754px;
+      margin: 0 auto 48px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--xpn-borda);
+    }
+    /* Imagem de placeholder VSL — substituir por iframe VTurb */
+    #bloco2-hero .vsl-wrapper img {
+      width: 100%;
+      height: auto;
+    }
+    @media (max-width: 768px) {
+      #bloco2-hero { padding: 48px 16px 60px; }
+      #bloco2-hero h1 { font-size: 1.6rem; }
+    }
+
+    /* ============================================================
+       BLOCO 3 — TRACK RECORD
+    ============================================================ */
+    #bloco3-trackrecord {
+      background: var(--xpn-cinza-card);
+      padding: 80px 20px;
+      border-top: 1px solid var(--xpn-borda);
+      border-bottom: 1px solid var(--xpn-borda);
+    }
+    .trackrecord-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .trackrecord-title {
+      font-size: 1.1rem;
+      color: #666;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 64px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    .trackrecord-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .trackrecord-item {
+      text-align: center;
+      padding: 40px 32px;
+      position: relative;
+    }
+    .trackrecord-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--xpn-borda);
+    }
+    .trackrecord-item .tr-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 4.8rem);
+      color: var(--xpn-vermelho);
+      line-height: 1;
+      display: block;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .trackrecord-item .tr-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #aaa;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 768px) {
+      .trackrecord-grid { grid-template-columns: 1fr; gap: 0; }
+      .trackrecord-item:not(:last-child)::after {
+        right: auto; top: auto; bottom: 0; left: 20%; height: 1px; width: 60%;
+      }
+      .trackrecord-item { padding: 36px 20px; }
+    }
+
+    /* ============================================================
+       BLOCO 4 — DOR / SINTOMAS
+    ============================================================ */
+    #bloco4-dor {
+      background: var(--xpn-preto);
+      padding: 80px 20px;
+    }
+    #bloco4-dor .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco4-dor h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 64px;
+    }
+    .dor-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto 64px;
+    }
+    .dor-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .dor-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .dor-card img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .dor-card-body { padding: 24px 20px; }
+    .dor-card-body h3 {
+      font-size: 1.05rem;
+      color: var(--xpn-branco);
+      margin-bottom: 10px;
+    }
+    .dor-card-body p { font-size: 0.9rem; color: #bbb; line-height: 1.6; }
+    #bloco4-dor .cta-wrapper { text-align: center; }
+    @media (max-width: 1024px) { .dor-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .dor-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       BLOCO 5 — APRESENTAÇÃO DA SOLUÇÃO
+    ============================================================ */
+    #bloco5-solucao {
+      background: var(--xpn-vermelho);
+      padding: 80px 20px;
+      text-align: center;
+    }
+    #bloco5-solucao .diamond-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      transform: rotate(45deg);
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      position: relative;
+    }
+    #bloco5-solucao .diamond-icon span { transform: rotate(-45deg); display: block; }
+    #bloco5-solucao h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--xpn-branco);
+      max-width: 820px;
+      margin: 0 auto 40px;
+    }
+    .solucao-text {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .solucao-text p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.92);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .solucao-text p strong { color: var(--xpn-branco); font-weight: 800; font-family: 'Montserrat', sans-serif; }
+
+    /* ============================================================
+       BLOCO 6 — BENEFÍCIOS
+    ============================================================ */
+    #bloco6-beneficios {
+      background: var(--xpn-preto);
+      padding: 80px 20px;
+    }
+    #bloco6-beneficios .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco6-beneficios h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 64px;
+    }
+    .beneficios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto 64px;
+    }
+    .beneficio-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      padding: 32px 28px;
+    }
+    .beneficio-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(254,6,59,0.12);
+      border: 1px solid var(--xpn-vermelho);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: var(--xpn-vermelho);
+    }
+    .beneficio-card h3 {
+      font-size: 1.05rem;
+      color: var(--xpn-branco);
+      margin-bottom: 12px;
+    }
+    .beneficio-card p { font-size: 0.9rem; color: #bbb; line-height: 1.65; }
+    #bloco6-beneficios .cta-wrapper { text-align: center; }
+    @media (max-width: 1024px) { .beneficios-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .beneficios-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       BLOCO 7 — COMO FUNCIONA (FUNDO BRANCO)
+    ============================================================ */
+    #bloco7-como {
+      background: var(--xpn-branco);
+      padding: 80px 20px;
+    }
+    #bloco7-como .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco7-como h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-preto);
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 64px;
+    }
+    .como-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .como-card {
+      background: #f8f8f8;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+    }
+    .como-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .como-card-body { padding: 24px 20px; }
+    .como-card-step {
+      display: inline-block;
+      background: var(--xpn-vermelho);
+      color: var(--xpn-branco);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .como-card-body h3 {
+      font-size: 1.02rem;
+      color: var(--xpn-preto);
+      margin-bottom: 10px;
+    }
+    .como-card-body p { font-size: 0.88rem; color: #555; line-height: 1.65; }
+    @media (max-width: 1024px) { .como-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .como-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       BLOCO 8 — O QUE VAI OBTER NO DIAGNÓSTICO
+    ============================================================ */
+    #bloco8-diagnostico {
+      background: #0a0a0a;
+      padding: 80px 20px;
+      border-top: 1px solid var(--xpn-borda);
+    }
+    #bloco8-diagnostico .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco8-diagnostico h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 64px;
+    }
+    .diag-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto 64px;
+    }
+    .diag-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .diag-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: rgba(254,6,59,0.12);
+      border: 1px solid var(--xpn-vermelho);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--xpn-vermelho);
+    }
+    .diag-card h3 { font-size: 1rem; color: var(--xpn-branco); margin-bottom: 6px; }
+    .diag-card p { font-size: 0.87rem; color: #bbb; line-height: 1.6; }
+    #bloco8-diagnostico .cta-wrapper { text-align: center; }
+    @media (max-width: 1024px) { .diag-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .diag-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       BLOCO 9 — SOBRE O DIAGNÓSTICO (PARALLAX)
+    ============================================================ */
+    #bloco9-parallax {
+      background-image: url('https://placehold.co/1920x700/151414/FE063B?text=XPN+Background');
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      position: relative;
+    }
+    #bloco9-parallax::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.79);
+    }
+    .parallax-card {
+      position: relative;
+      max-width: 760px;
+      margin: 0 auto;
+      background: rgba(21,20,20,0.85);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 16px;
+      padding: 56px 48px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+    .parallax-card h2 {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      margin-bottom: 24px;
+    }
+    .parallax-card h2 span { color: var(--xpn-vermelho); }
+    .parallax-card p {
+      font-size: 1rem;
+      color: var(--xpn-cinza-texto);
+      margin-bottom: 16px;
+      line-height: 1.75;
+    }
+    .parallax-card .diag-checklist {
+      text-align: left;
+      margin: 32px 0;
+    }
+    .parallax-card .diag-checklist li {
+      list-style: none;
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: var(--xpn-cinza-texto);
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid rgba(136,0,0,0.2);
+    }
+    .parallax-card .diag-checklist li:last-child { border-bottom: none; }
+    .parallax-card .diag-checklist li::before {
+      content: '✓';
+      color: var(--xpn-vermelho);
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .parallax-card { padding: 36px 24px; }
+      #bloco9-parallax { background-attachment: scroll; }
+    }
+
+    /* ============================================================
+       BLOCO 10 — DEPOIMENTOS
+    ============================================================ */
+    #bloco10-depoimentos {
+      background: #1a0005;
+      padding: 80px 20px;
+      border-top: 2px solid var(--xpn-borda);
+    }
+    #bloco10-depoimentos .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco10-depoimentos h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 56px;
+    }
+    .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      max-width: 1100px;
+      margin: 0 auto 48px;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .dep-card {
+      flex: 0 0 calc(33.33% - 14px);
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .dep-card img { width: 100%; object-fit: cover; }
+    .dep-card-body { padding: 20px; }
+    .dep-card-body .dep-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--xpn-branco);
+      margin-bottom: 4px;
+    }
+    .dep-card-body .dep-result {
+      font-size: 0.82rem;
+      color: var(--xpn-vermelho);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .dep-card-body p { font-size: 0.88rem; color: #ccc; line-height: 1.6; }
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .carousel-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(254,6,59,0.15);
+      border: 1px solid var(--xpn-vermelho);
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--xpn-branco);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .carousel-btn:hover { background: var(--xpn-vermelho); }
+    #bloco10-depoimentos .cta-wrapper { text-align: center; }
+    @media (max-width: 1024px) { .dep-card { flex: 0 0 calc(50% - 10px); } }
+    @media (max-width: 640px) { .dep-card { flex: 0 0 90%; } }
+
+    /* ============================================================
+       BLOCO 11 — SOBRE A EMPRESA + BIG NUMBERS + SLIDER
+    ============================================================ */
+    #bloco11-empresa {
+      background: var(--xpn-preto);
+      padding: 80px 20px;
+      border-top: 1px solid var(--xpn-borda);
+    }
+    .empresa-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto 72px;
+    }
+    .empresa-text .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      margin-bottom: 16px;
+    }
+    .empresa-text h2 {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--xpn-branco);
+      margin-bottom: 24px;
+    }
+    .empresa-text p {
+      font-size: 0.95rem;
+      color: #bbb;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .empresa-text p strong { color: var(--xpn-branco); }
+    .empresa-img { border-radius: 12px; overflow: hidden; border: 2px solid var(--xpn-borda); }
+    .empresa-img img { width: 100%; height: auto; }
+    .bignumbers {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto 72px;
+    }
+    .bignum-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid var(--xpn-borda);
+      border-radius: 12px;
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .bignum-card .num {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--xpn-vermelho);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .bignum-card .label {
+      font-size: 0.88rem;
+      color: #aaa;
+      line-height: 1.4;
+    }
+    /* Slider fotos */
+    .slider-wrapper {
+      max-width: 1100px;
+      margin: 0 auto 64px;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--xpn-borda);
+    }
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .slider-track img { flex: 0 0 100%; object-fit: cover; height: 420px; }
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #444;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+    }
+    .slider-dot.active { background: var(--xpn-vermelho); }
+    #bloco11-empresa .cta-wrapper { text-align: center; }
+    @media (max-width: 768px) {
+      .empresa-top { grid-template-columns: 1fr; gap: 32px; }
+      .bignumbers { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) { .bignumbers { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ============================================================
+       BLOCO 12 — FAQ
+    ============================================================ */
+    #bloco12-faq {
+      background: var(--xpn-azul-faq);
+      padding: 80px 20px;
+    }
+    #bloco12-faq .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--xpn-vermelho);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #bloco12-faq h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--xpn-branco);
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 56px;
+    }
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-list details {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 4px 0;
+    }
+    .faq-list details:last-child { border-bottom: none; }
+    .faq-list summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: var(--xpn-branco);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list summary::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: var(--xpn-vermelho);
+      flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+    .faq-list details[open] summary::after { transform: rotate(45deg); }
+    .faq-list details div {
+      padding: 0 8px 24px;
+      font-size: 0.92rem;
+      color: rgba(242,242,242,0.8);
+      line-height: 1.75;
+    }
+
+    /* ============================================================
+       BLOCO 13 — FOOTER
+    ============================================================ */
+    #bloco13-footer {
+      background: var(--xpn-preto);
+      border-top: 1px solid var(--xpn-borda);
+      padding: 48px 20px 32px;
+      text-align: center;
+    }
+    #bloco13-footer .footer-logo {
+      width: 100px;
+      margin: 0 auto 24px;
+    }
+    #bloco13-footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    #bloco13-footer .footer-links a {
+      font-size: 0.82rem;
+      color: #666;
+      transition: color 0.2s;
+    }
+    #bloco13-footer .footer-links a:hover { color: var(--xpn-vermelho); }
+    #bloco13-footer .footer-cnpj {
+      font-size: 0.78rem;
+      color: #444;
+      margin-bottom: 8px;
+    }
+    #bloco13-footer .footer-copy {
+      font-size: 0.78rem;
+      color: #333;
+    }
+
+    /* ============================================================
+       MODAL DE FORMULÁRIO
+    ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+      animation: fade-overlay 0.3s ease;
+    }
+    @keyframes fade-overlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-box {
+      background: #111;
+      border: 1px solid var(--xpn-borda);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      animation: modal-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes modal-enter {
+      from { opacity: 0; transform: scale(0.88); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--xpn-vermelho); }
+    .modal-box h3 {
+      font-size: 1.3rem;
+      color: var(--xpn-branco);
+      margin-bottom: 8px;
+    }
+    .modal-box .modal-sub {
+      font-size: 0.88rem;
+      color: #aaa;
+      margin-bottom: 28px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      color: #aaa;
+      margin-bottom: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px 14px;
+      color: var(--xpn-branco);
+      font-family: 'Sora', sans-serif;
+      font-size: 0.92rem;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--xpn-vermelho);
+    }
+    .form-group select { cursor: pointer; }
+    .modal-submit {
+      width: 100%;
+      background: var(--xpn-vermelho);
+      color: var(--xpn-branco);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .modal-submit:hover {
+      background: var(--xpn-vermelho-hover);
+      transform: translateY(-2px);
+    }
+    .modal-lgpd {
+      font-size: 0.72rem;
+      color: #444;
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+    @media (max-width: 480px) {
+      .modal-box { padding: 36px 20px; }
+      .modal-box h3 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     BLOCO 1 — TOP BAR
+============================================================ -->
+<div id="bloco1-topbar">
+  <p>⚠️ ATENÇÃO: Esta página é exclusiva para empresários e gestores que faturam R$30.000+/mês e querem uma agenda cheia de reuniões qualificadas — sem prospecção manual, sem conteúdo diário</p>
+</div>
+
+<!-- ============================================================
+     BLOCO 2 — HERO
+============================================================ -->
+<section id="bloco2-hero" class="fade-in">
+  <div class="container">
+
+    <!-- Logo XPN — substituir por logo real -->
+    <!-- REPLACE: logo vetorial XPN Digital 120x40px branco -->
+    <img
+      class="logo-xpn"
+      src="https://placehold.co/200x60/000000/FE063B?text=XPN+Digital"
+      alt="XPN Digital — A Máquina de Reuniões"
+    >
+
+    <h1>
+      A Máquina Que Coloca <span>3 a 5 Reuniões Qualificadas</span><br>
+      na Sua Agenda Todo Dia — Sem Depender de<br>
+      Conteúdo, Prospecção ou Sorte
+    </h1>
+
+    <p class="hero-sub">
+      Sistema completo de aquisição que gerou <strong>+R$14 milhões em vendas lideradas</strong>,
+      <strong>+2.500 agendamentos</strong> e <strong>ROAS médio de 12x</strong> nos últimos 3 anos.
+      Assista o vídeo abaixo e entenda como funciona.
+    </p>
+
+    <!-- VSL VTurb — substituir pelo código de incorporação do VTurb -->
+    <!-- REPLACE: iframe embed VTurb 754x418px | código fornecido pela equipe XPN -->
+    <div class="vsl-wrapper">
+      <img
+        src="https://placehold.co/754x418/000000/FE063B?text=VSL+VTurb+Aqui"
+        alt="Vídeo de apresentação XPN Digital"
+      >
+    </div>
+
+    <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 3 — TRACK RECORD
+============================================================ -->
+<section id="bloco3-trackrecord">
+  <div class="container">
+    <p class="trackrecord-label">Resultados comprovados</p>
+    <p class="trackrecord-title">Track Record</p>
+    <div class="trackrecord-grid">
+
+      <div class="trackrecord-item fade-in">
+        <span class="tr-number" data-target="180" data-prefix="+" data-suffix="">+0</span>
+        <span class="tr-label">Empresários<br>já acelerados</span>
+      </div>
+
+      <div class="trackrecord-item fade-in">
+        <span class="tr-number" data-target="250" data-prefix="+R$" data-suffix="M">+R$0M</span>
+        <span class="tr-label">Receita somada<br>do nosso grupo</span>
+      </div>
+
+      <div class="trackrecord-item fade-in">
+        <span class="tr-number" data-target="35" data-prefix="+" data-suffix="">+0</span>
+        <span class="tr-label">Nichos<br>atendidos</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 4 — DOR / SINTOMAS
+============================================================ -->
+<section id="bloco4-dor">
+  <div class="container">
+    <p class="section-label fade-in">Você se identifica?</p>
+    <h2 class="fade-in">
+      Se o Seu Negócio Vive Algum Desses Sintomas,<br>
+      Você Está Deixando Dinheiro na Mesa Todo Mês
+    </h2>
+    <div class="dor-grid">
+
+      <!-- Card 1: funil com moedas — imagem "dor-1-trafego.jpg" -->
+      <div class="dor-card card-hover fade-in">
+        <img src="images/dor-1-trafego.jpg" alt="Anúncios sem retorno">
+        <div class="dor-card-body">
+          <h3>Você investe em tráfego, mas os leads chegam frios — e não compram</h3>
+          <p>Você gasta com anúncios todo mês e os leads somem ou dizem "preciso pensar". O problema não é o investimento — é que o processo está quebrado antes da reunião chegar.</p>
+        </div>
+      </div>
+
+      <!-- Card 2: homem com telas de DM/mensagens — imagem "dor-2-prospeccao.jpg" -->
+      <div class="dor-card card-hover fade-in">
+        <img src="images/dor-2-prospeccao.png" alt="Prospecção manual no DM">
+        <div class="dor-card-body">
+          <h3>Sua agenda depende de indicação ou prospecção manual no DM</h3>
+          <p>Quando para de prospectar, a agenda esvazia. Você trocou seu tempo de estrategista pelo trabalho de SDR — e o seu negócio não escala enquanto isso continuar.</p>
+        </div>
+      </div>
+
+      <!-- Card 3: homem esgotado com ring light / "Seguidores 1.367.354.652" — imagem "dor-3-conteudo.jpg" -->
+      <div class="dor-card card-hover fade-in">
+        <img src="images/dor-3-conteudo.jpg" alt="Conteúdo sem conversão em clientes">
+        <div class="dor-card-body">
+          <h3>Você produz conteúdo todo dia mas não converte em clientes de verdade</h3>
+          <p>Seguidores não pagam boleto. A maioria das empresas que produz conteúdo diário nunca constrói um canal de aquisição de verdade — só viram criadores de conteúdo involuntários.</p>
+        </div>
+      </div>
+
+      <!-- Card 4: homem estressado com laptop, calendário e dashboard — imagem "dor-4-previsibilidade.jpg" -->
+      <div class="dor-card card-hover fade-in">
+        <img src="images/dor-4-previsibilidade.jpg" alt="Sem previsibilidade comercial">
+        <div class="dor-card-body">
+          <h3>Seu processo comercial não tem previsibilidade — o mês termina na incerteza</h3>
+          <p>Você não sabe quantas reuniões vão entrar semana que vem. Sem previsibilidade, não dá para tomar decisão de escala. E sem escala, o negócio fica refém do acaso.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="cta-wrapper fade-in">
+      <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 5 — APRESENTAÇÃO DA SOLUÇÃO
+============================================================ -->
+<section id="bloco5-solucao" class="fade-in">
+  <div class="container">
+    <div class="diamond-icon"><span>◆</span></div>
+    <h2>
+      A XPN Digital Não é Uma Agência.<br>
+      Somos a Máquina de Reuniões.
+    </h2>
+    <div class="solucao-text">
+      <p>
+        Enquanto agências focam em conteúdo, seguidores e branding — a XPN foca no que realmente move
+        o caixa: <strong>reuniões qualificadas na agenda do seu comercial, toda semana, de forma previsível e escalável.</strong>
+        Não jogamos lead no peito do cliente e mandamos se virar. Entregamos o processo completo.
+      </p>
+      <p>
+        Nosso método — os <strong>3 Pilares da Máquina de Reuniões</strong> — trabalha simultaneamente
+        Comunicação Disruptiva (gerar volume no oceano azul dos 97%), Canal de Aquisição com funil de
+        webinar automatizado, e Dinâmica Comercial com lead scoring, CRM e análise de dados multinível.
+        O resultado: você para de adivinhar e começa a gerenciar com dados reais.
+      </p>
+      <p>
+        Em 3 anos operando esse sistema, lideramos <strong>+R$14 milhões em vendas</strong>,
+        investimos <strong>+R$2 milhões em anúncios</strong>, rodamos <strong>104+ webinars no ano</strong>
+        com 50%+ de comparecimento e 64% de conversão em agendamento.
+        <strong>Se eu não agendo, eu não vendo.</strong> E agora, a XPN vai fazer isso pelo seu negócio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 6 — BENEFÍCIOS
+============================================================ -->
+<section id="bloco6-beneficios">
+  <div class="container">
+    <p class="section-label fade-in">Por que a XPN funciona</p>
+    <h2 class="fade-in">
+      Por que a XPN Funciona Quando Tudo<br>
+      que Você Tentou Antes Falhou
+    </h2>
+    <div class="beneficios-grid">
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">📡</div>
+        <h3>Comunicação Disruptiva</h3>
+        <p>Anúncios de alta densidade nativa que educam o mercado — não apenas captam leads. Você constrói autoridade sem depender de conteúdo diário ou número de seguidores.</p>
+      </div>
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">🎯</div>
+        <h3>Funil de Webinar Automatizado</h3>
+        <p>Arquitetura completa: anúncios → grupo WhatsApp → webinar → aplicação → reunião. 104+ webinars rodados. 50%+ de comparecimento. 64% de conversão em agendamento.</p>
+      </div>
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">📈</div>
+        <h3>ROAS Médio de 12x</h3>
+        <p>Não é jogo de investir muito — é jogo de investir certo. Nossos clientes documentam ROAS de 12x a 72x. Kelvin: R$2k investido → R$30k (ROAS 15x). Marcelo: R$1.540 → R$112k (ROAS 72x).</p>
+      </div>
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">🧠</div>
+        <h3>Lead Scoring e CRM Integrado</h3>
+        <p>Leads classificados em A, B, C, D e E. Análise por horário, vendedor e subcategoria de público. Processo comercial estruturado com follow-up, rotina e CRM GHL configurado para você.</p>
+      </div>
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">🔬</div>
+        <h3>Análise de Dados Multinível</h3>
+        <p>"Não existe eu acho. Me traz o dado." Analisamos custo por lead, CAC, LTV por anúncio, conversão por horário (manhã 21.9% → tarde 39.97% → noite 51%) e perfil de vendedor. Decisões por dado, não por intuição.</p>
+      </div>
+
+      <div class="beneficio-card card-hover fade-in">
+        <div class="beneficio-icon">⚡</div>
+        <h3>Implementação em 7 a 14 Dias</h3>
+        <p>Na modalidade Implementação, a XPN faz tudo: páginas, criativos, oferta, posicionamento, CRM e notificações. Em 7-14 dias já está gerando leads. Você só precisa fechar as vendas.</p>
+      </div>
+
+    </div>
+    <div class="cta-wrapper fade-in">
+      <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 7 — COMO FUNCIONA (FUNDO BRANCO — quebra visual)
+============================================================ -->
+<section id="bloco7-como">
+  <div class="container">
+    <p class="section-label fade-in">O processo</p>
+    <h2 class="fade-in">
+      Como a Máquina de Reuniões<br>
+      Funciona na Prática
+    </h2>
+    <div class="como-grid">
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — reunião de diagnóstico / onboarding -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+1" alt="Diagnóstico e Planejamento">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 1</span>
+          <h3>Diagnóstico e Planejamento Estratégico</h3>
+          <p>Mapeamos seu ICP real (não o preditivo), analisamos sua oferta atual e identificamos o gargalo que impede sua agenda de encher. Plano de ação personalizado com dados, não achismo.</p>
+        </div>
+      </div>
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — criação de anúncios / criativos -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+2" alt="Arsenal de Anúncios">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 2</span>
+          <h3>Construção do Arsenal de Anúncios</h3>
+          <p>Criativos de alta densidade nativa desenvolvidos para capturar os 97% do mercado que ainda não estão prontos para comprar. Anúncios que educam, qualificam e constroem autoridade ao mesmo tempo.</p>
+        </div>
+      </div>
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — tela de webinar / apresentação -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+3" alt="Funil de Webinar">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 3</span>
+          <h3>Montagem do Funil de Webinar</h3>
+          <p>Estrutura completa: página de captura, grupo WhatsApp, webinar gravado simulando ao vivo, página de aplicação. Um webinar de 1h30 pode gerar 20 agendamentos — o que antes levaria 2 semanas.</p>
+        </div>
+      </div>
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — automação N8N / WhatsApp flows -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+4" alt="Automação WhatsApp">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 4</span>
+          <h3>Automação via WhatsApp e CRM</h3>
+          <p>Fluxo automatizado com N8N: troca a data da página, cria grupo novo, dispara sequências de aquecimento. CRM GHL configurado com lead scoring A-E, follow-up e rotinas comerciais. Sistema roda sem você.</p>
+        </div>
+      </div>
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — treinamento comercial / role play -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+5" alt="Treinamento Comercial">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 5</span>
+          <h3>Processo Comercial e Treinamento</h3>
+          <p>Scripts de fechamento, apresentação comercial, cultura de CRM, análise por vendedor e horário. Lead educado pelo webinar já chega quente — seu comercial fecha mais fácil e com ticket maior.</p>
+        </div>
+      </div>
+
+      <div class="como-card card-hover fade-in">
+        <!-- REPLACE: foto real 800x450px — gráfico de escala / dashboard crescendo -->
+        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+6" alt="Escala e Análise">
+        <div class="como-card-body">
+          <span class="como-card-step">PASSO 6</span>
+          <h3>Escala com Análise de Dados Multinível</h3>
+          <p>Acompanhamento de CPL, CAC, LTV por anúncio e conversão por perfil. Identificamos o criativo com R$10 de CPL, escalamos para R$500/dia e geramos 70 leads/dia. Dados direcionam cada decisão de orçamento.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 8 — O QUE VAI OBTER NO DIAGNÓSTICO
+============================================================ -->
+<section id="bloco8-diagnostico">
+  <div class="container">
+    <p class="section-label fade-in">Diagnóstico gratuito</p>
+    <h2 class="fade-in">
+      O que Você vai Descobrir<br>
+      no Seu Diagnóstico Gratuito
+    </h2>
+    <div class="diag-grid">
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">🔍</div>
+        <div>
+          <h3>Onde está o seu gargalo de aquisição</h3>
+          <p>Vamos identificar exatamente onde os leads estão escapando do seu funil — e por que sua agenda não está cheia mesmo quando você investe em tráfego.</p>
+        </div>
+      </div>
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">🎯</div>
+        <div>
+          <h3>Análise do seu ICP Real vs. Preditivo</h3>
+          <p>Quem realmente compra de você — qual subcategoria, em qual horário, com qual perfil. Dado real, não suposição. Essa análise sozinha muda a direção de todo o seu marketing.</p>
+        </div>
+      </div>
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">🏗️</div>
+        <div>
+          <h3>Estrutura do funil ideal para o seu negócio</h3>
+          <p>PAA, MFA ou Implementação completa? Qual canal de aquisição faz mais sentido para o seu ticket, mercado e momento atual. Nada genérico — diagnóstico cirúrgico.</p>
+        </div>
+      </div>
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">📣</div>
+        <div>
+          <h3>Estratégia de anúncios para o oceano azul</h3>
+          <p>Como capturar os 97% do mercado que ainda não estão procurando ativamente por você. Ângulo de comunicação que constrói autoridade e qualifica o lead antes do webinar.</p>
+        </div>
+      </div>
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">💎</div>
+        <div>
+          <h3>Revisão e posicionamento da sua oferta</h3>
+          <p>Kelvin mudou só a oferta — mesmo anúncio, mesma LP — e foi de ROAS negativo para 15x. Às vezes o problema não é o funil. Vamos identificar isso na sua reunião.</p>
+        </div>
+      </div>
+
+      <div class="diag-card card-hover fade-in">
+        <div class="diag-icon">📅</div>
+        <div>
+          <h3>Plano de 90 dias para sua máquina rodar</h3>
+          <p>Sai da reunião com um plano de ação claro: o que fazer nos primeiros 30, 60 e 90 dias para ter sua agenda cheia de reuniões qualificadas de forma previsível e escalável.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="cta-wrapper fade-in">
+      <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 9 — SOBRE O DIAGNÓSTICO (PARALLAX)
+============================================================ -->
+<!-- REPLACE background: foto real de evento XPN / escritório 1920x700px -->
+<section id="bloco9-parallax">
+  <div class="parallax-card fade-in">
+    <h2>O Diagnóstico é <span>Gratuito</span>.<br>O Resultado Não Tem Preço.</h2>
+    <p>
+      Em 45 minutos de reunião com um especialista da XPN, você vai descobrir exatamente o que
+      está travando sua aquisição — e o que fazer para destravar. Sem pitch genérico, sem script
+      ensaiado. Diagnóstico real baseado nos seus dados.
+    </p>
+    <p>
+      <strong>Mas existe um critério mínimo:</strong> esta reunião é para empresários e sócios
+      que já faturam R$30.000+/mês, têm produto com demanda comprovada e estão prontos para
+      investir em aquisição de verdade. Se esse é o seu perfil, aplique abaixo.
+    </p>
+    <ul class="diag-checklist">
+      <li>Reunião 1:1 com especialista XPN — sem vendedor júnior</li>
+      <li>Análise real do seu funil e processo atual</li>
+      <li>Identificação do gargalo principal em menos de 15 minutos</li>
+      <li>Plano de ação personalizado para os próximos 90 dias</li>
+      <li>Sem compromisso de compra — mas com compromisso de clareza</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 10 — DEPOIMENTOS
+============================================================ -->
+<section id="bloco10-depoimentos">
+  <div class="container">
+    <p class="section-label fade-in">Provas reais</p>
+    <h2 class="fade-in">
+      Empresários Reais. Resultados Reais.<br>
+      Números que Não Mentem.
+    </h2>
+
+    <div class="carousel-wrapper fade-in">
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- Depoimento 1 — Cauê Novais -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print WhatsApp real do Cauê 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Caue" alt="Depoimento Cauê Novais">
+          <div class="dep-card-body">
+            <p class="dep-name">Cauê Novais</p>
+            <p class="dep-result">R$20.000 no 1º webinar · R$54k em 7 dias · 24 agendamentos em 1h30</p>
+            <p>Investiu R$750 no primeiro webinar: 50 no grupo, 20 ao vivo, 10 aplicações, 8 calls, 4 vendas = R$20.000 (ROAS 26x). Na semana recorde: R$54.000 em 7 dias. "Quanto tempo demorava pra bater 20 agendamentos?" — "Por aí 2 semanas." — "Agora fez em 1h30."</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 2 — Marcelo Rodrigues -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print WhatsApp real do Marcelo 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Marcelo" alt="Depoimento Marcelo Rodrigues">
+          <div class="dep-card-body">
+            <p class="dep-name">Marcelo Rodrigues</p>
+            <p class="dep-result">R$112.000 · ROAS 72x · R$70k em um único dia</p>
+            <p>"A gente investiu R$1.540 e voltou R$112.000." ROAS 72x — o maior documentado na XPN. Ainda gerou R$70k em vendas em um único dia (calls às 21h44). "Quando propósito, mercado e oferta se alinham, o resultado explode."</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 3 — Vanderson Silveira -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print WhatsApp real do Vanderson 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Vanderson" alt="Depoimento Vanderson Silveira">
+          <div class="dep-card-body">
+            <p class="dep-name">Vanderson Silveira</p>
+            <p class="dep-result">R$100k+ faturamento · R$70k em janeiro (ROAS ~8.7x)</p>
+            <p>Nicho SaaS/IA. Janeiro: R$70k investindo ~R$8k. Com webinar reaproveitando base: R$1.500 investido → R$15k em 1 webinar. Criativo com CPL de R$10 → 70 leads/dia a R$500/dia. Parceiro Rian: "O lead do webinar é outra diferença. Muito mais educado, muito mais propício a comprar."</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 4 — Kelvin -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print WhatsApp real do Kelvin 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Kelvin" alt="Depoimento Kelvin">
+          <div class="dep-card-body">
+            <p class="dep-name">Kelvin</p>
+            <p class="dep-result">De ROAS negativo para ROAS 15x · Só ajustando a oferta</p>
+            <p>Antes da XPN: investiu R$10k, voltou R$7k (apenas R$1k ao vivo). Resultado negativo. A XPN ajustou APENAS A OFERTA — mesmo anúncio, mesma LP, tudo igual. Resultado: R$2k investido → R$30k (ROAS 15x). Entrou no sábado, onboarding na segunda.</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 5 — Murilo Vila Verde -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print ou frame de vídeo do Murilo 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Depoimento+Video+Murilo" alt="Depoimento Murilo Vila Verde">
+          <div class="dep-card-body">
+            <p class="dep-name">Murilo Vila Verde</p>
+            <p class="dep-result">De R$90k/mês para R$500-600k/mês · 7x de crescimento</p>
+            <p>"Desde que a gente entrou no programa do João, a gente tava fazendo 70, 80, 90 mil máximo. Depois que implementamos aquele processinho de comercial, a mentoria high ticket virou nosso carro-chefe. Hoje a nossa empresa gira só em torno da mentoria high ticket." — Nicho: relacionamento para homens.</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 6 — Eduardo Lustosa -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: frame do vídeo WhatsApp do Eduardo 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Video+WhatsApp+Eduardo" alt="Depoimento Eduardo Lustosa">
+          <div class="dep-card-body">
+            <p class="dep-name">Eduardo Lustosa</p>
+            <p class="dep-result">+R$100k no 1º mês · Empresa criada do zero com a XPN</p>
+            <p>"O Davi e o João Araújo ajudaram a gente a desenvolver nossa consultoria no passo a passo. Pegaram na mão e tiraram literalmente uma empresa do zero. No primeiro mês já batemos mais de 100 mil reais. Rodamos captação ontem e hoje já vendemos mais de 100 mil somente essa semana. Os caras são os melhores do mercado."</p>
+          </div>
+        </div>
+
+        <!-- Depoimento 7 — Rafa (Barbearia do Rafa) -->
+        <div class="dep-card card-hover">
+          <!-- REPLACE: print ou frame do Rafa 360x500px -->
+          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Rafa" alt="Depoimento Rafa Barbearia">
+          <div class="dep-card-body">
+            <p class="dep-name">Rafa — Barbearia do Rafa</p>
+            <p class="dep-result">R$25k investido → R$525k faturado · ROAS 21x</p>
+            <p>Nicho de gestão para barbearias. Investiu R$25.000 e gerou R$525.000 em faturamento — ROAS de 21x. Prova que o método funciona em nichos atípicos. "Quando a metodologia está certa, o mercado importa menos que a execução."</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn" aria-label="Anterior">&#8249;</button>
+      <button class="carousel-btn" id="nextBtn" aria-label="Próximo">&#8250;</button>
+    </div>
+
+    <div class="cta-wrapper fade-in">
+      <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 11 — SOBRE A EMPRESA + BIG NUMBERS + SLIDER
+============================================================ -->
+<section id="bloco11-empresa">
+  <div class="container">
+
+    <div class="empresa-top">
+      <div class="empresa-text fade-in">
+        <p class="section-label">Quem está por trás</p>
+        <h2>João Araújo e Davi Felix — Os Fundadores da XPN Digital</h2>
+        <p>
+          A XPN nasceu com um propósito simples: <strong>construir a máquina de aquisição que a maioria das agências não tem capacidade de entregar.</strong>
+          Não somos teóricos de marketing digital — somos praticantes. Cada método que ensinamos foi testado na nossa própria operação antes de virar produto.
+        </p>
+        <p>
+          Em 5 anos de mercado, lideramos <strong>+R$14 milhões em vendas</strong>, investimos
+          <strong>+R$2 milhões em anúncios próprios</strong>, e construímos do zero uma empresa de IA que saiu de
+          zero a R$450k/mês em 4 meses usando o mesmo sistema que oferecemos para nossos clientes.
+        </p>
+        <p>
+          Hoje somos parceiros da <strong>Honest FBA</strong> nos EUA — empresa que fatura US$400k/mês —
+          provando que a metodologia transcende mercado e idioma.
+          <strong>Se eu não agendo, eu não vendo. E se o negócio não gera demanda, ele não anda.</strong>
+        </p>
+      </div>
+      <div class="empresa-img fade-in">
+        <!-- REPLACE: foto real dos fundadores João e Davi 600x500px, fundo neutro ou evento -->
+        <img src="https://placehold.co/600x500/000000/FFFFFF?text=Joao+e+Davi+-+Fundadores+XPN" alt="João Araújo e Davi Felix — Fundadores XPN Digital">
+      </div>
+    </div>
+
+    <!-- Big Numbers -->
+    <div class="bignumbers">
+      <div class="bignum-card card-hover fade-in">
+        <span class="num">R$14MI+</span>
+        <span class="label">em vendas lideradas<br>nos últimos 3 anos</span>
+      </div>
+      <div class="bignum-card card-hover fade-in">
+        <span class="num">2.500+</span>
+        <span class="label">agendamentos<br>gerados em 2025</span>
+      </div>
+      <div class="bignum-card card-hover fade-in">
+        <span class="num">104+</span>
+        <span class="label">webinars rodados<br>no ano · 50%+ de comparecimento</span>
+      </div>
+      <div class="bignum-card card-hover fade-in">
+        <span class="num">12x+</span>
+        <span class="label">ROAS médio<br>nos clientes da XPN</span>
+      </div>
+    </div>
+
+    <!-- Slider de eventos -->
+    <div class="slider-wrapper fade-in">
+      <div class="slider-track" id="sliderTrack">
+        <!-- REPLACE: fotos reais de eventos, masterminds, escritório XPN 800x500px -->
+        <img src="https://placehold.co/1100x420/151414/FFFFFF?text=Evento+XPN+1" alt="Evento XPN">
+        <img src="https://placehold.co/1100x420/151414/FFFFFF?text=Evento+XPN+2" alt="Evento XPN">
+        <img src="https://placehold.co/1100x420/151414/FFFFFF?text=Evento+XPN+3" alt="Evento XPN">
+        <img src="https://placehold.co/1100x420/151414/FFFFFF?text=Mastermind+XPN" alt="Mastermind XPN">
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-dot active" data-index="0" aria-label="Slide 1"></button>
+      <button class="slider-dot" data-index="1" aria-label="Slide 2"></button>
+      <button class="slider-dot" data-index="2" aria-label="Slide 3"></button>
+      <button class="slider-dot" data-index="3" aria-label="Slide 4"></button>
+    </div>
+
+    <div class="cta-wrapper fade-in" style="margin-top:48px">
+      <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 12 — FAQ
+============================================================ -->
+<section id="bloco12-faq">
+  <div class="container">
+    <p class="section-label fade-in">Dúvidas frequentes</p>
+    <h2 class="fade-in">Perguntas que Todo Empresário Faz<br>Antes de Aplicar</h2>
+    <div class="faq-list fade-in">
+
+      <details>
+        <summary>Preciso ter uma grande verba de anúncios para funcionar?</summary>
+        <div>
+          Não. Cauê investiu R$750 no primeiro webinar e gerou R$20.000 (ROAS 26x). Kelvin gerou R$30.000 com apenas R$2.000 investidos (ROAS 15x). O jogo não é investir muito — é investir certo. O que você precisa é de no mínimo o equivalente ao ticket médio do seu produto para começar a testar. A partir daí, o próprio resultado financia a escala.
+        </div>
+      </details>
+
+      <details>
+        <summary>Funciona para o meu nicho?</summary>
+        <div>
+          A metodologia foi validada em saúde (médicos, dentistas, fisioterapeutas), educação corporativa, beleza e barbearias, relacionamento, consultoria e mentoria, advocacia, imobiliário, SaaS, e-commerce internacional — inclusive nos EUA. O que determina o resultado não é o nicho: é ter um produto que já vende, um decisor comprometido e disposição para investir em aquisição. Se você tem esses três elementos, o funil de webinar funciona.
+        </div>
+      </details>
+
+      <details>
+        <summary>Eu já tentei outras soluções e não funcionou. Por que a XPN seria diferente?</summary>
+        <div>
+          Agências entregam serviços 360 sem responsabilidade pelo resultado comercial. A XPN entrega o processo completo: da captação do lead ao fechamento da venda. Não jogamos lead no peito do cliente e mandamos se virar. Além disso, trabalhamos com dados — não com promessas. O diagnóstico serve exatamente para identificar o que travou antes e o que precisa mudar. Kelvin é o exemplo mais claro: resultado negativo antes da XPN, ROAS 15x depois — mudando só a oferta.
+        </div>
+      </details>
+
+      <details>
+        <summary>Quanto tempo leva para o sistema começar a gerar reuniões?</summary>
+        <div>
+          Na modalidade Implementação, a XPN faz tudo em 7 a 14 dias — e o sistema já está gerando leads. Na modalidade PAA (programa de aceleração), você constrói junto com suporte intensivo: plano de ação, arsenais de anúncios, funil, CRM e processos comerciais. Kelvin entrou no sábado e fez onboarding na segunda-feira. Eduardo Lustosa faturou R$100k no primeiro mês. O resultado depende de execução — e executar é o que fazemos juntos.
+        </div>
+      </details>
+
+      <details>
+        <summary>O diagnóstico é realmente gratuito? Tem alguma obrigação de compra?</summary>
+        <div>
+          Sim, é gratuito. Não existe obrigação de compra. A reunião de diagnóstico serve para entender seu cenário atual, identificar o gargalo e mostrar qual é o próximo passo mais inteligente para o seu negócio. Se fizer sentido seguir juntos, ótimo. Se não fizer, você sai com um plano de ação claro — de graça. A única exigência é que você atenda ao critério mínimo: faturamento R$30k+/mês, produto com demanda comprovada e disposição para investir em aquisição.
+        </div>
+      </details>
+
+      <details>
+        <summary>Preciso ter equipe comercial para aplicar o método?</summary>
+        <div>
+          Não necessariamente. Vários clientes começam como founders/vendedores e escalam para montar equipe depois que o fluxo está funcionando. O sistema inclui processo comercial, scripts e CRM — então mesmo um vendedor júnior consegue operar com resultado quando o lead já chega educado pelo webinar. O que o método faz é tornar a venda mais previsível e menos dependente de talento individual.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 13 — FOOTER
+============================================================ -->
+<footer id="bloco13-footer">
+  <!-- REPLACE: logo vetorial XPN branco 100x35px -->
+  <img
+    class="footer-logo"
+    src="https://placehold.co/160x50/000000/FE063B?text=XPN+Digital"
+    alt="XPN Digital"
+  >
+  <div class="footer-links">
+    <a href="#">Política de Privacidade</a>
+    <a href="#">Termos de Uso</a>
+    <a href="#">Contato</a>
+  </div>
+  <p class="footer-cnpj">XPN Digital Ltda. · CNPJ: <!-- REPLACE: inserir CNPJ real --> · Belo Horizonte, MG</p>
+  <p class="footer-copy">© 2024 XPN Digital. Todos os direitos reservados.<br>
+  Os resultados apresentados são reais e documentados, mas não constituem garantia de resultado futuro. Resultados individuais variam conforme investimento, nicho e execução.</p>
+</footer>
+
+<!-- ============================================================
+     MODAL DE FORMULÁRIO
+============================================================ -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
+    <h3 id="modalTitle">Aplique para o Diagnóstico Gratuito</h3>
+    <p class="modal-sub">Preencha os campos abaixo. Nossa equipe entrará em contato em até 24h úteis.</p>
+
+    <form id="diagnosticoForm" onsubmit="submitForm(event)">
+      <!-- Campo 1: Nome -->
+      <div class="form-group">
+        <label for="nome">Nome completo *</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required autocomplete="name">
+      </div>
+
+      <!-- Campo 2: E-mail -->
+      <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="email" id="email" name="email" placeholder="seu@email.com.br" required autocomplete="email">
+      </div>
+
+      <!-- Campo 3: WhatsApp -->
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp *</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+55 (00) 00000-0000" required autocomplete="tel">
+      </div>
+
+      <!-- Campo 4: Faturamento -->
+      <div class="form-group">
+        <label for="faturamento">Faturamento mensal aproximado *</label>
+        <select id="faturamento" name="faturamento" required>
+          <option value="" disabled selected>Selecione seu faturamento</option>
+          <option value="abaixo-10k">Abaixo de R$10k</option>
+          <option value="10k-30k">Entre R$10k e R$30k</option>
+          <option value="30k-50k">Entre R$30k e R$50k</option>
+          <option value="50k-100k">Entre R$50k e R$100k</option>
+          <option value="100k-300k">Entre R$100k e R$300k</option>
+          <option value="acima-300k">Acima de R$300k</option>
+        </select>
+      </div>
+
+      <!-- Campo 5: Cargo -->
+      <div class="form-group">
+        <label for="cargo">Cargo *</label>
+        <select id="cargo" name="cargo" required>
+          <option value="" disabled selected>Selecione seu cargo</option>
+          <option value="socio-fundador">Sócio/Fundador</option>
+          <option value="ceo">CEO</option>
+          <option value="diretor-comercial">Diretor Comercial</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+
+      <button type="submit" class="modal-submit">QUERO ME APLICAR</button>
+    </form>
+
+    <p class="modal-lgpd">
+      🔒 Seus dados estão protegidos conforme a LGPD (Lei 13.709/2018). Não compartilharemos suas
+      informações com terceiros. Ao enviar, você concorda com nossa
+      <a href="#" style="color:#666">Política de Privacidade</a>.
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ===== MODAL ===== */
+  const overlay = document.getElementById('modalOverlay');
+
+  function abrirModal(e) {
+    if (e) e.preventDefault();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Fechar ao clicar fora
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) fecharModal();
+  });
+
+  // Fechar com ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') fecharModal();
+  });
+
+  // Submit do formulário
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.modal-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    // REPLACE: integrar com webhook (N8N, Make, ActiveCampaign, etc.)
+    setTimeout(function() {
+      e.target.innerHTML = '<p style="color:#4CAF50;font-family:Montserrat;font-weight:800;text-align:center;padding:20px 0">✅ Aplicação recebida! Nossa equipe entrará em contato em até 24h.</p>';
+    }, 1200);
+  }
+
+  /* ===== MÁSCARA WHATSAPP ===== */
+  document.getElementById('whatsapp').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.startsWith('55')) {
+      v = v.substring(0, 13);
+      let r = '+55 ';
+      if (v.length > 2) r += '(' + v.substring(2, 4);
+      if (v.length > 4) r += ') ' + v.substring(4, 9);
+      if (v.length > 9) r += '-' + v.substring(9, 13);
+      e.target.value = r;
+    } else {
+      v = v.substring(0, 11);
+      let r = '';
+      if (v.length > 0) r = '(' + v.substring(0, 2);
+      if (v.length > 2) r += ') ' + v.substring(2, 7);
+      if (v.length > 7) r += '-' + v.substring(7, 11);
+      e.target.value = r;
+    }
+  });
+
+  /* ===== INTERSECTION OBSERVER — FADE IN ===== */
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  /* ===== CARROSSEL DEPOIMENTOS ===== */
+  (function() {
+    const track = document.getElementById('carouselTrack');
+    const cards = track.querySelectorAll('.dep-card');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+
+    function getVisible() {
+      if (window.innerWidth <= 640) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    }
+
+    function getMax() {
+      return Math.max(0, cards.length - getVisible());
+    }
+
+    function updateCarousel() {
+      const cardWidth = track.parentElement.offsetWidth;
+      const gap = 20;
+      const visibleCount = getVisible();
+      const itemWidth = (cardWidth - gap * (visibleCount - 1)) / visibleCount;
+      const offset = current * (itemWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+    }
+
+    prevBtn.addEventListener('click', function() {
+      if (current > 0) { current--; updateCarousel(); }
+    });
+
+    nextBtn.addEventListener('click', function() {
+      if (current < getMax()) { current++; updateCarousel(); }
+    });
+
+    window.addEventListener('resize', function() {
+      current = Math.min(current, getMax());
+      updateCarousel();
+    });
+
+    updateCarousel();
+  })();
+
+  /* ===== TRACK RECORD — CONTADOR ANIMADO ===== */
+  (function() {
+    var counters = document.querySelectorAll('.tr-number[data-target]');
+    var started = {};
+
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function animateCounter(el) {
+      var target   = parseInt(el.dataset.target, 10);
+      var prefix   = el.dataset.prefix || '';
+      var suffix   = el.dataset.suffix || '';
+      var duration = 2000;
+      var start    = null;
+
+      function step(ts) {
+        if (!start) start = ts;
+        var elapsed  = ts - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var value    = Math.floor(easeOutQuart(progress) * target);
+        el.textContent = prefix + value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = prefix + target + suffix;
+      }
+      requestAnimationFrame(step);
+    }
+
+    var trObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !started[entry.target.id]) {
+          started[entry.target.id] = true;
+          animateCounter(entry.target);
+          trObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function(el, i) {
+      el.id = 'counter-' + i;
+      trObserver.observe(el);
+    });
+  })();
+
+  /* ===== SLIDER FOTOS EMPRESA ===== */
+  (function() {
+    const track = document.getElementById('sliderTrack');
+    const dots = document.querySelectorAll('.slider-dot');
+    let current = 0;
+    let timer;
+
+    function goTo(index) {
+      current = index;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      dots.forEach(function(d, i) {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        goTo(parseInt(dot.dataset.index));
+        resetTimer();
+      });
+    });
+
+    function autoPlay() {
+      current = (current + 1) % dots.length;
+      goTo(current);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timer = setInterval(autoPlay, 4000);
+    }
+
+    timer = setInterval(autoPlay, 4000);
+  })();
+</script>
+
+</body>
+</html>
