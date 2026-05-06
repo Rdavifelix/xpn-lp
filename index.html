@@ -159,10 +159,10 @@
       overflow: hidden;
       border: 2px solid var(--xpn-borda);
     }
-    /* Imagem de placeholder VSL — substituir por iframe VTurb */
-    #bloco2-hero .vsl-wrapper img {
-      width: 100%;
-      height: auto;
+    #bloco2-hero .vsl-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
     }
     @media (max-width: 768px) {
       #bloco2-hero { padding: 48px 16px 60px; }
@@ -1081,14 +1081,12 @@
       Assista o vídeo abaixo e entenda como funciona.
     </p>
 
-    <!-- VSL VTurb — substituir pelo código de incorporação do VTurb -->
-    <!-- REPLACE: iframe embed VTurb 754x418px | código fornecido pela equipe XPN -->
     <div class="vsl-wrapper">
-      <img
-        src="https://placehold.co/754x418/000000/FE063B?text=VSL+VTurb+Aqui"
-        alt="Vídeo de apresentação XPN Digital"
-      >
+      <div style="padding:56.25% 0 0 0;position:relative;">
+        <iframe src="https://player.vimeo.com/video/1189757655?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="VSL COMPLETA - VELOCIDADE NORMAL"></iframe>
+      </div>
     </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
 
     <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
   </div>
