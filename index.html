@@ -131,42 +131,54 @@
     ============================================================ */
     #bloco2-hero {
       background: var(--xpn-preto);
-      padding: 72px 20px 80px;
+      padding: 0 0 56px;
       text-align: center;
     }
-    #bloco2-hero .logo-xpn {
-      width: 120px;
-      margin: 0 auto 40px;
-    }
-    #bloco2-hero h1 {
-      font-size: clamp(1.5rem, 5vw, 3rem);
-      color: var(--xpn-branco);
-      max-width: 860px;
-      margin: 0 auto 20px;
-    }
-    #bloco2-hero h1 span { color: var(--xpn-vermelho); }
-    #bloco2-hero .hero-sub {
-      font-size: 1.05rem;
-      color: var(--xpn-cinza-texto);
-      max-width: 680px;
-      margin: 0 auto 40px;
-      font-weight: 300;
-    }
     #bloco2-hero .vsl-wrapper {
-      max-width: 754px;
-      margin: 0 auto 48px;
-      border-radius: 10px;
+      width: 100%;
+      margin: 0 0 36px;
       overflow: hidden;
-      border: 2px solid var(--xpn-borda);
     }
     #bloco2-hero .vsl-wrapper iframe {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
     }
-    @media (max-width: 768px) {
-      #bloco2-hero { padding: 48px 16px 60px; }
-      #bloco2-hero h1 { font-size: 1.6rem; }
+    #bloco2-hero .hero-cta-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--xpn-cinza-texto);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      padding: 0 20px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    #bloco2-hero .hero-cta-text strong {
+      color: var(--xpn-branco);
+      font-weight: 700;
+    }
+    #bloco2-hero .cta-btn-hero {
+      display: block;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 32px;
+      background: var(--xpn-vermelho);
+      color: var(--xpn-branco);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    #bloco2-hero .cta-btn-hero:hover {
+      background: var(--xpn-vermelho-hover);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 480px) {
+      #bloco2-hero { padding: 0 0 40px; }
+      #bloco2-hero .cta-btn-hero { max-width: 100%; margin: 0 16px; font-size: 1rem; padding: 18px 20px; }
     }
 
     /* ============================================================
@@ -1059,27 +1071,6 @@
      BLOCO 2 — HERO
 ============================================================ -->
 <section id="bloco2-hero" class="fade-in">
-  <div class="container">
-
-    <!-- Logo XPN — substituir por logo real -->
-    <!-- REPLACE: logo vetorial XPN Digital 120x40px branco -->
-    <img
-      class="logo-xpn"
-      src="https://placehold.co/200x60/000000/FE063B?text=XPN+Digital"
-      alt="XPN Digital — A Máquina de Reuniões"
-    >
-
-    <h1>
-      A Máquina Que Coloca <span>3 a 5 Reuniões Qualificadas</span><br>
-      na Sua Agenda Todo Dia — Sem Depender de<br>
-      Conteúdo, Prospecção ou Sorte
-    </h1>
-
-    <p class="hero-sub">
-      Sistema completo de aquisição que gerou <strong>+R$14 milhões em vendas lideradas</strong>,
-      <strong>+2.500 agendamentos</strong> e <strong>ROAS médio de 12x</strong> nos últimos 3 anos.
-      Assista o vídeo abaixo e entenda como funciona.
-    </p>
 
     <div class="vsl-wrapper">
       <div style="padding:56.25% 0 0 0;position:relative;">
@@ -1088,8 +1079,13 @@
     </div>
     <script src="https://player.vimeo.com/api/player.js"></script>
 
-    <a href="#" class="cta-btn" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
-  </div>
+    <p class="hero-cta-text">
+      Preencha o formulário abaixo para ser selecionado para uma
+      <strong>sessão estratégica com um especialista da XPN Digital:</strong>
+    </p>
+
+    <a href="#" class="cta-btn-hero" onclick="abrirModal(event)">👉 QUERO APLICAR AGORA</a>
+
 </section>
 
 <!-- ============================================================
