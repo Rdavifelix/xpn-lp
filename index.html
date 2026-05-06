@@ -139,7 +139,7 @@
       margin: 0 auto 40px;
     }
     #bloco2-hero h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-size: clamp(1.5rem, 5vw, 3rem);
       color: var(--xpn-branco);
       max-width: 860px;
       margin: 0 auto 20px;
@@ -1016,6 +1016,33 @@
     @media (max-width: 480px) {
       .modal-box { padding: 36px 20px; }
       .modal-box h3 { font-size: 1.1rem; }
+    }
+
+    /* ── Mobile fixes: 600px ────────────────────────── */
+    @media (max-width: 600px) {
+      .dor-card-body h3 { font-size: 0.95rem; }
+      .beneficio-card h3 { font-size: 0.95rem; }
+      .faq-list summary { padding: 14px 8px; font-size: 0.9rem; }
+      .form-group input,
+      .form-group select { font-size: 1rem; }
+    }
+
+    /* ── Mobile fixes: 500px ────────────────────────── */
+    @media (max-width: 500px) {
+      .bignumbers { grid-template-columns: 1fr; gap: 16px; }
+    }
+
+    /* ── Mobile fixes: 480px ────────────────────────── */
+    @media (max-width: 480px) {
+      .parallax-card { padding: 28px 16px; }
+      .empresa-top { gap: 20px; }
+      .cta-btn { padding: 14px 24px; font-size: 0.9rem; }
+      #bloco2-hero .hero-sub { font-size: 0.92rem; }
+    }
+
+    /* ── Mobile fixes: 360px ────────────────────────── */
+    @media (max-width: 360px) {
+      .modal-box { padding: 24px 14px; }
     }
   </style>
 </head>

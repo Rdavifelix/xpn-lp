@@ -1,2 +1,8 @@
 .DS_Store
 Thumbs.db
+node_modules/
+package.json
+package-lock.json
+temporary screenshots/
+screenshot.mjs
+screenshot-section.mjs
