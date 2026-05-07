@@ -18,12 +18,13 @@
   <style>
     /* ===== VARIÁVEIS CSS ===== */
     :root {
-      --xpn-vermelho:        #FE063B;
-      --xpn-vermelho-hover:  #CF0707;
-      --xpn-vermelho-banner: #F91D1D;
+      --xpn-vermelho:        #1B4FD8;
+      --xpn-vermelho-hover:  #1640BB;
+      --xpn-vermelho-banner: #0F3FC5;
       --xpn-preto:           #000000;
-      --xpn-cinza-card:      #151414;
-      --xpn-borda:           #880000;
+      --xpn-cinza-card:      #0C0F1A;
+      --xpn-borda:           #C8A227;
+      --xpn-dourado:         #C8A227;
       --xpn-azul-faq:        #04112C;
       --xpn-branco:          #FFFFFF;
       --xpn-cinza-texto:     #F2F2F2;
@@ -75,8 +76,8 @@
       animation: none;
     }
     @keyframes pulse-cta {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(254,6,59,0.4); }
-      50% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(254,6,59,0); }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(27,79,216,0.4); }
+      50% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(27,79,216,0); }
     }
 
     /* ===== SEÇÃO — FADE IN ===== */
@@ -96,7 +97,7 @@
     }
     .card-hover:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(254,6,59,0.18);
+      box-shadow: 0 8px 32px rgba(27,79,216,0.18);
     }
 
     /* ===== CONTAINER ===== */
@@ -422,7 +423,7 @@
     .beneficio-icon {
       width: 52px;
       height: 52px;
-      background: rgba(254,6,59,0.12);
+      background: rgba(27,79,216,0.12);
       border: 1px solid var(--xpn-vermelho);
       border-radius: 8px;
       display: flex;
@@ -505,7 +506,7 @@
        BLOCO 8 — O QUE VAI OBTER NO DIAGNÓSTICO
     ============================================================ */
     #bloco8-diagnostico {
-      background: #0a0a0a;
+      background: #050810;
       padding: 80px 20px;
       border-top: 1px solid var(--xpn-borda);
     }
@@ -546,7 +547,7 @@
       flex-shrink: 0;
       width: 44px;
       height: 44px;
-      background: rgba(254,6,59,0.12);
+      background: rgba(27,79,216,0.12);
       border: 1px solid var(--xpn-vermelho);
       border-radius: 8px;
       display: flex;
@@ -612,7 +613,7 @@
       color: var(--xpn-cinza-texto);
       display: flex;
       gap: 10px;
-      border-bottom: 1px solid rgba(136,0,0,0.2);
+      border-bottom: 1px solid rgba(200,162,39,0.2);
     }
     .parallax-card .diag-checklist li:last-child { border-bottom: none; }
     .parallax-card .diag-checklist li::before {
@@ -630,7 +631,7 @@
        BLOCO 10 — DEPOIMENTOS
     ============================================================ */
     #bloco10-depoimentos {
-      background: #1a0005;
+      background: #050A1A;
       padding: 80px 20px;
       border-top: 2px solid var(--xpn-borda);
     }
@@ -695,7 +696,7 @@
     .carousel-btn {
       width: 44px;
       height: 44px;
-      background: rgba(254,6,59,0.15);
+      background: rgba(27,79,216,0.15);
       border: 1px solid var(--xpn-vermelho);
       border-radius: 50%;
       cursor: pointer;
