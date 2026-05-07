@@ -671,6 +671,51 @@
       overflow: hidden;
     }
     .dep-card img { width: 100%; object-fit: cover; }
+    .dep-telegram {
+      background: #17212b;
+      padding: 16px 14px 12px;
+    }
+    .dep-tg-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .dep-tg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #2b5278;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .dep-tg-name {
+      color: #6ab2f2;
+      font-weight: 600;
+      font-size: 0.82rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .dep-tg-bubble {
+      background: #182533;
+      border-radius: 0 10px 10px 10px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      color: #e8e8e8;
+      line-height: 1.55;
+    }
+    .dep-tg-bubble p { margin-bottom: 3px; }
+    .dep-tg-time {
+      text-align: right;
+      color: #7a9ab8;
+      font-size: 0.7rem;
+      margin-top: 8px;
+    }
+    .dep-tg-highlight { color: #C8A227; font-weight: 700; }
     .dep-card-body { padding: 20px; }
     .dep-card-body .dep-name {
       font-family: 'Montserrat', sans-serif;
@@ -1225,8 +1270,7 @@
     <div class="como-grid">
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — reunião de diagnóstico / onboarding -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+1" alt="Diagnóstico e Planejamento">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=450&fit=crop&q=80" alt="Diagnóstico e Planejamento Estratégico">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 1</span>
           <h3>Diagnóstico e Planejamento Estratégico</h3>
@@ -1235,8 +1279,7 @@
       </div>
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — criação de anúncios / criativos -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+2" alt="Arsenal de Anúncios">
+        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=450&fit=crop&q=80" alt="Arsenal de Anúncios">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 2</span>
           <h3>Construção do Arsenal de Anúncios</h3>
@@ -1245,8 +1288,7 @@
       </div>
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — tela de webinar / apresentação -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+3" alt="Funil de Webinar">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop&q=80" alt="Funil de Webinar">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 3</span>
           <h3>Montagem do Funil de Webinar</h3>
@@ -1255,8 +1297,7 @@
       </div>
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — automação N8N / WhatsApp flows -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+4" alt="Automação WhatsApp">
+        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=450&fit=crop&q=80" alt="Automação WhatsApp e CRM">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 4</span>
           <h3>Automação via WhatsApp e CRM</h3>
@@ -1265,8 +1306,7 @@
       </div>
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — treinamento comercial / role play -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+5" alt="Treinamento Comercial">
+        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=450&fit=crop&q=80" alt="Processo Comercial e Treinamento">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 5</span>
           <h3>Processo Comercial e Treinamento</h3>
@@ -1275,8 +1315,7 @@
       </div>
 
       <div class="como-card card-hover fade-in">
-        <!-- REPLACE: foto real 800x450px — gráfico de escala / dashboard crescendo -->
-        <img src="https://placehold.co/800x450/E0E0E0/333333?text=Passo+6" alt="Escala e Análise">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop&q=80" alt="Escala com Análise de Dados">
         <div class="como-card-body">
           <span class="como-card-step">PASSO 6</span>
           <h3>Escala com Análise de Dados Multinível</h3>
@@ -1398,34 +1437,76 @@
 
         <!-- Depoimento 1 — Cauê Novais -->
         <div class="dep-card card-hover">
-          <!-- REPLACE: print WhatsApp real do Cauê 360x500px -->
-          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Caue" alt="Depoimento Cauê Novais">
+          <div class="dep-telegram">
+            <div class="dep-tg-header">
+              <div class="dep-tg-avatar">CN</div>
+              <span class="dep-tg-name">~ Cauê Novais</span>
+            </div>
+            <div class="dep-tg-bubble">
+              <p>Primeiro webinar do ano com métricas diferenciadas 😄</p>
+              <br>
+              <p>R$750,00 investidos</p>
+              <p>50 pessoas no grupo</p>
+              <p>20 no webinar</p>
+              <p>10 aplicações</p>
+              <p>8 calls agendadas</p>
+              <p>4 vendas até então</p>
+              <br>
+              <p><span class="dep-tg-highlight">Até então, R$20.000,00 em vendas 👌</span></p>
+              <div class="dep-tg-time">20:01</div>
+            </div>
+          </div>
           <div class="dep-card-body">
             <p class="dep-name">Cauê Novais</p>
-            <p class="dep-result">R$20.000 no 1º webinar · R$54k em 7 dias · 24 agendamentos em 1h30</p>
-            <p>Investiu R$750 no primeiro webinar: 50 no grupo, 20 ao vivo, 10 aplicações, 8 calls, 4 vendas = R$20.000 (ROAS 26x). Na semana recorde: R$54.000 em 7 dias. "Quanto tempo demorava pra bater 20 agendamentos?" — "Por aí 2 semanas." — "Agora fez em 1h30."</p>
+            <p class="dep-result">R$20.000 no 1º webinar · ROAS 26x · 8 calls em 1 evento</p>
+            <p>Investiu R$750 e fechou 4 vendas no mesmo dia. Em 7 dias chegou a R$54k. Antes demorava 2 semanas para encher a agenda — com o webinar fez isso em 1h30.</p>
           </div>
         </div>
 
-        <!-- Depoimento 2 — Marcelo Rodrigues -->
+        <!-- Depoimento 2 — Marcelo Ródrigüês -->
         <div class="dep-card card-hover">
-          <!-- REPLACE: print WhatsApp real do Marcelo 360x500px -->
-          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Marcelo" alt="Depoimento Marcelo Rodrigues">
+          <div class="dep-telegram">
+            <div class="dep-tg-header">
+              <div class="dep-tg-avatar">MR</div>
+              <span class="dep-tg-name">~ Marcelo Ródrigüês</span>
+            </div>
+            <div class="dep-tg-bubble">
+              <p><span class="dep-tg-highlight">+70 mil reais hoje!!</span> @Davi @Joao Araujo !!</p>
+              <br>
+              <p>Boraaaa. 21:44 e fazendo as calls!!</p>
+              <p>Bora que ainda dá para sair mais uma!</p>
+              <div class="dep-tg-time">21:44 · Editada</div>
+            </div>
+          </div>
           <div class="dep-card-body">
-            <p class="dep-name">Marcelo Rodrigues</p>
+            <p class="dep-name">Marcelo Ródrigüês</p>
             <p class="dep-result">R$112.000 · ROAS 72x · R$70k em um único dia</p>
-            <p>"A gente investiu R$1.540 e voltou R$112.000." ROAS 72x — o maior documentado na XPN. Ainda gerou R$70k em vendas em um único dia (calls às 21h44). "Quando propósito, mercado e oferta se alinham, o resultado explode."</p>
+            <p>"Investimos R$1.540 e voltou R$112.000." ROAS 72x — o maior documentado na XPN. Ainda fechando calls às 21h44 e pedindo mais uma rodada.</p>
           </div>
         </div>
 
         <!-- Depoimento 3 — Vanderson Silveira -->
         <div class="dep-card card-hover">
-          <!-- REPLACE: print WhatsApp real do Vanderson 360x500px -->
-          <img src="https://placehold.co/360x500/151414/FFFFFF?text=Print+WhatsApp+Vanderson" alt="Depoimento Vanderson Silveira">
+          <div class="dep-telegram">
+            <div class="dep-tg-header">
+              <div class="dep-tg-avatar">VS</div>
+              <span class="dep-tg-name">Vanderson Silveira</span>
+            </div>
+            <div class="dep-tg-bubble">
+              <p>Webinar ta como 🔥</p>
+              <p>Agora o problema está na formatação da entrega</p>
+              <br>
+              <p><span class="dep-tg-highlight">+100k</span></p>
+              <br>
+              <p>Se a gente quisesse escalar já tinha passado de 500 kk</p>
+              <p>Preciso arrumar a casa pra escalar</p>
+              <div class="dep-tg-time">20:13</div>
+            </div>
+          </div>
           <div class="dep-card-body">
             <p class="dep-name">Vanderson Silveira</p>
-            <p class="dep-result">R$100k+ faturamento · R$70k em janeiro (ROAS ~8.7x)</p>
-            <p>Nicho SaaS/IA. Janeiro: R$70k investindo ~R$8k. Com webinar reaproveitando base: R$1.500 investido → R$15k em 1 webinar. Criativo com CPL de R$10 → 70 leads/dia a R$500/dia. Parceiro Rian: "O lead do webinar é outra diferença. Muito mais educado, muito mais propício a comprar."</p>
+            <p class="dep-result">+R$100k · Potencial de R$500k identificado</p>
+            <p>Webinar performando acima do esperado. O próximo problema já é outro — formatação da entrega para escalar. Sinal de que o sistema está funcionando.</p>
           </div>
         </div>
 
