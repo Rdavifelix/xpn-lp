@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Obrigado — XPN Digital</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+
+  <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a0f585dd73d7a41257a84ac/v4/player.js" as="script">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://api.vturb.com.br">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --xpn-azul:          #1B4FD8;
+      --xpn-azul-hover:    #1640BB;
+      --xpn-preto:         #000000;
+      --xpn-cinza-card:    #0C0F1A;
+      --xpn-dourado:       #C8A227;
+      --xpn-branco:        #FFFFFF;
+      --xpn-cinza-texto:   #F2F2F2;
+      --xpn-cinza-muted:   #8A8FA8;
+      --xpn-verde-cta:     #22C55E;
+      --xpn-verde-hover:   #16A34A;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== HEADLINE ===== */
+    .hero {
+      padding: clamp(48px, 8vw, 80px) 0 clamp(32px, 5vw, 48px);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(200, 162, 39, 0.12);
+      border: 1px solid var(--xpn-dourado);
+      color: var(--xpn-dourado);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(12px, 1.4vw, 14px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 5.5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--xpn-branco);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--xpn-dourado);
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--xpn-cinza-muted);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ===== VSL ===== */
+    .vsl-section {
+      padding: 0 0 clamp(48px, 7vw, 72px);
+    }
+
+    .vsl-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid rgba(200, 162, 39, 0.25);
+      background: #050810;
+    }
+
+    /* ===== DEPOIMENTOS ===== */
+    .testimonials {
+      padding: clamp(48px, 7vw, 72px) 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(11px, 1.3vw, 13px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--xpn-dourado);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(22px, 3.5vw, 32px);
+      text-align: center;
+      color: var(--xpn-branco);
+      margin-bottom: clamp(32px, 4vw, 48px);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid rgba(200, 162, 39, 0.2);
+      border-radius: 12px;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stars {
+      color: var(--xpn-dourado);
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .testimonial-text {
+      font-size: clamp(13px, 1.5vw, 15px);
+      color: #C8CCDA;
+      flex: 1;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--xpn-azul);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--xpn-branco);
+      flex-shrink: 0;
+      border: 2px solid rgba(200, 162, 39, 0.3);
+    }
+
+    .author-info .name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--xpn-branco);
+    }
+
+    .author-info .role {
+      font-size: 12px;
+      color: var(--xpn-cinza-muted);
+    }
+
+    /* ===== FLYWHEEL ===== */
+    .methodology {
+      padding: clamp(48px, 7vw, 72px) 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .flywheel-wrapper {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0;
+      width: min(500px, 100%);
+      margin: 0 auto;
+      aspect-ratio: 1;
+    }
+
+    .flywheel-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--xpn-azul);
+      border: 3px solid rgba(200, 162, 39, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      box-shadow: 0 0 40px rgba(27, 79, 216, 0.4);
+    }
+
+    .flywheel-center .center-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .flywheel-center .center-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--xpn-branco);
+      text-align: center;
+      margin-top: 4px;
+      line-height: 1.2;
+    }
+
+    .flywheel-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--xpn-cinza-card);
+      border: 2px solid var(--xpn-dourado);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--xpn-dourado);
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(11px, 1.4vw, 13px);
+      color: var(--xpn-branco);
+      line-height: 1.3;
+    }
+
+    .step-desc {
+      font-size: clamp(10px, 1.2vw, 12px);
+      color: var(--xpn-cinza-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* SVG arrows between steps */
+    .flywheel-arrows {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: clamp(48px, 7vw, 72px) 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .cta-support-text {
+      font-size: clamp(15px, 2vw, 18px);
+      color: #C8CCDA;
+      margin-bottom: 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--xpn-verde-cta);
+      color: var(--xpn-branco);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(15px, 2vw, 17px);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 20px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #15803D, 0 12px 40px rgba(34, 197, 94, 0.3);
+      animation: pulse-cta 2.5s ease-in-out infinite;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cta-btn:hover {
+      background: var(--xpn-verde-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #15803D, 0 16px 48px rgba(34, 197, 94, 0.35);
+      animation: none;
+    }
+
+    .cta-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #15803D, 0 6px 20px rgba(34, 197, 94, 0.2);
+    }
+
+    .cta-btn svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-cta {
+      0%, 100% { transform: scale(1); box-shadow: 0 6px 0 #15803D, 0 12px 40px rgba(34,197,94,0.3); }
+      50%       { transform: scale(1.025); box-shadow: 0 6px 0 #15803D, 0 16px 52px rgba(34,197,94,0.45); }
+    }
+
+    /* ===== DISCLAIMER ===== */
+    .disclaimer {
+      padding: clamp(24px, 4vw, 36px) 0 clamp(32px, 5vw, 48px);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .disclaimer p {
+      font-size: 12px;
+      color: var(--xpn-cinza-muted);
+      line-height: 1.8;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 640px) {
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Flywheel vira lista vertical */
+      .flywheel-wrapper {
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: unset;
+        width: 100%;
+        gap: 0;
+      }
+
+      .flywheel-center { display: none; }
+      .flywheel-arrows { display: none; }
+
+      .flywheel-step {
+        flex-direction: row;
+        text-align: left;
+        padding: 0;
+        gap: 16px;
+      }
+
+      .flywheel-step:not(:last-child)::after {
+        content: none;
+      }
+
+      .step-circle {
+        margin-bottom: 0;
+      }
+
+      .flywheel-mobile-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .flywheel-mobile-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .flywheel-mobile-item:last-child { border-bottom: none; }
+
+      .flywheel-arrow-down {
+        text-align: center;
+        color: var(--xpn-dourado);
+        font-size: 20px;
+        padding: 4px 0;
+        display: block;
+      }
+
+      .step-text { flex: 1; }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ===== HEADLINE ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">✅ Formulário recebido</div>
+    <h1>Obrigado! Seu acesso<br>está <span>garantido.</span></h1>
+    <p class="hero-sub">Assista o vídeo abaixo com atenção — ele contém informações importantes sobre os seus próximos passos.</p>
+  </div>
+</section>
+
+<!-- ===== VSL ===== -->
+<section class="vsl-section">
+  <div class="container">
+    <div class="vsl-wrapper">
+      <vturb-smartplayer id="vid-6a0f585dd73d7a41257a84ac" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+      <script type="text/javascript">
+        var s=document.createElement("script");
+        s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a0f585dd73d7a41257a84ac/v4/player.js";
+        s.async=!0;
+        document.head.appendChild(s);
+      </script>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEPOIMENTOS ===== -->
+<section class="testimonials">
+  <div class="container">
+    <p class="section-label">O que dizem nossos clientes</p>
+    <h2 class="section-title">Resultados reais de quem já aplicou</h2>
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Em menos de 60 dias aplicando o método, triplicamos o volume de reuniões qualificadas. O processo é claro e replicável."</p>
+        <div class="testimonial-author">
+          <div class="avatar">MR</div>
+          <div class="author-info">
+            <div class="name">Marcos Ribeiro</div>
+            <div class="role">CEO · Agência de Tráfego</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Fechamos R$180k em novos contratos no primeiro trimestre após implementar a Máquina de Reuniões. Vale muito o investimento."</p>
+        <div class="testimonial-author">
+          <div class="avatar">CF</div>
+          <div class="author-info">
+            <div class="name">Carla Ferreira</div>
+            <div class="role">Diretora Comercial · SaaS B2B</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Antes eu dependia de indicações. Hoje tenho um fluxo previsível de leads qualificados entrando toda semana. Mudou meu negócio."</p>
+        <div class="testimonial-author">
+          <div class="avatar">TP</div>
+          <div class="author-info">
+            <div class="name">Thiago Prado</div>
+            <div class="role">Consultor · Gestão Empresarial</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== METODOLOGIA — FLYWHEEL ===== -->
+<section class="methodology">
+  <div class="container">
+    <p class="section-label">Nossa metodologia</p>
+    <h2 class="section-title">O flywheel que gera reuniões<br>e vendas de alto ticket</h2>
+
+    <!-- Desktop: flywheel circular -->
+    <div class="flywheel-wrapper" aria-hidden="true" id="flywheel-desktop">
+
+      <!-- Setas SVG circulares -->
+      <svg class="flywheel-arrows" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Arco 1→2 (topo esquerda → topo direita) -->
+        <path d="M 200 120 Q 250 80 300 120" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
+        <polygon points="298,108 302,122 312,114" fill="#C8A227" opacity="0.7"/>
+        <!-- Arco 2→3 (topo direita → baixo direita) -->
+        <path d="M 370 200 Q 410 250 370 300" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
+        <polygon points="358,298 372,302 366,312" fill="#C8A227" opacity="0.7"/>
+        <!-- Arco 3→4 (baixo direita → baixo esquerda) -->
+        <path d="M 300 380 Q 250 420 200 380" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
+        <polygon points="202,392 198,378 188,386" fill="#C8A227" opacity="0.7"/>
+        <!-- Arco 4→1 (baixo esquerda → topo esquerda) -->
+        <path d="M 130 300 Q 90 250 130 200" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
+        <polygon points="142,202 128,198 134,188" fill="#C8A227" opacity="0.7"/>
+      </svg>
+
+      <!-- Centro -->
+      <div class="flywheel-center">
+        <span class="center-icon">⚙️</span>
+        <span class="center-label">Máquina de<br>Reuniões</span>
+      </div>
+
+      <!-- Etapa 1 — topo esquerda -->
+      <div class="flywheel-step">
+        <div class="step-circle">1</div>
+        <div class="step-title">Atrair<br>Demanda</div>
+        <div class="step-desc">Tráfego qualificado chegando todos os dias</div>
+      </div>
+
+      <!-- Etapa 2 — topo direita -->
+      <div class="flywheel-step">
+        <div class="step-circle">2</div>
+        <div class="step-title">Educar<br>a Demanda</div>
+        <div class="step-desc">Conteúdo e funil que prepara o lead</div>
+      </div>
+
+      <!-- Etapa 3 — baixo direita -->
+      <div class="flywheel-step" style="align-self: end;">
+        <div class="step-circle">3</div>
+        <div class="step-title">Agendamentos<br>Qualificados</div>
+        <div class="step-desc">Reuniões com quem já entende o valor</div>
+      </div>
+
+      <!-- Etapa 4 — baixo esquerda -->
+      <div class="flywheel-step" style="align-self: end;">
+        <div class="step-circle">4</div>
+        <div class="step-title">Vendas de<br>Alto Ticket</div>
+        <div class="step-desc">Fechamentos previsíveis e recorrentes</div>
+      </div>
+
+    </div>
+
+    <!-- Mobile: lista vertical -->
+    <div class="flywheel-mobile-list" id="flywheel-mobile">
+      <div class="flywheel-mobile-item">
+        <div class="step-circle">1</div>
+        <div class="step-text">
+          <div class="step-title">Atrair Demanda</div>
+          <div class="step-desc">Tráfego qualificado chegando todos os dias</div>
+        </div>
+      </div>
+      <span class="flywheel-arrow-down">↓</span>
+      <div class="flywheel-mobile-item">
+        <div class="step-circle">2</div>
+        <div class="step-text">
+          <div class="step-title">Educar a Demanda</div>
+          <div class="step-desc">Conteúdo e funil que prepara o lead</div>
+        </div>
+      </div>
+      <span class="flywheel-arrow-down">↓</span>
+      <div class="flywheel-mobile-item">
+        <div class="step-circle">3</div>
+        <div class="step-text">
+          <div class="step-title">Agendamentos Qualificados</div>
+          <div class="step-desc">Reuniões com quem já entende o valor</div>
+        </div>
+      </div>
+      <span class="flywheel-arrow-down">↓</span>
+      <div class="flywheel-mobile-item">
+        <div class="step-circle">4</div>
+        <div class="step-text">
+          <div class="step-title">Vendas de Alto Ticket</div>
+          <div class="step-desc">Fechamentos previsíveis e recorrentes</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <p class="section-label">Próximo passo</p>
+    <h2 class="section-title">Pronto para aplicar<br>o método no seu negócio?</h2>
+    <p class="cta-support-text">Nosso time está pronto para apresentar como a Máquina de Reuniões pode funcionar especificamente para o seu mercado.</p>
+    <a href="#WHATSAPP_LINK" class="cta-btn" target="_blank" rel="noopener noreferrer">
+      <!-- WhatsApp icon -->
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Falar com o time agora
+    </a>
+  </div>
+</section>
+
+<!-- ===== DISCLAIMER ===== -->
+<footer class="disclaimer">
+  <div class="container">
+    <p>
+      Este site não é afiliado, endossado ou patrocinado pelo Facebook, Instagram ou qualquer plataforma de mídia social.<br>
+      Os resultados apresentados são casos reais de clientes da XPN Digital e não constituem garantia de resultados futuros.<br>
+      Os resultados variam conforme o comprometimento, mercado e aplicação de cada cliente.<br><br>
+      XPN Digital &copy; 2025 &mdash; Todos os direitos reservados.
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Mostra flywheel correto conforme viewport
+  (function() {
+    var desktop = document.getElementById('flywheel-desktop');
+    var mobile  = document.getElementById('flywheel-mobile');
+    function toggle() {
+      var isMobile = window.innerWidth <= 640;
+      desktop.style.display = isMobile ? 'none' : 'grid';
+      mobile.style.display  = isMobile ? 'flex'  : 'none';
+    }
+    toggle();
+    window.addEventListener('resize', toggle);
+  })();
+</script>
+
+</body>
+</html>
