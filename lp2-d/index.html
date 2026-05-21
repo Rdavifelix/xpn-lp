@@ -216,51 +216,6 @@
         }
 
         /* ══════════════════════════════════════
-           COUNTDOWN (mostrado antes do botão)
-        ══════════════════════════════════════ */
-        .cta-countdown {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: opacity 0.5s ease;
-        }
-
-        .cta-countdown.hidden {
-            display: none;
-        }
-
-        .countdown-track {
-            width: 260px;
-            height: 6px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-
-        .countdown-bar {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(90deg, #2A5FD6, #72BF44);
-            border-radius: 99px;
-            transform-origin: left;
-            animation: countdown-shrink 480s linear forwards;
-        }
-
-        @keyframes countdown-shrink {
-            from { transform: scaleX(1); }
-            to   { transform: scaleX(0); }
-        }
-
-        .countdown-text {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(180, 200, 220, 0.65);
-            letter-spacing: 0.3px;
-        }
-
-        /* ══════════════════════════════════════
            BOTÃO (oculto até o delay expirar)
         ══════════════════════════════════════ */
         .cta-button-wrap {
@@ -593,8 +548,6 @@
                 letter-spacing: 1px;
             }
 
-            .countdown-track { width: 200px; }
-
             .benefits-section { padding: 44px 14px 52px; }
             .benefits-title {
                 font-size: 18px;
@@ -669,20 +622,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- CTA -->
     <div class="cta-section">
-        <p class="cta-label">
-            Clique abaixo para agendar <strong>uma Diagnóstico Gratuita com nosso time</strong>
-        </p>
 
-        <!-- Countdown (visível antes do delay expirar) -->
-        <div class="cta-countdown" id="ctaCountdown">
-            <div class="countdown-track">
-                <div class="countdown-bar" id="countdownBar"></div>
-            </div>
-            <span class="countdown-text" id="countdownText">O botão estará disponível em <strong id="countdownTimer">8:00</strong></span>
-        </div>
-
-        <!-- Botão (oculto até o delay expirar) -->
+        <!-- Texto + botão ocultos até o delay expirar -->
         <div class="cta-button-wrap" id="ctaButtonWrap">
+            <p class="cta-label">
+                Clique abaixo para agendar <strong>uma Diagnóstico Gratuita com nosso time</strong>
+            </p>
             <a href="#" class="cta-button" onclick="abrirModal(event)">Quero Minha Reunião de Diagnóstico</a>
         </div>
     </div>
@@ -807,39 +752,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     /* ── Delay do botão: 8 minutos (480s) ── */
     (function() {
-        var DELAY_SECONDS = 480;
-        var remaining = DELAY_SECONDS;
-        var timerEl   = document.getElementById('countdownTimer');
-        var countdown = document.getElementById('ctaCountdown');
-        var btnWrap   = document.getElementById('ctaButtonWrap');
+        var btnWrap = document.getElementById('ctaButtonWrap');
 
-        function fmt(s) {
-            var m = Math.floor(s / 60);
-            var sec = s % 60;
-            return m + ':' + (sec < 10 ? '0' : '') + sec;
-        }
-
-        function revealButton() {
-            countdown.classList.add('hidden');
+        setTimeout(function() {
             btnWrap.classList.add('visible');
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
                     btnWrap.classList.add('animate-in');
                 });
             });
-        }
-
-        if (timerEl) timerEl.textContent = fmt(remaining);
-
-        var interval = setInterval(function() {
-            remaining -= 1;
-            if (remaining <= 0) {
-                clearInterval(interval);
-                revealButton();
-            } else {
-                if (timerEl) timerEl.textContent = fmt(remaining);
-            }
-        }, 1000);
+        }, 480000);
     })();
 </script>
 </body>
