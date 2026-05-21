@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPN Digital Máquina de Reuniões</title>
+    <!-- VTURB Performance -->
+    <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+    <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a03bcb82b686c56bf033ea1/v4/player.js" as="script">
+    <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+    <link rel="preload" href="https://cdn.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/6a03afcb5eb7e2ae28f2362b/main.m3u8" as="fetch">
+    <link rel="dns-prefetch" href="https://cdn.converteai.net">
+    <link rel="dns-prefetch" href="https://scripts.converteai.net">
+    <link rel="dns-prefetch" href="https://images.converteai.net">
+    <link rel="dns-prefetch" href="https://api.vturb.com.br">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+    <!-- End Google Tag Manager -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy:        #1C2F4F;
+            --navy-deep:   #111C2E;
+            --navy-mid:    #1A2B45;
+            --blue-accent: #23406F;
+            --blue-bright: #2A5FD6;
+            --gold:        #C9A84C;
+            --gold-light:  #E4C06E;
+            --green:       #72BF44;
+            --green-dark:  #5A9C34;
+            --green-glow:  rgba(114, 191, 68, 0.35);
+            --white:       #FFFFFF;
+            --off-white:   #F7F8FA;
+            --gray-border: #E2E6EC;
+            --text-dark:   #1A2535;
+            --text-body:   #3A4A5C;
+            --text-muted:  #6B7D90;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #111C2E;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--navy-deep);
+            color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .page-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy-deep);
+            overflow-x: hidden;
+        }
+
+        /* ══════════════════════════════════════
+           TOP BAR
+        ══════════════════════════════════════ */
+        .top-bar {
+            background: var(--navy-deep);
+            border-bottom: 1px solid rgba(114, 191, 68, 0.2);
+            padding: 13px 24px;
+            text-align: center;
+        }
+
+        .top-bar__text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+
+        /* ══════════════════════════════════════
+           HERO
+        ══════════════════════════════════════ */
+        .hero {
+            background: linear-gradient(170deg, #111C2E 0%, #152238 55%, #1A2B45 100%);
+            padding: 36px 24px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1100px;
+            height: 700px;
+            background: radial-gradient(ellipse, rgba(42, 95, 214, 0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(114,191,68,0.25) 50%, transparent 100%);
+        }
+
+        .hero__inner {
+            max-width: 860px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero__headline {
+            font-family: 'Besley', serif;
+            font-size: clamp(20px, 2.6vw, 34px);
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--white);
+            letter-spacing: -0.3px;
+            margin-bottom: 16px;
+        }
+
+        .hero__headline em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .hero__subheadline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(13px, 1.5vw, 17px);
+            font-weight: 500;
+            line-height: 1.7;
+            color: #D4E6F8;
+            max-width: 750px;
+            margin: 0 auto;
+            text-shadow: 0 1px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ══════════════════════════════════════
+           VIDEO SECTION
+        ══════════════════════════════════════ */
+        .video-section {
+            background: var(--navy-deep);
+            padding: 16px 24px 0;
+            text-align: center;
+        }
+
+        .video-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .video-wrapper {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.04),
+                0 30px 80px rgba(0,0,0,0.55),
+                0 0 100px rgba(42, 95, 214, 0.06);
+            background: #0A1320;
+        }
+
+        vturb-smartplayer {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+        }
+
+        /* ══════════════════════════════════════
+           CTA SECTION
+        ══════════════════════════════════════ */
+        .cta-section {
+            background: var(--navy-deep);
+            padding: 20px 24px 40px;
+            text-align: center;
+        }
+
+        .cta-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(17px, 2.2vw, 22px);
+            font-weight: 500;
+            color: rgba(200, 215, 230, 0.9);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .cta-label strong {
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        /* ══════════════════════════════════════
+           COUNTDOWN (mostrado antes do botão)
+        ══════════════════════════════════════ */
+        .cta-countdown {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.5s ease;
+        }
+
+        .cta-countdown.hidden {
+            display: none;
+        }
+
+        .countdown-track {
+            width: 260px;
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .countdown-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #2A5FD6, #72BF44);
+            border-radius: 99px;
+            transform-origin: left;
+            animation: countdown-shrink 480s linear forwards;
+        }
+
+        @keyframes countdown-shrink {
+            from { transform: scaleX(1); }
+            to   { transform: scaleX(0); }
+        }
+
+        .countdown-text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(180, 200, 220, 0.65);
+            letter-spacing: 0.3px;
+        }
+
+        /* ══════════════════════════════════════
+           BOTÃO (oculto até o delay expirar)
+        ══════════════════════════════════════ */
+        .cta-button-wrap {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .cta-button-wrap.visible {
+            display: block;
+        }
+
+        .cta-button-wrap.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(160deg, #82D44E 0%, #5FA832 100%);
+            color: #FFFFFF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(15px, 1.8vw, 19px);
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 22px 60px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 6px 0 #428A1E,
+                0 12px 40px rgba(114, 191, 68, 0.4),
+                0 0 60px rgba(114, 191, 68, 0.15);
+            transition: all 0.2s ease;
+            animation: cta-pulse 2.8s ease-in-out infinite;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(160deg, #90E05A 0%, #68BA38 100%);
+            box-shadow:
+                0 6px 0 #428A1E,
+                0 16px 50px rgba(114, 191, 68, 0.55),
+                0 0 80px rgba(114, 191, 68, 0.2);
+            transform: translateY(-3px);
+            animation: none;
+        }
+
+        .cta-button:active {
+            transform: translateY(2px);
+            box-shadow:
+                0 2px 0 #428A1E,
+                0 6px 20px rgba(114, 191, 68, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3.5s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%   { left: -120%; }
+            40%  { left: 160%; }
+            100% { left: 160%; }
+        }
+
+        @keyframes cta-pulse {
+            0%, 100% { box-shadow: 0 6px 0 #428A1E, 0 12px 40px rgba(114,191,68,0.4), 0 0 60px rgba(114,191,68,0.15); }
+            50%       { box-shadow: 0 6px 0 #428A1E, 0 16px 55px rgba(114,191,68,0.55), 0 0 90px rgba(114,191,68,0.25); }
+        }
+
+        /* ══════════════════════════════════════
+           SECTION RULE
+        ══════════════════════════════════════ */
+        .section-rule {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(114,191,68,0.2) 40%, rgba(114,191,68,0.2) 60%, transparent);
+        }
+
+        /* ══════════════════════════════════════
+           BENEFITS SECTION
+        ══════════════════════════════════════ */
+        .benefits-section {
+            background: var(--off-white);
+            padding: 64px 24px 72px;
+        }
+
+        .benefits-inner {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .benefits-title {
+            font-family: 'Besley', serif;
+            font-size: clamp(19px, 2.6vw, 26px);
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 44px;
+            line-height: 1.4;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 26px 28px;
+            background: var(--white);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            border: 1px solid var(--gray-border);
+            box-shadow: 0 2px 14px rgba(0,0,0,0.04);
+            transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+        }
+
+        .benefit-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .benefit-item:hover {
+            box-shadow: 0 6px 28px rgba(35, 64, 111, 0.1);
+            border-color: rgba(35, 64, 111, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .benefit-check {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #72BF44, #5A9C34);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+            box-shadow: 0 4px 14px rgba(114,191,68,0.3);
+        }
+
+        .benefit-check svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--white);
+            stroke-width: 2.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .benefit-text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(14px, 1.7vw, 17px);
+            font-weight: 500;
+            color: var(--text-body);
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           FOOTER
+        ══════════════════════════════════════ */
+        .footer {
+            background: #07101C;
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer__copy {
+            font-size: 11px;
+            color: #2A4055;
+            line-height: 2;
+            max-width: 680px;
+            margin: 0 auto 12px;
+        }
+
+        .footer__links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .footer__links a {
+            font-size: 11px;
+            color: #2E5070;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .footer__links a:hover {
+            color: var(--gold);
+        }
+
+        /* ══════════════════════════════════════
+           MODAL DE FORMULÁRIO
+        ══════════════════════════════════════ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: block;
+            animation: fade-overlay 0.3s ease;
+        }
+
+        @keyframes fade-overlay {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .modal-box {
+            background: #1A2B45;
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            animation: modal-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modal-enter {
+            from { opacity: 0; transform: scale(0.92); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #555;
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: var(--blue-bright);
+            border-color: var(--blue-bright);
+        }
+
+        .modal-box iframe {
+            display: block;
+            width: 100%;
+            height: 878px;
+            border: none;
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE TABLET
+        ══════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .hero { padding: 28px 20px 20px; }
+            .hero__headline { font-size: clamp(18px, 4.5vw, 28px); }
+            .hero__subheadline { font-size: 14px; }
+            .video-section { padding: 14px 16px 0; }
+            .cta-section { padding: 16px 20px 36px; }
+            .cta-label { font-size: 15px; }
+            .benefits-section { padding: 52px 20px 60px; }
+            .benefits-title { font-size: 20px; margin-bottom: 32px; }
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE MOBILE
+        ══════════════════════════════════════ */
+        @media (max-width: 480px) {
+            .top-bar { padding: 12px 16px; }
+            .top-bar__text { font-size: 10px; letter-spacing: 2.5px; }
+
+            .hero { padding: 22px 18px 16px; }
+            .hero__headline {
+                font-size: clamp(17px, 5.5vw, 22px);
+                line-height: 1.28;
+                margin-bottom: 12px;
+            }
+            .hero__subheadline {
+                font-size: 13px;
+                line-height: 1.65;
+                font-weight: 400;
+            }
+
+            .video-section { padding: 12px 12px 0; }
+
+            .cta-section { padding: 14px 18px 32px; }
+            .cta-label {
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
+            .cta-button {
+                display: block;
+                width: 100%;
+                padding: 20px 24px;
+                font-size: 15px;
+                letter-spacing: 1px;
+            }
+
+            .countdown-track { width: 200px; }
+
+            .benefits-section { padding: 44px 14px 52px; }
+            .benefits-title {
+                font-size: 18px;
+                margin-bottom: 28px;
+                text-align: left;
+            }
+            .benefit-item {
+                padding: 18px 16px;
+                gap: 14px;
+                margin-bottom: 10px;
+            }
+            .benefit-check {
+                width: 30px;
+                height: 30px;
+                flex-shrink: 0;
+            }
+            .benefit-check svg { width: 14px; height: 14px; }
+            .benefit-text { font-size: 14px; line-height: 1.6; }
+
+            .footer { padding: 32px 18px; }
+            .footer__copy { font-size: 10px; line-height: 1.8; }
+            .footer__links { gap: 16px; }
+            .footer__links a { font-size: 10px; }
+        }
+
+        @media (max-width: 360px) {
+            .modal-overlay { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="page-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <p class="top-bar__text">Para Donos de Negócio que Precisam Vender Mais</p>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero__inner">
+            <h1 class="hero__headline">
+                Como Empresários Estão Gerando <em>3 a 5 Reuniões Qualificadas Por Dia</em> Sem Conteúdo Diário, Sem Prospecção Manual e Sem Depender de Indicação
+            </h1>
+            <p class="hero__subheadline">
+                Assista ao vídeo onde João Araújo mostra o sistema que a XPN Digital usa para encher a agenda de vendas em 1h30 e os dados reais de mais de 2.500 agendamentos gerados em 2025
+            </p>
+        </div>
+    </section>
+
+    <!-- VIDEO -->
+    <div class="video-section">
+        <div class="video-container">
+            <div class="video-wrapper">
+
+                <vturb-smartplayer id="vid-6a03bcb82b686c56bf033ea1" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+                <script type="text/javascript">
+                    var s=document.createElement("script");
+                    s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a03bcb82b686c56bf033ea1/v4/player.js";
+                    s.async=!0;
+                    document.head.appendChild(s);
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <p class="cta-label">
+            Clique abaixo para agendar <strong>uma Diagnóstico Gratuita com nosso time</strong>
+        </p>
+
+        <!-- Countdown (visível antes do delay expirar) -->
+        <div class="cta-countdown" id="ctaCountdown">
+            <div class="countdown-track">
+                <div class="countdown-bar" id="countdownBar"></div>
+            </div>
+            <span class="countdown-text" id="countdownText">O botão estará disponível em <strong id="countdownTimer">8:00</strong></span>
+        </div>
+
+        <!-- Botão (oculto até o delay expirar) -->
+        <div class="cta-button-wrap" id="ctaButtonWrap">
+            <a href="#" class="cta-button" onclick="abrirModal(event)">Quero Minha Reunião de Diagnóstico</a>
+        </div>
+    </div>
+
+    <div class="section-rule"></div>
+
+    <!-- BENEFITS -->
+    <section class="benefits-section">
+        <div class="benefits-inner">
+            <h2 class="benefits-title">
+                Agende Uma Diagnóstico Gratuita e Veja Como:
+            </h2>
+
+            <div class="benefit-item">
+                <div class="benefit-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p class="benefit-text">
+                    Montar um funil de webinar que roda todo santo dia gerando agendamentos no automático, com 50%+ de comparecimento e 64% de conversão em reuniões qualificadas.
+                </p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p class="benefit-text">
+                    Parar de brigar pelos mesmos 3% do mercado e começar a vender para os 97% público infinito, lead mais barato e cliente muito mais fácil de fechar.
+                </p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p class="benefit-text">
+                    Descobrir por que sua operação comercial atual deixa dinheiro na mesa e o que mudar primeiro para aumentar a conversão sem contratar mais vendedores.
+                </p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p class="benefit-text">
+                    Entender o sistema completo de aquisição que levou clientes como Cauê Novais a fechar R$54.000 em 7 dias com investimento inicial de R$750 ROAS de 26x.
+                </p>
+            </div>
+
+            <div class="benefit-item">
+                <div class="benefit-check">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p class="benefit-text">
+                    Ver como a XPN implementa tudo isso em 7 a 14 dias páginas, criativos, oferta, CRM e automações para que você só precise fechar as vendas.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p class="footer__copy">
+            ©2025 XPN Digital · Belo Horizonte, MG
+            <br>
+            Este site não é parte do YouTube, Google ou Facebook; Google Inc. ou Facebook Inc.
+            Este site também NÃO é endossado pelo YouTube, Google ou Facebook de nenhuma forma.
+            FACEBOOK é uma marca registrada da FACEBOOK Inc. YOUTUBE é uma marca registrada da GOOGLE Inc.
+        </p>
+        <div class="footer__links">
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Termos de Uso</a>
+        </div>
+    </footer>
+
+</div><!-- /page-wrapper -->
+
+<!-- MODAL DE FORMULÁRIO -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-box">
+        <button class="modal-close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
+        <iframe
+            src="https://api.leadconnectorhq.com/widget/form/hLgbCUWWr2nYR6FmGuQF"
+            id="inline-hLgbCUWWr2nYR6FmGuQF"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="WB - FORMS VSL"
+            data-height="878"
+            data-layout-iframe-id="inline-hLgbCUWWr2nYR6FmGuQF"
+            data-form-id="hLgbCUWWr2nYR6FmGuQF"
+            title="WB - FORMS VSL"
+        ></iframe>
+    </div>
+</div>
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
+
+<script>
+    const overlay = document.getElementById('modalOverlay');
+
+    function abrirModal(e) {
+        if (e) e.preventDefault();
+        overlay.classList.add('open');
+    }
+
+    function fecharModal() {
+        overlay.classList.remove('open');
+    }
+
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) fecharModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') fecharModal();
+    });
+
+    /* ── Delay do botão: 8 minutos (480s) ── */
+    (function() {
+        var DELAY_SECONDS = 480;
+        var remaining = DELAY_SECONDS;
+        var timerEl   = document.getElementById('countdownTimer');
+        var countdown = document.getElementById('ctaCountdown');
+        var btnWrap   = document.getElementById('ctaButtonWrap');
+
+        function fmt(s) {
+            var m = Math.floor(s / 60);
+            var sec = s % 60;
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function revealButton() {
+            countdown.classList.add('hidden');
+            btnWrap.classList.add('visible');
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    btnWrap.classList.add('animate-in');
+                });
+            });
+        }
+
+        if (timerEl) timerEl.textContent = fmt(remaining);
+
+        var interval = setInterval(function() {
+            remaining -= 1;
+            if (remaining <= 0) {
+                clearInterval(interval);
+                revealButton();
+            } else {
+                if (timerEl) timerEl.textContent = fmt(remaining);
+            }
+        }, 1000);
+    })();
+</script>
+</body>
+</html>
