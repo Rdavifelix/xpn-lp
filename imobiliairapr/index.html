@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Residencial Neo — LCW Imóveis</title>
+<meta name="description" content="Residencial Neo: apartamentos de 2 e 3 dormitórios com lazer completo na melhor localização. Explore cada ambiente em tour interativo 360°." />
+<style>
+  :root{
+    --laranja:#f47820;
+    --laranja-escuro:#d8631a;
+    --escuro:#1d1d1f;
+    --grafite:#2b2b2e;
+    --cinza:#6e6e73;
+    --cinza-claro:#86868b;
+    --linha:#e6e6e8;
+    --fundo:#ffffff;
+    --fundo-alt:#f5f5f7;
+    --raio:18px;
+    --max:1100px;
+    --nav-h:48px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--escuro);background:var(--fundo);-webkit-font-smoothing:antialiased;line-height:1.4}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+
+  /* ---------- NAV ---------- */
+  .subnav{
+    position:sticky;top:0;z-index:9999;height:var(--nav-h);
+    background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid var(--linha);
+  }
+  .subnav .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-.2px}
+  .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--laranja);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+  .brand small{color:var(--cinza);font-weight:500;font-size:13px}
+  .navlinks{display:flex;gap:26px;list-style:none;font-size:13px;color:var(--escuro)}
+  .navlinks a{opacity:.85;transition:opacity .2s}
+  .navlinks a:hover,.navlinks a.active{opacity:1;color:var(--laranja)}
+  .nav-cta{background:var(--laranja);color:#fff;padding:7px 15px;border-radius:980px;font-size:13px;font-weight:500;transition:background .2s}
+  .nav-cta:hover{background:var(--laranja-escuro)}
+  .burger{display:none;background:none;border:0;font-size:20px;cursor:pointer}
+
+  /* ---------- HERO ---------- */
+  .hero{text-align:center;padding:64px 0 0;background:linear-gradient(180deg,#fff 0%,#fbf7f3 100%)}
+  .eyebrow{color:var(--laranja);font-weight:600;font-size:21px;letter-spacing:-.3px}
+  .hero h1{font-size:clamp(48px,9vw,96px);line-height:1.02;font-weight:700;letter-spacing:-.03em;margin:6px 0 4px}
+  .hero .tag{font-size:clamp(20px,3.2vw,28px);color:var(--grafite);font-weight:500;letter-spacing:-.2px}
+  .price{margin-top:14px;font-size:17px;color:var(--cinza)}
+  .price b{color:var(--escuro)}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+  .btn{display:inline-block;border-radius:980px;padding:11px 22px;font-size:16px;font-weight:500;transition:.2s;cursor:pointer;border:0}
+  .btn-primary{background:var(--laranja);color:#fff}
+  .btn-primary:hover{background:var(--laranja-escuro)}
+  .btn-ghost{color:var(--laranja)}
+  .btn-ghost:hover{text-decoration:underline}
+  .hero-img{margin:34px auto 0;max-width:1100px}
+  .hero-img img{width:100%;border-radius:0;object-fit:cover}
+
+  /* ---------- SPECS STRIP ---------- */
+  .specs{background:var(--escuro);color:#fff;padding:54px 0}
+  .specs .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+  .specs .n{font-size:clamp(34px,5vw,52px);font-weight:700;letter-spacing:-.02em;color:#fff}
+  .specs .n span{color:var(--laranja)}
+  .specs .l{color:#a8a8ad;font-size:15px;margin-top:6px}
+
+  /* ---------- SECTION TITLES ---------- */
+  section.block{padding:96px 0}
+  .center{text-align:center}
+  .kicker{color:var(--laranja);font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.08em}
+  h2.big{font-size:clamp(34px,6vw,64px);font-weight:700;letter-spacing:-.025em;line-height:1.05;margin:10px 0}
+  .lead{font-size:clamp(18px,2.4vw,23px);color:var(--cinza);max-width:680px;margin:0 auto;font-weight:400}
+
+  /* ---------- INTERACTIVE VIEWER (substitui aba 3D) ---------- */
+  .viewer{background:var(--fundo-alt)}
+  .viewer-stage{
+    position:relative;margin-top:42px;border-radius:var(--raio);overflow:hidden;
+    background:#000;aspect-ratio:16/9;box-shadow:0 30px 60px -30px rgba(0,0,0,.35);
+    cursor:grab;user-select:none;
+  }
+  .viewer-stage.dragging{cursor:grabbing}
+  .viewer-stage .frame{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .25s ease}
+  .viewer-stage .frame.show{opacity:1}
+  .viewer-badge{
+    position:absolute;left:16px;top:16px;z-index:3;background:rgba(0,0,0,.55);color:#fff;
+    padding:7px 14px;border-radius:980px;font-size:13px;font-weight:500;display:flex;gap:8px;align-items:center;backdrop-filter:blur(6px)
+  }
+  .viewer-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--laranja);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .viewer-hint{
+    position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;
+    background:rgba(255,255,255,.9);color:var(--escuro);padding:9px 18px;border-radius:980px;
+    font-size:13px;font-weight:500;display:flex;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.18)
+  }
+  .viewer-hint.hide{opacity:0;pointer-events:none;transition:opacity .4s}
+  .rooms{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+  .room{
+    border:1px solid var(--linha);background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;
+    width:150px;transition:.2s;text-align:left
+  }
+  .room:hover{transform:translateY(-3px);box-shadow:0 12px 24px -14px rgba(0,0,0,.3)}
+  .room.active{border-color:var(--laranja);box-shadow:0 0 0 2px var(--laranja)}
+  .room .thumb{height:84px;background-size:cover;background-position:center}
+  .room .cap{padding:8px 10px;font-size:13px;font-weight:600}
+  .room .cap small{display:block;color:var(--cinza);font-weight:400;font-size:11px;margin-top:1px}
+
+  /* ---------- FEATURE ALTERNATING ---------- */
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:60px}
+  .feat:first-of-type{margin-top:48px}
+  .feat.rev .txt{order:2}
+  .feat .media{border-radius:var(--raio);overflow:hidden;aspect-ratio:4/3;background-size:cover;background-position:center;box-shadow:0 24px 50px -30px rgba(0,0,0,.4)}
+  .feat h3{font-size:clamp(26px,3.6vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .feat p{color:var(--cinza);font-size:18px;margin-top:14px}
+  .feat ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:10px}
+  .feat li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+  .feat li::before{content:"";flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--laranja);
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/14px no-repeat;
+    mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/></svg>") center/14px no-repeat;margin-top:1px}
+
+  /* ---------- PLANTAS (tabs) ---------- */
+  .plantas{background:var(--fundo-alt)}
+  .tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+  .tab{border:1px solid var(--linha);background:#fff;border-radius:980px;padding:10px 22px;font-size:15px;font-weight:500;cursor:pointer;transition:.2s}
+  .tab.active{background:var(--escuro);color:#fff;border-color:var(--escuro)}
+  .planta-panel{display:none;margin-top:40px;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .planta-panel.active{display:grid}
+  .planta-art{border-radius:var(--raio);background:#fff;border:1px solid var(--linha);aspect-ratio:4/3;display:grid;place-items:center;padding:24px}
+  .planta-art svg{width:100%;height:100%}
+  .planta-info h3{font-size:30px;font-weight:700;letter-spacing:-.02em}
+  .planta-info .m{color:var(--laranja);font-weight:600;margin-top:6px;font-size:18px}
+  .planta-info ul{list-style:none;margin-top:18px;border-top:1px solid var(--linha)}
+  .planta-info li{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--linha);font-size:15px}
+  .planta-info li span:first-child{color:var(--cinza)}
+  .planta-info li span:last-child{font-weight:600}
+
+  /* ---------- LOCALIZAÇÃO ---------- */
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:50px}
+  .loc-map{border-radius:var(--raio);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--linha)}
+  .loc-map iframe{width:100%;height:100%;border:0}
+  .poi{list-style:none;display:flex;flex-direction:column;gap:14px}
+  .poi li{display:flex;gap:14px;align-items:center;padding:14px 16px;background:#fff;border:1px solid var(--linha);border-radius:14px}
+  .poi .ic{flex:0 0 auto;width:42px;height:42px;border-radius:11px;background:#fff4ec;color:var(--laranja);display:grid;place-items:center;font-size:20px}
+  .poi b{display:block;font-size:16px}
+  .poi small{color:var(--cinza)}
+
+  /* ---------- CTA / FORM ---------- */
+  .lead{}
+  .formwrap{background:var(--escuro);border-radius:24px;padding:54px;margin-top:40px;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .formwrap h2{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .formwrap p{color:#b0b0b6;margin-top:14px;font-size:17px}
+  .formwrap form{display:flex;flex-direction:column;gap:12px}
+  .formwrap input,.formwrap select{width:100%;padding:14px 16px;border-radius:12px;border:1px solid #3a3a3e;background:#2b2b2e;color:#fff;font-size:15px;font-family:var(--font)}
+  .formwrap input::placeholder{color:#8a8a90}
+  .formwrap input:focus,.formwrap select:focus{outline:none;border-color:var(--laranja)}
+  .formwrap button{margin-top:6px;background:var(--laranja);color:#fff;border:0;padding:15px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:.2s}
+  .formwrap button:hover{background:var(--laranja-escuro)}
+  .form-ok{display:none;background:#163d23;border:1px solid #1f5a33;color:#bff3cf;padding:14px;border-radius:12px;font-size:15px;text-align:center}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--fundo-alt);color:var(--cinza);font-size:13px;padding:40px 0;border-top:1px solid var(--linha)}
+  footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;padding-bottom:26px;border-bottom:1px solid var(--linha)}
+  footer h4{color:var(--escuro);font-size:13px;margin-bottom:12px}
+  footer a{display:block;padding:4px 0;color:var(--cinza)}
+  footer a:hover{color:var(--laranja)}
+  footer .legal{padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:860px){
+    .navlinks{display:none}
+    .burger{display:block}
+    .specs .grid{grid-template-columns:repeat(2,1fr);gap:34px 24px}
+    .feat,.feat.rev{grid-template-columns:1fr}
+    .feat.rev .txt{order:0}
+    .feat .media{order:-1}
+    .planta-panel.active{grid-template-columns:1fr}
+    .loc-grid{grid-template-columns:1fr}
+    .formwrap{grid-template-columns:1fr;padding:34px}
+    footer .cols{grid-template-columns:1fr 1fr}
+    section.block{padding:70px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SUBNAV ============ -->
+<nav class="subnav">
+  <div class="wrap">
+    <a href="#topo" class="brand">
+      <span class="logo">L</span>
+      LCW Imóveis <small>· Residencial Neo</small>
+    </a>
+    <ul class="navlinks">
+      <li><a href="#visao">Visão geral</a></li>
+      <li><a href="#tour">Tour 360°</a></li>
+      <li><a href="#lazer">Lazer</a></li>
+      <li><a href="#plantas">Plantas</a></li>
+      <li><a href="#local">Localização</a></li>
+    </ul>
+    <a href="#agendar" class="nav-cta">Agendar visita</a>
+    <button class="burger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="topo">
+  <p class="eyebrow">Residencial Neo</p>
+  <h1>Morar bem,<br>elevado ao máximo.</h1>
+  <p class="tag">Apartamentos de 2 e 3 dormitórios com lazer completo.</p>
+  <p class="price">A partir de <b>R$ 489.000</b> · Entrega prevista para <b>Dez/2027</b></p>
+  <div class="cta-row">
+    <a href="#agendar" class="btn btn-primary">Agendar visita</a>
+    <a href="#tour" class="btn btn-ghost">Fazer o tour 360° ›</a>
+  </div>
+  <div class="hero-img">
+    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=80" alt="Fachada do Residencial Neo" loading="eager" />
+  </div>
+</header>
+
+<!-- ============ SPECS ============ -->
+<section class="specs" id="visao">
+  <div class="wrap">
+    <div class="grid">
+      <div><div class="n">2<span>·</span>3</div><div class="l">Dormitórios</div></div>
+      <div><div class="n">58<span>–</span>96<small style="font-size:.45em"> m²</small></div><div class="l">Área privativa</div></div>
+      <div><div class="n">15<span>+</span></div><div class="l">Itens de lazer</div></div>
+      <div><div class="n">2<span>min</span></div><div class="l">Do metrô</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOUR INTERATIVO (substitui a aba 3D do MacBook Neo) ============ -->
+<section class="block viewer" id="tour">
+  <div class="wrap center">
+    <p class="kicker">Tour interativo</p>
+    <h2 class="big">Explore cada ambiente.</h2>
+    <p class="lead">Arraste para girar a vista do apartamento decorado e clique nos ambientes para percorrer cada espaço — como se você já estivesse lá dentro.</p>
+
+    <div class="viewer-stage" id="stage" role="img" aria-label="Tour interativo do apartamento">
+      <div class="viewer-badge"><span class="dot"></span> Decorado · 96 m²</div>
+      <div class="viewer-hint" id="hint">↔ Arraste para girar a vista</div>
+      <!-- frames preenchidos via JS -->
+    </div>
+
+    <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="block" id="acabamento">
+  <div class="wrap">
+    <div class="center">
+      <p class="kicker">Acabamento</p>
+      <h2 class="big">Pensado nos detalhes.</h2>
+    </div>
+
+    <div class="feat">
+      <div class="txt">
+        <h3>Living amplo e integrado.</h3>
+        <p>Pé-direito generoso, piso laminado de alto padrão e varanda gourmet que se conecta ao living, criando um espaço fluido para receber.</p>
+        <ul>
+          <li>Varanda gourmet com previsão para churrasqueira</li>
+          <li>Esquadrias de piso ao teto com vidro duplo</li>
+          <li>Infraestrutura para ar-condicionado e automação</li>
+        </ul>
+      </div>
+      <div class="media" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1400&q=80')"></div>
+    </div>
+
+    <div class="feat rev">
+      <div class="txt">
+        <h3>Cozinha que vira o coração da casa.</h3>
+        <p>Bancada em quartzo, marcenaria planejada e iluminação pensada para o dia a dia — funcional, bonita e pronta para usar.</p>
+        <ul>
+          <li>Bancada em pedra com cuba em aço inox</li>
+          <li>Tomadas e pontos de água posicionados</li>
+          <li>Acabamento porcelanato 60×60</li>
+        </ul>
+      </div>
+      <div class="media" style="background-image:url('https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1400&q=80')"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAZER ============ -->
+<section class="block plantas" id="lazer">
+  <div class="wrap">
+    <div class="center">
+      <p class="kicker">Lazer completo</p>
+      <h2 class="big">Mais de 15 itens. No mesmo endereço.</h2>
+      <p class="lead">Um clube particular para você aproveitar todos os dias, sem sair de casa.</p>
+    </div>
+    <div class="feat" style="margin-top:48px">
+      <div class="media" style="background-image:url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1400&q=80')"></div>
+      <div class="txt">
+        <h3>Do mergulho ao home office.</h3>
+        <p>Áreas projetadas para todos os momentos do seu dia.</p>
+        <ul>
+          <li>Piscina adulto e infantil com deck</li>
+          <li>Academia equipada e espaço fitness ao ar livre</li>
+          <li>Coworking, salão de festas e espaço gourmet</li>
+          <li>Playground, pet place e quadra recreativa</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANTAS ============ -->
+<section class="block plantas" id="plantas" style="border-top:1px solid var(--linha)">
+  <div class="wrap">
+    <div class="center">
+      <p class="kicker">Plantas</p>
+      <h2 class="big">Encontre o tamanho ideal.</h2>
+    </div>
+    <div class="tabs" id="planta-tabs">
+      <button class="tab active" data-p="0">2 dorm · 58 m²</button>
+      <button class="tab" data-p="1">2 dorm suíte · 72 m²</button>
+      <button class="tab" data-p="2">3 dorm · 96 m²</button>
+    </div>
+
+    <div class="planta-panel active" data-panel="0">
+      <div class="planta-art" id="art0"></div>
+      <div class="planta-info">
+        <h3>2 dormitórios</h3>
+        <div class="m">58 m² de área privativa</div>
+        <ul>
+          <li><span>Dormitórios</span><span>2</span></li>
+          <li><span>Banheiros</span><span>1</span></li>
+          <li><span>Varanda</span><span>Sim</span></li>
+          <li><span>Vaga de garagem</span><span>1</span></li>
+        </ul>
+        <a href="#agendar" class="btn btn-primary" style="margin-top:22px">Tenho interesse</a>
+      </div>
+    </div>
+
+    <div class="planta-panel" data-panel="1">
+      <div class="planta-art" id="art1"></div>
+      <div class="planta-info">
+        <h3>2 dormitórios com suíte</h3>
+        <div class="m">72 m² de área privativa</div>
+        <ul>
+          <li><span>Dormitórios</span><span>2 (1 suíte)</span></li>
+          <li><span>Banheiros</span><span>2</span></li>
+          <li><span>Varanda gourmet</span><span>Sim</span></li>
+          <li><span>Vaga de garagem</span><span>1</span></li>
+        </ul>
+        <a href="#agendar" class="btn btn-primary" style="margin-top:22px">Tenho interesse</a>
+      </div>
+    </div>
+
+    <div class="planta-panel" data-panel="2">
+      <div class="planta-art" id="art2"></div>
+      <div class="planta-info">
+        <h3>3 dormitórios</h3>
+        <div class="m">96 m² de área privativa</div>
+        <ul>
+          <li><span>Dormitórios</span><span>3 (1 suíte)</span></li>
+          <li><span>Banheiros</span><span>2</span></li>
+          <li><span>Varanda gourmet</span><span>Sim</span></li>
+          <li><span>Vagas de garagem</span><span>2</span></li>
+        </ul>
+        <a href="#agendar" class="btn btn-primary" style="margin-top:22px">Tenho interesse</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCALIZAÇÃO ============ -->
+<section class="block" id="local">
+  <div class="wrap">
+    <div class="center">
+      <p class="kicker">Localização</p>
+      <h2 class="big">No centro de tudo.</h2>
+      <p class="lead">A dois minutos do metrô, cercado por comércio, escolas, parques e tudo o que o seu dia precisa.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-map">
+        <iframe
+          loading="lazy"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-46.66%2C-23.57%2C-46.62%2C-23.54&layer=mapnik&marker=-23.555%2C-46.64"
+          title="Mapa da localização do Residencial Neo"></iframe>
+      </div>
+      <ul class="poi">
+        <li><div class="ic">🚇</div><div><b>Estação de metrô</b><small>2 min a pé · 180 m</small></div></li>
+        <li><div class="ic">🛒</div><div><b>Supermercado e farmácia</b><small>5 min a pé</small></div></li>
+        <li><div class="ic">🎓</div><div><b>Escolas e faculdades</b><small>Raio de 1,5 km</small></div></li>
+        <li><div class="ic">🌳</div><div><b>Parque e ciclovia</b><small>7 min a pé</small></div></li>
+        <li><div class="ic">🏥</div><div><b>Hospital de referência</b><small>4 min de carro</small></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA / FORM ============ -->
+<section class="block" id="agendar" style="padding-top:0">
+  <div class="wrap">
+    <div class="formwrap">
+      <div>
+        <h2>Agende sua visita ao decorado.</h2>
+        <p>Deixe seus dados e um consultor LCW Imóveis entra em contato para apresentar o Residencial Neo, condições e tabela de valores atualizada.</p>
+      </div>
+      <div>
+        <form id="leadform" novalidate>
+          <input type="text" name="nome" placeholder="Seu nome" required />
+          <input type="tel" name="tel" placeholder="WhatsApp / telefone" required />
+          <input type="email" name="email" placeholder="E-mail" required />
+          <select name="tipo">
+            <option value="">Tipo de interesse</option>
+            <option>2 dorm · 58 m²</option>
+            <option>2 dorm suíte · 72 m²</option>
+            <option>3 dorm · 96 m²</option>
+          </select>
+          <button type="submit">Quero falar com um consultor</button>
+        </form>
+        <div class="form-ok" id="formok">✓ Recebido! Em breve um consultor entra em contato.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand" style="margin-bottom:10px"><span class="logo">L</span> LCW Imóveis</div>
+        <p style="max-width:320px">Residencial Neo é um empreendimento comercializado pela LCW Imóveis. Imagens meramente ilustrativas. Valores e disponibilidade sujeitos a alteração sem aviso prévio.</p>
+      </div>
+      <div>
+        <h4>Empreendimento</h4>
+        <a href="#visao">Visão geral</a>
+        <a href="#tour">Tour 360°</a>
+        <a href="#lazer">Lazer</a>
+        <a href="#plantas">Plantas</a>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <a href="#agendar">Agendar visita</a>
+        <a href="#local">Localização</a>
+        <a href="#">WhatsApp</a>
+      </div>
+      <div>
+        <h4>LCW Imóveis</h4>
+        <a href="#">Sobre nós</a>
+        <a href="#">Outros imóveis</a>
+        <a href="#">Trabalhe conosco</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 LCW Imóveis · CRECI 00000-J</span>
+      <span>Imagens ilustrativas · Projeto sujeito a alterações</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- dados dos ambientes / frames do tour ---------- */
+const ROOMS = [
+  {nome:"Living",   sub:"Integrado",   img:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"},
+  {nome:"Cozinha",  sub:"Planejada",   img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1600&q=80"},
+  {nome:"Suíte",    sub:"Master",      img:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80"},
+  {nome:"Varanda",  sub:"Gourmet",     img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80"},
+  {nome:"Banheiro", sub:"Acabamento",  img:"https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1600&q=80"},
+  {nome:"Home office", sub:"Estudo",   img:"https://images.unsplash.com/photo-1593476550610-87baa860004a?auto=format&fit=crop&w=1600&q=80"},
+];
+
+const stage = document.getElementById('stage');
+const roomsEl = document.getElementById('rooms');
+const hint = document.getElementById('hint');
+let current = 0;
+
+/* cria frames + thumbs */
+ROOMS.forEach((r,i)=>{
+  const f = document.createElement('div');
+  f.className = 'frame' + (i===0?' show':'');
+  f.style.backgroundImage = `url('${r.img}')`;
+  f.dataset.i = i;
+  stage.appendChild(f);
+
+  const card = document.createElement('button');
+  card.className = 'room' + (i===0?' active':'');
+  card.dataset.i = i;
+  card.innerHTML = `<div class="thumb" style="background-image:url('${r.img}')"></div>
+    <div class="cap">${r.nome}<small>${r.sub}</small></div>`;
+  card.addEventListener('click',()=>show(i));
+  roomsEl.appendChild(card);
+});
+
+function show(i){
+  i = (i + ROOMS.length) % ROOMS.length;
+  current = i;
+  stage.querySelectorAll('.frame').forEach(f=>f.classList.toggle('show', +f.dataset.i===i));
+  roomsEl.querySelectorAll('.room').forEach(c=>c.classList.toggle('active', +c.dataset.i===i));
+}
+
+/* arraste para "girar" (avança/recua entre ambientes) */
+let dragging=false, startX=0, acc=0;
+const THRESH=70;
+function down(x){dragging=true;startX=x;acc=0;stage.classList.add('dragging');hint.classList.add('hide');}
+function move(x){
+  if(!dragging)return;
+  const dx = x-startX; acc+=0;
+  if(Math.abs(dx)>THRESH){
+    show(current + (dx<0?1:-1));
+    startX=x;
+  }
+}
+function up(){dragging=false;stage.classList.remove('dragging');}
+
+stage.addEventListener('mousedown',e=>down(e.clientX));
+window.addEventListener('mousemove',e=>move(e.clientX));
+window.addEventListener('mouseup',up);
+stage.addEventListener('touchstart',e=>down(e.touches[0].clientX),{passive:true});
+stage.addEventListener('touchmove',e=>move(e.touches[0].clientX),{passive:true});
+stage.addEventListener('touchend',up);
+/* clique simples avança */
+stage.addEventListener('click',e=>{ if(Math.abs(acc)<3 && !dragging){} });
+
+/* esconde a dica após alguns segundos */
+setTimeout(()=>hint.classList.add('hide'),6000);
+
+/* ---------- plantas tabs ---------- */
+const tabs = document.querySelectorAll('#planta-tabs .tab');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  const p=t.dataset.p;
+  document.querySelectorAll('.planta-panel').forEach(pn=>pn.classList.toggle('active',pn.dataset.panel===p));
+}));
+
+/* desenhos simples de planta (SVG) */
+const plantSVG = (rooms)=>`
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="396" height="296" rx="6" fill="#fafafa" stroke="#d8631a" stroke-width="2"/>
+  ${rooms.map(r=>`
+    <rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#fff4ec" stroke="#f47820" stroke-width="1.5"/>
+    <text x="${r.x+r.w/2}" y="${r.y+r.h/2}" font-size="11" fill="#6e6e73" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif">${r.t}</text>
+  `).join('')}
+</svg>`;
+document.getElementById('art0').innerHTML = plantSVG([
+  {x:20,y:20,w:170,h:150,t:'Living/Cozinha'},
+  {x:200,y:20,w:180,h:90,t:'Dorm 1'},
+  {x:200,y:120,w:120,h:90,t:'Dorm 2'},
+  {x:20,y:180,w:120,h:90,t:'Varanda'},
+  {x:150,y:180,w:90,h:90,t:'Banho'},
+]);
+document.getElementById('art1').innerHTML = plantSVG([
+  {x:20,y:20,w:190,h:150,t:'Living/Cozinha'},
+  {x:220,y:20,w:160,h:110,t:'Suíte'},
+  {x:220,y:140,w:160,h:70,t:'Dorm 2'},
+  {x:20,y:180,w:110,h:90,t:'Varanda'},
+  {x:140,y:180,w:70,h:90,t:'Banho'},
+]);
+document.getElementById('art2').innerHTML = plantSVG([
+  {x:20,y:20,w:180,h:130,t:'Living'},
+  {x:210,y:20,w:170,h:90,t:'Cozinha'},
+  {x:210,y:120,w:170,h:80,t:'Suíte'},
+  {x:20,y:160,w:110,h:110,t:'Dorm 2'},
+  {x:140,y:160,w:110,h:110,t:'Dorm 3'},
+  {x:260,y:210,w:120,h:60,t:'Varanda'},
+]);
+
+/* ---------- nav ativa ao rolar ---------- */
+const secs=[...document.querySelectorAll('section[id],header[id]')];
+const links=[...document.querySelectorAll('.navlinks a')];
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){
+    const id=e.target.id;
+    links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+id));
+  }});
+},{rootMargin:'-45% 0px -50% 0px'});
+secs.forEach(s=>io.observe(s));
+
+/* ---------- form ---------- */
+document.getElementById('leadform').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(!f.nome.value||!f.tel.value||!f.email.value){f.reportValidity?.();return;}
+  f.style.display='none';
+  document.getElementById('formok').style.display='block';
+});
+
+/* ---------- burger (mobile) ---------- */
+document.querySelector('.burger').addEventListener('click',()=>{
+  const nl=document.querySelector('.navlinks');
+  const open=nl.style.display==='flex';
+  nl.style.display=open?'none':'flex';
+  if(!open){nl.style.position='absolute';nl.style.flexDirection='column';nl.style.top='48px';nl.style.left='0';nl.style.right='0';nl.style.background='#fff';nl.style.padding='16px 22px';nl.style.borderBottom='1px solid var(--linha)';nl.style.gap='14px';}
+});
+</script>
+</body>
+</html>
