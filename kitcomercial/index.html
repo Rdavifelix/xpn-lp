@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kit Comercial – João Araújo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    /* ── reset & globals ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; overflow-x: hidden; font-family: 'Montserrat', sans-serif; background: #000; color: #fff; }
+
+    body::-webkit-scrollbar { width: 12px; }
+    body::-webkit-scrollbar-track { background: #202020; }
+    body::-webkit-scrollbar-thumb { background-color: #9F825A; border-radius: 10px; border: 2px solid #202020; }
+
+    *::selection { color: #13241E; background: #7FBD98; }
+    p:last-child { margin-bottom: 0; }
+    img { max-width: 100%; display: block; }
+
+    /* ── utility ── */
+    .degrade-color {
+      padding-right: 0.05em;
+      background-image: linear-gradient(139deg, #9F825A 0%, #F0ECE3 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2em; }
+    .text-center { text-align: center; }
+
+    /* ── animated CTA button ── */
+    @keyframes textura {
+      0%   { background-position: 0 0; }
+      100% { background-position: 100% 0; }
+    }
+    .btn-gold, .btn-green {
+      display: inline-block;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1em;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      background-size: 400% 200%;
+      transition: all .8s;
+      animation: textura 3.4s cubic-bezier(0.2, 0.5, 0.9, 0.6) 2s infinite normal none running;
+    }
+    .btn-gold {
+      background-image: linear-gradient(45deg, #9F825A, #7FBD98, #9F825A, #7FBD98);
+    }
+    .btn-gold:hover { box-shadow: 0 0 15px 1px #F0ECE3; }
+    .btn-green {
+      background-image: linear-gradient(45deg, #57fd32, #03891a, #57fd32, #03891a);
+    }
+    .btn-green:hover { box-shadow: 0 0 15px 1px #57fd32; }
+
+    /* ══════════════════════════════════════
+       SECTION 1 – HERO
+    ══════════════════════════════════════ */
+    #hero {
+      min-height: 714px;
+      background: #000 url('https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/BG-01-9.jpg') no-repeat top center / cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 20px;
+      padding: 6em 2em;
+    }
+    #hero .logo { width: auto; max-width: 180px; margin-bottom: 1em; }
+    #hero h1 {
+      font-size: 2.4em;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      max-width: 512px;
+    }
+    #hero .subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      color: #FBFBFB;
+      max-width: 500px;
+    }
+    #hero .subtitle b { font-weight: 700; }
+
+    /* ══════════════════════════════════════
+       SECTION 2 – ABOUT / STORY
+    ══════════════════════════════════════ */
+    #about {
+      background: #000 url('https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/BG-02-3.jpg') no-repeat top center / cover;
+      padding: 6em 2em;
+    }
+    #about .inner {
+      max-width: 600px;
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    #about h2 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #fff;
+    }
+    #about p { font-size: 15px; font-weight: 400; color: #fff; line-height: 1.6; }
+
+    /* ══════════════════════════════════════
+       SECTION 3 – BEFORE / AFTER
+    ══════════════════════════════════════ */
+    #comparison {
+      background: #fff;
+      padding: 5em 2em;
+      border-width: 8px 0;
+      border-style: solid;
+      border-image: linear-gradient(to right, #9F825A, #F0ECE3) 1;
+    }
+    #comparison .cards {
+      display: flex;
+      gap: 20px;
+      max-width: 1136px;
+      margin: 0 auto;
+    }
+    .card-box {
+      flex: 1;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-box.after { border-color: #52CFA3; border-radius: 44px 14px 14px 14px; }
+    .card-box.before { border-color: #E4E4E4; border-radius: 14px 14px 44px 14px; }
+    .card-header {
+      padding: 33px;
+      text-align: center;
+    }
+    .card-header.after-header {
+      background: linear-gradient(128deg, #7FBD98, #13241E);
+    }
+    .card-header.before-header { background: #F7F7F7; }
+    .card-header h3 { font-size: 22px; font-weight: 700; }
+    .card-header.after-header h3 { color: #fff; }
+    .card-header.before-header h3 { color: #ADADAD; text-transform: uppercase; }
+    .card-body { padding: 33px; background: #fff; }
+    .check-list, .cross-list { list-style: none; display: flex; flex-direction: column; gap: 19px; }
+    .check-list li, .cross-list li { display: flex; align-items: baseline; gap: 10px; font-size: 15px; }
+    .check-list li i { color: #12900E; font-size: 23px; flex-shrink: 0; }
+    .cross-list li { color: #ADADAD; }
+    .cross-list li i { color: #ADADAD; font-size: 23px; flex-shrink: 0; }
+
+    /* ══════════════════════════════════════
+       SECTION 4 – BENEFITS
+    ══════════════════════════════════════ */
+    #benefits {
+      background: #000 url('https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/BG-03-2.jpg') no-repeat top center / cover;
+      padding: 6em 2em;
+    }
+    #benefits .inner { max-width: 520px; display: flex; flex-direction: column; gap: 14px; }
+    #benefits h2 {
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 36px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .benefit-item {
+      background: linear-gradient(97deg, #000, #333);
+      border: 1px solid #6D6D6D;
+      border-radius: 9px;
+      padding: 1em;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 15px;
+      color: #fff;
+    }
+    .benefit-item i { color: #7FBD98; font-size: 18px; flex-shrink: 0; }
+    #benefits .footnote {
+      font-size: 15px;
+      color: #fff;
+      text-decoration: underline;
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION 5 – BONUSES
+    ══════════════════════════════════════ */
+    #bonuses {
+      background: #000;
+      padding: 1em 0 14em;
+      border-bottom: 1px solid #353535;
+    }
+    #bonuses h2 {
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 32px;
+      text-align: center;
+      color: #fff;
+      max-width: 500px;
+      margin: 0 auto 3em;
+      padding: 0 1em;
+    }
+    .bonus-row {
+      display: flex;
+      align-items: center;
+      border-width: 1px 0;
+      border-style: solid;
+    }
+    .bonus-row.left {
+      border-image: linear-gradient(to right, transparent, #303030) 1;
+      background: linear-gradient(294deg, #000 48%, #7FBD98);
+    }
+    .bonus-row.right {
+      border-image: linear-gradient(to left, transparent, #303030) 1;
+      background: linear-gradient(110deg, #000 39%, #7FBD98);
+      flex-direction: row-reverse;
+    }
+    .bonus-row + .bonus-row { margin-top: 1px; }
+    .bonus-img-wrap { width: 50%; flex-shrink: 0; overflow: hidden; }
+    .bonus-img-wrap img {
+      width: 96%;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 17px;
+      margin: -2em 0 -1em;
+    }
+    .bonus-row.right .bonus-img-wrap img { margin: -2em 0; }
+    .bonus-content { flex: 1; padding: 2em; display: flex; flex-direction: column; gap: 8px; }
+    .bonus-label {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .bonus-content h3 { font-size: 22px; font-weight: 700; color: #fff; line-height: 27px; }
+    .bonus-content p { font-size: 15px; color: #fff; line-height: 1.6; }
+
+    /* ══════════════════════════════════════
+       SECTION 6 – PRICING / CTA
+    ══════════════════════════════════════ */
+    #cta {
+      background: linear-gradient(90deg, #9F825A, #F0ECE3);
+      padding: 14em 2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cta-card {
+      background: #131313;
+      border: 1px solid #414141;
+      border-radius: 25px;
+      padding: 2em;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      gap: 2em;
+      align-items: flex-start;
+    }
+    .cta-left { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .cta-left h3 {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .cta-items { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .cta-items li { display: flex; align-items: baseline; gap: 8px; font-size: 15px; color: #fff; }
+    .cta-items li i { color: #18FF00; font-size: 17px; flex-shrink: 0; }
+    .cta-items li del { color: #ef595b; }
+    .cta-right {
+      flex: 1;
+      background: transparent;
+      border-radius: 20px;
+      padding: 20px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+    .cta-right::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(0deg, #9F825A 7%, rgba(217,188,102,0) 65%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+    .cta-right .bonus-img { width: 100%; margin-top: -7em; margin-bottom: 0; }
+    .cta-price-from { font-size: 19px; color: #fff; text-align: center; }
+    .cta-price-from del { color: #ef595b; font-weight: 700; }
+    .cta-price-main {
+      font-size: 4.4em;
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      line-height: 1;
+    }
+    .cta-price-main .prefix { font-size: 25px; vertical-align: top; }
+    .cta-price-cash { font-size: 25px; color: #fff; text-align: center; }
+    .cta-available {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 3.7px;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION 7 – 4 REASONS
+    ══════════════════════════════════════ */
+    #reasons {
+      background: #000;
+      padding: 6em 2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2em;
+    }
+    #reasons h2 {
+      font-size: 27px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      text-align: center;
+      max-width: 604px;
+      line-height: 36px;
+    }
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .reason-card {
+      background: linear-gradient(105deg, #fff, #F1F1F1);
+      border: 1px solid #DADADA;
+      border-radius: 15px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .reason-card .icon-num {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(226deg, #3A0441, #23062C);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6em;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .reason-card p { font-size: 15px; color: #0E0E0E; line-height: 1.5; }
+    #reasons .btn-gold { margin-top: 1em; padding: 20px 30px; text-align: center; }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      background: #000;
+      border-top: 1px solid #404040;
+      padding: 2em;
+      text-align: center;
+    }
+    footer p {
+      font-size: 0.8em;
+      color: rgba(255,255,255,0.36);
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 900px) {
+      #hero h1 { font-size: 1.7em; }
+      #about .inner { margin-left: 0; max-width: 100%; }
+      #comparison .cards { flex-direction: column; }
+      .bonus-row, .bonus-row.right { flex-direction: column; }
+      .bonus-img-wrap { width: 100%; }
+      .bonus-img-wrap img { margin: -2em -1.5em 0; width: calc(100% + 3em); }
+      .cta-card { flex-direction: column; }
+      .cta-right .bonus-img { margin-top: 2em; }
+      .reasons-grid { grid-template-columns: 1fr 1fr; }
+      #reasons h2 { font-size: 23px; }
+    }
+    @media (max-width: 600px) {
+      #hero h1 { font-size: 1.7em; }
+      #hero { padding: 3em 1em; }
+      #about { padding: 3em 1em; }
+      #benefits { padding: 3em 1em; }
+      .btn-gold, .btn-green { font-size: 0.9em; padding: 18px 20px; }
+      .reasons-grid { grid-template-columns: 1fr; }
+      .cta-price-main { font-size: 3.4em; }
+      .cta-right { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <img
+    class="logo"
+    src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/logo-2.png"
+    alt="Logo João Araújo"
+  />
+  <h1>TENHA ACESSO AO KIT DE GESTÃO COMERCIAL USADO DENTRO DA MINHA EMPRESA</h1>
+  <p class="subtitle">
+    <b>ATENÇÃO:</b> O kit a seguir já foi responsável pelo fechamento e controle de mais de 5 milhões em infoprodutos e serviços.
+  </p>
+  <a href="#cta" class="btn-gold" style="align-self:flex-start;">QUERO TER ACESSO AGORA!</a>
+</section>
+
+<!-- ══ ABOUT / STORY ══ -->
+<section id="about">
+  <div class="inner">
+    <h2>Foi graças ao Template de Call Híbrida que alcançamos 80% de conversão em meus funis, e ele fará o mesmo por você.</h2>
+    <p>
+      Meu nome é <b>João Araújo.</b> E assim como muitos que trabalham com time comercial enfrentei desafios que ameaçavam a estabilidade do meu negócio, desde a falta de dados decisivos até chamadas de vendas pouco eficazes. Foi quando decidi intervir, aplicando uma abordagem que não apenas aprimorou as interações de vendas, mas disparou as taxas de conversão para 80%.
+    </p>
+    <p>
+      Com o sucesso dessas inovações, vi a necessidade de estender essas melhorias para toda minha equipe. Implementamos um sistema de gestão e treinamento que estabilizou a taxa de conversão em até 80%.
+    </p>
+    <p>
+      Essa mudança em meu negócio foi alcançada através de três poderosas ferramentas que transformarão também o seu empreendimento. E eu compilei elas no Kit Comercial, um leque de ferramentas que vai acelerar o seu negócio.
+    </p>
+  </div>
+</section>
+
+<!-- ══ BEFORE / AFTER ══ -->
+<section id="comparison">
+  <div class="cards">
+    <!-- DEPOIS -->
+    <div class="card-box after">
+      <div class="card-header after-header">
+        <h3>DEPOIS DO KIT COMERCIAL</h3>
+      </div>
+      <div class="card-body">
+        <ul class="check-list">
+          <li><i class="far fa-check-circle"></i><span>As calls eram mais engajadas e objetivas.</span></li>
+          <li><i class="far fa-check-circle"></i><span>Alcançamos uma conversão de 80% nas calls.</span></li>
+          <li><i class="far fa-check-circle"></i><span>Vendo infoprodutos junto com serviços, maximizando o lucro.</span></li>
+          <li><i class="far fa-check-circle"></i><span>Tenho todos os dados de cada funil na palma da minha mão, trazendo direcionamento e precisão.</span></li>
+          <li><i class="far fa-check-circle"></i><span>Explodo meu faturamento e ROI, sem deixar nada na mesa.</span></li>
+        </ul>
+      </div>
+    </div>
+    <!-- ANTES -->
+    <div class="card-box before">
+      <div class="card-header before-header">
+        <h3>ANTES DO KIT COMERCIAL</h3>
+      </div>
+      <div class="card-body">
+        <ul class="cross-list">
+          <li><i class="far fa-times-circle"></i><span>Calls fracas, leads pouco engajados e distantes.</span></li>
+          <li><i class="far fa-times-circle"></i><span>Conversão baixa - muita energia para pouca venda.</span></li>
+          <li><i class="far fa-times-circle"></i><span>Deixo muito dinheiro na mesa.</span></li>
+          <li><i class="far fa-times-circle"></i><span>Não lido com dados, não controlo os clientes, perco na gestão e tomo decisões com menos certeza e mais achismo.</span></li>
+          <li><i class="far fa-times-circle"></i><span>Faturamento e ROI's baixos ou medíocres.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BENEFITS ══ -->
+<section id="benefits">
+  <div class="inner">
+    <h2>Com o KIT COMERCIAL te garanto que você vai</h2>
+    <div class="benefit-item"><i class="fas fa-arrow-right"></i><span>Aumentar sua conversão de call chegando aos 80%.</span></div>
+    <div class="benefit-item"><i class="fas fa-arrow-right"></i><span>Ter um time comercial mais capacitado, eficiente e engajado.</span></div>
+    <div class="benefit-item"><i class="fas fa-arrow-right"></i><span>Tomar decisões estratégicas baseada em dados, garantindo mais resultado.</span></div>
+    <div class="benefit-item"><i class="fas fa-arrow-right"></i><span>Entender o estilo híbrido para vender mentorias, infoprodutos e serviços, tudo ao mesmo tempo.</span></div>
+    <div class="benefit-item"><i class="fas fa-arrow-right"></i><span>Levar seu faturamento a níveis que nunca pensou ser possível.</span></div>
+    <p class="footnote"><u>Tudo isso sem perder o controle de nada, com uma gestão potencializada por ferramentas inteligentes e práticas.</u></p>
+  </div>
+</section>
+
+<!-- ══ BONUSES ══ -->
+<section id="bonuses">
+  <h2>ALÉM DE AUMENTAR SUA CONVERSÃO AOS 80%, VOCÊ TAMBÉM RECEBERÁ BÔNUS QUE VÃO ACELERAR SEU NEGÓCIO</h2>
+
+  <!-- Bonus 1 -->
+  <div class="bonus-row left">
+    <div class="bonus-img-wrap">
+      <img src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/02-1.jpg" alt="Bônus 1" />
+    </div>
+    <div class="bonus-content">
+      <span class="bonus-label">Bônus 1</span>
+      <h3>Painel de gerenciamento dos dados comerciais.</h3>
+      <p>A melhor forma de ter controle e previsibilidade na sua operação, você receberá a mesma planilha que uso em minha equipe. Basta preencher com seus dados, e verá com clareza onde estão os problemas e quais as soluções.</p>
+    </div>
+  </div>
+
+  <!-- Bonus 2 -->
+  <div class="bonus-row right">
+    <div class="bonus-img-wrap">
+      <img src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/03-1.jpg" alt="Bônus 2" />
+    </div>
+    <div class="bonus-content">
+      <span class="bonus-label">Bônus 2</span>
+      <h3>Script de call 80% de conversão.</h3>
+      <p>A melhor maneira de extrair o máximo possível de suas calls. O script de call de vendas que já nos gerou 80% de conversão. Com ele seus closers terão maior conversa e segurança.</p>
+    </div>
+  </div>
+
+  <!-- Bonus 3 -->
+  <div class="bonus-row left">
+    <div class="bonus-img-wrap">
+      <img src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/04.jpg" alt="Bônus 3" />
+    </div>
+    <div class="bonus-content">
+      <span class="bonus-label">Bônus 3</span>
+      <h3>Encontro ao vivo – organização e estruturação comercial.</h3>
+      <p>Um encontro ao vivo onde irei explicar tudo sobre organização e estruturação de um time comercial: a contração, treinamento, decisão com base em dados, cultura e gestão.</p>
+    </div>
+  </div>
+
+  <!-- Bonus 4 -->
+  <div class="bonus-row right">
+    <div class="bonus-img-wrap">
+      <img src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/01-1.jpg" alt="Bônus 4" />
+    </div>
+    <div class="bonus-content">
+      <span class="bonus-label">Bônus 4</span>
+      <h3>Rotina e playbook para gestão comercial.</h3>
+      <p>Tenha acesso a uma rotina que vai aumentar a performance de sua equipe, trazendo mais clareza, bem estar e motivação. Além de receber um playbook para maximizar a performance de seu time.</p>
+    </div>
+  </div>
+
+  <!-- Bonus 5 -->
+  <div class="bonus-row left">
+    <div class="bonus-img-wrap">
+      <img src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/05.jpg" alt="Bônus 5" />
+    </div>
+    <div class="bonus-content">
+      <span class="bonus-label">Bônus 5 — <b>LIMITADO!</b></span>
+      <h3>Análise do seu negócio personalizada.</h3>
+      <p>Um estrategista ou gestor comercial irá analisar de perto o seu negócio para trazer soluções que multipliquem seu faturamento e lucro <b>em até 30x.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING / CTA ══ -->
+<section id="cta">
+  <div class="cta-card">
+    <!-- left: summary -->
+    <div class="cta-left">
+      <h3>OU SEJA, ISSO É TUDO O QUE IRÁ LEVAR AO ADQUIRIR O <span class="degrade-color">KIT COMERCIAL</span> NESTA PÁGINA:</h3>
+      <ul class="cta-items">
+        <li><i class="fas fa-check"></i><span>Painel de Gerenciamento dos Dados Comerciais – <del>R$147,00</del></span></li>
+        <li><i class="fas fa-check"></i><span>Script de Call 80% de Conversão – <del>R$297,00</del></span></li>
+        <li><i class="fas fa-check"></i><span>Organização e Estruturação Comercial – <del>R$397,00</del></span></li>
+        <li><i class="fas fa-check"></i><span>Rotina e Playbook para Gestão Comercial – <del>R$97,00</del></span></li>
+        <li><i class="fas fa-check"></i><span>Análise do Seu Negócio Personalizada – <del>R$997,00</del></span></li>
+      </ul>
+    </div>
+
+    <!-- right: price box -->
+    <div class="cta-right">
+      <img
+        class="bonus-img"
+        src="https://portfolio.dudspng.com.br/wp-content/uploads/2024/06/bonus-juntos-1.png"
+        alt="Todos os bônus"
+      />
+      <p class="cta-price-from">de <del><b>R$1.935,00</b></del> por apenas</p>
+      <p class="cta-price-main">
+        <span class="prefix">12x&nbsp;de&nbsp;</span><span class="degrade-color"><b>R$9,70</b></span>
+      </p>
+      <p class="cta-price-cash">ou R$97,00 à vista</p>
+      <a href="#" class="btn-green" style="width:100%;text-align:center;margin-top:12px;">
+        QUERO TER 80% DE CONVERSÃO EM MINHAS CALLS
+      </a>
+      <p class="cta-available">Disponível &nbsp;<b>Por tempo limitado!</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 REASONS ══ -->
+<section id="reasons">
+  <h2><span class="degrade-color">4 MOTIVOS</span> PARA PEGAR O KIT COMERCIAL AGORA.</h2>
+  <div class="reasons-grid">
+    <div class="reason-card">
+      <div class="icon-num">1</div>
+      <p>Investir R$127 é uma alternativa mais econômica do que continuar com conversões baixas e uma gestão comercial ineficaz.</p>
+    </div>
+    <div class="reason-card">
+      <div class="icon-num">2</div>
+      <p>Se eu aumentar sua conversão em 1%, já pagaria o custo. Além disso, aprendi que os processos da empresa sempre podem melhorar.</p>
+    </div>
+    <div class="reason-card">
+      <div class="icon-num">3</div>
+      <p>Se adiar essa decisão, lembre-se de que seus concorrentes também terão acesso a esta página, e poderão roubar seus clientes usando o template.</p>
+    </div>
+    <div class="reason-card">
+      <div class="icon-num">4</div>
+      <p>Você terá acesso a bônus que valem mais que o próprio template. Desenvolvidos para garantir os melhores resultados.</p>
+    </div>
+  </div>
+  <a href="#cta" class="btn-gold">QUERO TER ACESSO AO TEMPLATE DE CALL HÍBRIDA AGORA</a>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>Copyright 2024 – João Araújo ® Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>
