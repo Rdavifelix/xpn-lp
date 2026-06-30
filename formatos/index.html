@@ -17,7 +17,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>28 Formatos que Agendam · João Araújo</title>
+<title>Formatos que Agendam · Máquina de Reuniões</title>
 <meta name="description" content="28 formatos de anúncio que já agendaram reunião. Exemplo real linkado na Biblioteca do Meta + prompt de IA pronto pra você publicar o seu hoje. Por R$47." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -192,6 +192,7 @@ section{position:relative}
 .fmt-card .prompt .c{color:var(--orange-dim)}
 .fmt-card .prompt .cursor{display:inline-block;width:7px;height:13px;background:var(--orange);vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
+@keyframes saw-loop{0%{stroke-dashoffset:var(--len,400)}48%{stroke-dashoffset:0}70%{stroke-dashoffset:0}100%{stroke-dashoffset:var(--len,400)}}
 
 /* ═══════════════ 4 · CUSTO ═══════════════ */
 .cost{background:var(--s1);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
@@ -712,10 +713,13 @@ section{position:relative}
   },{threshold:0.5});
   document.querySelectorAll('.ct').forEach(function(el){ cio.observe(el); });
 
-  // ── sawtooth draw-in
+  // ── sawtooth em loop (desenha, segura, volta ao início, repete)
   var saw=document.getElementById('saw');
-  if(saw){ var len=saw.getTotalLength(); saw.style.strokeDasharray=len; saw.style.strokeDashoffset=len; saw.style.transition='stroke-dashoffset 1.6s var(--ease)';
-    var sio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ saw.style.strokeDashoffset=0; sio.unobserve(e.target); } }); },{threshold:0.4});
+  if(saw){ var len=saw.getTotalLength(); saw.style.strokeDasharray=len; saw.style.strokeDashoffset=len; saw.style.setProperty('--len',len);
+    var sio=new IntersectionObserver(function(es){ es.forEach(function(e){
+      if(e.isIntersecting){ saw.style.animation='saw-loop 4.4s cubic-bezier(0.22,1,0.36,1) infinite'; }
+      else { saw.style.animation='none'; saw.style.strokeDashoffset=len; }
+    }); },{threshold:0.2});
     sio.observe(saw);
   }
 })();
