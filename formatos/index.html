@@ -127,11 +127,22 @@ section{position:relative}
   linear-gradient(180deg,rgba(10,9,8,.7),rgba(10,9,8,.95));}
 .hero-glow{position:absolute;z-index:1;width:760px;height:760px;left:50%;top:-10%;transform:translateX(-50%);
   background:radial-gradient(circle,rgba(229,120,42,.16),transparent 60%);filter:blur(20px);pointer-events:none}
-.hero-in{position:relative;z-index:2;max-width:980px;margin:0 auto;text-align:center;padding:0 28px}
+.hero-in{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,56px);align-items:center}
+.hero-text{text-align:left;min-width:0}
+.hero-text .hero-cta{align-items:flex-start}
+.hero-figure{position:relative;align-self:end;justify-self:center;width:100%}
+.hero-figure img{display:block;width:100%;max-width:440px;margin:0 auto;height:auto;filter:drop-shadow(0 26px 55px rgba(0,0,0,.55))}
+@media(max-width:880px){
+  .hero-in{grid-template-columns:1fr;gap:26px;text-align:center}
+  .hero-text{text-align:center}
+  .hero-text .hero-cta{align-items:center}
+  .hero-text h1{margin:0 auto}
+  .hero-figure img{max-width:280px}
+}
 .hero .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid var(--border);border-radius:100px;background:rgba(20,18,16,.6);margin-bottom:34px}
 .hero .eyebrow .d{width:5px;height:5px;border-radius:50%;background:var(--orange)}
 .hero .eyebrow span{font-family:var(--mono);font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-2)}
-.hero h1{font-family:var(--sans);font-weight:700;font-size:clamp(32px,5.2vw,66px);line-height:1.08;letter-spacing:-0.02em;text-transform:none;margin:0 auto;max-width:16ch}
+.hero h1{font-family:var(--sans);font-weight:700;font-size:clamp(30px,4.2vw,54px);line-height:1.08;letter-spacing:-0.02em;text-transform:none;margin:0;max-width:16ch}
 .hero h1 .num{color:var(--orange);font-style:normal}
 .hero h1 .li{font-style:normal;color:var(--orange)}
 .hero-sub{margin:30px auto 0;max-width:620px;font-size:clamp(15px,1.7vw,18px);line-height:1.62;color:var(--text-2)}
@@ -401,12 +412,15 @@ section{position:relative}
   <div class="hero-glow"></div>
   <div class="hero-veil"></div>
   <div class="hero-in">
-    <div class="eyebrow rev"><span class="d"></span><span>Exclusivo para quem quer gerar reuniões com qualidade e direção</span></div>
-    <h1 class="rev">Gere <span class="num">reuniões qualificadas</span> até 5x mais baratas usando esses formatos <span class="li">validados</span> de anúncios</h1>
-    <div class="hero-cta rev">
-      <a href="#CHECKOUT" class="btn btn-primary btn-lg">QUERO ACESSO AOS FORMATOS <span class="arr">→</span></a>
-      <div class="micro">Aplicável em qualquer nicho <span class="sep">·</span> Garantia de 7 dias <span class="sep">·</span> <b>Modelos validados para gerar reuniões</b></div>
+    <div class="hero-text">
+      <div class="eyebrow rev"><span class="d"></span><span>Exclusivo para quem quer gerar reuniões com qualidade e direção</span></div>
+      <h1 class="rev">Gere <span class="num">reuniões qualificadas</span> até 5x mais baratas usando esses formatos <span class="li">validados</span> de anúncios</h1>
+      <div class="hero-cta rev">
+        <a href="#CHECKOUT" class="btn btn-primary btn-lg">QUERO ACESSO AOS FORMATOS <span class="arr">→</span></a>
+        <div class="micro">Aplicável em qualquer nicho <span class="sep">·</span> Garantia de 7 dias <span class="sep">·</span> <b>Modelos validados para gerar reuniões</b></div>
+      </div>
     </div>
+    <div class="hero-figure rev"><img src="assets/joao-mic.png" alt="João Araújo apresentando com microfone" /></div>
   </div>
 </header>
 
