@@ -101,10 +101,24 @@ h1{
 
 /* ═══════════════ VÍDEO ═══════════════ */
 .video-wrap{margin:clamp(30px,4.4vw,48px) auto 0;max-width:600px}
+.video-shell{position:relative}
 .video-player{
   width:100%;aspect-ratio:16/9;display:block;object-fit:cover;background:#000;
   border:1px solid var(--border);border-radius:10px;
   box-shadow:0 30px 70px -34px rgba(0,0,0,.8);
+}
+.unmute{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-weight:600;font-size:14px;color:#160C04;
+  background:var(--orange);border:none;border-radius:100px;padding:12px 22px;cursor:pointer;
+  z-index:3;transition:transform .2s var(--ease),opacity .35s;animation:unpulse 2.2s infinite;
+}
+.unmute:hover{transform:translate(-50%,-50%) scale(1.05)}
+.unmute.hide{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.9)}
+@keyframes unpulse{
+  0%,100%{box-shadow:0 0 0 8px rgba(229,120,42,.14),0 14px 34px -10px rgba(229,120,42,.7)}
+  50%{box-shadow:0 0 0 15px rgba(229,120,42,.04),0 14px 34px -10px rgba(229,120,42,.7)}
 }
 
 /* ═══════════════ FORM ═══════════════ */
@@ -161,10 +175,15 @@ footer .meta{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-tra
     <p class="lead rev">Assista ao vídeo abaixo para entender como liberar seu <b>Bônus único</b>:</p>
 
     <div class="video-wrap rev">
-      <video class="video-player" controls preload="metadata" playsinline poster="assets/obrigado-poster.jpg">
-        <source src="assets/obrigado-video.mp4" type="video/mp4" />
-        Seu navegador não suporta vídeo HTML5.
-      </video>
+      <div class="video-shell">
+        <video id="vsl" class="video-player" autoplay muted playsinline controls preload="auto" poster="assets/obrigado-poster.jpg">
+          <source src="assets/obrigado-video.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo HTML5.
+        </video>
+        <button type="button" class="unmute" id="unmute" aria-label="Ativar som">
+          <span aria-hidden="true">🔊</span> Ativar som
+        </button>
+      </div>
     </div>
 
     <p class="form-intro rev">Para garantir de fato essa análise, responda <b>da forma mais completa possível</b> as seguintes perguntas:</p>
@@ -190,6 +209,14 @@ const io=new IntersectionObserver((es)=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
 },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rev').forEach((el,i)=>{el.style.transitionDelay=(i*70)+'ms';io.observe(el)});
+
+/* autoplay mudo + botão "Ativar som" (autoplay com áudio é bloqueado pelos navegadores) */
+const vsl=document.getElementById('vsl'),un=document.getElementById('unmute');
+if(vsl&&un){
+  const hide=()=>un.classList.add('hide');
+  un.addEventListener('click',()=>{vsl.muted=false;vsl.volume=1;vsl.play().catch(()=>{});hide();});
+  vsl.addEventListener('volumechange',()=>{if(!vsl.muted&&vsl.volume>0)hide();});
+}
 </script>
 
 <!-- Embed oficial do Respondi (faz o auto-resize do formulário) -->
