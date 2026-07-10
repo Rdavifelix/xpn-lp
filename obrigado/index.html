@@ -99,24 +99,13 @@ h1{
 }
 .lead b{color:var(--text);font-weight:500}
 
-/* ═══════════════ VÍDEO (espaço reservado) ═══════════════ */
+/* ═══════════════ VÍDEO ═══════════════ */
 .video-wrap{margin:clamp(30px,4.4vw,48px) auto 0;max-width:600px}
-.video-ph{
-  position:relative;width:100%;aspect-ratio:16/9;
-  background:linear-gradient(160deg,var(--s2),var(--s1));
-  border:1px dashed var(--border);border-radius:10px;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
+.video-player{
+  width:100%;aspect-ratio:16/9;display:block;object-fit:cover;background:#000;
+  border:1px solid var(--border);border-radius:10px;
   box-shadow:0 30px 70px -34px rgba(0,0,0,.8);
 }
-.video-ph::before{content:"";position:absolute;inset:0;
-  background:radial-gradient(60% 60% at 50% 45%,rgba(229,120,42,.10),transparent 70%)}
-.video-ph .play{position:relative;z-index:1;width:72px;height:72px;border-radius:50%;
-  background:var(--orange);display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 0 10px rgba(229,120,42,.12),0 16px 40px -12px rgba(229,120,42,.6)}
-.video-ph .play::after{content:"";margin-left:5px;
-  border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #160C04}
-.video-ph .tag{position:absolute;bottom:14px;left:0;right:0;text-align:center;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3)}
 
 /* ═══════════════ FORM ═══════════════ */
 .form-intro{margin:clamp(38px,5.4vw,58px) auto 0;max-width:46ch;
@@ -172,10 +161,10 @@ footer .meta{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-tra
     <p class="lead rev">Assista ao vídeo abaixo para entender como liberar seu <b>Bônus único</b>:</p>
 
     <div class="video-wrap rev">
-      <div class="video-ph">
-        <span class="play"></span>
-        <span class="tag">Espaço do vídeo</span>
-      </div>
+      <video class="video-player" controls preload="metadata" playsinline poster="assets/obrigado-poster.jpg">
+        <source src="assets/obrigado-video.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo HTML5.
+      </video>
     </div>
 
     <p class="form-intro rev">Para garantir de fato essa análise, responda <b>da forma mais completa possível</b> as seguintes perguntas:</p>
