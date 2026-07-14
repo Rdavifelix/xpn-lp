@@ -1167,7 +1167,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 <script>
-(function(){var f=document.getElementById("nf-crm-fap-cadastro");if(!f)return;var p=new URLSearchParams(window.location.search);var u=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];var q=[];u.forEach(function(k){var v=p.get(k);if(v)q.push(k+"="+encodeURIComponent(v))});q.push("_lp="+encodeURIComponent(window.location.href));q.push("_ref="+encodeURIComponent(document.referrer||""));q.push("_t="+Date.now());f.src=f.src+(f.src.indexOf("?")>-1?"&":"?")+q.join("&");window.addEventListener("message",function(e){if(e.data&&e.data.type==="np-form-height"){f.style.height=e.data.height+"px"}})})();
+(function(){var f=document.getElementById("nf-crm-fap-cadastro");if(!f)return;var p=new URLSearchParams(window.location.search);var u=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];var q=[];u.forEach(function(k){var v=p.get(k);if(v)q.push(k+"="+encodeURIComponent(v))});q.push("_lp="+encodeURIComponent(window.location.href));q.push("_ref="+encodeURIComponent(document.referrer||""));q.push("_t="+Date.now());f.src=f.src+(f.src.indexOf("?")>-1?"&":"?")+q.join("&");window.addEventListener("message",function(e){if(!e.data)return;if(e.data.type==="np-form-height"||e.data.type==="crm-form-height"){f.style.height=e.data.height+"px"}if(e.data.type==="crm-form-redirect"&&typeof e.data.url==="string"&&e.data.url.indexOf("https://")===0){window.location.href=e.data.url}})})();
 </script>
 
 <script>
