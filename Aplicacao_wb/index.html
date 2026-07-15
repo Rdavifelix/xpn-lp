@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicação Webinar · XPN Digital</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --xpn-azul:          #1B4FD8;
+      --xpn-preto:         #000000;
+      --xpn-cinza-card:    #0C0F1A;
+      --xpn-dourado:       #C8A227;
+      --xpn-branco:        #FFFFFF;
+      --xpn-cinza-texto:   #F2F2F2;
+      --xpn-cinza-muted:   #8A8FA8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: clamp(32px, 6vw, 48px) 0 clamp(24px, 4vw, 32px);
+    }
+
+    .header-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--xpn-azul);
+      display: grid;
+      place-items: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--xpn-branco);
+    }
+
+    .header-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      color: var(--xpn-branco);
+    }
+
+    /* ===== HEADLINE ===== */
+    .hero {
+      padding: 0 0 clamp(28px, 5vw, 40px);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(200, 162, 39, 0.12);
+      border: 1px solid var(--xpn-dourado);
+      color: var(--xpn-dourado);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(12px, 1.4vw, 14px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(24px, 4.5vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--xpn-branco);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 span {
+      color: var(--xpn-dourado);
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.8vw, 16px);
+      color: var(--xpn-cinza-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ===== FORM ===== */
+    .form-section {
+      padding: 0 0 clamp(40px, 6vw, 56px);
+    }
+
+    .form-card {
+      background: var(--xpn-branco);
+      border: 1px solid rgba(200, 162, 39, 0.25);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ===== DISCLAIMER ===== */
+    .disclaimer {
+      padding: clamp(24px, 4vw, 36px) 0 clamp(32px, 5vw, 48px);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .disclaimer p {
+      font-size: 12px;
+      color: var(--xpn-cinza-muted);
+      line-height: 1.8;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-mark">X</div>
+    <div class="header-name">XPN Digital</div>
+  </div>
+
+  <section class="hero">
+    <span class="badge">Aplicação</span>
+    <h1>Preencha os dados abaixo para <span>garantir sua vaga</span> no webinar</h1>
+    <p class="hero-sub">Sua aplicação é analisada pela nossa equipe antes da confirmação. Responda com atenção.</p>
+  </section>
+
+  <section class="form-section">
+    <div class="form-card">
+      <!-- [WB] Aplicação Webinar (quiz) — CRM XPN (v5) -->
+      <style>
+        #crm-wb-aplicacao{pointer-events:auto!important;visibility:visible!important;opacity:1!important;position:static!important;left:auto!important;width:100%!important;min-width:0!important}
+        .dialog-message:has(#crm-wb-aplicacao){max-width:640px!important;width:100%!important}
+      </style>
+      <iframe
+        data-no-lazy="1"
+        style="width:100%;border:none;overflow:hidden;min-height:620px;background:#fff;border-radius:12px"
+        id="crm-wb-aplicacao" scrolling="no" allowtransparency="true"
+        title="Aplicação Webinar XPN"></iframe>
+      <script>(function(){var f=document.getElementById("crm-wb-aplicacao");if(!f)return;var BASE="https://crm.xpndigital.com/form/e508fcb5-523c-48d0-bb72-ad5a344f6165";var p=new URLSearchParams(window.location.search);var u=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];var q=[];u.forEach(function(k){var v=p.get(k);if(v)q.push(k+"="+encodeURIComponent(v))});q.push("_lp="+encodeURIComponent(window.location.href));q.push("_ref="+encodeURIComponent(document.referrer||""));q.push("_t="+Date.now());var URL_FINAL=BASE+"?"+q.join("&");f.src=URL_FINAL;setTimeout(function(){if(!f.src||f.src.indexOf("about:blank")===0){f.src=URL_FINAL}},1500);window.addEventListener("message",function(e){if(!e.data)return;if(e.data.type==="np-form-height"||e.data.type==="crm-form-height"){f.style.height=e.data.height+"px"}if(e.data.type==="crm-form-redirect"&&typeof e.data.url==="string"&&e.data.url.indexOf("https://")===0){window.location.href=e.data.url}})})();</script>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== DISCLAIMER ===== -->
+<footer class="disclaimer">
+  <div class="container">
+    <p>
+      Este site não é afiliado, endossado ou patrocinado pelo Facebook, Instagram ou qualquer plataforma de mídia social.<br>
+      XPN Digital &copy; 2026 &mdash; Todos os direitos reservados.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
