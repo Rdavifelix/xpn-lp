@@ -66,35 +66,42 @@
       padding: clamp(48px, 8vw, 72px) 0 clamp(28px, 4vw, 36px);
     }
 
-    .header-mark {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--xpn-azul-claro), var(--xpn-azul) 70%);
-      display: grid;
-      place-items: center;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 28px;
-      letter-spacing: -0.03em;
-      color: var(--xpn-branco);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.18),
-        0 22px 44px -14px rgba(27, 79, 216, 0.75),
-        0 0 70px -12px rgba(27, 79, 216, 0.55);
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      filter: drop-shadow(0 0 26px rgba(27, 79, 216, 0.55));
     }
 
-    .header-name {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 17px;
-      letter-spacing: 0.01em;
-      color: var(--xpn-branco);
-      text-shadow: 0 0 30px rgba(27, 79, 216, 0.55);
+    .logo-icon {
+      width: 70px;
+      height: auto;
+      flex-shrink: 0;
     }
 
-    .header-name span {
-      color: var(--xpn-dourado);
+    .logo-word {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo-word .l1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #F2EFE6;
+      margin-bottom: 4px;
+    }
+
+    .logo-word .l2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 30px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--xpn-branco);
     }
 
     /* ===== HEADLINE ===== */
@@ -199,8 +206,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="container">
 
   <div class="header">
-    <div class="header-mark">M</div>
-    <div class="header-name">Máquina de <span>Reuniões</span></div>
+    <div class="logo-lockup">
+      <svg class="logo-icon" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="35,5 95,5 65,145 5,145" fill="#EFE7D3"/>
+        <polygon points="100,5 160,5 130,145 70,145" fill="#EFE7D3"/>
+        <rect x="145" y="100" width="45" height="45" fill="#B4872E"/>
+      </svg>
+      <div class="logo-word">
+        <span class="l1">Máquina de</span>
+        <span class="l2">Reuniões</span>
+      </div>
+    </div>
   </div>
 
   <section class="hero">
