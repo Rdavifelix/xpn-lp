@@ -284,28 +284,37 @@ p{margin:0 0 18px}
 .modal{position:fixed;inset:0;z-index:100;display:none}
 .modal.aberto{display:block}
 .modal__bg{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
+/* O form do CRM é claro (bg branco, botão dourado #C29A4E),
+   então o modal usa superfície clara — não o dark da página. */
 .modal__cx{
   position:relative;z-index:2;
   width:min(520px,calc(100vw - 24px));
   max-height:calc(100dvh - 32px);
   margin:16px auto;
   top:50%;transform:translateY(-50%);
-  background:var(--bg-2);
+  background:#fff;
   border:1px solid color-mix(in srgb,var(--acento) 45%,transparent);
   border-radius:var(--raio-lg);
   box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
-  padding:26px 20px 18px;
+  padding:24px 18px 16px;
   overflow-y:auto;
   animation:sobe .28s cubic-bezier(.2,.8,.3,1);
 }
 @keyframes sobe{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
 .modal__x{
-  position:absolute;top:12px;right:12px;z-index:3;
-  width:34px;height:34px;border-radius:50%;
-  background:var(--bg-3);border:1px solid var(--linha);color:var(--txt);
-  font-size:1.3rem;line-height:1;cursor:pointer;display:grid;place-items:center;
+  position:absolute;top:10px;right:10px;z-index:3;
+  width:32px;height:32px;border-radius:50%;
+  background:#f1f3f6;border:1px solid #dfe3e9;color:#333;
+  font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
 }
-.modal__x:hover{background:var(--linha)}
+.modal__x:hover{background:#e4e8ee}
+
+/* O form do CRM não traz título próprio — este é o único da caixa. */
+.modal__tit{
+  text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;
+  margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25;
+}
+.modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
 /* min-height é só fallback caso o postMessage de altura não chegue.
    Fica abaixo da altura real do form para o resize sempre vencer. */
 .modal iframe{
@@ -313,8 +322,8 @@ p{margin:0 0 18px}
   display:block;background:transparent;
 }
 .modal__seg{
-  text-align:center;font-size:.78rem;color:var(--txt-2);
-  margin:12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px;
+  text-align:center;font-size:.78rem;color:#5b6472;
+  margin:4px 0 0;display:flex;align-items:center;justify-content:center;gap:6px;
 }
 body.travado{overflow:hidden}
 @media(max-width:520px){
