@@ -116,6 +116,36 @@ p{margin:0 0 18px}
 }
 .hero .wrap{position:relative;z-index:2}
 
+/* ---------- WIDGET DE EVENTO (data + formato) ----------
+   Usa var(--acento), então adapta sozinho à paleta de cada variante. */
+.evento{
+  display:inline-flex;flex-direction:column;gap:14px;
+  text-align:left;margin:0 auto 26px;
+  padding:18px 22px;
+  border-radius:var(--raio);
+  border:1px solid color-mix(in srgb,var(--acento) 38%,transparent);
+  background:
+    linear-gradient(180deg,color-mix(in srgb,var(--acento) 9%,transparent),transparent),
+    var(--bg-2);
+  box-shadow:0 18px 44px -26px color-mix(in srgb,var(--acento) 60%,transparent);
+}
+.evento__l{display:flex;align-items:center;gap:14px;font-size:clamp(.95rem,1.9vw,1.05rem);line-height:1.35}
+.evento__i{
+  flex:0 0 auto;width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;
+  background:color-mix(in srgb,var(--acento) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--acento) 26%,transparent);
+}
+.evento__i svg{width:21px;height:21px;stroke:var(--acento);fill:none;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.evento b{font-weight:800}
+@media(max-width:560px){
+  .evento{display:flex;width:100%;padding:16px 16px;gap:12px}
+  .evento__l{align-items:flex-start}
+  .evento__i{width:34px;height:34px;border-radius:9px}
+  .evento__i svg{width:19px;height:19px}
+}
+
 /* ---------- MÉTRICAS ---------- */
 .metricas{
   display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
