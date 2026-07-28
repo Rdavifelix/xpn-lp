@@ -16,6 +16,7 @@
 
   function abrir(pos) {
     if (!modal) return;
+    carregarForm();          // iframe só carrega quando o modal abre (ver bloco 2)
     ultimoFoco = document.activeElement;
     modal.classList.add('aberto');
     modal.setAttribute('aria-hidden', 'false');
@@ -58,9 +59,18 @@
      Mesmo contrato usado em lp2 / lp2-d / fap01:
      - repassa UTMs + gclid/fbclid + url da LP e referrer pro iframe
      - ajusta altura via postMessage 'np-form-height' / 'crm-form-height'
-     - obedece redirect pós-envio via 'crm-form-redirect'                */
+     - obedece redirect pós-envio via 'crm-form-redirect'
+
+     O src fica em data-src e só é aplicado quando o modal abre. Se o iframe
+     carregar escondido ele se mede como 0px de altura, manda height:0 e nunca
+     mais remede — o form ficava espremido com scroll interno.                */
   var form = document.getElementById('nf-crm-wb-cadastro');
-  if (form) {
+
+  function carregarForm() {
+    if (!form || form.getAttribute('src')) return;   // já carregado
+    var base = form.getAttribute('data-src');
+    if (!base) return;
+
     var par = new URLSearchParams(window.location.search);
     var chaves = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
                   'gclid', 'fbclid', '_gl', 'ttclid', 'msclkid', 'li_fat_id'];
@@ -72,12 +82,16 @@
     q.push('_lp=' + encodeURIComponent(window.location.href));
     q.push('_ref=' + encodeURIComponent(document.referrer || ''));
     q.push('_t=' + Date.now());
-    form.src = form.src + (form.src.indexOf('?') > -1 ? '&' : '?') + q.join('&');
 
+    form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+  }
+
+  if (form) {
     window.addEventListener('message', function (e) {
       if (!e.data) return;
       if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
-        form.style.height = e.data.height + 'px';
+        var h = parseInt(e.data.height, 10);
+        if (h > 0) form.style.height = h + 'px';     // ignora o 0 do estado escondido
       }
       if (e.data.type === 'crm-form-redirect' &&
           typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
