@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A matemática do funil: por que você paga R$ 500 por reunião | Funil Educativo</title>
+<meta name="description" content="A conta que explica por que seu CAC sobe e seu ticket não. Aula ao vivo e gratuita, 03 de agosto.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/estilo.css">
+
+<!-- Variante 3 — paleta azul (analítica / dados) -->
+<style>
+  :root{
+    --acento:#3d9bff;
+    --acento-2:#1f6fd0;
+    --acento-txt:#04121f;
+  }
+  /* Simulador */
+  .sim{
+    background:var(--bg-2);border:1px solid var(--linha);border-radius:var(--raio-lg);
+    padding:30px;max-width:840px;margin:0 auto;
+  }
+  .sim__campos{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:26px}
+  @media(max-width:640px){.sim__campos{grid-template-columns:1fr}}
+  .campo label{display:block;font-size:.82rem;font-weight:700;color:var(--txt-2);margin-bottom:7px}
+  .campo input{
+    width:100%;background:var(--bg-3);border:1px solid var(--linha);color:var(--txt);
+    border-radius:10px;padding:13px 14px;font-size:1rem;font-family:inherit;font-weight:700;
+  }
+  .campo input:focus{outline:2px solid var(--acento);outline-offset:-1px}
+  .sim__saida{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--linha);border-radius:12px;overflow:hidden}
+  @media(max-width:640px){.sim__saida{grid-template-columns:1fr}}
+  .sim__cel{background:var(--bg-3);padding:22px 18px}
+  .sim__cel h4{margin:0 0 14px;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase}
+  .sim__cel--a h4{color:var(--erro)}
+  .sim__cel--b h4{color:var(--acento)}
+  .sim__l{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding:7px 0;border-bottom:1px dashed var(--linha)}
+  .sim__l:last-of-type{border-bottom:0}
+  .sim__l span{color:var(--txt-2)}
+  .sim__big{margin-top:14px;padding-top:14px;border-top:2px solid var(--linha);font-size:1.35rem;font-weight:900;letter-spacing:-.02em}
+  .sim__cel--b .sim__big{color:var(--acento)}
+</style>
+
+<!-- ============ CONFIGURAÇÃO — EDITE AQUI ============ -->
+<script>
+window.CFG = { DATA_EVENTO: '2026-08-03T20:00:00-03:00' };   // data/hora da aula
+</script>
+
+<!-- ============ META PIXEL ============ -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','764164756172990'); fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=764164756172990&ev=PageView&noscript=1" alt=""></noscript>
+
+<!-- ============ GOOGLE TAG MANAGER ============ -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+</head>
+<body>
+
+<div class="barra-topo">
+  🔵 AULA AO VIVO • 03 DE AGOSTO, 20H • GRATUITA • ACESSO PELO GRUPO DO WHATSAPP
+</div>
+
+<!-- ================= HERO =================
+     IMAGEM: dashboard / planilha real com CAC, ticket e taxa de fechamento.
+     Emoção: rigor analítico. Zero foto de carro, relógio ou "estilo de vida".
+================================================= -->
+<header class="hero">
+  <div class="wrap centro">
+
+    <span class="eyebrow"><i class="ponto"></i> Para quem decide por número, não por promessa</span>
+
+    <h1>
+      Você paga <span class="grifo">R$ 500</span> por reunião<br>
+      e fecha <span class="grifo">30%</span> delas.
+    </h1>
+
+    <p class="lead lead--centro" style="margin:0 auto 34px">
+      Essa é a matemática do funil de sessão estratégica — e ela para de fechar
+      no momento em que você tenta escalar. Na aula do dia 03/08 eu abro a conta
+      linha por linha e mostro o <b>Funil Educativo</b>: mesmo investimento,
+      lead mais barato, muito mais quente, <b>ticket médio até 2x maior</b>.
+    </p>
+
+    <div class="cta-bloco">
+      <a class="btn btn--full" data-cta="hero" href="#">
+        ENTRAR NO GRUPO E RECEBER A PLANILHA DA CONTA →
+      </a>
+      <span class="cta-sub">🔒 Grupo silencioso. Só avisos da aula. Saia quando quiser.</span>
+    </div>
+
+    <div class="metricas">
+      <div class="metrica"><b>R$ 168k</b><span>vendidos em 18 dias com<br>uma única aula gravada</span></div>
+      <div class="metrica"><b>+300</b><span>reuniões consultivas reais<br>analisadas e destrinchadas</span></div>
+      <div class="metrica"><b>R$ 10 mi+</b><span>em vendas consultivas<br>na operação do João Araújo</span></div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= ONDE A CONTA QUEBRA ================= -->
+<section class="sec sec--alt">
+  <div class="wrap">
+    <div class="centro reveal">
+      <span class="eyebrow">O ponto de quebra</span>
+      <h2>Escalar tráfego não escala receita.<br>Escala <span class="grifo">curioso</span>.</h2>
+      <p class="lead lead--centro" style="margin:0 auto 40px">
+        Se você já tentou dobrar a verba e viu o CAC subir sem o ticket acompanhar,
+        você encontrou o teto estrutural do modelo — não um problema de criativo.
+      </p>
+    </div>
+
+    <ul class="dor reveal">
+      <li><b>Custo por reunião sobe com a verba.</b> Você compra o mesmo público, cada vez mais caro, com a mesma consciência baixa.</li>
+      <li><b>No-show corrói o CAC real.</b> Se 40% não aparece, sua reunião de R$ 500 custa R$ 833 na prática.</li>
+      <li><b>Taxa de fechamento fica travada.</b> O lead chega no mesmo nível de consciência de sempre, então converte na mesma taxa de sempre.</li>
+      <li><b>Ticket não sobe.</b> Sem valor construído antes, toda negociação começa e termina no preço.</li>
+      <li><b>Custo de time cresce junto.</b> Mais reuniões frias = mais closers = mais folha para a mesma receita líquida.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= SIMULADOR (engajamento + prova lógica) ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="centro reveal">
+      <span class="eyebrow">Faça a conta com os seus números</span>
+      <h2>Simule o seu funil agora</h2>
+      <p class="lead lead--centro" style="margin:0 auto 36px">
+        Coloque os números da sua operação e veja os dois cenários lado a lado.
+        A versão completa desta planilha vai para você no grupo.
+      </p>
+    </div>
+
+    <div class="sim reveal">
+      <div class="sim__campos">
+        <div class="campo">
+          <label for="verba">Investimento em tráfego (R$/mês)</label>
+          <input id="verba" type="number" value="10000" min="0" step="500">
+        </div>
+        <div class="campo">
+          <label for="cpr">Custo por reunião agendada (R$)</label>
+          <input id="cpr" type="number" value="500" min="1" step="10">
+        </div>
+        <div class="campo">
+          <label for="noshow">No-show atual (%)</label>
+          <input id="noshow" type="number" value="40" min="0" max="90" step="1">
+        </div>
+        <div class="campo">
+          <label for="fech">Taxa de fechamento (%)</label>
+          <input id="fech" type="number" value="30" min="1" max="100" step="1">
+        </div>
+        <div class="campo">
+          <label for="ticket">Ticket médio (R$)</label>
+          <input id="ticket" type="number" value="5000" min="1" step="100">
+        </div>
+        <div class="campo">
+          <label for="cpl">Custo por lead do evento (R$)</label>
+          <input id="cpl" type="number" value="12" min="1" step="1">
+        </div>
+      </div>
+
+      <div class="sim__saida">
+        <div class="sim__cel sim__cel--a">
+          <h4>✕ Funil de sessão estratégica</h4>
+          <div class="sim__l"><span>Reuniões agendadas</span><b id="oA1">—</b></div>
+          <div class="sim__l"><span>Reuniões realizadas</span><b id="oA2">—</b></div>
+          <div class="sim__l"><span>Contratos fechados</span><b id="oA3">—</b></div>
+          <div class="sim__l"><span>CAC real por cliente</span><b id="oA4">—</b></div>
+          <div class="sim__big" id="oA5">—</div>
+        </div>
+        <div class="sim__cel sim__cel--b">
+          <h4>✓ Funil Educativo</h4>
+          <div class="sim__l"><span>Leads na aula</span><b id="oB1">—</b></div>
+          <div class="sim__l"><span>Calls com lead educado</span><b id="oB2">—</b></div>
+          <div class="sim__l"><span>Contratos fechados</span><b id="oB3">—</b></div>
+          <div class="sim__l"><span>CAC real por cliente</span><b id="oB4">—</b></div>
+          <div class="sim__big" id="oB5">—</div>
+        </div>
+      </div>
+
+      <p class="pequeno" style="margin:18px 0 0">
+        Premissas do cenário educativo: 3,5% dos inscritos assistem e pedem call, no-show de 15%,
+        fechamento 1,35x maior e ticket 1,4x maior. Repare: o teto que eu cito lá em cima é 2x no ticket —
+        aqui eu rodo o <b>piso</b>, de propósito. Se a conta já fecha no cenário conservador,
+        ela fecha. Na aula eu mostro de onde vem cada premissa e como calibrar para o seu mercado.
+      </p>
+    </div>
+
+    <div class="cta-bloco">
+      <a class="btn btn--full" data-cta="simulador" href="#">QUERO A PLANILHA COMPLETA →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POR QUE FUNCIONA ================= -->
+<section class="sec sec--alt">
+  <div class="wrap">
+    <div class="centro reveal">
+      <span class="eyebrow">A razão por trás do número</span>
+      <h2>Toda essa diferença cabe em<br>uma variável: <span class="grifo">tempo de tela</span>.</h2>
+      <p class="lead lead--centro" style="margin:0 auto 44px">
+        Os melhores leads são os que têm mais relacionamento com você. Na internet,
+        relacionamento é medido em minutos de atenção. Um formulário compra 8 segundos.
+        Uma aula compra 60 minutos. É essa diferença que aparece no fechamento e no ticket.
+      </p>
+    </div>
+
+    <div class="grade grade--3 reveal">
+      <div class="card">
+        <div class="card__num">1</div>
+        <h3>Consciência elevada</h3>
+        <p>O lead entra na call sabendo o problema, o mecanismo e a faixa de investimento. A conversa começa três etapas à frente.</p>
+      </div>
+      <div class="card">
+        <div class="card__num">2</div>
+        <h3>Autoridade transferida</h3>
+        <p>Quem entrega o contexto é o fundador — a única pessoa que viveu o problema. Isso não é replicável por um SDR.</p>
+      </div>
+      <div class="card">
+        <div class="card__num">3</div>
+        <h3>Seleção natural</h3>
+        <p>Quem não tem compromisso não investe 60 minutos. O curioso se elimina de graça, antes de ocupar sua agenda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= O QUE VOCÊ VAI APRENDER ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="centro reveal">
+      <span class="eyebrow">Dia 03/08, 20h</span>
+      <h2>O que eu vou abrir na aula</h2>
+    </div>
+
+    <ul class="bens reveal" style="max-width:820px;margin:34px auto 0">
+      <li>A <b>conta completa dos dois funis</b>, com as premissas na mesa — de onde saiu cada percentual.</li>
+      <li>A <b>estrutura exata de 1 hora de aula</b> que faz o trabalho de 10 vendedores consultivos.</li>
+      <li>Como <b>hackear o tempo de tela</b> para transformar estranhos em leads que imploram pela solução.</li>
+      <li>Como <b>ancorar o ticket dentro da aula</b> — o mecanismo que dobra o valor médio do contrato.</li>
+      <li>A <b>automação que filtra curiosos</b> e envia para o seu WhatsApp apenas quem já validou o seu ticket.</li>
+      <li>Quais <b>métricas acompanhar</b> no CRM para saber, em 7 dias, se o funil educativo está funcionando.</li>
+      <li>Os <b>3 erros de estrutura</b> que fazem a aula não converter — e como corrigir cada um.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= BÔNUS IMEDIATO ================= -->
+<section class="sec sec--alt">
+  <div class="wrap">
+    <div class="centro reveal">
+      <span class="eyebrow">Entrega imediata</span>
+      <h2>Três materiais na hora que você entra</h2>
+      <p class="lead lead--centro" style="margin:0 auto 36px">
+        Antes da aula. Antes de qualquer oferta. Para você já rodar o cenário na sua operação.
+      </p>
+    </div>
+
+    <div class="bonus reveal" style="max-width:760px;margin:0 auto">
+      <div class="bonus__item">
+        <div class="bonus__ico">🧮</div>
+        <div><b>Planilha da Matemática do Funil</b><p>A versão completa do simulador acima, com projeção de 12 meses e ponto de equilíbrio.</p></div>
+        <div class="bonus__valor">na hora</div>
+      </div>
+      <div class="bonus__item">
+        <div class="bonus__ico">🗺️</div>
+        <div><b>Mapa Mental do Funil Educativo</b><p>O fluxo inteiro em uma página: anúncio → aula → filtro → call → contrato.</p></div>
+        <div class="bonus__valor">na hora</div>
+      </div>
+      <div class="bonus__item">
+        <div class="bonus__ico">📋</div>
+        <div><b>Script de Qualificação para CRM</b><p>As perguntas que separam comprador de curioso, prontas para colar no seu funil.</p></div>
+        <div class="bonus__valor">na hora</div>
+      </div>
+    </div>
+
+    <div class="cta-bloco">
+      <a class="btn btn--full" data-cta="bonus" href="#">ENTRAR E RECEBER OS 3 MATERIAIS →</a>
+      <span class="cta-sub">Envio automático assim que você entra no grupo.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AUTORIDADE ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="autor reveal">
+      <div class="autor__foto">[ FOTO JOÃO ARAÚJO<br>800 × 800 ]</div>
+      <div>
+        <span class="eyebrow">Quem vai conduzir</span>
+        <h2 style="margin-bottom:14px">João Araújo</h2>
+        <p class="lead" style="margin-bottom:18px">
+          <b>R$ 10 milhões+ em vendas consultivas</b> e <b>+300 reuniões reais analisadas</b>,
+          uma a uma, para transformar percepção em métrica.
+        </p>
+        <p style="color:var(--txt-2);font-size:.97rem">
+          A metodologia não veio de um framework de marketing. Veio de assistir reunião gravada
+          com planilha aberta até o padrão aparecer: <b>o que o lead que fecha já sabia antes de entrar na call</b>.
+          O Funil Educativo é a engenharia reversa desse padrão.
+        </p>
+        <div class="selo">
+          <span>R$ 10 mi+ em vendas consultivas</span>
+          <span>+300 reuniões analisadas</span>
+          <span>Operação B2B / high-ticket</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROVA SOCIAL — ⚠️ SUBSTITUIR ================= -->
+<section class="sec sec--alt">
+  <div class="wrap">
+    <div class="centro reveal"><h2>O que mudou nos números deles</h2></div>
+    <div class="grade grade--3 reveal" style="margin-top:34px">
+      <div class="depo">
+        <span class="placeholder">⚠ DEPOIMENTO REAL AQUI</span>
+        <div class="estrelas">★★★★★</div>
+        <p class="depo__txt">"[CAC antes → depois. Ticket antes → depois. Período.]"</p>
+        <div class="depo__pe"><div class="depo__av">FOTO</div><div><div class="depo__nome">[Nome]</div><div class="depo__cargo">[Cargo — Empresa]</div></div></div>
+      </div>
+      <div class="depo">
+        <span class="placeholder">⚠ DEPOIMENTO REAL AQUI</span>
+        <div class="estrelas">★★★★★</div>
+        <p class="depo__txt">"[No-show antes → depois e o efeito na produtividade do time.]"</p>
+        <div class="depo__pe"><div class="depo__av">FOTO</div><div><div class="depo__nome">[Nome]</div><div class="depo__cargo">[Cargo — Empresa]</div></div></div>
+      </div>
+      <div class="depo">
+        <span class="placeholder">⚠ DEPOIMENTO REAL AQUI</span>
+        <div class="estrelas">★★★★★</div>
+        <p class="depo__txt">"[Ceticismo inicial + o número que convenceu.]"</p>
+        <div class="depo__pe"><div class="depo__av">FOTO</div><div><div class="depo__nome">[Nome]</div><div class="depo__cargo">[Cargo — Empresa]</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="centro reveal"><h2>Antes de você perguntar</h2></div>
+    <div class="faq reveal" style="margin-top:34px">
+      <details open>
+        <summary>De onde vêm os percentuais do simulador?</summary>
+        <p>São médias observadas na operação do fundador e nos casos acompanhados. São premissas, não garantia — por isso a planilha completa deixa você editar todas elas. Na aula eu mostro a origem de cada número.</p>
+      </details>
+      <details>
+        <summary>A aula é paga?</summary>
+        <p>Não. Gratuita e ao vivo, dia 03 de agosto às 20h. O grupo do WhatsApp é o canal de acesso: link, materiais e aviso de início saem por lá.</p>
+      </details>
+      <details>
+        <summary>Isso serve para ticket abaixo de R$ 2.000?</summary>
+        <p>O modelo foi desenhado para high-ticket e B2B consultivo, onde a reunião é cara e o ciclo é longo. Abaixo disso a conta muda — e na aula eu explico em que ponto ela deixa de fazer sentido.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo até ver resultado?</summary>
+        <p>O gargalo é produzir o mega-conteúdo. Depois que ele está no ar, os primeiros sinais aparecem no mesmo ciclo de mídia. Na aula eu mostro quais métricas olhar nos primeiros 7 dias.</p>
+      </details>
+      <details>
+        <summary>Preciso trocar meu CRM ou minha stack?</summary>
+        <p>Não. A automação de filtro roda em cima do que você já usa. O que muda é o critério de qualificação, não a ferramenta.</p>
+      </details>
+      <details>
+        <summary>O grupo vai encher meu WhatsApp?</summary>
+        <p>Não. Grupo fechado, só a organização publica. Materiais, avisos e link. Nada além.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="sec final">
+  <div class="wrap centro">
+    <span class="eyebrow"><i class="ponto"></i> Faltam</span>
+    <h2>A conta que você acabou de simular,<br><span class="grifo">explicada linha por linha</span>.</h2>
+
+    <div class="contagem" data-contagem>
+      <div><b data-d>00</b><span>dias</span></div>
+      <div><b data-h>00</b><span>horas</span></div>
+      <div><b data-m>00</b><span>min</span></div>
+      <div><b data-s>00</b><span>seg</span></div>
+    </div>
+
+    <p class="lead lead--centro" style="margin:0 auto 30px">
+      03 de agosto, 20h. Ao vivo e gratuita. Entre no grupo e receba agora
+      a planilha completa, o mapa mental e o script de qualificação.
+    </p>
+
+    <div class="cta-bloco">
+      <a class="btn btn--full" data-cta="final" href="#">ENTRAR NO GRUPO VIP AGORA →</a>
+      <span class="cta-sub">🔒 Vagas limitadas pela capacidade da sala ao vivo.</span>
+    </div>
+  </div>
+</section>
+
+<div class="fixa">
+  <a class="btn" data-cta="barra-fixa" href="#">ENTRAR NO GRUPO VIP →</a>
+</div>
+
+<footer class="rodape">
+  <div class="wrap">
+    <p>Este site não é afiliado ao Facebook, Meta ou WhatsApp. Os resultados citados são referentes a operações reais e não constituem promessa de resultado — desempenho individual depende de oferta, mercado e execução. O simulador usa premissas médias e serve para fins ilustrativos.</p>
+    <p>© 2026 — Todos os direitos reservados. <a href="#" style="color:var(--txt-2)">Política de Privacidade</a> · <a href="#" style="color:var(--txt-2)">Termos de Uso</a></p>
+  </div>
+</footer>
+
+<!-- ================= MODAL DE INSCRIÇÃO (form GoHighLevel) ================= -->
+<div class="modal" id="inscricao" aria-hidden="true">
+  <div class="modal__bg" data-fechar></div>
+  <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Formulário de inscrição">
+    <button class="modal__x" data-fechar aria-label="Fechar">×</button>
+    <p class="modal__tit">Finalize sua inscrição</p>
+    <p class="modal__sub">Preencha os dados para receber o acesso à aula e os materiais.</p>
+    <iframe
+      src="https://api.leadconnectorhq.com/widget/form/cdnlLxhpSqdNtSERwREy"
+      id="inline-cdnlLxhpSqdNtSERwREy"
+      data-layout='{"id":"INLINE"}'
+      data-trigger-type="alwaysShow"
+      data-activation-type="alwaysActivated"
+      data-deactivation-type="neverDeactivate"
+      data-form-name="WB - FORMS 01"
+      data-layout-iframe-id="inline-cdnlLxhpSqdNtSERwREy"
+      data-form-id="cdnlLxhpSqdNtSERwREy"
+      title="WB - FORMS 01"
+      scrolling="yes"></iframe>
+    <p class="modal__seg">🔒 Seus dados estão seguros com a gente.</p>
+  </div>
+</div>
+
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
+<script src="assets/pagina.js"></script>
+
+<!-- ================= SIMULADOR ================= -->
+<script>
+(function(){
+  var ids = ['verba','cpr','noshow','fech','ticket','cpl'];
+  var el = {}; ids.forEach(function(i){ el[i] = document.getElementById(i); });
+  var out = function(id){ return document.getElementById(id); };
+
+  var brl = function(n){
+    return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+  };
+  var num = function(n){ return Math.round(n).toLocaleString('pt-BR'); };
+
+  // Premissas do cenário educativo (editáveis)
+  var P = {
+    assiste   : 0.035,  // % dos inscritos que assistem E pedem call  ⚠️ TROCAR pelo seu número real
+    noshowEdu : 0.15,   // no-show de quem pediu call depois da aula  ⚠️ TROCAR
+    multFech  : 1.35,   // ganho na taxa de fechamento                ⚠️ TROCAR
+    multTicket: 1.40    // ganho no ticket médio                      ⚠️ TROCAR
+  };
+
+  function calc(){
+    var verba  = +el.verba.value  || 0;
+    var cpr    = +el.cpr.value    || 1;
+    var noshow = (+el.noshow.value || 0)/100;
+    var fech   = (+el.fech.value   || 0)/100;
+    var ticket = +el.ticket.value || 0;
+    var cpl    = +el.cpl.value    || 1;
+
+    /* --- Cenário A: sessão estratégica --- */
+    var agA  = verba / cpr;
+    var reaA = agA * (1 - noshow);
+    var vdaA = reaA * fech;
+    var recA = vdaA * ticket;
+    var cacA = vdaA > 0 ? verba / vdaA : 0;
+
+    out('oA1').textContent = num(agA) + ' reuniões';
+    out('oA2').textContent = num(reaA) + ' reuniões';
+    out('oA3').textContent = num(vdaA) + ' contratos';
+    out('oA4').textContent = brl(cacA);
+    out('oA5').textContent = brl(recA);
+
+    /* --- Cenário B: funil educativo --- */
+    var ledB = verba / cpl;
+    var pedB = ledB * P.assiste;                       // assistiram e pediram call
+    var reaB = pedB * (1 - P.noshowEdu);
+    var fecB = Math.min(fech * P.multFech, 0.95);
+    var vdaB = reaB * fecB;
+    var tktB = ticket * P.multTicket;
+    var recB = vdaB * tktB;
+    var cacB = vdaB > 0 ? verba / vdaB : 0;
+
+    out('oB1').textContent = num(ledB) + ' inscritos';
+    out('oB2').textContent = num(reaB) + ' calls';
+    out('oB3').textContent = num(vdaB) + ' contratos';
+    out('oB4').textContent = brl(cacB);
+    out('oB5').textContent = brl(recB);
+  }
+
+  ids.forEach(function(i){ el[i].addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
