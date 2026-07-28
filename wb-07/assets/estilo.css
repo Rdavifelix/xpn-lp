@@ -306,10 +306,10 @@ p{margin:0 0 18px}
   font-size:1.3rem;line-height:1;cursor:pointer;display:grid;place-items:center;
 }
 .modal__x:hover{background:var(--linha)}
-/* min-height é só fallback caso o form_embed.js não carregue.
-   Fica abaixo da altura real do form para o resizer sempre vencer. */
+/* min-height é só fallback caso o postMessage de altura não chegue.
+   Fica abaixo da altura real do form para o resize sempre vencer. */
 .modal iframe{
-  width:100%;min-height:420px;border:0;border-radius:10px;
+  width:100%;min-height:320px;border:0;border-radius:10px;
   display:block;background:transparent;
 }
 .modal__seg{

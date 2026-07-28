@@ -3,8 +3,9 @@
    Configure a data do evento no <head> de cada página:
    <script>window.CFG={DATA_EVENTO:'2026-08-03T20:00:00-03:00'}</script>
 
-   Os CTAs abrem o modal com o formulário GoHighLevel
-   (WB - FORMS 01 — cdnlLxhpSqdNtSERwREy), o mesmo da /revolucao.
+   Os CTAs abrem o modal com o form do CRM XPN
+   ([WB] Cadastro Webinar — 591c52c0-3217-4708-a477-8da0edf40ba7),
+   embedado via FormEmbed como em lp2 / lp2-d / fap01.
    ========================================================= */
 (function () {
   var CFG = window.CFG || {};
@@ -53,7 +54,39 @@
     });
   }
 
-  /* ---- 2. Contagem regressiva ---- */
+  /* ---- 2. Form do CRM XPN (FormEmbed) ----
+     Mesmo contrato usado em lp2 / lp2-d / fap01:
+     - repassa UTMs + gclid/fbclid + url da LP e referrer pro iframe
+     - ajusta altura via postMessage 'np-form-height' / 'crm-form-height'
+     - obedece redirect pós-envio via 'crm-form-redirect'                */
+  var form = document.getElementById('nf-crm-wb-cadastro');
+  if (form) {
+    var par = new URLSearchParams(window.location.search);
+    var chaves = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+                  'gclid', 'fbclid', '_gl', 'ttclid', 'msclkid', 'li_fat_id'];
+    var q = [];
+    chaves.forEach(function (k) {
+      var v = par.get(k);
+      if (v) q.push(k + '=' + encodeURIComponent(v));
+    });
+    q.push('_lp=' + encodeURIComponent(window.location.href));
+    q.push('_ref=' + encodeURIComponent(document.referrer || ''));
+    q.push('_t=' + Date.now());
+    form.src = form.src + (form.src.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+
+    window.addEventListener('message', function (e) {
+      if (!e.data) return;
+      if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
+        form.style.height = e.data.height + 'px';
+      }
+      if (e.data.type === 'crm-form-redirect' &&
+          typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
+        window.location.href = e.data.url;
+      }
+    });
+  }
+
+  /* ---- 3. Contagem regressiva ---- */
   var alvo = CFG.DATA_EVENTO ? new Date(CFG.DATA_EVENTO).getTime() : null;
   var box = document.querySelector('[data-contagem]');
   if (alvo && box) {
@@ -80,7 +113,7 @@
     setInterval(tick, 1000);
   }
 
-  /* ---- 3. Reveal on scroll ---- */
+  /* ---- 4. Reveal on scroll ---- */
   var alvos = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && alvos.length) {
     var io = new IntersectionObserver(function (ents) {
@@ -93,7 +126,7 @@
     alvos.forEach(function (el) { el.classList.add('on'); });
   }
 
-  /* ---- 4. Barra fixa só aparece depois do hero ---- */
+  /* ---- 5. Barra fixa só aparece depois do hero ---- */
   var fixa = document.querySelector('.fixa');
   var hero = document.querySelector('.hero');
   if (fixa && hero && 'IntersectionObserver' in window) {
