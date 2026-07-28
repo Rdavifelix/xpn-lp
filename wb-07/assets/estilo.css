@@ -306,13 +306,10 @@ p{margin:0 0 18px}
   font-size:1.3rem;line-height:1;cursor:pointer;display:grid;place-items:center;
 }
 .modal__x:hover{background:var(--linha)}
-.modal__tit{
-  text-align:center;font-weight:800;font-size:1.1rem;
-  margin:0 34px 4px;letter-spacing:-.02em;
-}
-.modal__sub{text-align:center;font-size:.85rem;color:var(--txt-2);margin:0 0 14px}
+/* min-height é só fallback caso o form_embed.js não carregue.
+   Fica abaixo da altura real do form para o resizer sempre vencer. */
 .modal iframe{
-  width:100%;min-height:520px;border:0;border-radius:10px;
+  width:100%;min-height:420px;border:0;border-radius:10px;
   display:block;background:transparent;
 }
 .modal__seg{
@@ -321,8 +318,7 @@ p{margin:0 0 18px}
 }
 body.travado{overflow:hidden}
 @media(max-width:520px){
-  .modal__cx{padding:22px 12px 14px}
-  .modal iframe{min-height:560px}
+  .modal__cx{padding:38px 12px 14px}
 }
 @media (prefers-reduced-motion:reduce){.modal__cx{animation:none}}
 
