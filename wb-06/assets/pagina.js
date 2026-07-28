@@ -17,6 +17,7 @@
   function abrir(pos) {
     if (!modal) return;
     carregarForm();          // iframe só carrega quando o modal abre (ver bloco 2)
+    garantirAltura();        // rede de segurança se o postMessage não pegar
     ultimoFoco = document.activeElement;
     modal.classList.add('aberto');
     modal.setAttribute('aria-hidden', 'false');
@@ -84,6 +85,18 @@
     q.push('_t=' + Date.now());
 
     form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+  }
+
+  /* Se o visitante abre e fecha o modal rápido, o form termina de carregar já
+     escondido, manda height:0 (descartado abaixo) e nunca mais remede — na
+     reabertura ele ficaria preso no min-height, com scroll interno e botão
+     cortado. Se em 1,5s nenhuma altura válida chegou, assume uma que cobre o
+     form inteiro; o postMessage refina depois se chegar.                     */
+  function garantirAltura() {
+    if (!form) return;
+    setTimeout(function () {
+      if (!form.style.height) form.style.height = '640px';
+    }, 1500);
   }
 
   if (form) {
