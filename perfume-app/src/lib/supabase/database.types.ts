@@ -41,6 +41,15 @@ export interface RecommendationReason {
   };
 }
 
+/**
+ * Every table below carries a `Relationships` array (foreign key name,
+ * columns, referenced table) matching the constraint names Postgres
+ * actually generates for supabase/migrations — required by
+ * @supabase/postgrest-js's GenericTable (so `.from(...)` infers real column
+ * types instead of collapsing to `never`), and verified against a live
+ * schema rather than assumed, since PostgREST embed queries (e.g.
+ * `profiles!follows_follower_id_fkey`) must match exactly.
+ */
 export interface Database {
   public: {
     Tables: {
@@ -75,6 +84,15 @@ export interface Database {
           signature_fragrance_id?: string | null;
         };
         Update: Partial<Database['public']['Tables']['profiles']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_signature_fragrance_fkey';
+            columns: ['signature_fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       brands: {
         Row: {
@@ -93,6 +111,7 @@ export interface Database {
           logo_url?: string | null;
         };
         Update: Partial<Database['public']['Tables']['brands']['Insert']>;
+        Relationships: [];
       };
       notes: {
         Row: {
@@ -109,6 +128,7 @@ export interface Database {
           description?: string | null;
         };
         Update: Partial<Database['public']['Tables']['notes']['Insert']>;
+        Relationships: [];
       };
       accords: {
         Row: {
@@ -124,6 +144,7 @@ export interface Database {
           hex_color: string;
         };
         Update: Partial<Database['public']['Tables']['accords']['Insert']>;
+        Relationships: [];
       };
       occasions: {
         Row: {
@@ -139,6 +160,7 @@ export interface Database {
           icon?: string | null;
         };
         Update: Partial<Database['public']['Tables']['occasions']['Insert']>;
+        Relationships: [];
       };
       fragrances: {
         Row: {
@@ -170,6 +192,15 @@ export interface Database {
           sillage?: number | null;
         };
         Update: Partial<Database['public']['Tables']['fragrances']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'fragrances_brand_id_fkey';
+            columns: ['brand_id'];
+            isOneToOne: false;
+            referencedRelation: 'brands';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       fragrance_notes: {
         Row: {
@@ -185,6 +216,22 @@ export interface Database {
           position?: number;
         };
         Update: Partial<Database['public']['Tables']['fragrance_notes']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'fragrance_notes_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fragrance_notes_note_id_fkey';
+            columns: ['note_id'];
+            isOneToOne: false;
+            referencedRelation: 'notes';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       fragrance_accords: {
         Row: {
@@ -198,6 +245,22 @@ export interface Database {
           intensity: number;
         };
         Update: Partial<Database['public']['Tables']['fragrance_accords']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'fragrance_accords_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fragrance_accords_accord_id_fkey';
+            columns: ['accord_id'];
+            isOneToOne: false;
+            referencedRelation: 'accords';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       fragrance_seasons: {
         Row: {
@@ -211,6 +274,15 @@ export interface Database {
           score: number;
         };
         Update: Partial<Database['public']['Tables']['fragrance_seasons']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'fragrance_seasons_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       fragrance_occasions: {
         Row: {
@@ -224,6 +296,22 @@ export interface Database {
           score: number;
         };
         Update: Partial<Database['public']['Tables']['fragrance_occasions']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'fragrance_occasions_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'fragrance_occasions_occasion_id_fkey';
+            columns: ['occasion_id'];
+            isOneToOne: false;
+            referencedRelation: 'occasions';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       collection_items: {
         Row: {
@@ -253,6 +341,22 @@ export interface Database {
           purchase_price?: number | null;
         };
         Update: Partial<Database['public']['Tables']['collection_items']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'collection_items_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'collection_items_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       follows: {
         Row: {
@@ -265,6 +369,22 @@ export interface Database {
           following_id: string;
         };
         Update: Partial<Database['public']['Tables']['follows']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'follows_follower_id_fkey';
+            columns: ['follower_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'follows_following_id_fkey';
+            columns: ['following_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       wears: {
         Row: {
@@ -295,6 +415,29 @@ export interface Database {
           visibility?: WearVisibility;
         };
         Update: Partial<Database['public']['Tables']['wears']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'wears_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wears_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'wears_occasion_id_fkey';
+            columns: ['occasion_id'];
+            isOneToOne: false;
+            referencedRelation: 'occasions';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       likes: {
         Row: {
@@ -307,6 +450,22 @@ export interface Database {
           wear_id: string;
         };
         Update: Partial<Database['public']['Tables']['likes']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'likes_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'likes_wear_id_fkey';
+            columns: ['wear_id'];
+            isOneToOne: false;
+            referencedRelation: 'wears';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       comments: {
         Row: {
@@ -323,6 +482,22 @@ export interface Database {
           body: string;
         };
         Update: Partial<Database['public']['Tables']['comments']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'comments_wear_id_fkey';
+            columns: ['wear_id'];
+            isOneToOne: false;
+            referencedRelation: 'wears';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'comments_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       occasion_calendar: {
         Row: {
@@ -348,6 +523,15 @@ export interface Database {
           lead_days?: number;
         };
         Update: Partial<Database['public']['Tables']['occasion_calendar']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'occasion_calendar_occasion_id_fkey';
+            columns: ['occasion_id'];
+            isOneToOne: false;
+            referencedRelation: 'occasions';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       daily_recommendations: {
         Row: {
@@ -368,6 +552,22 @@ export interface Database {
           reason: RecommendationReason;
         };
         Update: Partial<Database['public']['Tables']['daily_recommendations']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'daily_recommendations_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'daily_recommendations_fragrance_id_fkey';
+            columns: ['fragrance_id'];
+            isOneToOne: false;
+            referencedRelation: 'fragrances';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: Record<string, never>;
