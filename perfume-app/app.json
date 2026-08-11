@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "Sillage",
+    "slug": "sillage",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "sillage",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FBF4EC"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sillage.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Sillage uses your location to fetch local weather so we can recommend the right fragrance for today.",
+        "NSCameraUsageDescription": "Sillage uses your camera so you can share a photo with your daily wear post.",
+        "NSPhotoLibraryUsageDescription": "Sillage needs access to your photo library so you can attach a photo to your wear posts and profile."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FBF4EC",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.sillage.app",
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-splash-screen",
+      "expo-system-ui",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Sillage needs access to your photos so you can attach one to your wear posts and profile.",
+          "cameraPermission": "Sillage needs access to your camera so you can capture a photo for your wear posts."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Sillage uses your location to fetch local weather so we can recommend the right fragrance for today."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "baseUrl": "/sillage"
+    },
+    "extra": {
+      "router": {}
+    }
+  }
+}
