@@ -114,6 +114,7 @@ export interface ListFragrancesFilters {
   noteId?: string;
   accordSlug?: string;
   occasionSlug?: string;
+  brandId?: string;
   limit?: number;
 }
 
@@ -123,7 +124,7 @@ export interface ListFragrancesFilters {
  * direct joins since those need an exact relational match, not fuzzy text.
  */
 export async function listFragrances(filters: ListFragrancesFilters = {}): Promise<FragranceSummary[]> {
-  const { query, gender, noteId, accordSlug, occasionSlug, limit = 40 } = filters;
+  const { query, gender, noteId, accordSlug, occasionSlug, brandId, limit = 40 } = filters;
 
   if (query && query.trim().length > 0) {
     const { data, error } = await supabase.rpc('search_fragrances', { p_query: query.trim(), p_limit: limit });
@@ -162,6 +163,7 @@ export async function listFragrances(filters: ListFragrancesFilters = {}): Promi
 
   let q = supabase.from('fragrances').select(SUMMARY_SELECT).order('wears_count', { ascending: false }).limit(limit);
   if (gender) q = q.eq('gender', gender);
+  if (brandId) q = q.eq('brand_id', brandId);
   const { data, error } = await q;
   if (error) throw error;
   return (data as unknown as SummaryRow[]).map(toSummary);
