@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 
 import { queryKeys } from '@/lib/query';
 
-import { addComment, createWear, deleteComment, getComments, getFeed, getWear, toggleLike } from '../api/feedApi';
+import { addComment, createWear, deleteComment, getComments, getFeed, getUserWears, getWear, toggleLike } from '../api/feedApi';
 import type { CreateWearInput, FeedPost } from '../types';
 
 const FEED_PAGE_SIZE = 20;
@@ -24,6 +24,14 @@ export function useWear(wearId: string | undefined, currentUserId: string | unde
     queryKey: queryKeys.wear(wearId ?? ''),
     queryFn: () => getWear(wearId as string, currentUserId),
     enabled: Boolean(wearId),
+  });
+}
+
+export function useUserWears(userId: string | undefined, currentUserId: string | undefined) {
+  return useQuery({
+    queryKey: ['wears', 'user', userId ?? '', currentUserId ?? ''],
+    queryFn: () => getUserWears(userId as string, currentUserId),
+    enabled: Boolean(userId),
   });
 }
 

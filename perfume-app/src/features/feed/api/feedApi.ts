@@ -43,25 +43,11 @@ interface WearDetailRow {
   fragrance: { name: string; image_url: string | null; brand: { name: string } | null } | null;
 }
 
-export async function getWear(wearId: string, currentUserId?: string): Promise<FeedPost> {
-  const { data, error } = await supabase
-    .from('wears')
-    .select(
-      `id, user_id, fragrance_id, worn_at, photo_url, caption, occasion_id, mood, weather, likes_count, comments_count,
-       author:profiles!wears_user_id_fkey(username, display_name, avatar_url),
-       fragrance:fragrances(name, image_url, brand:brands(name))`,
-    )
-    .eq('id', wearId)
-    .single();
-  if (error) throw error;
+const WEAR_DETAIL_SELECT = `id, user_id, fragrance_id, worn_at, photo_url, caption, occasion_id, mood, weather, likes_count, comments_count,
+   author:profiles!wears_user_id_fkey(username, display_name, avatar_url),
+   fragrance:fragrances(name, image_url, brand:brands(name))`;
 
-  const row = data as unknown as WearDetailRow;
-  let likedByMe = false;
-  if (currentUserId) {
-    const { data: likeRow } = await supabase.from('likes').select('user_id').eq('wear_id', wearId).eq('user_id', currentUserId).maybeSingle();
-    likedByMe = Boolean(likeRow);
-  }
-
+function toFeedPostFromDetailRow(row: WearDetailRow, likedByMe: boolean): FeedPost {
   return {
     id: row.id,
     fragranceId: row.fragrance_id,
@@ -86,6 +72,43 @@ export async function getWear(wearId: string, currentUserId?: string): Promise<F
       imageUrl: row.fragrance?.image_url ?? null,
     },
   };
+}
+
+export async function getWear(wearId: string, currentUserId?: string): Promise<FeedPost> {
+  const { data, error } = await supabase.from('wears').select(WEAR_DETAIL_SELECT).eq('id', wearId).single();
+  if (error) throw error;
+
+  let likedByMe = false;
+  if (currentUserId) {
+    const { data: likeRow } = await supabase.from('likes').select('user_id').eq('wear_id', wearId).eq('user_id', currentUserId).maybeSingle();
+    likedByMe = Boolean(likeRow);
+  }
+
+  return toFeedPostFromDetailRow(data as unknown as WearDetailRow, likedByMe);
+}
+
+/** A user's own wear posts (profile screens' "recent wears") — RLS naturally hides followers-only posts from non-followers. */
+export async function getUserWears(userId: string, currentUserId?: string, limit = 12): Promise<FeedPost[]> {
+  const { data, error } = await supabase
+    .from('wears')
+    .select(WEAR_DETAIL_SELECT)
+    .eq('user_id', userId)
+    .order('worn_at', { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+
+  const rows = data as unknown as WearDetailRow[];
+  let likedIds = new Set<string>();
+  if (currentUserId && rows.length > 0) {
+    const { data: likeRows } = await supabase
+      .from('likes')
+      .select('wear_id')
+      .eq('user_id', currentUserId)
+      .in('wear_id', rows.map((r) => r.id));
+    likedIds = new Set((likeRows ?? []).map((r) => r.wear_id));
+  }
+
+  return rows.map((row) => toFeedPostFromDetailRow(row, likedIds.has(row.id)));
 }
 
 export async function toggleLike(wearId: string): Promise<boolean> {
