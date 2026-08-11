@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { queryKeys } from '@/lib/query';
 
-import { getFragrance, getFriendsWhoOwn, listFragrances, type ListFragrancesFilters } from '../api/fragrancesApi';
+import { getFragrance, getFriendsWhoOwn, getOccasions, listFragrances, type ListFragrancesFilters } from '../api/fragrancesApi';
 
 export function useFragrance(id: string | undefined) {
   return useQuery({
@@ -24,5 +24,13 @@ export function useFragranceList(filters: ListFragrancesFilters) {
   return useQuery({
     queryKey: ['fragrances', 'list', filters],
     queryFn: () => listFragrances(filters),
+  });
+}
+
+export function useOccasions() {
+  return useQuery({
+    queryKey: queryKeys.occasions(),
+    queryFn: getOccasions,
+    staleTime: 60 * 60_000, // reference data — rarely changes
   });
 }

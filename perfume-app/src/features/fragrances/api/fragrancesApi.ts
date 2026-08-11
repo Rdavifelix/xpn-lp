@@ -172,3 +172,17 @@ export async function getFriendsWhoOwn(fragranceId: string): Promise<Profile[]> 
   if (error) throw error;
   return data ?? [];
 }
+
+export interface Occasion {
+  id: string;
+  slug: string;
+  label: string;
+  icon: string | null;
+}
+
+/** Reference data (occasions.slug/label/icon) — used by Discover's filter chips and Compose's occasion picker. */
+export async function getOccasions(): Promise<Occasion[]> {
+  const { data, error } = await supabase.from('occasions').select('id, slug, label, icon').order('label');
+  if (error) throw error;
+  return data ?? [];
+}

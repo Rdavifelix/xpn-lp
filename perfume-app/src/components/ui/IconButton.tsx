@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -14,6 +14,7 @@ export interface IconButtonProps {
   activeColor?: string;
   backgroundColor?: string;
   haptics?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -28,6 +29,7 @@ export function IconButton({
   activeColor,
   backgroundColor,
   haptics = false,
+  style,
 }: IconButtonProps) {
   const theme = useTheme();
   const scale = useSharedValue(1);
@@ -49,6 +51,7 @@ export function IconButton({
         styles.base,
         { backgroundColor: backgroundColor ?? 'transparent', width: size + 16, height: size + 16, borderRadius: (size + 16) / 2 },
         animatedStyle,
+        style,
       ]}
     >
       <Ionicons name={name} size={size} color={resolvedColor} />
