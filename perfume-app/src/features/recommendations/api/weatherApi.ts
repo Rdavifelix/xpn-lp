@@ -72,3 +72,35 @@ async function fetchFromOpenWeatherMap(latitude: number, longitude: number): Pro
 export async function getCurrentWeather(latitude: number, longitude: number): Promise<WeatherSnapshot> {
   return env.weatherProvider === 'openweathermap' ? fetchFromOpenWeatherMap(latitude, longitude) : fetchFromOpenMeteo(latitude, longitude);
 }
+
+/**
+ * Best-effort weather resolution for the daily recommendation: try the
+ * device's live location first (freshest signal), and if permission is
+ * denied or location fails for any reason, fall back to the coordinates
+ * saved on the user's profile during onboarding. Returns null only if
+ * neither source is available — the scoring function treats that as
+ * "no weather signal" rather than failing outright.
+ */
+export async function resolveWeatherForRecommendation(profileLatLon: { latitude: number | null; longitude: number | null }): Promise<WeatherSnapshot | null> {
+  const Location = await import('expo-location');
+
+  try {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status === 'granted') {
+      const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      return await getCurrentWeather(position.coords.latitude, position.coords.longitude);
+    }
+  } catch {
+    // Fall through to the profile fallback below.
+  }
+
+  if (profileLatLon.latitude !== null && profileLatLon.longitude !== null) {
+    try {
+      return await getCurrentWeather(profileLatLon.latitude, profileLatLon.longitude);
+    } catch {
+      return null;
+    }
+  }
+
+  return null;
+}
