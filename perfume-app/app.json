@@ -57,7 +57,8 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/sillage"
     },
     "extra": {
       "router": {}
