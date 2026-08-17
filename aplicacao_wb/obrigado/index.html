@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parabéns pelo agendamento</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Parabéns pelo agendamento">
+  <meta property="og:type" content="website">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://assets.cdn.filesafe.space">
+  <link rel="preconnect" href="https://images.leadconnectorhq.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ouro-grad: linear-gradient(90deg,#7B5A00 0%,#C49A00 25%,#A67C00 50%,#D4A800 75%,#7B5A00 100%);
+      --ouro:      #D4A800;
+      --ouro-suave:#C9A84C;
+      --vermelho:  #E93D3D;
+      --preto:     #000000;
+      --branco:    #FFFFFF;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--preto);
+      color: var(--branco);
+      font-family: Montserrat, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .wrap { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+    /* ===== LOGO ===== */
+    .logo { padding: 14px 0 6px; text-align: center; }
+    .logo img { width: 100%; max-width: 620px; height: auto; }
+
+    /* ===== SELOS ===== */
+    .selo {
+      display: inline-flex; align-items: center; gap: 9px;
+      background-image: var(--ouro-grad);
+      color: #000;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700; font-style: italic; font-size: 15px;
+      border-radius: 50px; padding: 10px 24px;
+    }
+
+    .selo-passo {
+      display: inline-flex; align-items: center; gap: 8px;
+      background-image: var(--ouro-grad);
+      color: #000;
+      font-family: Montserrat, Arial, sans-serif;
+      font-weight: 700; font-size: 13px;
+      border-radius: 30px; padding: 8px 18px;
+    }
+
+    .selo-escuro {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: #1A1610; color: var(--ouro-suave);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700; font-style: italic; font-size: 15px;
+      border-radius: 50px; padding: 10px 24px;
+    }
+
+    .selo svg, .selo-passo svg, .selo-escuro svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .centro { text-align: center; }
+
+    /* ===== TIPOGRAFIA ===== */
+    h1 {
+      font-family: "Noto Sans", Montserrat, sans-serif;
+      font-weight: 400;
+      font-size: 33px;
+      line-height: 1.3;
+      color: var(--branco);
+      padding: 12px 0 0;
+      text-transform: uppercase;
+    }
+
+    .legenda {
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 18px; font-weight: 700; font-style: italic;
+      line-height: 1.3; color: var(--branco);
+      padding: 10px 0;
+    }
+
+    .instrucao {
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 25px; font-weight: 700; line-height: 1.3;
+      color: var(--branco);
+    }
+
+    .instrucao .destaque { color: var(--vermelho); }
+
+    .caso {
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 20px; font-weight: 700; line-height: 1.3;
+      color: var(--ouro);
+      text-transform: uppercase;
+    }
+
+    /* ===== ESPAÇAMENTOS ===== */
+    .bloco   { padding: 22px 0; }
+    .bloco-g { padding: 34px 0; }
+
+    /* ===== VÍDEO ===== */
+    .video-box {
+      position: relative;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .video-box.destaque { border: 1px solid #6C5CE7; }
+
+    /* Proporcao travada em 16:9 como no player original. O video do Marcelo e
+       vertical (2160x3840): 'contain' deixa ele em letterbox em vez de cortar. */
+    .video-box video {
+      display: block; width: 100%; height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .som {
+      position: absolute; top: 14px; left: 14px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,0,0,0.72);
+      color: #fff; border: none; border-radius: 8px;
+      padding: 9px 14px; font-size: 14px;
+      font-family: Montserrat, Arial, sans-serif;
+      cursor: pointer; z-index: 3;
+    }
+
+    .som:hover { background: rgba(0,0,0,0.88); }
+    .som svg { width: 17px; height: 17px; }
+    .som[hidden] { display: none; }
+
+    /* ===== IMAGEM DO CONVITE ===== */
+    .convite { text-align: center; padding: 8px 0 4px; }
+    .convite img { width: 100%; max-width: 615px; height: auto; }
+
+    /* ===== BOTÃO ===== */
+    .btn {
+      display: inline-block;
+      background: var(--ouro);
+      color: var(--branco);
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 16px; font-weight: 700;
+      text-decoration: none;
+      padding: 15px 20px;
+      min-width: 320px;
+      text-align: center;
+    }
+
+    .btn:hover { filter: brightness(1.08); }
+
+    /* ===== DEPOIMENTOS ===== */
+    .depoimentos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: start;
+      padding-top: 18px;
+    }
+
+    .col { display: flex; flex-direction: column; gap: 10px; }
+    .col img { width: 100%; height: auto; display: block; }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      padding: 34px 16px 40px;
+      text-align: center;
+      font-family: Montserrat, Arial, sans-serif;
+      font-size: 13px;
+      color: #9A9A9A;
+    }
+
+    footer a { color: #9A9A9A; }
+
+    /* ===== RESPONSIVO ===== */
+    @media (max-width: 640px) {
+      h1 { font-size: 25px; }
+      .instrucao { font-size: 19px; }
+      .caso { font-size: 16px; }
+      .legenda { font-size: 16px; }
+      .selo, .selo-escuro { font-size: 13px; padding: 9px 18px; }
+      .btn { min-width: 0; width: 100%; font-size: 15px; }
+      .depoimentos { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="wrap">
+
+  <div class="logo">
+    <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69825e6bc05d65ca6647ab9b.png"
+         alt="Máquina de Reuniões" width="620" height="150">
+  </div>
+
+  <div class="centro bloco">
+    <span class="selo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+      </svg>
+      Sucesso &ndash; Você está agendado!
+    </span>
+    <h1>Complete esses passos antes do nosso encontro.</h1>
+  </div>
+
+  <!-- ============ PASSO 1 ============ -->
+  <div class="centro">
+    <span class="selo-passo">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Passo 1/3:
+    </span>
+    <div class="legenda">Veja o video de confirmação abaixo</div>
+  </div>
+
+  <div class="video-box destaque">
+    <button class="som" id="btn-som" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H2v6h4l5 4z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/>
+      </svg>
+      <span>Habilitar som</span>
+    </button>
+    <video id="v-confirmacao" autoplay muted playsinline preload="metadata"
+           poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/087f6db3e887a705.jpg">
+      <source src="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5a123eab438253ce0ebb2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ============ PASSO 2 ============ -->
+  <div class="centro bloco-g">
+    <span class="selo-passo">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Passo 2/3:
+    </span>
+
+    <p class="instrucao" style="padding-top:26px">
+      <span class="destaque">Importante:</span> Confirme a call ao pesquisar no seu provedor de email "XPN CONSULT" na aba de pesquisa.
+    </p>
+
+    <p class="instrucao" style="padding-top:26px">
+      Clique em "Adicionar ao Calendário" e "Sim" para que o invite apareça na sua agenda
+    </p>
+
+    <div class="convite">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/699e0a965dfd509c9ade3f18.png"
+           alt="Exemplo do convite no Gmail" loading="lazy" width="615" height="248">
+    </div>
+
+    <p class="legenda" style="font-style:normal;font-weight:400;padding-top:18px">
+      Ou... clique no botão abaixo para adicionar automaticamente.
+    </p>
+
+    <a class="btn" href="https://apisystem.tech/google/calendar/add-event/undefined" rel="noopener">
+      📆 Adicione no seu calendário
+    </a>
+  </div>
+
+  <!-- ============ PASSO 3 ============ -->
+  <div class="centro bloco-g">
+    <span class="selo-passo">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Passo 3/3:
+    </span>
+  </div>
+
+  <div class="centro bloco">
+    <p class="caso">Caso do Vanderso - 100k/semana usando webinars</p>
+  </div>
+  <div class="video-box">
+    <video controls playsinline preload="none"
+           poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/62cd7be8d6f5c0f8.jpg">
+      <source src="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aa9e101e2abcd1bed723.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="centro bloco">
+    <p class="caso">Caso do Eduardo - 300k/mês usando webinars</p>
+  </div>
+  <div class="video-box">
+    <video controls playsinline preload="none"
+           poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/cb3e99925cc7e699.jpg">
+      <source src="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aa9eb617a74d91886fba.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="centro bloco">
+    <p class="caso">Caso do Marcelo - 112k/mês usando webinars</p>
+  </div>
+  <div class="video-box">
+    <video controls playsinline preload="none"
+           poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/a0c49cdba4e3ba72.jpg">
+      <source src="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aaa5fd146b064c1cf20b.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ============ DEPOIMENTOS ============ -->
+  <div class="centro bloco-g">
+    <span class="selo-escuro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      O que nossos clientes falam?
+    </span>
+  </div>
+
+  <div class="depoimentos">
+    <div class="col">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696c51c9439b6bb177372283.png" alt="Depoimento de cliente" loading="lazy" width="528" height="466">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/68ee785949c1ba4d694e433f.jpeg" alt="Depoimento de cliente" loading="lazy" width="844" height="1280">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be1ebef24b63.png" alt="Depoimento de cliente" loading="lazy" width="572" height="236">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/68ee77f8f30a481e98bf0c36.jpeg" alt="Depoimento de cliente" loading="lazy" width="900" height="656">
+    </div>
+    <div class="col">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/68ee785949c1ba64514e4340.jpeg" alt="Depoimento de cliente" loading="lazy" width="731" height="1280">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de1f5e0aa78bc84226.png" alt="Depoimento de cliente" loading="lazy" width="900" height="1951">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be5697f24b62.png" alt="Depoimento de cliente" loading="lazy" width="528" height="252">
+      <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/699e107e3db1c142153be8b8.png" alt="Depoimento de cliente" loading="lazy" width="400" height="221">
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Copyright &copy; 2026 - XPN DIGITAL LTDA. Todos os direitos reservados |
+  <a href="https://pinpointscaling.co.uk/privacy-policy" rel="noopener">Privacy Policy</a>
+</footer>
+
+<script>
+  // Autoplay so passa se comecar mudo. O botao devolve o som no primeiro clique.
+  (function () {
+    var v = document.getElementById('v-confirmacao');
+    var b = document.getElementById('btn-som');
+    if (!v || !b) return;
+
+    b.addEventListener('click', function () {
+      v.muted = false;
+      v.volume = 1;
+      v.play().catch(function(){});
+      b.hidden = true;
+    });
+
+    // Se o navegador recusar ate o autoplay mudo, o botao vira play+som
+    // (nao some: sem ele o visitante fica olhando um poster parado).
+    v.play().catch(function () {
+      v.controls = true;
+      b.querySelector('span').textContent = 'Assistir com som';
+    });
+
+    // Usuario que desmutou pelos controles nativos nao precisa mais do botao.
+    v.addEventListener('volumechange', function () { if (!v.muted) b.hidden = true; });
+  })();
+</script>
+
+</body>
+</html>

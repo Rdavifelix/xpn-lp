@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplicação Webinar · Máquina de Reuniões</title>
+  <meta name="description" content="Preencha sua aplicação para o encontro do João Araújo. Análise da equipe antes da confirmação.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Aplicação Webinar · Máquina de Reuniões">
+  <meta property="og:description" content="Preencha sua aplicação para o encontro do João Araújo.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://crm.xpndigital.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --xpn-azul:          #1B4FD8;
+      --xpn-azul-claro:    #3B6FF0;
+      --xpn-preto:         #000000;
+      --xpn-cinza-card:    #0C0F1A;
+      --xpn-dourado:       #C8A227;
+      --xpn-branco:        #FFFFFF;
+      --xpn-cinza-texto:   #F2F2F2;
+      --xpn-cinza-muted:   #8A8FA8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(700px 420px at 50% -8%, rgba(27, 79, 216, 0.30), transparent 65%),
+        radial-gradient(500px 320px at 85% 20%, rgba(200, 162, 39, 0.08), transparent 70%),
+        var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: clamp(40px, 7vw, 64px) 0 clamp(24px, 4vw, 32px);
+    }
+
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      filter: drop-shadow(0 0 26px rgba(27, 79, 216, 0.55));
+    }
+
+    .logo-icon { width: 70px; height: auto; flex-shrink: 0; }
+
+    .logo-word { display: flex; flex-direction: column; line-height: 1; }
+
+    .logo-word .l1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #F2EFE6;
+      margin-bottom: 4px;
+    }
+
+    .logo-word .l2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 30px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--xpn-branco);
+    }
+
+    /* ===== HEADLINE ===== */
+    .hero { padding: 0 0 clamp(22px, 4vw, 30px); text-align: center; }
+
+    .badge {
+      display: inline-block;
+      background: rgba(200, 162, 39, 0.12);
+      border: 1px solid var(--xpn-dourado);
+      color: var(--xpn-dourado);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: clamp(12px, 1.4vw, 14px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(24px, 4.5vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--xpn-branco);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--xpn-dourado); }
+
+    .hero-divider {
+      width: 56px;
+      height: 3px;
+      margin: 0 auto 18px;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--xpn-azul-claro), var(--xpn-dourado));
+      box-shadow: 0 0 20px rgba(27, 79, 216, 0.7);
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.8vw, 16px);
+      color: var(--xpn-cinza-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ===== PASSOS ===== */
+    .passos {
+      display: flex;
+      justify-content: center;
+      gap: clamp(8px, 2vw, 18px);
+      padding: 0 0 clamp(24px, 4vw, 32px);
+      flex-wrap: wrap;
+    }
+
+    .passo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(11px, 1.4vw, 13px);
+      color: var(--xpn-cinza-muted);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .passo-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 100px;
+      border: 1px solid rgba(200, 162, 39, 0.5);
+      color: var(--xpn-dourado);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .passo-sep { color: rgba(255,255,255,0.18); align-self: center; }
+
+    /* ===== FORM ===== */
+    .form-section { padding: 0 0 clamp(40px, 6vw, 56px); }
+
+    .form-card {
+      position: relative;
+      background: var(--xpn-branco);
+      border: 1px solid rgba(27, 79, 216, 0.35);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.03),
+        0 30px 70px -20px rgba(27, 79, 216, 0.55),
+        0 14px 34px -14px rgba(0, 0, 0, 0.7);
+    }
+
+    .form-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--xpn-azul-claro), var(--xpn-dourado));
+      z-index: 2;
+    }
+
+    /* Placeholder enquanto o iframe do CRM carrega */
+    .form-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: var(--xpn-branco);
+      color: #6B7280;
+      font-size: 14px;
+      z-index: 1;
+      transition: opacity .25s ease;
+    }
+
+    .form-loading[hidden] { display: none; }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid rgba(27, 79, 216, 0.18);
+      border-top-color: var(--xpn-azul);
+      animation: girar .8s linear infinite;
+    }
+
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation-duration: 2.4s; }
+      html { scroll-behavior: auto; }
+    }
+
+    .form-fallback {
+      padding: 32px 24px;
+      text-align: center;
+      color: #1a1a1a;
+      font-size: 15px;
+    }
+
+    .form-fallback a { color: var(--xpn-azul); font-weight: 600; }
+
+    /* ===== DISCLAIMER ===== */
+    .disclaimer {
+      padding: clamp(24px, 4vw, 36px) 0 clamp(32px, 5vw, 48px);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+
+    .disclaimer p {
+      font-size: 12px;
+      color: var(--xpn-cinza-muted);
+      line-height: 1.8;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="container">
+
+  <header class="header">
+    <div class="logo-lockup">
+      <svg class="logo-icon" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Máquina de Reuniões">
+        <polygon points="35,5 95,5 65,145 5,145" fill="#EFE7D3"/>
+        <polygon points="100,5 160,5 130,145 70,145" fill="#EFE7D3"/>
+        <rect x="145" y="100" width="45" height="45" fill="#B4872E"/>
+      </svg>
+      <div class="logo-word">
+        <span class="l1">Máquina de</span>
+        <span class="l2">Reuniões</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="badge">Aplicação</span>
+    <h1>Preencha os dados abaixo para <span>garantir sua vaga</span> no encontro</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Sua aplicação é analisada pela nossa equipe antes da confirmação. Leva menos de 1 minuto — responda com atenção.</p>
+  </section>
+
+  <div class="passos">
+    <span class="passo"><span class="passo-num">1</span> Aplicação</span>
+    <span class="passo-sep">·</span>
+    <span class="passo"><span class="passo-num">2</span> Análise da equipe</span>
+    <span class="passo-sep">·</span>
+    <span class="passo"><span class="passo-num">3</span> Contato no WhatsApp</span>
+  </div>
+
+  <section class="form-section">
+    <div class="form-card">
+      <!-- [WB] Aplicação — CRM XPN (form e508fcb5) -->
+      <style>
+        /* Antídoto ao script fantasma do iframe-resizer do GHL, que marca
+           visibility:hidden / opacity:0 / left:-9999 em QUALQUER iframe da página. */
+        #crm-wb-aplicacao{pointer-events:auto!important;visibility:visible!important;opacity:1!important;position:static!important;left:auto!important;width:100%!important;min-width:0!important}
+        .dialog-message:has(#crm-wb-aplicacao){max-width:640px!important;width:100%!important}
+      </style>
+
+      <div class="form-loading" id="crm-wb-loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <span>Carregando sua aplicação…</span>
+      </div>
+
+      <iframe
+        data-no-lazy="1"
+        style="width:100%;border:none;overflow:hidden;min-height:620px;background:#fff;border-radius:12px;display:block"
+        id="crm-wb-aplicacao" scrolling="no" allowtransparency="true"
+        title="Aplicação Webinar — Máquina de Reuniões"></iframe>
+
+      <noscript>
+        <div class="form-fallback">
+          Ative o JavaScript para preencher a aplicação aqui, ou
+          <a href="https://crm.xpndigital.com/form/e508fcb5-523c-48d0-bb72-ad5a344f6165">abra o formulário em uma nova página</a>.
+        </div>
+      </noscript>
+
+      <script>(function(){
+        var f = document.getElementById("crm-wb-aplicacao");
+        var loading = document.getElementById("crm-wb-loading");
+        if (!f) return;
+
+        var BASE = "https://crm.xpndigital.com/form/e508fcb5-523c-48d0-bb72-ad5a344f6165";
+        var p = new URLSearchParams(window.location.search);
+        var UTM = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term",
+                   "gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];
+        var q = [];
+        UTM.forEach(function(k){ var v = p.get(k); if (v) q.push(k + "=" + encodeURIComponent(v)); });
+        q.push("_lp="  + encodeURIComponent(window.location.href));
+        q.push("_ref=" + encodeURIComponent(document.referrer || ""));
+        q.push("_t="   + Date.now());
+        var URL_FINAL = BASE + "?" + q.join("&");
+
+        function esconderLoading(){ if (loading) loading.hidden = true; }
+
+        f.addEventListener("load", esconderLoading);
+        f.src = URL_FINAL;
+
+        // Retry: WP Rocket e afins sequestram o src pra about:blank.
+        setTimeout(function(){
+          if (!f.src || f.src.indexOf("about:blank") === 0) { f.src = URL_FINAL; }
+        }, 1500);
+
+        // Rede de segurança: se o load não disparar, não deixa o spinner eterno.
+        setTimeout(esconderLoading, 8000);
+
+        window.addEventListener("message", function(e){
+          if (!e.data) return;
+          if (e.data.type === "np-form-height" || e.data.type === "crm-form-height") {
+            esconderLoading();
+            f.style.height = e.data.height + "px";
+          }
+          if (e.data.type === "crm-form-redirect" &&
+              typeof e.data.url === "string" &&
+              e.data.url.indexOf("https://") === 0) {
+            window.location.href = e.data.url;
+          }
+        });
+      })();</script>
+    </div>
+  </section>
+
+</div>
+
+<footer class="disclaimer">
+  <div class="container">
+    <p>
+      Este site não é afiliado, endossado ou patrocinado pelo Facebook, Instagram ou qualquer plataforma de mídia social.<br>
+      XPN Digital &copy; 2026 &mdash; Todos os direitos reservados.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
