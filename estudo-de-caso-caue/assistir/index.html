@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assista: Estudo de Caso Cauê · Máquina de Reuniões</title>
+  <meta name="description" content="Assista o estudo de caso completo do Cauê: o funil educativo que gera reuniões qualificadas toda semana.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Assista: Estudo de Caso Cauê · Máquina de Reuniões">
+  <meta property="og:description" content="O funil que levou o Cauê de R$20 mil por mês a mais de R$40 mil por semana.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --xpn-preto:       #000000;
+      --xpn-cinza-card:  #0C0F1A;
+      --xpn-dourado:     #C8A227;
+      --xpn-dourado-2:   #E5C55B;
+      --xpn-verde:       #35C46A;
+      --xpn-branco:      #FFFFFF;
+      --xpn-cinza-texto: #F2F2F2;
+      --xpn-cinza-muted: #8A8FA8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background:
+        radial-gradient(700px 420px at 50% -8%, rgba(200, 162, 39, 0.18), transparent 65%),
+        var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 44px 0 10px; }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--xpn-dourado);
+      color: var(--xpn-dourado-2);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: .04em;
+      border-radius: 999px; padding: 8px 18px; margin-bottom: 22px;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: clamp(22px, 4vw, 34px);
+      line-height: 1.3; color: var(--xpn-branco);
+    }
+    h1 .destaque { color: var(--xpn-verde); }
+    h1 .grifo { color: var(--xpn-verde); text-decoration: underline; font-style: italic; }
+
+    .faixa-play {
+      background: linear-gradient(90deg, var(--xpn-dourado), var(--xpn-dourado-2));
+      color: #1a1a1a; font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: 14px; letter-spacing: .02em;
+      text-align: center; border-radius: 8px;
+      padding: 12px 16px; margin: 28px 0 18px;
+    }
+
+    .player {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      background: #000; border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(200,162,39,.35);
+      cursor: pointer;
+    }
+    .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .player .capa {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(420px 260px at 50% 45%, rgba(200,162,39,.12), transparent 70%), #000;
+    }
+    .player .botao-play {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: rgba(255,255,255,.10);
+      border: 2px solid var(--xpn-dourado-2);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .15s ease;
+    }
+    .player:hover .botao-play { transform: scale(1.06); }
+    .player .botao-play::after {
+      content: ""; display: block; margin-left: 6px;
+      border-style: solid; border-width: 16px 0 16px 26px;
+      border-color: transparent transparent transparent var(--xpn-branco);
+    }
+
+    .proximo-passo {
+      background: var(--xpn-cinza-card);
+      border: 1px solid rgba(255,255,255,.08);
+      border-left: 3px solid var(--xpn-verde);
+      border-radius: 12px; padding: 20px 22px;
+      margin: 26px 0 48px; font-size: 15px;
+    }
+    .proximo-passo strong { color: var(--xpn-branco); }
+
+    .disclaimer {
+      margin-top: auto; border-top: 1px solid rgba(255,255,255,.08);
+      padding: 26px 0 34px; text-align: center;
+      color: var(--xpn-cinza-muted); font-size: 12px; line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <div class="container">
+
+    <header class="hero">
+      <span class="badge">👑 Apenas para: Mentores &amp; Donos de agência</span>
+      <h1>Você não precisa mais de lançamento, sessão estratégica ou low ticket… Instale o <span class="destaque">Funil 100k Semanal</span> para vender no mínimo <span class="grifo">R$30k toda semana</span>, assim como o Cauê fez.</h1>
+    </header>
+
+    <div class="faixa-play">🔊 Clique no play para entender como funciona!</div>
+
+    <!-- Facade: o iframe do YouTube só carrega no clique (mesma UX da página original) -->
+    <div class="player" id="player-caue" role="button" aria-label="Assistir o estudo de caso do Cauê" tabindex="0">
+      <div class="capa"><div class="botao-play" aria-hidden="true"></div></div>
+    </div>
+
+    <div class="proximo-passo">
+      <strong>Sua aplicação foi recebida. ✅</strong><br>
+      Enquanto você assiste, alguém do nosso time vai te chamar no WhatsApp que você cadastrou
+      para entender seu cenário e, se fizer sentido, agendar sua reunião de diagnóstico.
+    </div>
+
+  </div>
+
+  <footer class="disclaimer">
+    <div class="container">
+      <p>
+        Este site não faz parte do Facebook, YouTube ou Google e não é afiliado, endossado ou patrocinado por essas empresas.<br>
+        Resultados citados são de clientes selecionados e não representam garantia de ganhos — dependem de execução, contexto e esforço individual.<br>
+        Máquina de Reuniões · XPN Digital &copy; 2026 &mdash; Todos os direitos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <script>(function(){
+    var box = document.getElementById("player-caue");
+    if (!box) return;
+    function carregar(){
+      if (box.dataset.on) return;
+      box.dataset.on = "1";
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube.com/embed/2S_v6MNyaDA?autoplay=1&rel=0";
+      f.allow = "autoplay; encrypted-media; picture-in-picture";
+      f.allowFullscreen = true;
+      f.title = "Estudo de caso Cauê";
+      box.innerHTML = "";
+      box.appendChild(f);
+    }
+    box.addEventListener("click", carregar);
+    box.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") carregar(); });
+  })();</script>
+
+</body>
+</html>

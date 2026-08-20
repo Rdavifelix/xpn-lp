@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estudo de Caso Cauê · Máquina de Reuniões</title>
+  <meta name="description" content="Veja se você se qualifica para assistir o estudo de caso do Cauê — o funil educativo que gera reuniões toda semana.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Estudo de Caso Cauê · Máquina de Reuniões">
+  <meta property="og:description" content="Apenas para mentores e donos de agência: veja se você se qualifica para assistir esse estudo de caso.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://crm.xpndigital.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --xpn-preto:       #000000;
+      --xpn-cinza-card:  #0C0F1A;
+      --xpn-dourado:     #C8A227;
+      --xpn-dourado-2:   #E5C55B;
+      --xpn-verde:       #35C46A;
+      --xpn-branco:      #FFFFFF;
+      --xpn-cinza-texto: #F2F2F2;
+      --xpn-cinza-muted: #8A8FA8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(700px 420px at 50% -8%, rgba(200, 162, 39, 0.18), transparent 65%),
+        var(--xpn-preto);
+      color: var(--xpn-cinza-texto);
+      font-family: 'Sora', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container { width: 100%; max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    .hero { text-align: center; padding: 48px 0 8px; }
+
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--xpn-dourado);
+      color: var(--xpn-dourado-2);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: .04em;
+      border-radius: 999px; padding: 8px 18px; margin-bottom: 22px;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; font-size: clamp(24px, 4.6vw, 38px);
+      line-height: 1.25; color: var(--xpn-branco);
+    }
+    h1 .destaque { color: var(--xpn-verde); }
+    h1 .grifo { color: var(--xpn-dourado-2); text-decoration: underline; font-style: italic; }
+
+    .subhead {
+      margin: 16px auto 0; max-width: 640px;
+      color: var(--xpn-cinza-muted); font-size: 15px;
+    }
+
+    .qualifica {
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-style: italic;
+      font-size: clamp(20px, 3.4vw, 27px); color: var(--xpn-branco);
+      text-align: center; margin: 36px 0 20px;
+    }
+
+    .form-section { padding: 0 0 40px; }
+    .form-card {
+      background: var(--xpn-cinza-card);
+      border: 1px solid rgba(200,162,39,.25);
+      border-radius: 16px; padding: 18px;
+    }
+
+    .form-loading {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      color: var(--xpn-cinza-muted); font-size: 14px; padding: 28px 0;
+    }
+    .spinner {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.15); border-top-color: var(--xpn-dourado);
+      animation: girar .8s linear infinite;
+    }
+    @keyframes girar { to { transform: rotate(360deg); } }
+    .form-fallback { text-align: center; padding: 24px 0; }
+    .form-fallback a { color: var(--xpn-dourado-2); }
+
+    .provas { padding: 8px 0 48px; display: grid; gap: 16px; }
+    .prova {
+      background: var(--xpn-cinza-card);
+      border: 1px solid rgba(255,255,255,.08);
+      border-left: 3px solid var(--xpn-dourado);
+      border-radius: 12px; padding: 18px 20px;
+      font-size: 15px;
+    }
+    .prova strong { color: var(--xpn-branco); }
+
+    .disclaimer {
+      margin-top: auto; border-top: 1px solid rgba(255,255,255,.08);
+      padding: 26px 0 34px; text-align: center;
+      color: var(--xpn-cinza-muted); font-size: 12px; line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <div class="container">
+
+    <header class="hero">
+      <span class="badge">👑 Apenas para: Mentores &amp; Donos de agência</span>
+      <h1>Este exato sistema gera <span class="grifo">R$100k toda semana</span> para minha empresa com apenas <span class="destaque">1 hora e 30 minutos</span> de conteúdo</h1>
+      <p class="subhead">É o mesmo funil educativo que o Cauê usou para sair de R$20 mil por mês para mais de R$40 mil por semana.</p>
+    </header>
+
+    <p class="qualifica">Veja se você se qualifica para<br>assistir esse estudo de caso.</p>
+
+    <section class="form-section">
+      <div class="form-card">
+        <!-- [EC] Aplicação Cauê — CRM XPN (form 4ba3df19) -->
+        <style>
+          /* Antídoto ao script fantasma do iframe-resizer do GHL, que marca
+             visibility:hidden / opacity:0 / left:-9999 em QUALQUER iframe da página. */
+          #crm-ec-caue{pointer-events:auto!important;visibility:visible!important;opacity:1!important;position:static!important;left:auto!important;width:100%!important;min-width:0!important}
+          .dialog-message:has(#crm-ec-caue){max-width:640px!important;width:100%!important}
+        </style>
+
+        <div class="form-loading" id="crm-ec-loading">
+          <div class="spinner" aria-hidden="true"></div>
+          <span>Carregando sua aplicação…</span>
+        </div>
+
+        <iframe
+          data-no-lazy="1"
+          style="width:100%;border:none;overflow:hidden;min-height:620px;background:#fff;border-radius:12px;display:block"
+          id="crm-ec-caue" scrolling="no" allowtransparency="true"
+          title="Aplicação Estudo de Caso Cauê — Máquina de Reuniões"></iframe>
+
+        <noscript>
+          <div class="form-fallback">
+            Ative o JavaScript para preencher a aplicação aqui, ou
+            <a href="https://crm.xpndigital.com/form/4ba3df19-7582-4360-84c1-bc7d25a7cca8">abra o formulário em uma nova página</a>.
+          </div>
+        </noscript>
+
+        <script>(function(){
+          var f = document.getElementById("crm-ec-caue");
+          var loading = document.getElementById("crm-ec-loading");
+          if (!f) return;
+
+          var BASE = "https://crm.xpndigital.com/form/4ba3df19-7582-4360-84c1-bc7d25a7cca8";
+          var p = new URLSearchParams(window.location.search);
+          var UTM = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term",
+                     "gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];
+          var q = [];
+          UTM.forEach(function(k){ var v = p.get(k); if (v) q.push(k + "=" + encodeURIComponent(v)); });
+          q.push("_lp="  + encodeURIComponent(window.location.href));
+          q.push("_ref=" + encodeURIComponent(document.referrer || ""));
+          q.push("_t="   + Date.now());
+          var URL_FINAL = BASE + "?" + q.join("&");
+
+          function esconderLoading(){ if (loading) loading.hidden = true; }
+
+          f.addEventListener("load", esconderLoading);
+          f.src = URL_FINAL;
+
+          // Retry: WP Rocket e afins sequestram o src pra about:blank.
+          setTimeout(function(){
+            if (!f.src || f.src.indexOf("about:blank") === 0) { f.src = URL_FINAL; }
+          }, 1500);
+
+          // Rede de segurança: se o load não disparar, não deixa o spinner eterno.
+          setTimeout(esconderLoading, 8000);
+
+          window.addEventListener("message", function(e){
+            if (!e.data) return;
+            if (e.data.type === "np-form-height" || e.data.type === "crm-form-height") {
+              esconderLoading();
+              f.style.height = e.data.height + "px";
+            }
+            if (e.data.type === "crm-form-redirect" &&
+                typeof e.data.url === "string" &&
+                e.data.url.indexOf("https://") === 0) {
+              window.location.href = e.data.url;
+            }
+          });
+        })();</script>
+      </div>
+    </section>
+
+    <section class="provas">
+      <div class="prova"><strong>Vanderson</strong> saiu do zero para fazer R$100k toda semana usando o funil educativo.</div>
+      <div class="prova"><strong>Eduardo</strong> saiu do zero e hoje fatura mais de R$300k por mês com sua mentoria.</div>
+    </section>
+
+  </div>
+
+  <footer class="disclaimer">
+    <div class="container">
+      <p>
+        Este site não faz parte do Facebook, YouTube ou Google e não é afiliado, endossado ou patrocinado por essas empresas.<br>
+        Resultados citados são de clientes selecionados e não representam garantia de ganhos — dependem de execução, contexto e esforço individual.<br>
+        Máquina de Reuniões · XPN Digital &copy; 2026 &mdash; Todos os direitos reservados.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
