@@ -172,6 +172,20 @@
     .fit-card.yes li::before{content:"✓";color:var(--green)}
     .fit-card.no li::before{content:"✕";color:var(--red)}
 
+    /* ---------- VIDEO DEPOIMENTOS ---------- */
+    .videos-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:900px;margin:0 auto 44px}
+    .video-card{
+      border:1px solid var(--border);background:var(--card);
+      border-radius:18px;overflow:hidden;
+      transition:border-color .2s ease;
+    }
+    .video-card:hover{border-color:rgba(96,165,250,.4)}
+    .video-card .vwrap{position:relative;aspect-ratio:16/9;background:#000}
+    .video-card .vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+    .video-card .vmeta{padding:16px 20px}
+    .video-card .vmeta strong{display:block;font-size:15px;font-weight:700;color:#fff}
+    .video-card .vmeta span{font-size:13px;color:var(--txt-3);font-weight:600}
+
     /* ---------- RESULTS ---------- */
     .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .result-card{
@@ -211,6 +225,7 @@
 
     @media (max-width:820px){
       .results-grid{grid-template-columns:1fr}
+      .videos-grid{grid-template-columns:1fr}
       .fit-grid{grid-template-columns:1fr}
       .hero{padding-top:44px}
       .section{padding:56px 0}
@@ -312,6 +327,32 @@
       <p class="eyebrow">Resultados de quem implementou</p>
       <h2>Números Reais, de Clientes Reais</h2>
       <p class="section-sub">Sem print maquiado, sem promessa vazia. É assim que a Máquina de Reuniões roda na prática.</p>
+
+      <div class="videos-grid">
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1jHYgX1nTCY5NsRbkWhlJRDksXsbA2hMT/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Murilo Vila Verde"></iframe></div>
+          <div class="vmeta"><strong>Murilo Vila Verde</strong><span>Infoprodutor e Mentor</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1rUpWl9ziF9NcOCiJrCiMkA1rkIkU5s2O/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Arthur e Lucas"></iframe></div>
+          <div class="vmeta"><strong>Arthur e Lucas</strong><span>Clientes XPN</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1-VziWHHBZMQcIHFl-Its52XEJHYuyv5q/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Matheus Nakaoka"></iframe></div>
+          <div class="vmeta"><strong>Matheus Nakaoka</strong><span>Cliente XPN</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1YSqz7I10-GsmxY80lcxHhqs5qqvS8I4h/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Jhonatan Benevies"></iframe></div>
+          <div class="vmeta"><strong>Jhonatan Benevies</strong><span>Cliente XPN</span></div>
+        </div>
+        <!-- Eduardo Lustosa: aguardando liberação de acesso do arquivo no Drive (1K_ktHp1wEJ6_7ZSOqTHEB1IqJc3YSRWF retorna 401 para visitantes).
+             Quando liberar ("qualquer pessoa com o link"), adicionar:
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1K_ktHp1wEJ6_7ZSOqTHEB1IqJc3YSRWF/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Eduardo Lustosa"></iframe></div>
+          <div class="vmeta"><strong>Eduardo Lustosa</strong><span>Implementação XPN</span></div>
+        </div>
+        -->
+      </div>
 
       <div class="results-grid">
         <div class="result-card">
