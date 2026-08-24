@@ -194,14 +194,8 @@
       line-height:1.65;max-width:680px;margin:36px auto 0;
     }
 
-    /* ---------- FORM ---------- */
+    /* ---------- ÚLTIMO PASSO ---------- */
     #agendar{scroll-margin-top:40px}
-    .form-frame{
-      max-width:640px;margin:0 auto;
-      background:#fff;border-radius:18px;padding:10px;
-      box-shadow:0 0 80px -20px rgba(37,99,235,.35), 0 30px 60px -30px rgba(0,0,0,.8);
-    }
-    .form-frame iframe{width:100%;border:none;min-height:620px;border-radius:12px;display:block;background:#fff}
 
     /* ---------- FINAL / FOOTER ---------- */
     .final{text-align:center;padding:20px 0 80px}
@@ -285,6 +279,43 @@
       .node__t{font-size:10.5px}
     }
 
+    /* ---------- MODAL DO FORMULÁRIO ([ADV] Aplicação Advogados — 2 etapas) ---------- */
+    .modal{position:fixed;inset:0;z-index:100;display:none}
+    .modal.aberto{display:block}
+    .modal__bg{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
+    /* O form do CRM é claro (fundo branco), então a caixa usa superfície clara — não o dark da página. */
+    .modal__cx{
+      position:relative;z-index:2;
+      width:min(520px,calc(100vw - 24px));
+      max-height:calc(100dvh - 32px);
+      margin:16px auto;
+      top:50%;transform:translateY(-50%);
+      background:#fff;
+      border:1px solid rgba(59,130,246,.45);
+      border-radius:18px;
+      box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
+      padding:24px 18px 16px;
+      overflow-y:auto;
+      animation:sobe .28s cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes sobe{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
+    .modal__x{
+      position:absolute;top:10px;right:10px;z-index:3;
+      width:32px;height:32px;border-radius:50%;
+      background:#f1f3f6;border:1px solid #dfe3e9;color:#333;
+      font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
+    }
+    .modal__x:hover{background:#e4e8ee}
+    .modal__tit{text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25}
+    .modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
+    /* min-height é só fallback caso o postMessage de altura não chegue.
+       Fica abaixo da altura real do form para o resize sempre vencer. */
+    .modal iframe{width:100%;min-height:320px;border:0;border-radius:10px;display:block;background:transparent}
+    .modal__seg{text-align:center;font-size:.78rem;color:#5b6472;margin:4px 0 0}
+    body.travado{overflow:hidden}
+    @media(max-width:520px){ .modal__cx{padding:38px 12px 14px} }
+    @media (prefers-reduced-motion:reduce){ .modal__cx{animation:none} }
+
     @media (max-width:820px){
       .results-grid{grid-template-columns:1fr}
       .fit-grid{grid-template-columns:1fr}
@@ -328,7 +359,7 @@
         </div>
       </div>
 
-      <a class="cta" href="#agendar">ENTRAR NO GRUPO AGORA →</a>
+      <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
       <div class="stars">★★★★★</div>
       <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
     </div>
@@ -405,7 +436,7 @@
       </div>
     </div>
     <div class="ciclos-outro">
-      <a class="cta" href="#agendar">ENTRAR NO GRUPO AGORA →</a>
+      <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
     </div>
   </section>
 
@@ -483,26 +514,37 @@
     </div>
   </section>
 
-  <!-- ==================== FORMULÁRIO ==================== -->
+  <!-- ==================== ÚLTIMO PASSO (CTA abre o modal) ==================== -->
   <section class="section" id="agendar">
     <div class="container narrow">
       <p class="eyebrow">Último passo</p>
       <h2>Garanta Sua Vaga no Encontro</h2>
-      <p class="section-sub">Preencha os dados abaixo para entrar no grupo — as vagas são limitadas a 100 pessoas.</p>
+      <p class="section-sub">A aplicação leva menos de 1 minuto: seus dados e 3 perguntas rápidas sobre o seu escritório. As vagas são limitadas a 100 pessoas.</p>
 
-      <div class="form-frame">
-        <iframe id="nf-crm-vsl-cadastro"
-          src="https://crm.xpndigital.com/form/23848208-1f2b-4374-a97d-6030db892687"
-          loading="lazy" scrolling="no" allowtransparency="true" title="Cadastro XPN"></iframe>
-      </div>
-
-      <div class="final" style="padding-top:44px">
-        <a class="cta" href="#agendar">ENTRAR NO GRUPO AGORA →</a>
+      <div class="final" style="padding-top:8px">
+        <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
         <div class="stars">★★★★★</div>
         <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
       </div>
     </div>
   </section>
+
+  <!-- ==================== MODAL — [ADV] Aplicação Advogados (2 etapas) ==================== -->
+  <div class="modal" id="inscricao" aria-hidden="true">
+    <div class="modal__bg" data-fechar></div>
+    <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Aplicação para o encontro">
+      <button class="modal__x" data-fechar aria-label="Fechar">×</button>
+      <p class="modal__tit">Garanta sua vaga no encontro</p>
+      <p class="modal__sub">Encontro ao vivo no Meet · 100 vagas.</p>
+      <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
+      <iframe
+        id="nf-crm-adv"
+        data-src="https://crm.xpndigital.com/form/5d58f506-8811-4b11-a4c7-e188fc3ea3de"
+        title="[ADV] Aplicação Advogados"
+        scrolling="no"></iframe>
+      <p class="modal__seg">🔒 Seus dados estão seguros com a gente.</p>
+    </div>
+  </div>
 
   <footer>
     <div class="container">
@@ -517,16 +559,78 @@
   </footer>
 
   <script>
-    // Repassa UTMs / fbclid da URL da página para o formulário do CRM
-    (function(){
-      var iframe = document.getElementById('nf-crm-vsl-cadastro');
-      if(!iframe) return;
-      var params = new URLSearchParams(window.location.search);
-      var url = new URL(iframe.src);
-      params.forEach(function(v,k){ url.searchParams.set(k,v); });
-      url.searchParams.set('_lp', window.location.href.split('?')[0]);
-      url.searchParams.set('_t', Date.now());
-      iframe.src = url.toString();
+    // Modal do formulário [ADV] Aplicação Advogados — mesmo contrato de lp2 / wb-07:
+    // src só é aplicado ao abrir (iframe escondido se mede como 0px e nunca remede),
+    // UTMs repassadas, altura ajustada por postMessage (essencial num form de 2 etapas,
+    // que muda de altura ao trocar de passo) e redirect pós-envio obedecido.
+    (function () {
+      var modal = document.getElementById('inscricao');
+      var form  = document.getElementById('nf-crm-adv');
+      if (!modal || !form) return;
+      var ultimoFoco = null;
+
+      function carregarForm() {
+        if (form.getAttribute('src')) return;              // já carregado
+        var base = form.getAttribute('data-src');
+        if (!base) return;
+        var par = new URLSearchParams(window.location.search);
+        var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+                      'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
+        var q = [];
+        chaves.forEach(function (k) {
+          var v = par.get(k);
+          if (v) q.push(k + '=' + encodeURIComponent(v));
+        });
+        q.push('_lp=' + encodeURIComponent(window.location.href));
+        q.push('_ref=' + encodeURIComponent(document.referrer || ''));
+        q.push('_t=' + Date.now());
+        form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+
+        // Se nenhuma altura válida chegar, assume uma que cobre as duas etapas.
+        setTimeout(function () {
+          if (!form.style.height) form.style.height = '620px';
+        }, 1500);
+      }
+
+      function abrir(e) {
+        if (e) e.preventDefault();
+        ultimoFoco = document.activeElement;
+        carregarForm();
+        modal.classList.add('aberto');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('travado');
+        var x = modal.querySelector('.modal__x');
+        if (x) x.focus();
+      }
+
+      function fechar() {
+        modal.classList.remove('aberto');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('travado');
+        if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+      }
+
+      document.querySelectorAll('[data-abrir]').forEach(function (el) {
+        el.addEventListener('click', abrir);
+      });
+      modal.querySelectorAll('[data-fechar]').forEach(function (el) {
+        el.addEventListener('click', fechar);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('aberto')) fechar();
+      });
+
+      window.addEventListener('message', function (e) {
+        if (!e.data) return;
+        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
+          var h = parseInt(e.data.height, 10);
+          if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
+        }
+        if (e.data.type === 'crm-form-redirect' &&
+            typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
+          window.location.href = e.data.url;
+        }
+      });
     })();
 
     // Metodologia: anel sincronizado com o scroll (desktop) / autoplay ao entrar na tela (mobile)
