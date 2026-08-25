@@ -2,7 +2,7 @@
 <!--
   MÁQUINA DE REUNIÕES · Página de obrigado / bônus (pós-compra)
   Identidade: dossiê dark editorial da "Formatos que Agendam" (Geist + Instrument Serif + JetBrains Mono, acento laranja).
-  Estrutura enxuta inspirada em página de obrigado: confirmação + convite + formulário incorporado (Respondi).
+  Estrutura enxuta inspirada em página de obrigado: confirmação + convite + formulário incorporado (CRM XPN).
 -->
 <html lang="pt-BR">
 <head>
@@ -127,8 +127,7 @@ h1{
 }
 .form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.7;z-index:2}
-.form-card [data-respondi-container]{min-height:400px}
-.form-card iframe{width:100%!important;border:none;display:block;background:transparent}
+.form-card iframe{width:100%!important;border:none;display:block;background:#fff;min-height:520px}
 
 /* ── MOBILE: ordem natural (texto primeiro, formulário por último) + compacto ── */
 @media(max-width:640px){
@@ -181,7 +180,11 @@ footer .meta{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-tra
 
     <div class="form-wrap rev">
       <div class="form-card">
-        <div data-respondi-container="" data-respondi-mode="regular" data-respondi-src="https://form.respondi.app/9qqyjIRG" data-respondi-width="100%" data-respondi-height="400px"></div>
+        <iframe
+          src="https://crm.xpndigital.com/form/5c1b8e37-9d42-4a06-b7f5-1e83c9a2604d"
+          id="nf-crm-obrigado-agendamento"
+          loading="lazy" scrolling="no" allowtransparency="true"
+          title="Aplicação para a reunião de análise"></iframe>
       </div>
     </div>
 
@@ -202,10 +205,9 @@ const io=new IntersectionObserver((es)=>{
 document.querySelectorAll('.rev').forEach((el,i)=>{el.style.transitionDelay=(i*70)+'ms';io.observe(el)});
 </script>
 
-<!-- Embed oficial do Respondi (faz o auto-resize do formulário) -->
+<!-- Embed oficial do CRM XPN: repassa UTMs, faz o auto-resize e trata o redirect do agendamento -->
 <script>
-const bodyScript=document.querySelector('body'),hasScript=document.querySelector('#respondi_src');
-if(!hasScript){const script=document.createElement('script');script.setAttribute("async","");document.body.appendChild(script),script.id='respondi_src',script.src='https://embed.respondi.app/embed.js';}
+(function(){var f=document.getElementById("nf-crm-obrigado-agendamento");if(!f)return;var p=new URLSearchParams(window.location.search);var u=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","_gl","ttclid","msclkid","li_fat_id"];var q=[];u.forEach(function(k){var v=p.get(k);if(v)q.push(k+"="+encodeURIComponent(v))});q.push("_lp="+encodeURIComponent(window.location.href));q.push("_ref="+encodeURIComponent(document.referrer||""));q.push("_t="+Date.now());f.src=f.src+(f.src.indexOf("?")>-1?"&":"?")+q.join("&");window.addEventListener("message",function(e){if(!e.data)return;if(e.data.type==="np-form-height"||e.data.type==="crm-form-height"){f.style.height=e.data.height+"px"}if(e.data.type==="crm-form-redirect"&&e.data.url){window.location.href=e.data.url}})})();
 </script>
 </body>
 </html>
