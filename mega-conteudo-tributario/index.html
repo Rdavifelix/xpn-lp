@@ -12,6 +12,29 @@
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- Meta Pixel — base nativa. NAO dispara PageView: o GTM (GTM-WBZLWJ8X) ja
+       dispara 1 PageView deste mesmo pixel. Disparar aqui de novo duplicaria o
+       evento. Esta base existe para a pagina poder mandar o Lead sozinha,
+       sem depender de tag no GTM. Fallback: se em 3s o GTM nao tiver mandado
+       PageView (bloqueado/adblock), a pagina manda um. -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+  })();
+  </script>
   <!-- End Google Tag Manager -->
 
   <!-- Fonts -->
@@ -359,7 +382,7 @@
         </div>
       </div>
 
-      <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
+      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
       <div class="stars">★★★★★</div>
       <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
     </div>
@@ -436,7 +459,7 @@
       </div>
     </div>
     <div class="ciclos-outro">
-      <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
+      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
     </div>
   </section>
 
@@ -522,7 +545,7 @@
       <p class="section-sub">A aplicação leva menos de 1 minuto: seus dados e 3 perguntas rápidas sobre o seu escritório. As vagas são limitadas a 100 pessoas.</p>
 
       <div class="final" style="padding-top:8px">
-        <a class="cta" href="#" data-abrir>ENTRAR NO GRUPO AGORA →</a>
+        <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
         <div class="stars">★★★★★</div>
         <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
       </div>
@@ -625,6 +648,20 @@
         if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
           var h = parseInt(e.data.height, 10);
           if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
+        }
+        // Conversao: o form avisa o envio pelo postMessage 'crm-form-submitted'.
+        // Sem isso o pixel nunca sabia que alguem aplicou (o form fica em iframe
+        // de outro dominio) e a campanha otimizava as cegas.
+        if (e.data.type === 'crm-form-submitted') {
+          try {
+            var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+            if (window.fbq) fbq('track', 'Lead', {
+              content_name: 'Aplicacao Advogados - Mega Conteudo Tributario',
+              content_category: 'advogados_tributario'
+            }, { eventID: eid });
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_tributario', event_id: eid });
+          } catch (err) {}
         }
         if (e.data.type === 'crm-form-redirect' &&
             typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
