@@ -619,7 +619,7 @@ section{position:relative}
         <span class="lbl">Hoje, tudo por</span>
         <div class="big"><span class="cur">R$</span>47</div>
       </div>
-      <a href="https://pay.assiny.com.br/7043bb/node/A4fjOp" onclick="if(window.fbq)fbq('track','InitiateCheckout');" class="btn btn-primary btn-lg">Quero tudo por R$47 <span class="arr">→</span></a>
+      <a href="https://pay.assiny.com.br/7043bb/node/A4fjOp" data-checkout-assiny onclick="if(window.fbq)fbq('track','InitiateCheckout');" class="btn btn-primary btn-lg">Quero tudo por R$47 <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -746,6 +746,36 @@ section{position:relative}
     }); },{threshold:0.2});
     sio.observe(saw);
   }
+})();
+</script>
+<!-- Repassa o rastreio da URL para o checkout da Assiny.
+     SEM isto o link e' estatico e a Assiny grava utm_source/utm_campaign/utm_content
+     como a string literal "direct" — foi o que aconteceu com os 22 primeiros
+     compradores (0 de 22 com anuncio identificavel), enquanto 18 deles tinham
+     `fbc` provando que vieram de clique no Meta. O ad_id viaja em utm_content
+     (macro {{ad.id}} nos anuncios), entao e' esse o parametro que importa.
+     trk_* sao os campos proprios da Assiny, preenchidos a partir dos mesmos UTMs. -->
+<script>
+(function(){
+  var a=document.querySelector("a[data-checkout-assiny]");if(!a)return;
+  var p=new URLSearchParams(window.location.search);
+  var keys=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","ttclid","msclkid"];
+  var vals={},achou=false;
+  keys.forEach(function(k){var v=p.get(k);if(v){vals[k]=v;achou=true}});
+  // Guarda/recupera na sessao: se a pessoa recarregar a pagina ou voltar do
+  // checkout, a URL pode ja ter perdido os parametros.
+  try{
+    if(achou){sessionStorage.setItem("xpn_trk",JSON.stringify(vals))}
+    else{var g=sessionStorage.getItem("xpn_trk");if(g){vals=JSON.parse(g);achou=true}}
+  }catch(e){}
+  if(!achou)return;
+  var q=[];
+  Object.keys(vals).forEach(function(k){q.push(k+"="+encodeURIComponent(vals[k]))});
+  if(vals.utm_content)q.push("trk_ad="+encodeURIComponent(vals.utm_content));
+  if(vals.utm_campaign)q.push("trk_cpg="+encodeURIComponent(vals.utm_campaign));
+  if(vals.utm_source)q.push("trk_src="+encodeURIComponent(vals.utm_source));
+  if(vals.utm_medium)q.push("trk_adgp="+encodeURIComponent(vals.utm_medium));
+  a.href=a.href+(a.href.indexOf("?")>-1?"&":"?")+q.join("&");
 })();
 </script>
 </body>
