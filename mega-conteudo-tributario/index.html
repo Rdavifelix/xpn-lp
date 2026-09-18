@@ -317,7 +317,7 @@
       border:1px solid rgba(59,130,246,.45);
       border-radius:18px;
       box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
-      padding:24px 18px 16px;
+      padding:44px 18px 16px;   /* topo maior: sem título, o form começa logo abaixo do botão de fechar */
       overflow-y:auto;
       animation:sobe .28s cubic-bezier(.2,.8,.3,1);
     }
@@ -329,8 +329,6 @@
       font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
     }
     .modal__x:hover{background:#e4e8ee}
-    .modal__tit{text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25}
-    .modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
     /* min-height é só fallback caso o postMessage de altura não chegue.
        Fica abaixo da altura real do form para o resize sempre vencer. */
     .modal iframe{width:100%;min-height:320px;border:0;border-radius:10px;display:block;background:transparent}
@@ -557,8 +555,6 @@
     <div class="modal__bg" data-fechar></div>
     <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Aplicação para o encontro">
       <button class="modal__x" data-fechar aria-label="Fechar">×</button>
-      <p class="modal__tit">Garanta sua vaga no encontro</p>
-      <p class="modal__sub">Encontro ao vivo no Meet · 100 vagas.</p>
       <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
       <iframe
         id="nf-crm-adv"
@@ -591,6 +587,16 @@
       var form  = document.getElementById('nf-crm-adv');
       if (!modal || !form) return;
       var ultimoFoco = null;
+
+      // Página de obrigado fixa: ao concluir a 2ª etapa o lead cai na TYP da VSL,
+      // independentemente do redirect configurado no CRM.
+      var URL_OBRIGADO = 'https://maquinadereunioes.com/typ_vsl/?fat=' + encodeURIComponent('Entre R$10.000 a R$20.000');
+      var redirecionado = false;
+      function irParaObrigado() {
+        if (redirecionado) return;
+        redirecionado = true;
+        window.location.href = URL_OBRIGADO;
+      }
 
       function carregarForm() {
         if (form.getAttribute('src')) return;              // já carregado
@@ -662,11 +668,11 @@
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_tributario', event_id: eid });
           } catch (err) {}
+          // Pequena espera para o pixel/dataLayer despacharem antes de sair da página.
+          setTimeout(irParaObrigado, 400);
         }
-        if (e.data.type === 'crm-form-redirect' &&
-            typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
-          window.location.href = e.data.url;
-        }
+        // O CRM também pode pedir redirect; o destino final é sempre a página de obrigado.
+        if (e.data.type === 'crm-form-redirect') irParaObrigado();
       });
     })();
 
