@@ -673,6 +673,12 @@
         }
         // O CRM também pode pedir redirect; o destino final é sempre a página de obrigado.
         if (e.data.type === 'crm-form-redirect') irParaObrigado();
+        // Rede de segurança: qualquer aviso de conclusão vindo do domínio do CRM
+        // (variações de nome do evento) também leva à página de obrigado.
+        if (typeof e.origin === 'string' && e.origin.indexOf('crm.xpndigital.com') > -1 &&
+            typeof e.data.type === 'string' && /submit|success|complete|conclu|redirect/i.test(e.data.type)) {
+          setTimeout(irParaObrigado, 400);
+        }
       });
     })();
 
