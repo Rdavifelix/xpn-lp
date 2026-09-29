@@ -355,7 +355,7 @@
     .modal-eyebrow { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin: 0 0 6px; }
     .modal-title { text-align: center; font-size: 1.4rem; font-weight: 700; color: #02092b; margin: 0 0 6px; line-height: 1.2; }
     .modal-sub { text-align: center; color: #5b6472; font-size: .9rem; margin: 0 0 18px; }
-    .modal iframe { width: 100%; min-height: 320px; border: 0; border-radius: 10px; display: block; background: transparent; }
+    .modal iframe { width: 100%; min-height: 520px; border: 0; border-radius: 10px; display: block; background: transparent; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; position: static !important; }
     .form-fine { margin: 12px 2px 0; font-size: .75rem; color: #8a8e98; text-align: center; }
     body.travado { overflow: hidden; }
 
@@ -675,7 +675,7 @@
   </footer>
 
   <!-- ============================================================
-       MODAL POPUP — form [ADV] Aplicação Advogados (CRM XPN, 2 etapas)
+       MODAL POPUP — form [WB] Advogados (Aplicação — Webinar Advogados, CRM XPN)
        ============================================================ -->
   <div class="modal-overlay" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal" role="document">
@@ -683,12 +683,14 @@
       <p class="modal-eyebrow">Apenas 100 vagas</p>
       <h3 class="modal-title" id="modal-title">Garanta sua vaga no encontro</h3>
       <p class="modal-sub">Aplicação rápida, analisada antes da confirmação. Acesso pelo WhatsApp.</p>
-      <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
+      <!-- Form do CRM XPN — [WB] Advogados (Aplicação — Webinar Advogados). Altura/UTM/redirect tratados no script no fim da página. -->
       <iframe
         id="nf-crm-adv"
-        data-src="https://crm.xpndigital.com/form/5d58f506-8811-4b11-a4c7-e188fc3ea3de"
-        title="[ADV] Aplicação Advogados"
-        scrolling="no"></iframe>
+        data-src="https://crm.xpndigital.com/form/6e6945a3-d383-4862-9a46-9ab3598cd91e"
+        data-no-lazy="1"
+        title="Aplicação — Webinar Advogados"
+        scrolling="no"
+        allow="clipboard-write"></iframe>
       <p class="form-fine">🔒 Seus dados estão seguros. Não enviamos spam.</p>
     </div>
   </div>
@@ -702,31 +704,35 @@
   })();
 
   /* ============================================================
-     MODAL + form [ADV] — mesmo contrato de /mega-conteudo-tributario:
+     MODAL + form [WB] Advogados — contrato do embed oficial do CRM XPN:
      src só é aplicado ao abrir (iframe escondido se mede como 0px e nunca remede),
-     UTMs repassadas, altura ajustada por postMessage (form de 2 etapas muda de
-     altura ao trocar de passo) e redirect pós-envio obedecido.
+     UTMs/fbclid/gclid + parent_url repassados (cadastro nasce atribuído), altura
+     ajustada por postMessage (o form muda de altura ao trocar de passo), mensagens
+     aceitas só da origem do CRM, e redirect pós-envio para a obrigado desta página.
      ============================================================ */
   (function () {
+    var ORIGIN = 'https://crm.xpndigital.com';
     var modal = document.getElementById('modal');
     var form  = document.getElementById('nf-crm-adv');
     var closeBtn = document.getElementById('modal-close');
     if (!modal || !form) return;
     var ultimoFoco = null;
 
-    function carregarForm() {
-      if (form.getAttribute('src')) return;
+    function montarSrc() {
       var base = form.getAttribute('data-src');
-      if (!base) return;
-      var par = new URLSearchParams(window.location.search);
-      var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
-                    'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
-      var q = [];
-      chaves.forEach(function (k) { var v = par.get(k); if (v) q.push(k + '=' + encodeURIComponent(v)); });
-      q.push('_lp=' + encodeURIComponent(window.location.href));
-      q.push('_ref=' + encodeURIComponent(document.referrer || ''));
-      q.push('_t=' + Date.now());
-      form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+      var qs = new URLSearchParams(window.location.search);
+      var keep = new URLSearchParams();
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function (k) {
+        if (qs.get(k)) keep.set(k, qs.get(k));
+      });
+      keep.set('parent_url', window.location.href);
+      return base + (base.indexOf('?') === -1 ? '?' : '&') + keep.toString();
+    }
+    function carregarForm() {
+      var atual = form.getAttribute('src');
+      if (atual && atual !== 'about:blank') return;
+      if (!form.getAttribute('data-src')) return;
+      form.setAttribute('src', montarSrc());
       setTimeout(function () { if (!form.style.height) form.style.height = '620px'; }, 1500);
     }
     function abrir(ctaId) {
@@ -764,26 +770,31 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) fechar();
     });
-    window.addEventListener('message', function (e) {
-      if (!e.data) return;
-      if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
-        var h = parseInt(e.data.height, 10);
-        if (h > 0) form.style.height = h + 'px';
-      }
-      if (e.data.type === 'crm-form-submitted') {
-        var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    // Envio concluído: Lead no pixel (uma vez) e redirect para a obrigado desta página.
+    // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'; qualquer um conclui.
+    var leadId = null;
+    function concluir() {
+      if (!leadId) {
+        leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
         try {
           if (window.fbq) fbq('track', 'Lead', {
             content_name: 'Aplicacao Advogados - Revolucao',
             content_category: 'advogados'
-          }, { eventID: eid });
+          }, { eventID: leadId });
           window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_revolucao', event_id: eid });
+          window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_revolucao', event_id: leadId });
         } catch (err) {}
-        irParaObrigado(eid);
+      }
+      irParaObrigado(leadId);
+    }
+    window.addEventListener('message', function (e) {
+      if (e.origin !== ORIGIN || !e.data) return;
+      if ((e.data.type === 'crm-form-height' || e.data.type === 'np-form-height') && e.data.height) {
+        var h = Math.ceil(parseFloat(e.data.height));
+        if (h > 0) { form.style.height = h + 'px'; form.style.minHeight = '0'; }
       }
       // O redirect configurado no CRM é ignorado: esta página tem a própria obrigado (grupo do WhatsApp).
-      if (e.data.type === 'crm-form-redirect') irParaObrigado();
+      if (e.data.type === 'crm-form-submitted' || e.data.type === 'crm-form-redirect') concluir();
     });
   })();
   </script>
