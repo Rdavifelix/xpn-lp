@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<!--
+  ADVOGADOS · A Revolução da Demanda Educada · João Araújo (XPN Digital)
+  Página de aplicação para o encontro ao vivo (Meet) voltado a sócios de escritórios de advocacia.
+  Estilo: mesma família visual da lp4 / mega-conteudo-tributario (Geist + Instrument Serif, dark, acento azul).
+
+  ┌─ AJUSTES PENDENTES ─────────────────────────────────────────────────────────┐
+  │ 1. HERO: assets/joao.jpg é a foto do João já usada em /formatos. Trocar     │
+  │    pela foto da hero de metodoagendacheia.com/revolucao quando o arquivo     │
+  │    estiver disponível (mesmo nome de arquivo, nada mais muda).              │
+  │ 2. COPY: estrutura e copy escritas a partir da base XPN para advogados.      │
+  │    Ajustar frases da hero/dor quando a copy do /revolucao for compartilhada. │
+  │ 3. FORM: modal usa o form [ADV] Aplicação Advogados (2 etapas) do CRM XPN,   │
+  │    o mesmo de /mega-conteudo-tributario. Redirect pós-envio vem do CRM.      │
+  │ 4. DATA DO ENCONTRO: a página não fixa data. Se houver, editar .micro e FAQ. │
+  └─────────────────────────────────────────────────────────────────────────────┘
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPN Digital — A Revolução da Demanda Educada Para Escritórios de Advocacia</title>
+  <meta name="description" content="Como escritórios de advocacia estão gerando reuniões qualificadas toda semana com clientes que ainda nem sabiam que precisavam de advogado — sem depender de indicação e dentro do que a OAB permite. Encontro exclusivo, ao vivo, no Meet.">
+  <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- Meta Pixel — base nativa. NAO dispara PageView: o GTM (GTM-WBZLWJ8X) ja
+       dispara 1 PageView deste mesmo pixel. A base existe para a pagina mandar
+       o Lead sozinha. Fallback: se em 3s o GTM nao tiver mandado PageView
+       (bloqueado/adblock), a pagina manda um. Mesmo contrato de /mega-conteudo-tributario. -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+  })();
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://crm.xpndigital.com">
+
+  <style>
+    :root{
+      --bg: #04070F;
+      --bg-2: #060B18;
+      --line: rgba(96, 165, 250, .07);
+      --border: rgba(255, 255, 255, .09);
+      --card: rgba(255, 255, 255, .03);
+      --txt: #FFFFFF;
+      --txt-2: rgba(255, 255, 255, .68);
+      --txt-3: rgba(255, 255, 255, .45);
+      --blue: #3B82F6;
+      --blue-2: #60A5FA;
+      --blue-dark: #1E40AF;
+      --green: #34D399;
+      --red: #F87171;
+      --amber: #F59E0B;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      color: var(--txt);
+      font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img{max-width:100%;display:block}
+    .container{max-width:1080px;margin:0 auto;padding:0 20px}
+    .narrow{max-width:860px}
+    section{position:relative}
+    .serif{font-family:'Instrument Serif', ui-serif, Georgia, serif;font-style:italic;font-weight:400}
+
+    /* ---------- BARRA TOPO + HEADER ---------- */
+    .barra{
+      background:linear-gradient(90deg, var(--blue-dark), var(--blue));
+      color:#fff;text-align:center;font-size:12px;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;padding:10px 16px;line-height:1.4;
+    }
+    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
+    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+
+    /* ---------- HERO ---------- */
+    .hero{padding:64px 0 48px}
+    .hero::before{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(59,130,246,.14), transparent 70%);
+    }
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,5vw,64px);align-items:center}
+    .hero-txt{text-align:left}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--blue-2);
+      border:1px solid rgba(96,165,250,.25);
+      background:rgba(59,130,246,.08);
+      padding:8px 16px;border-radius:999px;margin-bottom:26px;
+    }
+    .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-2);box-shadow:0 0 10px var(--blue-2)}
+    h1{
+      font-size:clamp(30px, 4.6vw, 48px);
+      font-weight:800;line-height:1.12;letter-spacing:-.02em;
+      margin:0 0 20px;
+    }
+    .hl{
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      text-decoration:underline;text-decoration-color:var(--blue);
+      text-decoration-thickness:3px;text-underline-offset:6px;
+    }
+    .sub{font-size:clamp(15px, 2vw, 18px);color:var(--txt-2);line-height:1.6;max-width:600px;margin:0 0 14px}
+    .sub .serif{color:#fff;font-size:1.08em}
+    .micro{font-size:14px;color:var(--txt-3);margin-bottom:26px;line-height:1.5}
+    .hero-cta{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+    .hero-cta .proof{margin-top:6px}
+
+    /* Foto da hero */
+    .hero-foto{position:relative;max-width:440px;margin:0 auto;width:100%}
+    .foto-card{
+      position:relative;border-radius:24px;overflow:hidden;
+      border:1px solid rgba(96,165,250,.35);
+      box-shadow:0 0 90px -20px rgba(37,99,235,.55), 0 40px 70px -40px rgba(0,0,0,.9);
+      aspect-ratio:4/5;background:#0b1326;
+    }
+    .foto-card img{width:100%;height:100%;object-fit:cover;object-position:62% 18%}
+    .foto-card::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(180deg, rgba(4,7,15,0) 55%, rgba(4,7,15,.92) 100%);
+    }
+    .foto-leg{
+      position:absolute;left:18px;right:18px;bottom:18px;z-index:2;
+      display:flex;flex-direction:column;gap:3px;
+    }
+    .foto-leg strong{font-size:17px;font-weight:800;letter-spacing:-.01em}
+    .foto-leg span{font-size:12.5px;color:var(--txt-2);line-height:1.45}
+    .foto-tag{
+      position:absolute;top:16px;left:16px;z-index:2;
+      font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+      color:#fff;background:rgba(4,7,15,.72);border:1px solid rgba(96,165,250,.4);
+      padding:7px 12px;border-radius:999px;backdrop-filter:blur(6px);
+    }
+
+    /* Métricas da hero */
+    .metricas{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+      margin:44px auto 0;max-width:900px;
+    }
+    .metrica{
+      border:1px solid var(--border);background:var(--card);border-radius:14px;
+      padding:18px 16px;text-align:center;
+    }
+    .metrica b{
+      display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .metrica span{display:block;font-size:12.5px;color:var(--txt-3);margin-top:4px;line-height:1.4}
+
+    /* ---------- CTA ---------- */
+    .cta{
+      display:inline-block;
+      background:linear-gradient(180deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color:#fff;text-decoration:none;
+      font-size:17px;font-weight:700;letter-spacing:.01em;
+      padding:18px 44px;border-radius:12px;text-align:center;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.32),
+        inset 0 -1px 0 rgba(0,0,0,.25),
+        0 10px 26px -10px rgba(37,99,235,.7),
+        0 0 0 1px rgba(59,130,246,.45),
+        0 0 48px -8px rgba(37,99,235,.45);
+      transition:transform .15s ease, filter .15s ease;
+    }
+    .cta:hover{transform:translateY(-2px);filter:brightness(1.1)}
+    .stars{color:var(--amber);font-size:18px;letter-spacing:3px;margin:20px 0 6px}
+    .proof{font-size:13px;color:var(--txt-3)}
+    .hero-cta .stars{margin:14px 0 2px}
+
+    /* ---------- SECTION BASICS ---------- */
+    .section{padding:72px 0}
+    .section.alt{background:linear-gradient(180deg, rgba(6,11,24,0), var(--bg-2) 20%, var(--bg-2) 80%, rgba(6,11,24,0));}
+    .eyebrow{
+      text-align:center;font-size:11px;font-weight:700;letter-spacing:.22em;
+      text-transform:uppercase;color:var(--blue-2);margin-bottom:14px;
+    }
+    h2{
+      text-align:center;font-size:clamp(26px, 3.6vw, 38px);
+      font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:14px;
+    }
+    h2 .serif{color:var(--blue-2)}
+    .section-sub{text-align:center;color:var(--txt-2);font-size:16px;max-width:640px;margin:0 auto 44px;line-height:1.6}
+    .center{text-align:center}
+
+    /* ---------- DOR ---------- */
+    .dores{list-style:none;display:flex;flex-direction:column;gap:12px;max-width:760px;margin:0 auto}
+    .dores li{
+      display:flex;gap:14px;align-items:flex-start;
+      background:var(--card);border:1px solid var(--border);
+      border-radius:14px;padding:18px 20px;color:var(--txt-2);font-size:15.5px;line-height:1.6;
+    }
+    .dores li::before{
+      content:"✕";flex:0 0 26px;height:26px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);
+      color:var(--red);font-size:12px;font-weight:800;margin-top:1px;
+    }
+    .dores li b{color:#fff;font-weight:700}
+
+    /* ---------- OCEANOS (3% vs 97%) ---------- */
+    .oceanos{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto}
+    .oceano{border-radius:18px;padding:30px 28px;border:1px solid var(--border);background:var(--card)}
+    .oceano.vermelho{border-color:rgba(248,113,113,.22);background:linear-gradient(180deg, rgba(248,113,113,.05), rgba(255,255,255,.02))}
+    .oceano.azul{border-color:rgba(96,165,250,.35);background:linear-gradient(180deg, rgba(59,130,246,.09), rgba(255,255,255,.02))}
+    .oceano .pct{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+    .oceano.vermelho .pct{color:var(--red)}
+    .oceano.azul .pct{
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .oceano h3{font-size:18px;font-weight:800;margin-bottom:14px}
+    .oceano p{color:var(--txt-2);font-size:15px;line-height:1.6}
+    .oceano p + p{margin-top:10px}
+    .oceano p b{color:#fff}
+    .oab{
+      max-width:900px;margin:22px auto 0;
+      border:1px solid rgba(52,211,153,.3);
+      background:linear-gradient(180deg, rgba(52,211,153,.07), rgba(255,255,255,.02));
+      border-radius:18px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:flex-start;
+    }
+    .oab .ic{
+      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+      background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.4);color:var(--green);
+    }
+    .oab .ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .oab h3{font-size:18px;font-weight:800;margin-bottom:8px;color:var(--green)}
+    .oab p{color:var(--txt-2);font-size:15px;line-height:1.6}
+    .oab p b{color:#fff}
+    .oab small{display:block;margin-top:10px;font-size:12px;color:var(--txt-3);line-height:1.5}
+
+    /* ---------- METODOLOGIA ---------- */
+    .etapas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .etapa{
+      border:1px solid var(--border);background:var(--card);border-radius:18px;padding:24px 22px;
+      display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
+      transition:border-color .2s ease, transform .2s ease;
+    }
+    .etapa:hover{border-color:rgba(96,165,250,.4);transform:translateY(-3px)}
+    .etapa .num{
+      font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--blue-2);
+      display:flex;align-items:center;gap:10px;
+    }
+    .etapa .num::after{content:"";flex:1;height:1px;background:rgba(96,165,250,.25)}
+    .etapa .ico{
+      width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+      background:var(--bg-2);border:1px solid rgba(96,165,250,.3);
+    }
+    .etapa .ico svg{width:24px;height:24px;fill:none;stroke:var(--blue-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .etapa h3{font-size:17px;font-weight:800;letter-spacing:-.01em}
+    .etapa p{color:var(--txt-2);font-size:14.5px;line-height:1.55}
+
+    /* ---------- ENCONTRO (bullets) ---------- */
+    .benefits{display:flex;flex-direction:column;gap:14px;max-width:760px;margin:0 auto}
+    .benefit{
+      display:flex;gap:16px;align-items:flex-start;
+      background:var(--card);border:1px solid var(--border);
+      border-radius:14px;padding:20px 22px;
+    }
+    .benefit .ic{
+      flex:0 0 26px;height:26px;border-radius:50%;
+      background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--blue-2);font-size:13px;font-weight:800;margin-top:1px;
+    }
+    .benefit p{color:var(--txt-2);font-size:15.5px;line-height:1.6}
+    .benefit p strong{color:#fff;font-weight:700}
+
+    /* ---------- FIT ---------- */
+    .fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto}
+    .fit-card{border-radius:18px;padding:30px 28px;border:1px solid var(--border);background:var(--card)}
+    .fit-card.yes{border-color:rgba(52,211,153,.25);background:linear-gradient(180deg, rgba(52,211,153,.06), rgba(255,255,255,.02))}
+    .fit-card.no{border-color:rgba(248,113,113,.22);background:linear-gradient(180deg, rgba(248,113,113,.05), rgba(255,255,255,.02))}
+    .fit-card h3{font-size:19px;font-weight:800;margin-bottom:20px}
+    .fit-card.yes h3{color:var(--green)}
+    .fit-card.no h3{color:var(--red)}
+    .fit-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+    .fit-card li{display:flex;gap:12px;color:var(--txt-2);font-size:15px;line-height:1.55}
+    .fit-card li::before{font-weight:800;flex:0 0 auto}
+    .fit-card.yes li::before{content:"✓";color:var(--green)}
+    .fit-card.no li::before{content:"✕";color:var(--red)}
+
+    /* ---------- RESULTADOS ---------- */
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .result-card{
+      border:1px solid var(--border);background:var(--card);
+      border-radius:18px;padding:26px 24px;
+      display:flex;flex-direction:column;gap:10px;
+      transition:border-color .2s ease, transform .2s ease;
+    }
+    .result-card:hover{border-color:rgba(96,165,250,.4);transform:translateY(-3px)}
+    .result-num{
+      font-size:26px;font-weight:800;letter-spacing:-.02em;
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .result-card p{color:var(--txt-2);font-size:14.5px;line-height:1.55;flex:1}
+    .result-who{font-size:13px;color:var(--txt-3);font-weight:600;border-top:1px solid var(--border);padding-top:14px}
+    .result-who strong{color:#fff;display:block;font-size:14px;font-weight:700;margin-bottom:2px}
+    .honesty{
+      font-style:italic;text-align:center;font-size:13px;color:var(--txt-3);
+      line-height:1.65;max-width:680px;margin:36px auto 0;
+    }
+
+    /* ---------- AUTORIDADE ---------- */
+    .autor{
+      display:grid;grid-template-columns:200px 1fr;gap:34px;align-items:center;
+      max-width:900px;margin:0 auto;border:1px solid var(--border);background:var(--card);
+      border-radius:22px;padding:34px;
+    }
+    .autor-foto{
+      width:200px;height:200px;border-radius:50%;overflow:hidden;
+      border:2px solid rgba(96,165,250,.45);box-shadow:0 0 50px -12px rgba(37,99,235,.7);
+    }
+    .autor-foto img{width:100%;height:100%;object-fit:cover;object-position:62% 12%;transform:scale(1.35);transform-origin:62% 12%}
+    .autor .eyebrow{text-align:left;margin-bottom:8px}
+    .autor h2{text-align:left;font-size:28px;margin-bottom:10px}
+    .autor .lead{color:#fff;font-size:16.5px;line-height:1.6;margin-bottom:12px}
+    .autor p{color:var(--txt-2);font-size:15px;line-height:1.6}
+    .autor blockquote{
+      margin:16px 0 0;padding-left:16px;border-left:3px solid var(--blue);
+      font-family:'Instrument Serif', ui-serif, Georgia, serif;font-style:italic;font-size:20px;color:#fff;line-height:1.35;
+    }
+    .selos{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+    .selos span{
+      font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--blue-2);
+      border:1px solid rgba(96,165,250,.3);background:rgba(59,130,246,.08);
+      padding:7px 12px;border-radius:999px;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+    .faq details{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:0 20px}
+    .faq summary{
+      cursor:pointer;list-style:none;padding:18px 0;font-weight:700;font-size:16px;
+      display:flex;justify-content:space-between;gap:16px;align-items:center;
+    }
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";color:var(--blue-2);font-size:22px;font-weight:400;flex:0 0 auto;transition:transform .2s ease}
+    .faq details[open] summary::after{transform:rotate(45deg)}
+    .faq p{color:var(--txt-2);font-size:15px;line-height:1.65;padding:0 0 20px}
+
+    /* ---------- ÚLTIMO PASSO / FOOTER ---------- */
+    #agendar{scroll-margin-top:40px}
+    .final{text-align:center;padding:20px 0 80px}
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:44px 0 96px;text-align:center}
+    footer .brand{font-weight:800;font-size:15px;margin-bottom:14px}
+    footer .disclaimer{max-width:720px;margin:0 auto 18px;font-size:11.5px;color:var(--txt-3);line-height:1.6}
+    footer nav{display:flex;gap:22px;justify-content:center;margin-bottom:14px}
+    footer nav a{color:var(--txt-2);font-size:13px;text-decoration:none}
+    footer nav a:hover{color:#fff}
+    footer .copy{font-size:12px;color:var(--txt-3)}
+
+    /* ---------- CTA FIXO (mobile, aparece depois da hero) ---------- */
+    .fixa{
+      position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 14px;
+      background:rgba(4,7,15,.9);backdrop-filter:blur(8px);border-top:1px solid rgba(96,165,250,.25);
+      transform:translateY(110%);transition:transform .25s ease;display:none;
+    }
+    .fixa.on{transform:none}
+    .fixa .cta{display:block;padding:15px 18px;font-size:15px}
+
+    /* ---------- MODAL DO FORMULÁRIO ([ADV] Aplicação Advogados — 2 etapas) ---------- */
+    .modal{position:fixed;inset:0;z-index:100;display:none}
+    .modal.aberto{display:block}
+    .modal__bg{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
+    .modal__cx{
+      position:relative;z-index:2;
+      width:min(520px,calc(100vw - 24px));
+      max-height:calc(100dvh - 32px);
+      margin:16px auto;
+      top:50%;transform:translateY(-50%);
+      background:#fff;
+      border:1px solid rgba(59,130,246,.45);
+      border-radius:18px;
+      box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
+      padding:24px 18px 16px;
+      overflow-y:auto;
+      animation:sobe .28s cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes sobe{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
+    .modal__x{
+      position:absolute;top:10px;right:10px;z-index:3;
+      width:32px;height:32px;border-radius:50%;
+      background:#f1f3f6;border:1px solid #dfe3e9;color:#333;
+      font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
+    }
+    .modal__x:hover{background:#e4e8ee}
+    .modal__tit{text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25}
+    .modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
+    .modal iframe{width:100%;min-height:320px;border:0;border-radius:10px;display:block;background:transparent}
+    .modal__seg{text-align:center;font-size:.78rem;color:#5b6472;margin:4px 0 0}
+    body.travado{overflow:hidden}
+    @media(max-width:520px){ .modal__cx{padding:38px 12px 14px} }
+    @media (prefers-reduced-motion:reduce){ .modal__cx{animation:none} .etapa,.result-card,.cta{transition:none} }
+
+    /* ---------- RESPONSIVO ---------- */
+    @media (max-width:900px){
+      .etapas{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:820px){
+      .hero{padding:44px 0 40px}
+      .hero-grid{grid-template-columns:1fr;gap:30px}
+      .hero-txt{text-align:center}
+      .sub{margin-left:auto;margin-right:auto}
+      .hero-cta{align-items:center}
+      .hero-foto{max-width:340px}
+      .metricas{grid-template-columns:1fr;gap:10px;margin-top:30px}
+      .metrica{display:flex;align-items:baseline;justify-content:center;gap:10px;text-align:left;padding:14px 16px}
+      .metrica b{font-size:20px}
+      .metrica span{margin:0}
+      .etapas{grid-template-columns:1fr}
+      .results-grid{grid-template-columns:1fr}
+      .fit-grid{grid-template-columns:1fr}
+      .oceanos{grid-template-columns:1fr}
+      .oab{grid-template-columns:1fr;gap:12px}
+      .autor{grid-template-columns:1fr;text-align:center;padding:28px 22px}
+      .autor-foto{margin:0 auto}
+      .autor .eyebrow,.autor h2{text-align:center}
+      .autor blockquote{text-align:left}
+      .selos{justify-content:center}
+      .section{padding:56px 0}
+      .cta{display:block;margin:0 20px;padding:18px 20px}
+      .hero-cta .cta{width:100%;margin:0}
+      .fixa{display:block}
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div class="barra">Encontro ao vivo · Gratuito · No Meet · Exclusivo para sócios de escritórios de advocacia</div>
+
+  <header>
+    <a class="logo" href="#">XPN DIGITAL<small>Máquina de Reuniões</small></a>
+  </header>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-txt">
+          <div class="badge">Para sócios e decisores de escritórios de advocacia</div>
+          <h1>Como Escritórios de Advocacia Estão Gerando <span class="hl">Reuniões Qualificadas Toda Semana</span> Com Clientes Que Nem Sabiam Que Precisavam de Advogado</h1>
+          <p class="sub">A revolução da <span class="serif">demanda educada</span>: um único conteúdo profundo, rodado por meses, que transforma quem nem sabia do problema em cliente pronto para fechar. Sem depender de indicação, sem postar todo dia — e dentro do que a OAB permite, porque educar não é captar.</p>
+          <p class="micro">Encontro exclusivo, ao vivo, no Meet · Vagas limitadas a 100 pessoas · Aplicação analisada antes da confirmação</p>
+          <div class="hero-cta">
+            <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+            <div class="stars">★★★★★</div>
+            <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
+          </div>
+        </div>
+        <div class="hero-foto">
+          <div class="foto-card">
+            <span class="foto-tag">Quem conduz o encontro</span>
+            <!-- REPLACE: trocar por assets/joao.jpg vindo da hero de metodoagendacheia.com/revolucao (mesmo nome de arquivo) -->
+            <img src="assets/joao.jpg" alt="João Araújo, CEO da XPN Digital, apresentando ao vivo" width="1170" height="1170" fetchpriority="high">
+            <div class="foto-leg">
+              <strong>João Araújo</strong>
+              <span>CEO da XPN Digital · +R$14 milhões em vendas consultivas lideradas · 104 webinars rodados no último ano</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metricas">
+        <div class="metrica"><b>+2.500</b><span>agendamentos qualificados gerados em 2025</span></div>
+        <div class="metrica"><b>64%</b><span>dos participantes viram agendamento</span></div>
+        <div class="metrica"><b>104</b><span>webinars no ano — mesmo roteiro, toda semana</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DOR ==================== -->
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">O problema</p>
+      <h2>Indicação não é estratégia.<br><span class="serif">É sorte com nome bonito.</span></h2>
+      <p class="section-sub">Seu escritório é bom. O problema é que só descobre isso quem já chegou até você — e você não controla quem chega, nem quando.</p>
+      <ul class="dores">
+        <li><span><b>Mês bom, mês ruim — e nenhum dos dois foi decisão sua.</b> A agenda depende de quem lembrou de indicar o seu nome. Isso não é canal de aquisição. É loteria.</span></li>
+        <li><span><b>Quem te acha no Google já está comparando honorários com outros 4 escritórios.</b> A conversa começa no preço, porque o cliente ainda não entendeu o tamanho do problema que você resolve.</span></li>
+        <li><span><b>Postar todo dia não vira contrato.</b> Vira um sócio cansado, com 40 curtidas — a maioria de outros advogados.</span></li>
+        <li><span><b>A reunião vira consulta gratuita.</b> Você explica o risco, o cliente "vai pensar", e fecha com o mais barato — usando o que aprendeu com você.</span></li>
+        <li><span><b>Anunciar "contrate-me" é vedado.</b> Então a maioria não anuncia nada, aceita viver do boca a boca e chama isso de ética. É só falta de método.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== A REVOLUÇÃO (3% vs 97%) ==================== -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">A revolução</p>
+      <h2>Quem já procura advogado é 3% do mercado.<br><span class="serif">Os outros 97% ainda não sabem que precisam de você.</span></h2>
+      <p class="section-sub">Todo escritório disputa a mesma fatia: o cliente que já sabe que tem problema. A demanda educada vai buscar quem ainda não sabe — antes da concorrência existir.</p>
+      <div class="oceanos">
+        <div class="oceano vermelho">
+          <div class="pct">3%</div>
+          <h3>Captação: o oceano vermelho</h3>
+          <p>Já sabem que têm problema. Já buscam solução. Já abriram 5 abas com 5 escritórios. <b>Lead caro, disputado, decidindo por preço.</b></p>
+          <p>É exatamente onde todo escritório anuncia — e onde o Código de Ética mais aperta.</p>
+        </div>
+        <div class="oceano azul">
+          <div class="pct">97%</div>
+          <h3>Educação: o oceano azul</h3>
+          <p>Donos de empresa e famílias com o problema jurídico dentro de casa — multa, imposto pago a mais, contrato frágil, sucessão sem plano — <b>sem saber que ele existe.</b></p>
+          <p>Ninguém fala com eles. Quem ensina primeiro vira a referência. Quando a consciência chega, o nome que vem junto é o seu.</p>
+        </div>
+      </div>
+      <div class="oab">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
+        <div>
+          <h3>E a OAB?</h3>
+          <p>O Provimento 205/2021 permite publicidade <b>informativa e educativa</b>. O que ele veda é captação direta de clientela, promessa de resultado, mercantilização e divulgação de casos concretos. A demanda educada vive no lado permitido: <b>você ensina, o cliente entende o risco e procura você.</b> Quem faz a "captação" é a consciência dele — não o seu anúncio.</p>
+          <small>Informação de caráter geral, não é parecer jurídico. Valide os limites com a sua seccional antes de rodar qualquer campanha.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== METODOLOGIA ==================== -->
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">A metodologia</p>
+      <h2>Seis etapas que se fecham em ciclo.<br><span class="serif">Cada volta enche mais a sua agenda.</span></h2>
+      <p class="section-sub">O problema não está no tráfego. Está na consciência do cliente — e a metodologia trabalha essa consciência, etapa por etapa.</p>
+      <div class="etapas">
+        <article class="etapa">
+          <div class="num">01</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.4"></circle></svg></div>
+          <h3>ICP</h3>
+          <p>Definir o cliente certo: quem tem o problema jurídico, já paga por ele hoje — em multa, imposto, risco ou processo — e nem sabe disso.</p>
+        </article>
+        <article class="etapa">
+          <div class="num">02</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"></path><path d="M14 8a4 4 0 0 1 0 8"></path><path d="M17 5a8 8 0 0 1 0 14"></path></svg></div>
+          <h3>Anúncio para os 97%</h3>
+          <p>Em vez de disputar quem já digita "advogado" no Google, o anúncio fala com quem nem sabe do risco. Público maior, lead mais barato, zero "contrate-me".</p>
+        </article>
+        <article class="etapa">
+          <div class="num">03</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path><path d="m10 8.5 4 2.5-4 2.5z"></path></svg></div>
+          <h3>Mega conteúdo</h3>
+          <p>Um único conteúdo profundo — gravado uma vez, rodado por meses — que leva o lead do "não sabia" para o "preciso resolver isso". Sem post diário.</p>
+        </article>
+        <article class="etapa">
+          <div class="num">04</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18l-7 8v7l-4 2v-9z"></path></svg></div>
+          <h3>Qualificação</h3>
+          <p>O lead educado aplica sozinho. Quem só quer comparar honorários se elimina antes de chegar na sua agenda — sem "vou pensar".</p>
+        </article>
+        <article class="etapa">
+          <div class="num">05</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 14a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"></path><path d="M8.5 9.5h.01M12 9.5h.01M15.5 9.5h.01"></path></svg></div>
+          <h3>Reunião no segundo tempo</h3>
+          <p>O cliente chega consciente do problema e do valor. O sócio não convence — conduz o fechamento. Menos no-show, menos consulta grátis.</p>
+        </article>
+        <article class="etapa">
+          <div class="num">06</div>
+          <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path><path d="m8.5 14.5 2.5 2.5 4.5-4.5"></path></svg></div>
+          <h3>Previsibilidade</h3>
+          <p>Mesmo conteúdo, mesmo funil, novas reuniões toda semana — sem depender de indicação e sem o sócio virar produtor de conteúdo.</p>
+        </article>
+      </div>
+      <div class="center" style="margin-top:36px">
+        <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== O QUE VAI SER ABERTO NO ENCONTRO ==================== -->
+  <section class="section">
+    <div class="container narrow">
+      <p class="eyebrow">No encontro</p>
+      <h2>O que João vai abrir ao vivo</h2>
+      <p class="section-sub">Sem promessa rasa. Método, dados e a conta aberta — para você decidir se faz sentido para o seu escritório.</p>
+      <div class="benefits">
+        <div class="benefit"><div class="ic">1</div><p><strong>A pirâmide dos 97% aplicada à advocacia:</strong> onde estão os clientes que ninguém do seu segmento está disputando — e como falar com eles antes da concorrência.</p></div>
+        <div class="benefit"><div class="ic">2</div><p><strong>O que muda de captação para educação</strong> — e por que essa virada resolve o Código de Ética, o no-show e a comparação de honorários ao mesmo tempo.</p></div>
+        <div class="benefit"><div class="ic">3</div><p><strong>A estrutura do mega conteúdo</strong> que faz o trabalho de 10 "primeiras consultas" gratuitas — gravado uma vez, sem o sócio aparecer todo dia.</p></div>
+        <div class="benefit"><div class="ic">4</div><p><strong>O filtro que separa cliente de curioso</strong> antes de ocupar a sua agenda — quem só quer comparar preço se elimina sozinho.</p></div>
+        <div class="benefit"><div class="ic">5</div><p><strong>Os dados reais de 104 webinars e +2.500 agendamentos:</strong> comparecimento, conversão, horário que mais fecha — e o que fez diferença.</p></div>
+        <div class="benefit"><div class="ic">6</div><p><strong>Quais números olhar nos primeiros 7 dias</strong> para saber se o funil está funcionando — antes de gastar um real a mais em mídia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FIT ==================== -->
+  <section class="section alt">
+    <div class="container">
+      <p class="eyebrow">Antes de aplicar</p>
+      <h2>Isso É Para o Seu Escritório?</h2>
+      <p class="section-sub">O encontro tem vagas limitadas a 100 pessoas e a aplicação passa por análise. Veja se faz sentido para o seu momento.</p>
+      <div class="fit-grid">
+        <div class="fit-card yes">
+          <h3>Isso é para você se...</h3>
+          <ul>
+            <li>Você é sócio ou decisor do escritório — e quem decide é você.</li>
+            <li>O escritório já fatura com serviço de valor (empresarial, tributário, trabalhista, previdenciário, família e sucessões, imobiliário...) e sabe que pode fechar muito mais.</li>
+            <li>Pode investir em anúncios para construir um canal previsível — em vez de esperar a próxima indicação.</li>
+            <li>Está cansado de reunião que vira consulta grátis, de comparação de honorários e de depender do boca a boca.</li>
+          </ul>
+        </div>
+        <div class="fit-card no">
+          <h3>Isso NÃO é para você se...</h3>
+          <ul>
+            <li>Ainda não tem clientes pagantes nem uma área de atuação definida.</li>
+            <li>Procura fórmula mágica, resultado sem investir — ou um "jeitinho" para burlar a OAB.</li>
+            <li>Não é o decisor do escritório (advogado associado, estagiário ou colaborador).</li>
+            <li>Não está disposto a participar de um encontro ao vivo por vídeo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RESULTADOS ==================== -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">O que os números mostram</p>
+      <h2>Números Reais da Metodologia</h2>
+      <p class="section-sub">Dados agregados de mais de 100 webinars rodados no último ano, em múltiplos segmentos de serviço consultivo de ticket alto.</p>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-num">104+ webinars no ano</div>
+          <p>O mesmo formato de conteúdo rodado semana após semana, em múltiplos segmentos consultivos — método repetível, não sorte de um lançamento.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">50%+ de comparecimento</div>
+          <p>Metade dos inscritos aparece ao vivo — porque o lead entra já consciente do problema, não atraído por brinde ou curiosidade.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">64% de conversão</div>
+          <p>De cada 100 participantes, 64 viram agendamento. É o efeito da demanda educada: a reunião começa com o cliente sabendo por que está ali.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">20 agendamentos em 1h30</div>
+          <p>90 pessoas no grupo, 40 ao vivo, 21 aplicações, 20 agendamentos em uma única apresentação. Antes, bater 20 agendamentos levava 2 semanas.</p>
+          <div class="result-who"><strong>Cauê Novais</strong>Aluno PAA · serviço consultivo</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">Fecham em uma única reunião</div>
+          <p>Produtos de R$30-40 mil. Chegaram faturando R$70-80 mil por mês — hoje passam de R$300 mil por mês, com o cliente chegando educado na reunião.</p>
+          <div class="result-who"><strong>Moises &amp; Breno Perrucho</strong>Consultoria high-ticket</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">+R$14 milhões</div>
+          <p>Em vendas consultivas lideradas nos últimos 3 anos, com mais de R$2 milhões investidos em anúncios — o método foi testado com dinheiro próprio antes de virar oferta.</p>
+          <div class="result-who"><strong>João Araújo</strong>Quem vai conduzir o encontro</div>
+        </div>
+      </div>
+      <p class="honesty">A XPN já atende escritórios de advocacia, mas ainda não temos um case do segmento documentado para publicação. Os números acima vêm da mesma metodologia aplicada em outros serviços consultivos de ticket alto — o primeiro escritório a rodar vira o próximo registro deste dossiê.</p>
+    </div>
+  </section>
+
+  <!-- ==================== AUTORIDADE ==================== -->
+  <section class="section alt">
+    <div class="container">
+      <div class="autor">
+        <div class="autor-foto"><img src="assets/joao.jpg" alt="João Araújo" loading="lazy"></div>
+        <div>
+          <p class="eyebrow">Quem conduz</p>
+          <h2>João Araújo</h2>
+          <p class="lead">CEO da XPN Digital — a Máquina de Reuniões. Não é uma agência: entrega o processo completo, da aquisição ao fechamento.</p>
+          <p>Mais de 5 anos no digital, +R$14 milhões em vendas consultivas lideradas nos últimos 3 anos e +R$2 milhões investidos em anúncios. No último ano rodou 104 webinars com o mesmo roteiro, gerando mais de 2.500 agendamentos qualificados para clínicas, consultorias, escritórios e negócios de ticket alto. Fundou a XPN em Belo Horizonte ao lado de Davi Felix.</p>
+          <blockquote>"Se eu não agendo, eu não vendo. Se o escritório não gera demanda, ele não anda."</blockquote>
+          <div class="selos">
+            <span>+R$14 mi em vendas lideradas</span>
+            <span>+R$2 mi investidos em anúncios</span>
+            <span>+2.500 agendamentos em 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Antes de você perguntar</p>
+      <h2>Perguntas Que Todo Sócio Faz</h2>
+      <div class="faq">
+        <details open>
+          <summary>Isso não fere o Código de Ética da OAB?</summary>
+          <p>Conteúdo informativo e educativo é permitido pelo Provimento 205/2021. O que é vedado é captação direta de clientela, promessa de resultado, ostentação e divulgação de casos concretos sem autorização. A metodologia é educação: você ensina o problema, o cliente decide procurar você. No encontro mostramos os limites na prática — e a recomendação é sempre validar com a sua seccional.</p>
+        </details>
+        <details>
+          <summary>O encontro é pago?</summary>
+          <p>Não. É gratuito, ao vivo e no Meet. As vagas são limitadas a 100 pessoas e a aplicação passa por análise para garantir que a sala seja só de sócios e decisores de escritórios.</p>
+        </details>
+        <details>
+          <summary>Preciso aparecer todo dia no Instagram?</summary>
+          <p>Não. O mega conteúdo é gravado uma vez e rodado por meses com anúncio. É o oposto do conteúdo diário — o sócio grava uma vez e o sistema trabalha pelo escritório.</p>
+        </details>
+        <details>
+          <summary>Funciona para a minha área?</summary>
+          <p>Funciona onde existe um problema que o cliente ainda não sabe que tem e um serviço de valor para resolvê-lo: empresarial, tributário, trabalhista, previdenciário, família e sucessões, imobiliário. Para atendimento de balcão com ticket baixo a conta muda — e no encontro dizemos exatamente onde ela deixa de fechar.</p>
+        </details>
+        <details>
+          <summary>Quanto preciso investir em anúncios?</summary>
+          <p>Não é um jogo de investir muito, é de investir certo. A referência é começar com pelo menos o valor do seu ticket médio em mídia. O que define o retorno é a oferta e a consciência do lead, não o tamanho da verba.</p>
+        </details>
+        <details>
+          <summary>Quem grava o conteúdo? Eu não tenho tempo.</summary>
+          <p>O sócio — porque é quem tem o contexto e é a única pessoa que o cliente quer ouvir. É uma gravação, não uma rotina. Na implementação, a XPN monta o resto: páginas, criativos, anúncios, CRM e automações, em 7 a 14 dias.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ÚLTIMO PASSO (CTA abre o modal) ==================== -->
+  <section class="section alt" id="agendar">
+    <div class="container narrow">
+      <p class="eyebrow">Último passo</p>
+      <h2>Garanta Sua Vaga no Encontro</h2>
+      <p class="section-sub">A aplicação leva menos de 1 minuto: seus dados e 3 perguntas rápidas sobre o seu escritório. As vagas são limitadas a 100 pessoas.</p>
+      <div class="final" style="padding-top:8px">
+        <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+        <div class="stars">★★★★★</div>
+        <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODAL — [ADV] Aplicação Advogados (2 etapas) ==================== -->
+  <div class="modal" id="inscricao" aria-hidden="true">
+    <div class="modal__bg" data-fechar></div>
+    <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Aplicação para o encontro">
+      <button class="modal__x" data-fechar aria-label="Fechar">×</button>
+      <p class="modal__tit">Garanta sua vaga no encontro</p>
+      <p class="modal__sub">Encontro ao vivo no Meet · 100 vagas.</p>
+      <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
+      <iframe
+        id="nf-crm-adv"
+        data-src="https://crm.xpndigital.com/form/5d58f506-8811-4b11-a4c7-e188fc3ea3de"
+        title="[ADV] Aplicação Advogados"
+        scrolling="no"></iframe>
+      <p class="modal__seg">🔒 Seus dados estão seguros com a gente.</p>
+    </div>
+  </div>
+
+  <!-- CTA fixo (mobile, aparece depois da hero) -->
+  <div class="fixa" id="fixa">
+    <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="brand">XPN DIGITAL</div>
+      <p class="disclaimer">Este site não é parte do YouTube, Google ou Facebook; Google Inc. ou Facebook Inc. Este site também NÃO é endossado pelo YouTube, Google ou Facebook de nenhuma forma. FACEBOOK é uma marca registrada da FACEBOOK Inc. YOUTUBE é uma marca registrada da GOOGLE Inc. Os resultados citados são de operações reais e não constituem promessa de resultado — o desempenho depende de oferta, mercado e execução. As informações sobre publicidade na advocacia têm caráter geral e não constituem parecer jurídico; consulte o Provimento 205/2021 e a sua seccional.</p>
+      <nav>
+        <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+      </nav>
+      <p class="copy">©2026 XPN Digital · Belo Horizonte, MG</p>
+    </div>
+  </footer>
+
+  <script>
+    // Modal do formulário [ADV] Aplicação Advogados — mesmo contrato de /mega-conteudo-tributario:
+    // src só é aplicado ao abrir (iframe escondido se mede como 0px e nunca remede),
+    // UTMs repassadas, altura ajustada por postMessage (form de 2 etapas muda de altura
+    // ao trocar de passo) e redirect pós-envio obedecido.
+    (function () {
+      var modal = document.getElementById('inscricao');
+      var form  = document.getElementById('nf-crm-adv');
+      if (!modal || !form) return;
+      var ultimoFoco = null;
+      function carregarForm() {
+        if (form.getAttribute('src')) return;              // já carregado
+        var base = form.getAttribute('data-src');
+        if (!base) return;
+        var par = new URLSearchParams(window.location.search);
+        var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+                      'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
+        var q = [];
+        chaves.forEach(function (k) {
+          var v = par.get(k);
+          if (v) q.push(k + '=' + encodeURIComponent(v));
+        });
+        q.push('_lp=' + encodeURIComponent(window.location.href));
+        q.push('_ref=' + encodeURIComponent(document.referrer || ''));
+        q.push('_t=' + Date.now());
+        form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+        // Se nenhuma altura válida chegar, assume uma que cobre as duas etapas.
+        setTimeout(function () {
+          if (!form.style.height) form.style.height = '620px';
+        }, 1500);
+      }
+      function abrir(e) {
+        if (e) e.preventDefault();
+        ultimoFoco = document.activeElement;
+        carregarForm();
+        modal.classList.add('aberto');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('travado');
+        var x = modal.querySelector('.modal__x');
+        if (x) x.focus();
+      }
+      function fechar() {
+        modal.classList.remove('aberto');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('travado');
+        if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+      }
+      document.querySelectorAll('[data-abrir]').forEach(function (el) {
+        el.addEventListener('click', abrir);
+      });
+      modal.querySelectorAll('[data-fechar]').forEach(function (el) {
+        el.addEventListener('click', fechar);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('aberto')) fechar();
+      });
+      window.addEventListener('message', function (e) {
+        if (!e.data) return;
+        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
+          var h = parseInt(e.data.height, 10);
+          if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
+        }
+        // Conversão: o form avisa o envio pelo postMessage 'crm-form-submitted'.
+        if (e.data.type === 'crm-form-submitted') {
+          try {
+            var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+            if (window.fbq) fbq('track', 'Lead', {
+              content_name: 'Aplicacao Advogados - Revolucao',
+              content_category: 'advogados'
+            }, { eventID: eid });
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_revolucao', event_id: eid });
+          } catch (err) {}
+        }
+        if (e.data.type === 'crm-form-redirect' &&
+            typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
+          window.location.href = e.data.url;
+        }
+      });
+    })();
+
+    // CTA fixo no mobile: aparece depois que a hero sai da tela.
+    (function () {
+      var hero = document.getElementById('hero');
+      var bar  = document.getElementById('fixa');
+      if (!hero || !bar || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { bar.classList.toggle('on', !e.isIntersecting); });
+      }, { threshold: 0.05 });
+      io.observe(hero);
+    })();
+  </script>
+</body>
+</html>
