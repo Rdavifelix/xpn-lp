@@ -747,6 +747,15 @@
       document.body.classList.remove('travado');
       if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
     }
+    // Obrigado desta página: preserva UTMs/cliques da URL e leva o lead_id (eventID do CompleteRegistration).
+    var redirecionou = false;
+    function irParaObrigado(eid) {
+      if (redirecionou) return; redirecionou = true;
+      var par = new URLSearchParams(window.location.search);
+      if (eid) par.set('lead_id', eid);
+      var qs = par.toString();
+      window.location.href = 'obrigado/' + (qs ? '?' + qs : '');
+    }
     document.querySelectorAll('.js-open-modal').forEach(function (btn) {
       btn.addEventListener('click', function (e) { e.preventDefault(); abrir(btn.dataset.ctaId); });
     });
@@ -762,8 +771,8 @@
         if (h > 0) form.style.height = h + 'px';
       }
       if (e.data.type === 'crm-form-submitted') {
+        var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
         try {
-          var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
           if (window.fbq) fbq('track', 'Lead', {
             content_name: 'Aplicacao Advogados - Revolucao',
             content_category: 'advogados'
@@ -771,11 +780,10 @@
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_revolucao', event_id: eid });
         } catch (err) {}
+        irParaObrigado(eid);
       }
-      if (e.data.type === 'crm-form-redirect' &&
-          typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
-        window.location.href = e.data.url;
-      }
+      // O redirect configurado no CRM é ignorado: esta página tem a própria obrigado (grupo do WhatsApp).
+      if (e.data.type === 'crm-form-redirect') irParaObrigado();
     });
   })();
   </script>
