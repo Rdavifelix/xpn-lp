@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XPN Digital — Mega Conteúdo | 4 a 6 Reuniões Por Semana Para Escritórios de Advocacia</title>
+  <meta name="description" content="Como escritórios de advocacia geram 4 a 6 reuniões por semana com donos de empresa que não sabiam do risco que corriam — até o mega conteúdo mostrar. Encontro exclusivo, ao vivo, vagas limitadas a 100 pessoas.">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- Meta Pixel — base nativa. NAO dispara PageView: o GTM (GTM-WBZLWJ8X) ja
+       dispara 1 PageView deste mesmo pixel. Disparar aqui de novo duplicaria o
+       evento. Esta base existe para a pagina poder mandar o Lead sozinha,
+       sem depender de tag no GTM. Fallback: se em 3s o GTM nao tiver mandado
+       PageView (bloqueado/adblock), a pagina manda um. -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+  })();
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <!-- VTURB Performance -->
+  <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/ab-test/6a6bd571e74a023eeadf1fe5/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://m3u8.vturb.net">
+  <link rel="dns-prefetch" href="https://license.vturb.com">
+
+  <style>
+    :root{
+      --bg: #04070F;
+      --bg-2: #060B18;
+      --line: rgba(96, 165, 250, .07);
+      --border: rgba(255, 255, 255, .09);
+      --card: rgba(255, 255, 255, .03);
+      --txt: #FFFFFF;
+      --txt-2: rgba(255, 255, 255, .68);
+      --txt-3: rgba(255, 255, 255, .45);
+      --blue: #3B82F6;
+      --blue-2: #60A5FA;
+      --blue-dark: #1E40AF;
+      --green: #34D399;
+      --red: #F87171;
+      --amber: #F59E0B;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      color: var(--txt);
+      font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .container{max-width:1080px;margin:0 auto;padding:0 20px}
+    .narrow{max-width:860px}
+    section{position:relative}
+
+    .serif{font-family:'Instrument Serif', ui-serif, Georgia, serif;font-style:italic;font-weight:400}
+
+    /* ---------- HEADER ---------- */
+    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
+    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+
+    /* ---------- HERO ---------- */
+    .hero{padding:64px 0 40px;text-align:center}
+    .hero::before{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(59,130,246,.14), transparent 70%);
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--blue-2);
+      border:1px solid rgba(96,165,250,.25);
+      background:rgba(59,130,246,.08);
+      padding:8px 16px;border-radius:999px;margin-bottom:28px;
+    }
+    .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-2);box-shadow:0 0 10px var(--blue-2)}
+    h1{
+      font-size:clamp(30px, 5.2vw, 52px);
+      font-weight:800;line-height:1.14;letter-spacing:-.02em;
+      max-width:920px;margin:0 auto 22px;
+    }
+    .hl{
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      text-decoration:underline;text-decoration-color:var(--blue);
+      text-decoration-thickness:3px;text-underline-offset:6px;
+    }
+    .sub{
+      font-size:clamp(15px, 2vw, 18px);color:var(--txt-2);line-height:1.6;
+      max-width:680px;margin:0 auto 12px;
+    }
+    .sub .serif{color:#fff;font-size:1.08em}
+    .micro{font-size:14px;color:var(--txt-3);margin-bottom:28px}
+
+    /* ---------- VSL ---------- */
+    .vsl-frame{
+      max-width:760px;margin:0 auto 32px;
+      padding:8px;border-radius:20px;
+      background:linear-gradient(180deg, rgba(96,165,250,.28), rgba(30,64,175,.10));
+      box-shadow:0 0 80px -20px rgba(37,99,235,.45), 0 30px 60px -30px rgba(0,0,0,.8);
+    }
+    .vsl-inner{border-radius:14px;overflow:hidden;background:#000;line-height:0}
+
+    /* ---------- CTA ---------- */
+    .cta{
+      display:inline-block;
+      background:linear-gradient(180deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color:#fff;text-decoration:none;
+      font-size:17px;font-weight:700;letter-spacing:.01em;
+      padding:18px 44px;border-radius:12px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.32),
+        inset 0 -1px 0 rgba(0,0,0,.25),
+        0 10px 26px -10px rgba(37,99,235,.7),
+        0 0 0 1px rgba(59,130,246,.45),
+        0 0 48px -8px rgba(37,99,235,.45);
+      transition:transform .15s ease, filter .15s ease;
+    }
+    .cta:hover{transform:translateY(-2px);filter:brightness(1.1)}
+    .stars{color:var(--amber);font-size:18px;letter-spacing:3px;margin:20px 0 6px}
+    .proof{font-size:13px;color:var(--txt-3)}
+
+    /* ---------- SECTION BASICS ---------- */
+    .section{padding:72px 0}
+    .eyebrow{
+      text-align:center;font-size:11px;font-weight:700;letter-spacing:.22em;
+      text-transform:uppercase;color:var(--blue-2);margin-bottom:14px;
+    }
+    h2{
+      text-align:center;font-size:clamp(26px, 3.6vw, 38px);
+      font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:14px;
+    }
+    .section-sub{text-align:center;color:var(--txt-2);font-size:16px;max-width:620px;margin:0 auto 44px;line-height:1.6}
+
+    /* ---------- BENEFITS ---------- */
+    .benefits{display:flex;flex-direction:column;gap:14px;max-width:760px;margin:0 auto}
+    .benefit{
+      display:flex;gap:16px;align-items:flex-start;
+      background:var(--card);border:1px solid var(--border);
+      border-radius:14px;padding:20px 22px;
+    }
+    .benefit .ic{
+      flex:0 0 26px;height:26px;border-radius:50%;
+      background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--blue-2);font-size:13px;font-weight:800;margin-top:1px;
+    }
+    .benefit p{color:var(--txt-2);font-size:15.5px;line-height:1.6}
+    .benefit p strong{color:#fff;font-weight:700}
+
+    /* ---------- FIT ---------- */
+    .fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto}
+    .fit-card{border-radius:18px;padding:30px 28px;border:1px solid var(--border);background:var(--card)}
+    .fit-card.yes{border-color:rgba(52,211,153,.25);background:linear-gradient(180deg, rgba(52,211,153,.06), rgba(255,255,255,.02))}
+    .fit-card.no{border-color:rgba(248,113,113,.22);background:linear-gradient(180deg, rgba(248,113,113,.05), rgba(255,255,255,.02))}
+    .fit-card h3{font-size:19px;font-weight:800;margin-bottom:20px}
+    .fit-card.yes h3{color:var(--green)}
+    .fit-card.no h3{color:var(--red)}
+    .fit-card ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+    .fit-card li{display:flex;gap:12px;color:var(--txt-2);font-size:15px;line-height:1.55}
+    .fit-card li::before{font-weight:800;flex:0 0 auto}
+    .fit-card.yes li::before{content:"✓";color:var(--green)}
+    .fit-card.no li::before{content:"✕";color:var(--red)}
+
+    /* ---------- RESULTS ---------- */
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .result-card{
+      border:1px solid var(--border);background:var(--card);
+      border-radius:18px;padding:26px 24px;
+      display:flex;flex-direction:column;gap:10px;
+      transition:border-color .2s ease, transform .2s ease;
+    }
+    .result-card:hover{border-color:rgba(96,165,250,.4);transform:translateY(-3px)}
+    .result-num{
+      font-size:26px;font-weight:800;letter-spacing:-.02em;
+      background:linear-gradient(100deg, var(--blue-2), var(--blue));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .result-card p{color:var(--txt-2);font-size:14.5px;line-height:1.55;flex:1}
+    .result-who{font-size:13px;color:var(--txt-3);font-weight:600;border-top:1px solid var(--border);padding-top:14px}
+    .result-who strong{color:#fff;display:block;font-size:14px;font-weight:700;margin-bottom:2px}
+    .honesty{
+      font-style:italic;text-align:center;font-size:13px;color:var(--txt-3);
+      line-height:1.65;max-width:680px;margin:36px auto 0;
+    }
+
+    /* ---------- ÚLTIMO PASSO ---------- */
+    #agendar{scroll-margin-top:40px}
+
+    /* ---------- FINAL / FOOTER ---------- */
+    .final{text-align:center;padding:20px 0 80px}
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:44px 0 56px;text-align:center}
+    footer .brand{font-weight:800;font-size:15px;margin-bottom:14px}
+    footer .disclaimer{max-width:720px;margin:0 auto 18px;font-size:11.5px;color:var(--txt-3);line-height:1.6}
+    footer nav{display:flex;gap:22px;justify-content:center;margin-bottom:14px}
+    footer nav a{color:var(--txt-2);font-size:13px;text-decoration:none}
+    footer nav a:hover{color:#fff}
+    footer .copy{font-size:12px;color:var(--txt-3)}
+
+    /* ---------- O CICLO — anel sincronizado com o scroll ---------- */
+    .ciclos{position:relative}
+    .ciclos-track{position:relative;height:260vh}
+    .ciclos-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+    .ciclos-sticky .container{width:100%}
+    .ring{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);align-items:center}
+    .ring__stage{position:relative;aspect-ratio:1;width:min(100%,440px);margin-inline:auto}
+    .ring__orbit{position:absolute;inset:0;width:100%;height:100%}
+    .orbit-track{fill:none;stroke:rgba(96,165,250,.18);stroke-width:1.5}
+    .orbit-break{fill:none;stroke:var(--blue-2);stroke-width:3.5;stroke-linecap:round;
+      stroke-dasharray:100;stroke-dashoffset:100;
+      transform:rotate(-90deg);transform-origin:center;
+      filter:drop-shadow(0 0 7px rgba(96,165,250,.75));
+      transition:stroke-dashoffset .12s linear}
+    .orbit-head{fill:#fff;opacity:0;filter:drop-shadow(0 0 9px var(--blue-2));transition:opacity .3s}
+    .ring__core{position:absolute;inset:0;margin:auto;width:112px;height:112px;
+      border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:radial-gradient(circle,rgba(59,130,246,.2),var(--bg-2));
+      border:1px solid rgba(96,165,250,.4);box-shadow:0 0 40px -6px rgba(59,130,246,.5)}
+    .ring__core-n{font-size:44px;font-weight:800;line-height:1;color:var(--blue-2)}
+    .ring__core-l{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--txt-3)}
+    .node{position:absolute;width:82px;transform:translate(-50%,-50%);
+      display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+    .ring__stage > .node:nth-of-type(1){left:50.0%;top:8.0%}
+    .ring__stage > .node:nth-of-type(2){left:86.4%;top:29.0%}
+    .ring__stage > .node:nth-of-type(3){left:86.4%;top:71.0%}
+    .ring__stage > .node:nth-of-type(4){left:50.0%;top:92.0%}
+    .ring__stage > .node:nth-of-type(5){left:13.6%;top:71.0%}
+    .ring__stage > .node:nth-of-type(6){left:13.6%;top:29.0%}
+    .node__i{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;
+      background:var(--bg-2);border:1px solid rgba(96,165,250,.3);
+      transition:border-color .35s ease,box-shadow .35s ease,background .35s ease,transform .35s ease}
+    .node__i svg{width:26px;height:26px;fill:none;stroke:var(--blue);
+      stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .35s ease}
+    .node__t{font-weight:700;font-size:11.5px;letter-spacing:.04em;color:var(--txt-3);text-transform:uppercase;transition:color .35s ease}
+    .node.lit .node__i{border-color:var(--blue-2);
+      background:radial-gradient(circle,rgba(59,130,246,.3),var(--bg-2));
+      box-shadow:0 0 26px -1px rgba(59,130,246,.8);transform:scale(1.06)}
+    .node.lit .node__i svg{stroke:#fff}
+    .node.lit .node__t{color:var(--blue-2)}
+    .node.cur .node__i{box-shadow:0 0 34px 0 rgba(96,165,250,.9);transform:scale(1.1)}
+    .ring__legend{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .ring__legend .leg{position:relative;display:grid;grid-template-columns:auto 1fr;
+      align-items:baseline;gap:18px;padding:16px 20px;overflow:hidden;
+      border:1px solid var(--border);border-radius:13px;background:var(--card);
+      transition:opacity .38s ease,transform .38s ease,border-color .35s ease,background .35s ease}
+    .leg__num{font-weight:800;font-size:22px;line-height:1;color:var(--blue-2);opacity:.5;
+      font-variant-numeric:tabular-nums;transition:opacity .35s ease,text-shadow .35s ease}
+    .leg__name{display:block;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:5px;transition:color .35s ease}
+    .leg__desc{display:block;font-size:13.5px;line-height:1.55;color:var(--txt-2)}
+    .ring__legend .leg::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+      background:linear-gradient(var(--blue-2),var(--blue));
+      transform:scaleY(0);transform-origin:center;transition:transform .4s ease}
+    .ciclos-track.sync .ring__legend .leg{opacity:0;transform:translateX(16px)}
+    .ciclos-track.sync .ring__legend .leg.on{opacity:1;transform:none}
+    .leg.on .leg__num{opacity:.85}
+    .leg.cur{border-color:rgba(96,165,250,.5);background:linear-gradient(90deg,rgba(59,130,246,.1),var(--card) 55%)}
+    .leg.cur::before{transform:scaleY(1)}
+    .leg.cur .leg__num{opacity:1;text-shadow:0 0 16px rgba(96,165,250,.9)}
+    .leg.cur .leg__name{color:var(--blue-2)}
+    .ciclos-outro{text-align:center;padding:clamp(30px,5vw,56px) 0 0}
+    @media (max-width:860px){
+      .ciclos-track{height:auto}
+      .ciclos-sticky{position:static;height:auto;display:block;overflow:visible;padding:56px 0 0}
+      .ring{grid-template-columns:1fr;gap:0}
+      .ring__stage{width:min(86vw,336px);margin-bottom:28px}
+      .node{width:70px}
+      .node__i{width:44px;height:44px}
+      .node__i svg{width:22px;height:22px}
+      .node__t{font-size:10.5px}
+    }
+
+    /* ---------- MODAL DO FORMULÁRIO ([ADV] Aplicação Advogados — 2 etapas) ---------- */
+    .modal{position:fixed;inset:0;z-index:100;display:none}
+    .modal.aberto{display:block}
+    .modal__bg{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
+    /* O form do CRM é claro (fundo branco), então a caixa usa superfície clara — não o dark da página. */
+    .modal__cx{
+      position:relative;z-index:2;
+      width:min(520px,calc(100vw - 24px));
+      max-height:calc(100dvh - 32px);
+      margin:16px auto;
+      top:50%;transform:translateY(-50%);
+      background:#fff;
+      border:1px solid rgba(59,130,246,.45);
+      border-radius:18px;
+      box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
+      padding:24px 18px 16px;
+      overflow-y:auto;
+      animation:sobe .28s cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes sobe{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
+    .modal__x{
+      position:absolute;top:10px;right:10px;z-index:3;
+      width:32px;height:32px;border-radius:50%;
+      background:#f1f3f6;border:1px solid #dfe3e9;color:#333;
+      font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
+    }
+    .modal__x:hover{background:#e4e8ee}
+    .modal__tit{text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25}
+    .modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
+    /* min-height é só fallback caso o postMessage de altura não chegue.
+       Fica abaixo da altura real do form para o resize sempre vencer. */
+    .modal iframe{width:100%;min-height:320px;border:0;border-radius:10px;display:block;background:transparent}
+    .modal__seg{text-align:center;font-size:.78rem;color:#5b6472;margin:4px 0 0}
+    body.travado{overflow:hidden}
+    @media(max-width:520px){ .modal__cx{padding:38px 12px 14px} }
+    @media (prefers-reduced-motion:reduce){ .modal__cx{animation:none} }
+
+    @media (max-width:820px){
+      .results-grid{grid-template-columns:1fr}
+      .fit-grid{grid-template-columns:1fr}
+      .hero{padding-top:44px}
+      .section{padding:56px 0}
+      .cta{display:block;margin:0 20px;padding:18px 20px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header>
+    <a class="logo" href="#">XPN DIGITAL<small>Máquina de Reuniões</small></a>
+  </header>
+
+  <!-- ==================== HERO + VSL ==================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">Formulário nativo pra vender serviço jurídico: morreu</div>
+
+      <h1>Como Escritórios de Advocacia Geram <span class="hl">4 a 6 Reuniões Por Semana</span> Com Donos de Empresa Que Não Sabiam do Risco Que Corriam — Até o Mega Conteúdo Mostrar</h1>
+
+      <p class="sub">A revolução para gerar <span class="serif">demanda educada</span> para o seu escritório de advocacia e lotar a agenda de reuniões com donos de empresa. Toda semana, com previsibilidade.</p>
+
+      <p class="micro">Encontro exclusivo, ao vivo, no Meet · Vagas limitadas a 100 pessoas</p>
+
+      <!-- REPLACE: trocar pelo player da VSL do mega conteúdo de advocacia quando gravar (hoje usa a VSL padrão da lp4) -->
+      <div class="vsl-frame">
+        <div class="vsl-inner">
+          <vturb-smartplayer id="ab-6a6bd571e74a023eeadf1fe5" style="display:block;margin:0 auto;width:100%;"></vturb-smartplayer>
+          <script type="text/javascript">
+            var s=document.createElement("script");
+            s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/ab-test/6a6bd571e74a023eeadf1fe5/player.js";
+            s.async=!0;
+            document.head.appendChild(s);
+          </script>
+        </div>
+      </div>
+
+      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+      <div class="stars">★★★★★</div>
+      <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
+    </div>
+  </section>
+
+  <!-- ==================== A METODOLOGIA (anel sincronizado com o scroll) ==================== -->
+  <section class="section ciclos" style="padding:0">
+    <div class="ciclos-track" data-ciclos>
+      <div class="ciclos-sticky">
+        <div class="container">
+          <p class="eyebrow">A metodologia</p>
+          <h2>Seis Etapas Que Se Fecham em Ciclo.<br><span class="serif" style="color:var(--blue-2)">Cada volta enche mais a sua agenda.</span></h2>
+          <p class="section-sub">O problema não está no tráfego. Está na consciência do lead — e a metodologia trabalha essa consciência, etapa por etapa.</p>
+
+          <div class="ring" role="img" aria-label="Diagrama circular com as seis etapas do método mega conteúdo: ICP, anúncio, mega conteúdo, qualificação, reunião e previsibilidade, dispostas em um ciclo contínuo.">
+            <div class="ring__stage">
+              <svg class="ring__orbit" viewBox="0 0 400 400" aria-hidden="true">
+                <circle cx="200" cy="200" r="118" class="orbit-track"></circle>
+                <circle cx="200" cy="200" r="118" class="orbit-break" pathLength="100" style="stroke-dashoffset:100;"></circle>
+                <circle cx="200.0" cy="82.0" r="7" class="orbit-head" style="opacity:0;"></circle>
+              </svg>
+              <div class="ring__core" aria-hidden="true">
+                <span class="ring__core-n">6</span>
+                <span class="ring__core-l">etapas</span>
+              </div>
+              <article class="node" data-node="0"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.4"></circle></svg></span>
+                <h3 class="node__t">ICP</h3></article>
+              <article class="node" data-node="1"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"></path><path d="M14 8a4 4 0 0 1 0 8"></path><path d="M17 5a8 8 0 0 1 0 14"></path></svg></span>
+                <h3 class="node__t">Anúncio</h3></article>
+              <article class="node" data-node="2"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="12" rx="2"></rect><path d="M8 21h8M12 17v4"></path><path d="m10 8.5 4 2.5-4 2.5z"></path></svg></span>
+                <h3 class="node__t">Mega Conteúdo</h3></article>
+              <article class="node" data-node="3"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 4h18l-7 8v7l-4 2v-9z"></path></svg></span>
+                <h3 class="node__t">Qualificação</h3></article>
+              <article class="node" data-node="4"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 14a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"></path><path d="M8.5 9.5h.01M12 9.5h.01M15.5 9.5h.01"></path></svg></span>
+                <h3 class="node__t">Reunião</h3></article>
+              <article class="node" data-node="5"><span class="node__i" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path><path d="m8.5 14.5 2.5 2.5 4.5-4.5"></path></svg></span>
+                <h3 class="node__t">Previsibilidade</h3></article>
+            </div>
+
+            <ol class="ring__legend">
+              <li class="leg" data-step="0">
+                <span class="leg__num">01</span>
+                <span class="leg__body"><b class="leg__name">ICP</b><span class="leg__desc">Definir o dono de empresa certo: quem corre risco jurídico, deixa dinheiro na mesa — e nem sabe disso.</span></span>
+              </li>
+              <li class="leg" data-step="1">
+                <span class="leg__num">02</span>
+                <span class="leg__body"><b class="leg__name">Anúncio para os 97%</b><span class="leg__desc">Em vez de disputar os 3% que já procuram advogado, o anúncio fala com quem nem sabe do risco — público maior, lead mais barato.</span></span>
+              </li>
+              <li class="leg" data-step="2">
+                <span class="leg__num">03</span>
+                <span class="leg__body"><b class="leg__name">Mega conteúdo</b><span class="leg__desc">Um único conteúdo profundo — produzido uma vez, rodado por meses — eleva a consciência do lead: do "não sabia" para o "preciso resolver isso".</span></span>
+              </li>
+              <li class="leg" data-step="3">
+                <span class="leg__num">04</span>
+                <span class="leg__body"><b class="leg__name">Qualificação</b><span class="leg__desc">O lead educado aplica sozinho. Quem só quer comparar preço se elimina antes de chegar na sua agenda — sem "vou pensar com meu sócio".</span></span>
+              </li>
+              <li class="leg" data-step="4">
+                <span class="leg__num">05</span>
+                <span class="leg__body"><b class="leg__name">Reunião no segundo tempo</b><span class="leg__desc">O dono de empresa chega consciente do problema e do valor. Seu escritório não convence — conduz o fechamento. Menos no-show.</span></span>
+              </li>
+              <li class="leg" data-step="5">
+                <span class="leg__num">06</span>
+                <span class="leg__body"><b class="leg__name">Previsibilidade</b><span class="leg__desc">Mesmo conteúdo, mesmo funil, novas reuniões: 4 a 6 por semana na agenda — sem conteúdo diário e sem depender de indicação.</span></span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ciclos-outro">
+      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+    </div>
+  </section>
+
+  <!-- ==================== FIT ==================== -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Antes de entrar</p>
+      <h2>Isso É Para o Seu Escritório?</h2>
+      <p class="section-sub">O encontro tem vagas limitadas a 100 pessoas. Veja se faz sentido para o seu momento.</p>
+
+      <div class="fit-grid">
+        <div class="fit-card yes">
+          <h3>Isso é para você se...</h3>
+          <ul>
+            <li>Você é sócio ou decisor do escritório de advocacia — e quem decide é você.</li>
+            <li>Já vende um serviço jurídico de valor e sabe que pode fechar muito mais.</li>
+            <li>Está pagando caro por lead que nem sabe que precisa de advogado.</li>
+            <li>Está cansado do "vou pensar com meu sócio", do no-show e da comparação de preço.</li>
+          </ul>
+        </div>
+        <div class="fit-card no">
+          <h3>Isso NÃO é para você se...</h3>
+          <ul>
+            <li>Ainda não tem um serviço validado nem clientes pagantes.</li>
+            <li>Procura fórmula mágica ou resultado sem investir nada.</li>
+            <li>Não é o decisor do escritório (colaborador ou estagiário).</li>
+            <li>Não está disposto a participar de um encontro ao vivo por vídeo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== RESULTADOS ==================== -->
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">O que os números mostram</p>
+      <h2>Números Reais da Metodologia</h2>
+      <p class="section-sub">Dados agregados da metodologia aplicada em mais de 100 webinars rodados no último ano, em múltiplos segmentos de serviço consultivo.</p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-num">104+ webinars no ano</div>
+          <p>O mesmo formato de conteúdo rodado semana após semana, em múltiplos segmentos consultivos — método repetível, não sorte de um lançamento.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">50%+ de comparecimento</div>
+          <p>Metade dos inscritos aparece ao vivo — porque o lead entra já consciente do problema, não atraído por brinde ou curiosidade.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">64% de conversão</div>
+          <p>De cada 100 participantes, 64 viram agendamento. É o efeito da demanda educada: a reunião começa com o lead sabendo por que está ali.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">2.500+ agendamentos</div>
+          <p>Gerados em 2025 com esse sistema — reuniões qualificadas na agenda, toda semana, com previsibilidade.</p>
+          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">3% vs. 97%</div>
+          <p>O formulário nativo disputa só os 3% prontos pra comprar. O mega conteúdo alcança os 60% que nem sabem do risco — público maior, lead mais barato.</p>
+          <div class="result-who"><strong>Pirâmide de consciência</strong>Base do método</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">+R$14 milhões</div>
+          <p>Em vendas consultivas lideradas nos últimos 3 anos — incluindo escritórios de advocacia, consultorias e negócios de ticket alto.</p>
+          <div class="result-who"><strong>João Araújo</strong>Quem vai mostrar o método</div>
+        </div>
+      </div>
+
+      <p class="honesty">A XPN já atende escritórios de advocacia, mas ainda não temos um case do segmento documentado para publicação. Os números acima vêm de outros segmentos onde a mesma metodologia foi aplicada — o primeiro case documentado de advocacia vira o próximo registro deste dossiê.</p>
+    </div>
+  </section>
+
+  <!-- ==================== ÚLTIMO PASSO (CTA abre o modal) ==================== -->
+  <section class="section" id="agendar">
+    <div class="container narrow">
+      <p class="eyebrow">Último passo</p>
+      <h2>Garanta Sua Vaga no Encontro</h2>
+      <p class="section-sub">A aplicação leva menos de 1 minuto: seus dados e 3 perguntas rápidas sobre o seu escritório. As vagas são limitadas a 100 pessoas.</p>
+
+      <div class="final" style="padding-top:8px">
+        <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+        <div class="stars">★★★★★</div>
+        <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODAL — [ADV] Aplicação Advogados (2 etapas) ==================== -->
+  <div class="modal" id="inscricao" aria-hidden="true">
+    <div class="modal__bg" data-fechar></div>
+    <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Aplicação para o encontro">
+      <button class="modal__x" data-fechar aria-label="Fechar">×</button>
+      <p class="modal__tit">Garanta sua vaga no encontro</p>
+      <p class="modal__sub">Encontro ao vivo no Meet · 100 vagas.</p>
+      <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
+      <iframe
+        id="nf-crm-adv"
+        data-src="https://crm.xpndigital.com/form/5d58f506-8811-4b11-a4c7-e188fc3ea3de"
+        title="[ADV] Aplicação Advogados"
+        scrolling="no"></iframe>
+      <p class="modal__seg">🔒 Seus dados estão seguros com a gente.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="brand">XPN DIGITAL</div>
+      <p class="disclaimer">Este site não é parte do YouTube, Google ou Facebook; Google Inc. ou Facebook Inc. Este site também NÃO é endossado pelo YouTube, Google ou Facebook de nenhuma forma. FACEBOOK é uma marca registrada da FACEBOOK Inc. YOUTUBE é uma marca registrada da GOOGLE Inc.</p>
+      <nav>
+        <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+      </nav>
+      <p class="copy">©2026 XPN Digital · Belo Horizonte, MG</p>
+    </div>
+  </footer>
+
+  <script>
+    // Modal do formulário [ADV] Aplicação Advogados — mesmo contrato de lp2 / wb-07:
+    // src só é aplicado ao abrir (iframe escondido se mede como 0px e nunca remede),
+    // UTMs repassadas, altura ajustada por postMessage (essencial num form de 2 etapas,
+    // que muda de altura ao trocar de passo) e redirect pós-envio obedecido.
+    (function () {
+      var modal = document.getElementById('inscricao');
+      var form  = document.getElementById('nf-crm-adv');
+      if (!modal || !form) return;
+      var ultimoFoco = null;
+
+      function carregarForm() {
+        if (form.getAttribute('src')) return;              // já carregado
+        var base = form.getAttribute('data-src');
+        if (!base) return;
+        var par = new URLSearchParams(window.location.search);
+        var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+                      'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
+        var q = [];
+        chaves.forEach(function (k) {
+          var v = par.get(k);
+          if (v) q.push(k + '=' + encodeURIComponent(v));
+        });
+        q.push('_lp=' + encodeURIComponent(window.location.href));
+        q.push('_ref=' + encodeURIComponent(document.referrer || ''));
+        q.push('_t=' + Date.now());
+        form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+
+        // Se nenhuma altura válida chegar, assume uma que cobre as duas etapas.
+        setTimeout(function () {
+          if (!form.style.height) form.style.height = '620px';
+        }, 1500);
+      }
+
+      function abrir(e) {
+        if (e) e.preventDefault();
+        ultimoFoco = document.activeElement;
+        carregarForm();
+        modal.classList.add('aberto');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('travado');
+        var x = modal.querySelector('.modal__x');
+        if (x) x.focus();
+      }
+
+      function fechar() {
+        modal.classList.remove('aberto');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('travado');
+        if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+      }
+
+      document.querySelectorAll('[data-abrir]').forEach(function (el) {
+        el.addEventListener('click', abrir);
+      });
+      modal.querySelectorAll('[data-fechar]').forEach(function (el) {
+        el.addEventListener('click', fechar);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('aberto')) fechar();
+      });
+
+      window.addEventListener('message', function (e) {
+        if (!e.data) return;
+        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
+          var h = parseInt(e.data.height, 10);
+          if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
+        }
+        // Conversao: o form avisa o envio pelo postMessage 'crm-form-submitted'.
+        // Sem isso o pixel nunca sabia que alguem aplicou (o form fica em iframe
+        // de outro dominio) e a campanha otimizava as cegas.
+        if (e.data.type === 'crm-form-submitted') {
+          try {
+            var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+            if (window.fbq) fbq('track', 'Lead', {
+              content_name: 'Aplicacao Advogados - Mega Conteudo Advocacia',
+              content_category: 'advogados_mega_conteudo'
+            }, { eventID: eid });
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_mega_conteudo', event_id: eid });
+          } catch (err) {}
+        }
+        if (e.data.type === 'crm-form-redirect' &&
+            typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
+          window.location.href = e.data.url;
+        }
+      });
+    })();
+
+    // Metodologia: anel sincronizado com o scroll (desktop) / autoplay ao entrar na tela (mobile)
+    (function () {
+      var track = document.querySelector('[data-ciclos]');
+      if (!track) return;
+      var arc = track.querySelector('.orbit-break');
+      var head = track.querySelector('.orbit-head');
+      var legs = Array.prototype.slice.call(track.querySelectorAll('.leg'));
+      var nodes = Array.prototype.slice.call(track.querySelectorAll('.node'));
+      var NODE_TH = [0.02, 0.18, 0.34, 0.50, 0.66, 0.82];
+      var TH      = [0.03, 0.19, 0.35, 0.51, 0.67, 0.83];
+      var R = 118, CX = 200, CY = 200;
+
+      function setProgress(p) {
+        p = Math.max(0, Math.min(1, p));
+        if (arc) arc.style.strokeDashoffset = (100 * (1 - p)).toFixed(2);
+        if (head) {
+          var ang = (-90 + p * 360) * Math.PI / 180;
+          head.setAttribute('cx', (CX + R * Math.cos(ang)).toFixed(1));
+          head.setAttribute('cy', (CY + R * Math.sin(ang)).toFixed(1));
+          head.style.opacity = (p > 0.008 && p < 0.992) ? '1' : '0';
+        }
+        var cur = -1;
+        for (var i = 0; i < legs.length; i++) { var a = p >= TH[i]; legs[i].classList.toggle('on', a); if (a) cur = i; }
+        for (var k = 0; k < legs.length; k++) legs[k].classList.toggle('cur', k === cur);
+        var curN = -1;
+        for (var j = 0; j < nodes.length; j++) { var an = p >= NODE_TH[j]; nodes[j].classList.toggle('lit', an); if (an) curN = j; }
+        for (var m = 0; m < nodes.length; m++) nodes[m].classList.toggle('cur', m === curN);
+      }
+
+      function onCiclosScroll() {
+        var rect = track.getBoundingClientRect();
+        var total = track.offsetHeight - window.innerHeight;
+        setProgress(total > 0 ? (-rect.top) / total : 0);
+      }
+
+      var mobilePlayed = false;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function mobilePlay() {
+        if (mobilePlayed) return;
+        mobilePlayed = true;
+        if (reduceMotion) { setProgress(1); return; }
+        var DUR = 3400, t0 = null;
+        function frame(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / DUR);
+          var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          setProgress(e);
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+      function mobileAnimate() {
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); mobilePlay(); } });
+          }, { threshold: 0.35 });
+          io.observe(track);
+        } else { mobilePlay(); }
+      }
+
+      var mode = null;
+      function setupCiclos() {
+        var desktop = window.innerWidth > 860;
+        if (desktop && mode !== 'desktop') {
+          mode = 'desktop';
+          track.classList.add('sync');
+          window.addEventListener('scroll', onCiclosScroll, { passive: true });
+          onCiclosScroll();
+        } else if (!desktop && mode !== 'mobile') {
+          mode = 'mobile';
+          track.classList.remove('sync');
+          window.removeEventListener('scroll', onCiclosScroll);
+          mobileAnimate();
+        }
+      }
+      setupCiclos();
+      window.addEventListener('resize', setupCiclos);
+    })();
+  </script>
+</body>
+</html>
