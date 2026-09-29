@@ -259,18 +259,26 @@
     .fit-card.yes li::before{content:"✓";color:var(--gold)}
     .fit-card.no li::before{content:"—";color:var(--txt-3)}
 
-    /* ---------- NÚMEROS (paper) ---------- */
-    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair-paper);border-left:1px solid var(--hair-paper)}
+    /* ---------- RESULTADOS (vídeos da lp4 + cases) ---------- */
+    .videos-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:920px;margin:0 auto 28px}
+    .video-card{border:1px solid var(--hair-soft);background:var(--ink-3)}
+    .video-card .vwrap{position:relative;aspect-ratio:16/9;background:#000}
+    .video-card iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+    .video-card .vmeta{padding:16px 20px 18px;border-top:1px solid var(--hair-soft)}
+    .video-card .vmeta strong{display:block;font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.1}
+    .video-card .vmeta span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);margin-top:6px}
+    .results-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair-soft);border-left:1px solid var(--hair-soft)}
     .result-card{
-      padding:38px 32px;border-right:1px solid var(--hair-paper);border-bottom:1px solid var(--hair-paper);
-      display:flex;flex-direction:column;gap:12px;background:var(--paper);
+      padding:36px 30px;border-right:1px solid var(--hair-soft);border-bottom:1px solid var(--hair-soft);
+      display:flex;flex-direction:column;gap:12px;transition:background .25s ease;
     }
-    .result-num{font-family:var(--serif);font-weight:500;font-size:36px;line-height:1.05;letter-spacing:-.01em;color:var(--gold-deep)}
-    .result-card p{color:var(--ink-txt-2);font-size:14.5px;line-height:1.65;flex:1}
-    .result-who{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-txt-3);border-top:1px solid var(--hair-paper);padding-top:14px;line-height:1.7}
-    .result-who strong{display:block;color:var(--ink-txt);font-weight:700}
+    .result-card:hover{background:rgba(201,169,97,.05)}
+    .result-num{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.08;letter-spacing:-.01em;color:var(--gold-2)}
+    .result-card p{color:var(--txt-2);font-size:14.5px;line-height:1.65;flex:1}
+    .result-who{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);border-top:1px solid var(--hair-soft);padding-top:14px;line-height:1.7}
+    .result-who strong{display:block;color:var(--txt);font-weight:700}
     .honesty{
-      font-family:var(--serif);font-style:italic;text-align:center;font-size:19px;color:var(--ink-txt-2);
+      font-family:var(--serif);font-style:italic;text-align:center;font-size:19px;color:var(--txt-2);
       line-height:1.55;max-width:700px;margin:44px auto 0;
     }
 
@@ -382,6 +390,7 @@
       .metrica b{font-size:38px}
       .etapas{grid-template-columns:1fr}
       .results-grid{grid-template-columns:1fr}
+      .videos-grid{grid-template-columns:1fr;gap:16px}
       .fit-grid{grid-template-columns:1fr}
       .oceanos{grid-template-columns:1fr}
       .oceano + .oceano{border-left:0;border-top:1px solid var(--hair-paper)}
@@ -587,45 +596,70 @@
     </div>
   </section>
 
-  <!-- ==================== RESULTADOS ==================== -->
-  <section class="section paper">
+  <!-- ==================== RESULTADOS (depoimentos da /lp4) ==================== -->
+  <section class="section alt">
     <div class="container">
-      <span class="kicker center" style="display:flex">O que os números mostram</span>
-      <h2>Números reais <em>da metodologia</em></h2>
-      <p class="section-sub">Dados agregados de mais de 100 webinars rodados no último ano, em múltiplos segmentos de serviço consultivo de ticket alto.</p>
+      <span class="kicker center" style="display:flex">Resultados de quem implementou</span>
+      <h2>Números reais, <em>de clientes reais</em></h2>
+      <p class="section-sub">Sem print maquiado, sem promessa vazia. É assim que a Máquina de Reuniões roda na prática.</p>
+      <div class="videos-grid">
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1jHYgX1nTCY5NsRbkWhlJRDksXsbA2hMT/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Murilo Vila Verde"></iframe></div>
+          <div class="vmeta"><strong>Murilo Vila Verde</strong><span>Infoprodutor e Mentor</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1rUpWl9ziF9NcOCiJrCiMkA1rkIkU5s2O/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Arthur e Lucas"></iframe></div>
+          <div class="vmeta"><strong>Arthur e Lucas</strong><span>Clientes XPN</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1-VziWHHBZMQcIHFl-Its52XEJHYuyv5q/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Matheus Nakaoka"></iframe></div>
+          <div class="vmeta"><strong>Matheus Nakaoka</strong><span>Cliente XPN</span></div>
+        </div>
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1YSqz7I10-GsmxY80lcxHhqs5qqvS8I4h/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Jhonatan Benevies"></iframe></div>
+          <div class="vmeta"><strong>Jhonatan Benevies</strong><span>Cliente XPN</span></div>
+        </div>
+        <!-- Eduardo Lustosa: aguardando liberação de acesso do arquivo no Drive (1K_ktHp1wEJ6_7ZSOqTHEB1IqJc3YSRWF retorna 401 para visitantes).
+             Quando liberar ("qualquer pessoa com o link"), adicionar:
+        <div class="video-card">
+          <div class="vwrap"><iframe src="https://drive.google.com/file/d/1K_ktHp1wEJ6_7ZSOqTHEB1IqJc3YSRWF/preview" loading="lazy" allow="autoplay; fullscreen" allowfullscreen title="Depoimento Eduardo Lustosa"></iframe></div>
+          <div class="vmeta"><strong>Eduardo Lustosa</strong><span>Implementação XPN</span></div>
+        </div>
+        -->
+      </div>
       <div class="results-grid">
         <div class="result-card">
-          <div class="result-num">104+ webinars no ano</div>
-          <p>O mesmo formato de conteúdo rodado semana após semana, em múltiplos segmentos consultivos — método repetível, não sorte de um lançamento.</p>
-          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+          <div class="result-num">R$54.000 em 7 dias</div>
+          <p>Começou investindo R$750 no primeiro webinar e fez R$20.000 (ROAS 26x). Depois, bateu 20 agendamentos em 1h30 — o que antes levava 2 semanas.</p>
+          <div class="result-who"><strong>Cauê Novais</strong>Aluno PAA</div>
         </div>
         <div class="result-card">
-          <div class="result-num">50%+ de comparecimento</div>
-          <p>Metade dos inscritos aparece ao vivo — porque o lead entra já consciente do problema, não atraído por brinde ou curiosidade.</p>
-          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+          <div class="result-num">ROAS de 72x</div>
+          <p>"A gente investiu 1.540 e voltou 112 mil." Um único webinar, R$112.000 faturados — e mais de R$70 mil em vendas em um único dia.</p>
+          <div class="result-who"><strong>Marcelo Rodrigues</strong>Aluno PAA</div>
         </div>
         <div class="result-card">
-          <div class="result-num">64% de conversão</div>
-          <p>De cada 100 participantes, 64 viram agendamento. É o efeito da demanda educada: a reunião começa com o cliente sabendo por que está ali.</p>
-          <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
+          <div class="result-num">De prejuízo a R$30k</div>
+          <p>Antes da XPN: investiu R$10k e voltou R$7k. Ajustamos só a oferta — mesmo anúncio, mesma página — e o resultado foi R$30.000 com R$2k investidos (ROAS 15x).</p>
+          <div class="result-who"><strong>Kelvin</strong>Aluno PAA</div>
         </div>
         <div class="result-card">
-          <div class="result-num">20 agendamentos em 1h30</div>
-          <p>90 pessoas no grupo, 40 ao vivo, 21 aplicações, 20 agendamentos em uma única apresentação. Antes, bater 20 agendamentos levava 2 semanas.</p>
-          <div class="result-who"><strong>Cauê Novais</strong>Aluno PAA · serviço consultivo</div>
+          <div class="result-num">De R$80k para R$500-600k/mês</div>
+          <p>"Depois que a gente implementou o processo comercial, começou a vender bem as mentorias high ticket. Virou nosso carro-chefe."</p>
+          <div class="result-who"><strong>Murilo Vila Verde</strong>Mentoria de relacionamento</div>
         </div>
         <div class="result-card">
-          <div class="result-num">Fecham em uma única reunião</div>
-          <p>Produtos de R$30-40 mil. Chegaram faturando R$70-80 mil por mês — hoje passam de R$300 mil por mês, com o cliente chegando educado na reunião.</p>
-          <div class="result-who"><strong>Moises &amp; Breno Perrucho</strong>Consultoria high-ticket</div>
+          <div class="result-num">+R$100k no 1º mês</div>
+          <p>"Pegaram na mão e tiraram literalmente uma empresa do zero. No primeiro mês já batemos mais de 100 mil reais de faturamento."</p>
+          <div class="result-who"><strong>Eduardo Lustosa</strong>Implementação XPN</div>
         </div>
         <div class="result-card">
-          <div class="result-num">+R$14 milhões</div>
-          <p>Em vendas consultivas lideradas nos últimos 3 anos, com mais de R$2 milhões investidos em anúncios — o método foi testado com dinheiro próprio antes de virar oferta.</p>
-          <div class="result-who"><strong>João Araújo</strong>Quem vai conduzir o encontro</div>
+          <div class="result-num">R$70k com R$8k investidos</div>
+          <p>"O lead do webinar é outra diferença. É um lead muito educado, muito mais propício a comprar. Hoje nosso diferencial competitivo é muito alto."</p>
+          <div class="result-who"><strong>Vanderson Silveira</strong>SaaS / IA</div>
         </div>
       </div>
-      <p class="honesty">A XPN já atende escritórios de advocacia, mas ainda não temos um case do segmento documentado para publicação. Os números acima vêm da mesma metodologia aplicada em outros serviços consultivos de ticket alto — o primeiro escritório a rodar vira o próximo registro deste dossiê.</p>
+      <p class="honesty">A XPN já atende escritórios de advocacia, mas ainda não temos um case do segmento documentado para publicação. Os resultados acima vêm da mesma metodologia aplicada em outros serviços consultivos de ticket alto.</p>
     </div>
   </section>
 
