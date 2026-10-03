@@ -753,7 +753,7 @@
       document.body.classList.remove('travado');
       if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
     }
-    // Obrigado desta página: preserva UTMs/cliques da URL e leva o lead_id (eventID do CompleteRegistration).
+    // Obrigado desta página: preserva UTMs/cliques da URL e leva o lead_id (eventID do Lead e do CompleteRegistration).
     var redirecionou = false;
     function irParaObrigado(eid) {
       if (redirecionou) return; redirecionou = true;
@@ -770,17 +770,15 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) fechar();
     });
-    // Envio concluído: Lead no pixel (uma vez) e redirect para a obrigado desta página.
+    // Envio concluído: gera o lead_id, avisa o dataLayer e vai para a obrigado desta página.
+    // O Lead do pixel NÃO dispara aqui: dispara ao acessar a obrigado/, com eventID = lead_id
+    // (ver advogados/obrigado/index.html). Assim o Lead conta uma vez, na página de obrigado.
     // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'; qualquer um conclui.
     var leadId = null;
     function concluir() {
       if (!leadId) {
         leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
         try {
-          if (window.fbq) fbq('track', 'Lead', {
-            content_name: 'Aplicacao Advogados - Revolucao',
-            content_category: 'advogados'
-          }, { eventID: leadId });
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_revolucao', event_id: leadId });
         } catch (err) {}
