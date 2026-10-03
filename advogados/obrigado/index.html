@@ -3,7 +3,7 @@
   ADVOGADOS · Obrigado / Conclua sua inscrição · A Revolução da Demanda Educada
   Mesmo padrão da página de obrigado do funil do Garcez: um único passo — entrar no grupo do
   WhatsApp pelo link de redirect do XPzap. A landing (/advogados) redireciona para cá após o
-  envio do form [ADV], preservando UTMs e o lead_id (usado como eventID do CompleteRegistration).
+  envio do form, preservando UTMs e o lead_id (usado como eventID do Lead e do CompleteRegistration).
 -->
 <html lang="pt-BR">
 <head>
@@ -35,7 +35,9 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
   <!-- Meta Pixel — base nativa, sem PageView duplicado (o GTM dispara o PageView; fallback em 3s).
-       Aqui dispara CompleteRegistration com eventID derivado do lead_id que veio da landing. -->
+       Aqui dispara o Lead AO ACESSAR a pagina (a landing nao dispara mais no envio, entao conta
+       uma vez) e o CompleteRegistration, ambos com eventID derivado do lead_id que veio da landing.
+       Recarregar a pagina nao repete o Lead. -->
   <script>
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -52,9 +54,22 @@
       }catch(e){ return true; }
     }
     setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+    var lid = new URLSearchParams(location.search).get('lead_id') || '';
+    if (!/^adv_[0-9]+_[a-z0-9]+$/.test(lid)) lid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    // Lead ao acessar a pagina de obrigado (eventID = lead_id). Recarga nao conta de novo.
     try {
-      var lid = new URLSearchParams(location.search).get('lead_id') ||
-        ('adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10));
+      var chave = 'xpn_lead_' + lid, repetido = false;
+      try { repetido = !!localStorage.getItem(chave); if (!repetido) localStorage.setItem(chave, '1'); } catch (e) {}
+      if (!repetido) {
+        fbq('track', 'Lead', {
+          content_name: 'Aplicacao Advogados - Revolucao',
+          content_category: 'advogados'
+        }, { eventID: lid });
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'lead_obrigado', funil: 'advogados_revolucao', event_id: lid });
+      }
+    } catch (e) {}
+    try {
       fbq('track', 'CompleteRegistration', {
         content_name: 'Aplicacao Advogados - Revolucao',
         content_category: 'advogados'

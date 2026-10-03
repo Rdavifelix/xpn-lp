@@ -641,34 +641,36 @@
         if (e.key === 'Escape' && modal.classList.contains('aberto')) fechar();
       });
 
+      // Envio concluido: gera o lead_id, avisa o dataLayer e leva o lead para a
+      // /typ_vsl/ (pagina de obrigado deste funil) com lead_id e funil na URL,
+      // preservando UTMs/cliques da LP. O Lead do pixel NAO dispara aqui: dispara
+      // ao acessar a /typ_vsl/, com eventID = lead_id (ver typ_vsl/index.html).
+      // Fica na LP (e nao no redirect_url do form) porque o mesmo form [ADV] roda
+      // no tributario e no advocacia; o redirect configurado no CRM e ignorado.
+      // 400ms para o dataLayer sair antes de trocar de pagina.
+      var ORIGIN = 'https://crm.xpndigital.com';
+      var FUNIL = 'advogados_tributario';
+      var leadId = null;
+      function concluir() {
+        if (leadId) return;
+        leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+        try {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: 'aplicacao_enviada', funil: FUNIL, event_id: leadId });
+        } catch (err) {}
+        var par = new URLSearchParams(window.location.search);
+        par.set('lead_id', leadId);
+        par.set('funil', FUNIL);
+        setTimeout(function () { window.location.href = 'https://maquinadereunioes.com/typ_vsl/?' + par.toString(); }, 400);
+      }
       window.addEventListener('message', function (e) {
-        if (!e.data) return;
+        if (e.origin !== ORIGIN || !e.data) return;   // so mensagens do form do CRM
         if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
           var h = parseInt(e.data.height, 10);
           if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
         }
-        // Conversao: o form avisa o envio pelo postMessage 'crm-form-submitted'.
-        // Sem isso o pixel nunca sabia que alguem aplicou (o form fica em iframe
-        // de outro dominio) e a campanha otimizava as cegas.
-        if (e.data.type === 'crm-form-submitted') {
-          try {
-            var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
-            if (window.fbq) fbq('track', 'Lead', {
-              content_name: 'Aplicacao Advogados - Mega Conteudo Tributario',
-              content_category: 'advogados_tributario'
-            }, { eventID: eid });
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'aplicacao_enviada', funil: 'advogados_tributario', event_id: eid });
-          } catch (err) {}
-          // Pos-envio desta LP vai para a typ_vsl. Fica aqui (e nao no redirect_url do
-          // form) porque o mesmo form [ADV] tambem roda na /mega-conteudo-advocacia.
-          // 400ms para o pixel/dataLayer sairem antes de trocar de pagina.
-          setTimeout(function () { window.location.href = 'https://maquinadereunioes.com/typ_vsl/'; }, 400);
-        }
-        if (e.data.type === 'crm-form-redirect' &&
-            typeof e.data.url === 'string' && e.data.url.indexOf('https://') === 0) {
-          window.location.href = e.data.url;
-        }
+        // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'; qualquer um conclui.
+        if (e.data.type === 'crm-form-submitted' || e.data.type === 'crm-form-redirect') concluir();
       });
     })();
 

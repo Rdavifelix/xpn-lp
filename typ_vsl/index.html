@@ -13,6 +13,53 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
   <!-- End Google Tag Manager -->
+  <!-- Meta Pixel — base nativa (mesmo contrato das LPs de advogados). NAO dispara
+       PageView: o GTM (GTM-WBZLWJ8X) ja dispara 1 PageView deste mesmo pixel.
+       Fallback: se em 3s o GTM nao tiver mandado PageView (bloqueado/adblock),
+       a pagina manda um.
+       Lead: disparado AO ACESSAR esta pagina quando o lead chega das LPs
+       /mega-conteudo-tributario e /mega-conteudo-advocacia — elas repassam
+       ?lead_id=...&funil=... e nao disparam o Lead no envio, entao conta uma vez.
+       Chegadas de outros funis (sem lead_id) seguem exatamente como antes: so o
+       que o GTM dispara. -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+
+    // Lead ao acessar a pagina de obrigado (so para quem veio das LPs de advogados)
+    var par = new URLSearchParams(window.location.search);
+    var eid = par.get('lead_id') || '';
+    if (!/^adv_[0-9]+_[a-z0-9]+$/.test(eid)) return;
+    var funil = par.get('funil') || '';
+    var NOMES = {
+      advogados_tributario:    ['Aplicacao Advogados - Mega Conteudo Tributario', 'advogados_tributario'],
+      advogados_mega_conteudo: ['Aplicacao Advogados - Mega Conteudo Advocacia',  'advogados_mega_conteudo'],
+      advogados_revolucao:     ['Aplicacao Advogados - Revolucao',                'advogados']
+    };
+    var nome = NOMES[funil] || ['Aplicacao Advogados', 'advogados'];
+    var chave = 'xpn_lead_' + eid;
+    try{ if (localStorage.getItem(chave)) return; localStorage.setItem(chave, '1'); }catch(e){}  // recarregar nao conta de novo
+    try{
+      fbq('track','Lead',{ content_name: nome[0], content_category: nome[1] },{ eventID: eid });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'lead_obrigado', funil: funil, event_id: eid });
+    }catch(e){}
+  })();
+  </script>
+  <!-- End Meta Pixel -->
 
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
 
