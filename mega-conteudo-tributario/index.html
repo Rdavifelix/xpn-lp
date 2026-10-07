@@ -650,18 +650,34 @@
       // 400ms para o dataLayer sair antes de trocar de pagina.
       var ORIGIN = 'https://crm.xpndigital.com';
       var FUNIL = 'advogados_tributario';
-      var leadId = null;
-      function concluir() {
-        if (leadId) return;
-        leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
-        try {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({ event: 'aplicacao_enviada', funil: FUNIL, event_id: leadId });
-        } catch (err) {}
+      var leadId = null, fat = '', temRedirect = false, navTimer = null;
+      function irParaObrigado() {
         var par = new URLSearchParams(window.location.search);
+        par.delete('fat');
         par.set('lead_id', leadId);
         par.set('funil', FUNIL);
-        setTimeout(function () { window.location.href = 'https://maquinadereunioes.com/typ_vsl/?' + par.toString(); }, 400);
+        // fat vai com encodeURIComponent (espaco como %20, nao "+"): e assim que o GTM le a query
+        window.location.href = 'https://maquinadereunioes.com/typ_vsl/?' + par.toString() +
+          (fat ? '&fat=' + encodeURIComponent(fat) : '');
+      }
+      // urlCrm: URL de redirect configurada no CRM, que traz o faturamento (?fat={{faturamento}}).
+      // Ela nao e seguida; so o fat e aproveitado e repassado para a typ_vsl (lead qualificado).
+      function concluir(urlCrm) {
+        if (urlCrm) {
+          temRedirect = true;
+          try { fat = (new URL(urlCrm).searchParams.get('fat') || fat).trim().slice(0, 80); } catch (err) {}
+        }
+        if (!leadId) {
+          leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+          try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'aplicacao_enviada', funil: FUNIL, event_id: leadId });
+          } catch (err) {}
+        }
+        // Com o redirect do CRM em maos vai em 400ms (tempo do dataLayer sair);
+        // sem ele, espera ate 1,5s pelo aviso de redirect antes de ir sem o fat.
+        clearTimeout(navTimer);
+        navTimer = setTimeout(irParaObrigado, temRedirect ? 400 : 1500);
       }
       window.addEventListener('message', function (e) {
         if (e.origin !== ORIGIN || !e.data) return;   // so mensagens do form do CRM
@@ -670,7 +686,8 @@
           if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
         }
         // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'; qualquer um conclui.
-        if (e.data.type === 'crm-form-submitted' || e.data.type === 'crm-form-redirect') concluir();
+        if (e.data.type === 'crm-form-submitted') concluir(null);
+        if (e.data.type === 'crm-form-redirect' && typeof e.data.url === 'string') concluir(e.data.url);
       });
     })();
 

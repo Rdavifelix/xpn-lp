@@ -58,6 +58,40 @@
       window.dataLayer.push({ event: 'lead_obrigado', funil: funil, event_id: eid });
     }catch(e){}
   })();
+
+  // Lead qualificado: a URL da obrigado traz o faturamento (?fat=...), vindo do
+  // redirect do form no CRM (VSL) ou repassado pelas LPs de advogados. Se for um
+  // dos niveis qualificados, dispara os eventos personalizados Lead_qualificado_geral
+  // e Lead_qualificado_vsl. Para nao duplicar com uma tag do GTM que dispare os
+  // mesmos eventos, a pagina so dispara se em 2,5s o GTM nao tiver mandado.
+  // Recarregar a pagina na mesma aba nao dispara de novo.
+  (function(){
+    var par = new URLSearchParams(window.location.search);
+    var fat = (par.get('fat') || '').trim().slice(0, 80);
+    var QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
+    if (!fat || !QUALIFICADO.test(fat)) return;
+    var eid = par.get('lead_id') || '';
+    if (!/^adv_[0-9]+_[a-z0-9]+$/.test(eid)) eid = '';
+    var chave = 'xpn_lq_' + (eid || fat);
+    function gtmJaMandou(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=Lead_qualificado')>-1;
+        });
+      }catch(e){ return false; }
+    }
+    setTimeout(function(){
+      if (gtmJaMandou()) return;
+      try{ if (sessionStorage.getItem(chave)) return; sessionStorage.setItem(chave, '1'); }catch(e){}
+      try{
+        var opts = eid ? { eventID: eid + '-lq' } : undefined;
+        fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: fat }, opts);
+        fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: fat }, opts);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'lead_qualificado', faturamento: fat, funil: par.get('funil') || 'vsl', event_id: eid ? eid + '-lq' : '' });
+      }catch(e){}
+    }, 2500);
+  })();
   </script>
   <!-- End Meta Pixel -->
 
