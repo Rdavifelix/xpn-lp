@@ -107,6 +107,55 @@
       padding: 0 20px;
     }
 
+    /* ===== TIMER DE CONTATO (barra fixa no topo) ===== */
+    .contato-timer {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--xpn-cinza-card);
+      border-bottom: 1px solid var(--xpn-dourado);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+    }
+    .contato-timer__in {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      min-height: 56px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .contato-timer__txt {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(12px, 1.6vw, 15px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--xpn-dourado);
+      text-align: center;
+    }
+    .contato-timer__clock {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: clamp(18px, 2.4vw, 22px);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      color: var(--xpn-branco);
+      background: rgba(200, 162, 39, 0.12);
+      border: 1px solid rgba(200, 162, 39, 0.55);
+      border-radius: 100px;
+      padding: 7px 14px;
+    }
+    .contato-timer__clock svg { width: 18px; height: 18px; color: var(--xpn-dourado); flex: none; }
+    @keyframes contato-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+    .contato-timer.final .contato-timer__clock { animation: contato-pulse 1s ease-in-out infinite; } /* ultimo minuto */
+    @media (prefers-reduced-motion: reduce) { .contato-timer.final .contato-timer__clock { animation: none; } }
+
     /* ===== HEADLINE ===== */
     .hero {
       padding: clamp(48px, 8vw, 80px) 0 clamp(32px, 5vw, 48px);
@@ -495,6 +544,42 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+<!-- ===== TIMER DE CONTATO: 5 minutos, conta a partir do primeiro acesso e continua de onde parou ao recarregar (mesma aba) ===== -->
+<div class="contato-timer" id="contatoTimer" role="timer" aria-label="Iremos entrar em contato em 5 minutos">
+  <div class="container contato-timer__in">
+    <span class="contato-timer__txt">IREMOS ENTRAR EM CONTATO EM 5 MINUTOS</span>
+    <span class="contato-timer__clock">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+      <span id="contatoTimerVal">05:00</span>
+    </span>
+  </div>
+</div>
+<script>
+(function () {
+  var DURACAO = 5 * 60 * 1000;                   // 5 minutos
+  var CHAVE = 'typ_vsl_contato_timer_inicio';    // recarregar a pagina nao reinicia a contagem (mesma aba)
+  var el = document.getElementById('contatoTimerVal');
+  var box = document.getElementById('contatoTimer');
+  if (!el || !box) return;
+  var inicio = 0;
+  try { inicio = parseInt(sessionStorage.getItem(CHAVE), 10) || 0; } catch (e) {}
+  if (!inicio || inicio > Date.now()) {
+    inicio = Date.now();
+    try { sessionStorage.setItem(CHAVE, String(inicio)); } catch (e) {}
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var resta = Math.max(0, DURACAO - (Date.now() - inicio));
+    var seg = Math.ceil(resta / 1000);
+    el.textContent = pad(Math.floor(seg / 60)) + ':' + pad(seg % 60);
+    box.classList.toggle('final', resta > 0 && resta <= 60000);
+    box.classList.toggle('zerado', resta === 0);
+    if (resta > 0) setTimeout(tick, 250);
+  }
+  tick();
+})();
+</script>
 
 <!-- ===== HEADLINE ===== -->
 <section class="hero">
