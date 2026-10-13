@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>XPN Digital — Mega Conteúdo | Assista à Aula Gratuita</title>
+  <meta name="description" content="Como escritórios geram 4 a 6 reuniões por semana com clientes que chegam educados — o método do mega conteúdo. Cadastre-se e assista agora.">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- Meta Pixel — base nativa (mesmo contrato do /mega-conteudo-tributario). NAO dispara
+       PageView: o GTM ja dispara. Fallback de 3s se o GTM nao mandar. O Lead NAO
+       dispara aqui: dispara ao acessar a /mega-conteudo-teste-2/vsl/ (eventID = lead_id). -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+  })();
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#04070F;--bg-2:#060B18;--line:rgba(96,165,250,.07);
+      --border:rgba(255,255,255,.09);--card:rgba(255,255,255,.03);
+      --txt:#FFFFFF;--txt-2:rgba(255,255,255,.68);--txt-3:rgba(255,255,255,.45);
+      --blue:#3B82F6;--blue-2:#60A5FA;--blue-dark:#1E40AF;--amber:#F59E0B;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background-color:var(--bg);
+      background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+      background-size:72px 72px;color:var(--txt);
+      font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    }
+    .container{max-width:1080px;margin:0 auto;padding:0 20px}
+    .serif{font-family:'Instrument Serif',ui-serif,Georgia,serif;font-style:italic;font-weight:400}
+
+    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
+    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+
+    /* ---------- HERO (texto + form lado a lado) ---------- */
+    .hero{padding:56px 0 72px;position:relative}
+    .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 60% 45% at 50% 0%,rgba(59,130,246,.14),transparent 70%)}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center;position:relative}
+    .badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--blue-2);border:1px solid rgba(96,165,250,.25);background:rgba(59,130,246,.08);
+      padding:8px 16px;border-radius:999px;margin-bottom:24px}
+    .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-2);box-shadow:0 0 10px var(--blue-2)}
+    h1{font-size:clamp(28px,4.4vw,46px);font-weight:800;line-height:1.14;letter-spacing:-.02em;margin-bottom:20px}
+    .hl{background:linear-gradient(100deg,var(--blue-2),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{font-size:clamp(15px,1.8vw,18px);color:var(--txt-2);line-height:1.6;margin-bottom:26px}
+    .sub .serif{color:#fff;font-size:1.08em}
+    .bullets{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .bullets li{display:flex;gap:12px;color:var(--txt-2);font-size:15.5px;line-height:1.55}
+    .bullets li::before{content:"✓";flex:0 0 22px;height:22px;border-radius:50%;display:grid;place-items:center;
+      font-size:12px;font-weight:800;color:var(--blue-2);background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4)}
+    .bullets strong{color:#fff}
+
+    /* ---------- CARD DO FORM ---------- */
+    .form-card{background:#fff;border:1px solid rgba(59,130,246,.45);border-radius:18px;padding:22px 16px 14px;
+      box-shadow:0 0 80px -20px rgba(37,99,235,.45),0 30px 60px -30px rgba(0,0,0,.8)}
+    .form-tit{text-align:center;font-weight:800;font-size:1.12rem;color:#14181f;letter-spacing:-.02em;line-height:1.25;margin:0 8px 4px}
+    .form-sub{text-align:center;font-size:.86rem;color:#5b6472;margin-bottom:12px}
+    .form-card iframe{width:100%;min-height:380px;border:0;display:block;background:transparent}
+    .form-seg{text-align:center;font-size:.78rem;color:#5b6472;margin-top:4px}
+    .form-aviso{display:none;margin:8px 0;padding:14px;border-radius:10px;background:#fff7e6;border:1px dashed #f59e0b;color:#7a4a00;font-size:.85rem;line-height:1.5;text-align:center}
+    .form-card.sem-form .form-aviso{display:block}
+    .form-card.sem-form iframe{display:none}
+
+    .proof{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:13px;color:var(--txt-3)}
+    .proof .stars{color:var(--amber);letter-spacing:3px;font-size:16px}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:40px 0 52px;text-align:center}
+    footer .brand{font-weight:800;font-size:15px;margin-bottom:14px}
+    footer .disclaimer{max-width:720px;margin:0 auto 18px;font-size:11.5px;color:var(--txt-3);line-height:1.6}
+    footer nav{display:flex;gap:22px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+    footer nav a{color:var(--txt-2);font-size:13px;text-decoration:none}
+    footer .copy{font-size:12px;color:var(--txt-3)}
+
+    @media (max-width:860px){
+      .hero{padding:36px 0 56px}
+      .hero-grid{grid-template-columns:1fr;gap:32px}
+      .hero-copy{text-align:center}
+      .bullets{text-align:left;max-width:520px;margin:0 auto}
+      .proof{justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header>
+    <a class="logo" href="#">XPN DIGITAL<small>Máquina de Reuniões</small></a>
+  </header>
+
+  <!-- ==================== ETAPA 1 — CAPTURA ==================== -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge">Aula gratuita · Mega Conteúdo</div>
+        <!-- REPLACE: headline/copy do teste 2 (hoje adaptada do /mega-conteudo-tributario) -->
+        <h1>Como Escritórios Geram <span class="hl">4 a 6 Reuniões Por Semana</span> Com Clientes Que Já Chegam Educados</h1>
+        <p class="sub">Cadastre-se e assista agora ao <span class="serif">mega conteúdo</span> que mostra o método completo — do anúncio à reunião na agenda, toda semana, com previsibilidade.</p>
+        <ul class="bullets">
+          <li><span>Por que o <strong>formulário nativo</strong> só disputa os 3% prontos pra comprar — e como falar com os outros 97%.</span></li>
+          <li><span>O <strong>mega conteúdo</strong>: produzido uma vez, rodado por meses, educando o lead antes da reunião.</span></li>
+          <li><span>Como acabar com o <strong>"vou pensar"</strong>, o no-show e a comparação de preço.</span></li>
+        </ul>
+        <div class="proof"><span class="stars">★★★★★</span><span>+2.500 agendamentos qualificados gerados em 2025</span></div>
+      </div>
+
+      <div class="form-card" id="cardCaptura">
+        <p class="form-tit">Assista agora, gratuitamente</p>
+        <p class="form-sub">Preencha abaixo e libere o vídeo na hora.</p>
+        <!-- Form do CRM XPN — CAPTURA do teste 2 (nome, e-mail, WhatsApp).
+             REPLACE: trocar FORM_ID_CAPTURA pelo id do form criado no CRM. -->
+        <iframe id="crm-mc2-captura"
+          data-src="https://crm.xpndigital.com/form/FORM_ID_CAPTURA"
+          title="Cadastro — Mega Conteúdo" scrolling="no"></iframe>
+        <div class="form-aviso">⚙️ Formulário de captura ainda não configurado.<br>Falta o ID do form no CRM (<code>FORM_ID_CAPTURA</code>).</div>
+        <p class="form-seg">🔒 Seus dados estão seguros com a gente.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="brand">XPN DIGITAL</div>
+      <p class="disclaimer">Este site não é parte do YouTube, Google ou Facebook; Google Inc. ou Facebook Inc. Este site também NÃO é endossado pelo YouTube, Google ou Facebook de nenhuma forma. FACEBOOK é uma marca registrada da FACEBOOK Inc. YOUTUBE é uma marca registrada da GOOGLE Inc.</p>
+      <nav>
+        <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+      </nav>
+      <p class="copy">©2026 XPN Digital · Belo Horizonte, MG</p>
+    </div>
+  </footer>
+
+  <script>
+    // Captura do teste 2: form do CRM inline. Mesmo contrato das outras LPs:
+    // UTMs repassadas, altura por postMessage e envio detectado por
+    // 'crm-form-submitted' / 'crm-form-redirect'. Ao concluir, gera o lead_id e
+    // leva o lead para a /mega-conteudo-teste-2/vsl/ (etapa 2), preservando a
+    // query (UTMs). O redirect configurado no CRM e ignorado — so os dados que
+    // ele trouxer (nome/email/telefone) sao aproveitados para pre-preencher a etapa 2.
+    (function () {
+      var ORIGIN = 'https://crm.xpndigital.com';
+      var FUNIL = 'mega_conteudo_teste_2';
+      var card = document.getElementById('cardCaptura');
+      var form = document.getElementById('crm-mc2-captura');
+      if (!form) return;
+
+      var base = form.getAttribute('data-src') || '';
+      if (base.indexOf('FORM_ID_') > -1) { card.classList.add('sem-form'); return; }
+
+      var par = new URLSearchParams(window.location.search);
+      var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+                    'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
+      var q = [];
+      chaves.forEach(function (k) { var v = par.get(k); if (v) q.push(k + '=' + encodeURIComponent(v)); });
+      q.push('_lp=' + encodeURIComponent(window.location.href));
+      q.push('_ref=' + encodeURIComponent(document.referrer || ''));
+      q.push('_t=' + Date.now());
+      form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+      setTimeout(function () { if (!form.style.height) form.style.height = '420px'; }, 1500);
+
+      var leadId = null, extra = {}, temRedirect = false, navTimer = null;
+      function irParaVsl() {
+        var p = new URLSearchParams(window.location.search);
+        p.set('lead_id', leadId);
+        p.set('funil', FUNIL);
+        ['name','email','phone'].forEach(function (k) { if (extra[k]) p.set(k, extra[k]); });
+        window.location.href = './vsl/?' + p.toString();
+      }
+      function concluir(urlCrm) {
+        if (urlCrm) {
+          temRedirect = true;
+          try {
+            var u = new URL(urlCrm).searchParams;
+            ['name','email','phone'].forEach(function (k) { var v = u.get(k); if (v) extra[k] = v.trim().slice(0, 120); });
+          } catch (err) {}
+        }
+        if (!leadId) {
+          leadId = 'mc2_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+          try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId });
+          } catch (err) {}
+        }
+        clearTimeout(navTimer);
+        navTimer = setTimeout(irParaVsl, temRedirect ? 400 : 1500);
+      }
+      window.addEventListener('message', function (e) {
+        if (e.origin !== ORIGIN || !e.data) return;
+        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
+          var h = parseInt(e.data.height, 10);
+          if (h > 0) form.style.height = h + 'px';
+        }
+        if (e.data.type === 'crm-form-submitted') concluir(null);
+        if (e.data.type === 'crm-form-redirect' && typeof e.data.url === 'string') concluir(e.data.url);
+      });
+    })();
+  </script>
+</body>
+</html>
