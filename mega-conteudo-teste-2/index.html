@@ -87,11 +87,20 @@
       box-shadow:0 0 80px -20px rgba(37,99,235,.45),0 30px 60px -30px rgba(0,0,0,.8)}
     .form-tit{text-align:center;font-weight:800;font-size:1.12rem;color:#14181f;letter-spacing:-.02em;line-height:1.25;margin:0 8px 4px}
     .form-sub{text-align:center;font-size:.86rem;color:#5b6472;margin-bottom:12px}
-    .form-card iframe{width:100%;min-height:380px;border:0;display:block;background:transparent}
+    .cad{display:flex;flex-direction:column;gap:12px}
+    .campo label{display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:5px}
+    .campo input{width:100%;font:inherit;font-size:16px;color:#14181f;background:#f8fafc;
+      border:1px solid #d6dce5;border-radius:10px;padding:13px 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+    .campo input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.18);background:#fff}
+    .campo.erro input{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
+    .campo .msg{display:none;font-size:.76rem;color:#dc2626;margin-top:4px}
+    .campo.erro .msg{display:block}
+    .cad button{margin-top:4px;font:inherit;font-size:16px;font-weight:700;color:#fff;cursor:pointer;border:0;border-radius:12px;padding:16px;
+      background:linear-gradient(180deg,var(--blue) 0%,var(--blue-dark) 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(37,99,235,.7);transition:filter .15s,transform .15s}
+    .cad button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+    .cad button[disabled]{opacity:.7;cursor:wait;transform:none}
     .form-seg{text-align:center;font-size:.78rem;color:#5b6472;margin-top:4px}
-    .form-aviso{display:none;margin:8px 0;padding:14px;border-radius:10px;background:#fff7e6;border:1px dashed #f59e0b;color:#7a4a00;font-size:.85rem;line-height:1.5;text-align:center}
-    .form-card.sem-form .form-aviso{display:block}
-    .form-card.sem-form iframe{display:none}
 
     .proof{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:13px;color:var(--txt-3)}
     .proof .stars{color:var(--amber);letter-spacing:3px;font-size:16px}
@@ -141,12 +150,27 @@
       <div class="form-card" id="cardCaptura">
         <p class="form-tit">Assista agora, gratuitamente</p>
         <p class="form-sub">Preencha abaixo e libere o vídeo na hora.</p>
-        <!-- Form do CRM XPN — CAPTURA do teste 2 (nome, e-mail, WhatsApp).
-             REPLACE: trocar FORM_ID_CAPTURA pelo id do form criado no CRM. -->
-        <iframe id="crm-mc2-captura"
-          data-src="https://crm.xpndigital.com/form/FORM_ID_CAPTURA"
-          title="Cadastro — Mega Conteúdo" scrolling="no"></iframe>
-        <div class="form-aviso">⚙️ Formulário de captura ainda não configurado.<br>Falta o ID do form no CRM (<code>FORM_ID_CAPTURA</code>).</div>
+        <!-- Cadastro simples (nome, e-mail, telefone). Grava no CRM (form [MC2] Cadastro,
+             script no fim da pagina) e segue, pelo sessionStorage, para a pesquisa da /vsl/
+             — nunca pela URL (sem dado pessoal no pixel). -->
+        <form class="cad" id="formCadastro" novalidate>
+          <div class="campo">
+            <label for="cadNome">Nome</label>
+            <input id="cadNome" name="name" type="text" autocomplete="name" placeholder="Seu nome completo" required>
+            <span class="msg">Digite seu nome.</span>
+          </div>
+          <div class="campo">
+            <label for="cadEmail">E-mail</label>
+            <input id="cadEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="seu@email.com" required>
+            <span class="msg">Digite um e-mail válido.</span>
+          </div>
+          <div class="campo">
+            <label for="cadTel">WhatsApp</label>
+            <input id="cadTel" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" required>
+            <span class="msg">Digite um WhatsApp válido com DDD.</span>
+          </div>
+          <button type="submit">ASSISTIR AGORA →</button>
+        </form>
         <p class="form-seg">🔒 Seus dados estão seguros com a gente.</p>
       </div>
     </div>
@@ -165,67 +189,84 @@
   </footer>
 
   <script>
-    // Captura do teste 2: form do CRM inline. Mesmo contrato das outras LPs:
-    // UTMs repassadas, altura por postMessage e envio detectado por
-    // 'crm-form-submitted' / 'crm-form-redirect'. Ao concluir, gera o lead_id e
-    // leva o lead para a /mega-conteudo-teste-2/vsl/ (etapa 2), preservando a
-    // query (UTMs). O redirect configurado no CRM e ignorado — so os dados que
-    // ele trouxer (nome/email/telefone) sao aproveitados para pre-preencher a etapa 2.
+    // Captura do teste 2: cadastro simples (nome, e-mail, WhatsApp). Ao enviar:
+    // valida, gera o lead_id, avisa o dataLayer, grava o lead no CRM (receive-lead,
+    // form [MC2] Cadastro — o mesmo endpoint que os forms do CRM usam) e leva o lead
+    // para a /mega-conteudo-teste-2/vsl/ (etapa 2) com lead_id e funil na URL,
+    // preservando as UTMs. Nome/e-mail/telefone vao so pelo sessionStorage (a /vsl/
+    // reenvia junto com a pesquisa) — nunca pela URL, onde o pixel leria.
     (function () {
-      var ORIGIN = 'https://crm.xpndigital.com';
+      var CRM_ENDPOINT = 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
+        '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1';
+      var FORM_ID = '6ea80e41-4935-45e4-80c6-a1ca0cd71ba2';   // [MC2] Cadastro
       var FUNIL = 'mega_conteudo_teste_2';
-      var card = document.getElementById('cardCaptura');
-      var form = document.getElementById('crm-mc2-captura');
+
+      var form = document.getElementById('formCadastro');
       if (!form) return;
+      var nome = document.getElementById('cadNome');
+      var email = document.getElementById('cadEmail');
+      var tel = document.getElementById('cadTel');
+      var botao = form.querySelector('button');
 
-      var base = form.getAttribute('data-src') || '';
-      if (base.indexOf('FORM_ID_') > -1) { card.classList.add('sem-form'); return; }
+      // Mascara do telefone: (11) 91234-5678 / (11) 1234-5678
+      tel.addEventListener('input', function () {
+        var d = tel.value.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '').slice(0, 11);
+        var r = d;
+        if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+        tel.value = r;
+      });
 
-      var par = new URLSearchParams(window.location.search);
-      var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
-                    'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
-      var q = [];
-      chaves.forEach(function (k) { var v = par.get(k); if (v) q.push(k + '=' + encodeURIComponent(v)); });
-      q.push('_lp=' + encodeURIComponent(window.location.href));
-      q.push('_ref=' + encodeURIComponent(document.referrer || ''));
-      q.push('_t=' + Date.now());
-      form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
-      setTimeout(function () { if (!form.style.height) form.style.height = '420px'; }, 1500);
+      function marcar(input, ok) { input.parentNode.classList.toggle('erro', !ok); return ok; }
+      [nome, email, tel].forEach(function (i) {
+        i.addEventListener('input', function () { i.parentNode.classList.remove('erro'); });
+      });
 
-      var leadId = null, extra = {}, temRedirect = false, navTimer = null;
-      function irParaVsl() {
-        var p = new URLSearchParams(window.location.search);
-        p.set('lead_id', leadId);
-        p.set('funil', FUNIL);
-        ['name','email','phone'].forEach(function (k) { if (extra[k]) p.set(k, extra[k]); });
-        window.location.href = './vsl/?' + p.toString();
-      }
-      function concluir(urlCrm) {
-        if (urlCrm) {
-          temRedirect = true;
-          try {
-            var u = new URL(urlCrm).searchParams;
-            ['name','email','phone'].forEach(function (k) { var v = u.get(k); if (v) extra[k] = v.trim().slice(0, 120); });
-          } catch (err) {}
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var dNome = nome.value.trim().replace(/\s+/g, ' ');
+        var dEmail = email.value.trim().toLowerCase();
+        var dTel = tel.value.replace(/\D/g, '');
+        var ok = marcar(nome, dNome.length >= 2);
+        ok = marcar(email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(dEmail)) && ok;
+        ok = marcar(tel, /^[1-9]{2}9?\d{8}$/.test(dTel)) && ok;
+        if (!ok) { var inv = form.querySelector('.erro input'); if (inv) inv.focus(); return; }
+
+        botao.disabled = true;
+        botao.textContent = 'Liberando o vídeo…';
+
+        var leadId = 'mc2_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+        var par = new URLSearchParams(window.location.search);
+        // Mesmo payload do FormEmbed do CRM (map_to dos campos + rastreio + origem do form)
+        var dados = { name: dNome, email: dEmail, phone: '55' + dTel,
+                      landing_page: window.location.href, referrer: document.referrer || '',
+                      source: '[MC2] Cadastro', form_id: FORM_ID, form_name: '[MC2] Cadastro' };
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+         'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) dados[k] = v; });
+
+        try { sessionStorage.setItem('xpn_mc2_cadastro', JSON.stringify({ name: dNome, email: dEmail, phone: '+55' + dTel })); } catch (err) {}
+        try {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId });
+        } catch (err) {}
+
+        function irParaVsl() {
+          var p = new URLSearchParams(window.location.search);
+          p.set('lead_id', leadId);
+          p.set('funil', FUNIL);
+          window.location.href = './vsl/?' + p.toString();
         }
-        if (!leadId) {
-          leadId = 'mc2_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
-          try {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId });
-          } catch (err) {}
-        }
-        clearTimeout(navTimer);
-        navTimer = setTimeout(irParaVsl, temRedirect ? 400 : 1500);
-      }
-      window.addEventListener('message', function (e) {
-        if (e.origin !== ORIGIN || !e.data) return;
-        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
-          var h = parseInt(e.data.height, 10);
-          if (h > 0) form.style.height = h + 'px';
-        }
-        if (e.data.type === 'crm-form-submitted') concluir(null);
-        if (e.data.type === 'crm-form-redirect' && typeof e.data.url === 'string') concluir(e.data.url);
+        // Espera o CRM gravar (1-4s) antes de trocar de pagina; keepalive garante o
+        // envio mesmo se o timeout de 6s levar o lead antes da resposta.
+        var foi = false;
+        function seguir() { if (!foi) { foi = true; irParaVsl(); } }
+        try {
+          fetch(CRM_ENDPOINT, { method: 'POST', keepalive: true,
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(dados) })
+            .then(seguir, seguir);
+        } catch (err) { seguir(); }
+        setTimeout(seguir, 6000);
       });
     })();
   </script>

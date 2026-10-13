@@ -46,6 +46,7 @@
       window.dataLayer.push({ event: 'lead_captura', funil: 'mega_conteudo_teste_2', event_id: eid });
     }catch(e){}
   })();
+
   </script>
   <!-- End Meta Pixel -->
 
@@ -116,33 +117,50 @@
     .eyebrow{text-align:center;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-2);margin-bottom:12px}
     h2{text-align:center;font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
     .bloco-sub{text-align:center;color:var(--txt-2);font-size:15.5px;max-width:600px;margin:0 auto 28px;line-height:1.6}
-    .card{position:relative;background:#fff;border:1px solid rgba(59,130,246,.45);border-radius:18px;padding:18px 14px;
-      box-shadow:0 0 80px -24px rgba(37,99,235,.4),0 30px 60px -30px rgba(0,0,0,.8);max-width:680px;margin:0 auto}
-    .card iframe{width:100%;border:0;display:block;background:transparent}
-    #crm-mc2-pesquisa{min-height:520px}
-    #crm-mc2-agenda{min-height:640px}
-    .card-seg{text-align:center;font-size:.78rem;color:#5b6472;margin-top:6px}
-    .aviso{display:none;padding:16px;border-radius:10px;background:#fff7e6;border:1px dashed #f59e0b;color:#7a4a00;font-size:.88rem;line-height:1.5;text-align:center}
-    .card.sem-config .aviso{display:block}
-    .card.sem-config iframe{display:none}
+    .card{position:relative;background:#fff;border:1px solid rgba(59,130,246,.45);border-radius:18px;padding:22px 18px;
+      box-shadow:0 0 80px -24px rgba(37,99,235,.4),0 30px 60px -30px rgba(0,0,0,.8);max-width:680px;margin:0 auto;color:#14181f}
+    .card-seg{text-align:center;font-size:.78rem;color:#5b6472;margin-top:12px}
 
-    /* Calendário travado até a pesquisa ser enviada */
-    .trava{display:none;position:absolute;inset:0;z-index:2;border-radius:18px;
-      background:rgba(6,11,24,.86);backdrop-filter:blur(6px);
-      flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:28px}
+    /* Pesquisa (quiz: 1 pergunta por tela) */
+    .prog{height:6px;border-radius:3px;background:#e5e7eb;overflow:hidden;margin-bottom:6px}
+    .prog i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+    .prog-txt{font-size:.75rem;color:#6b7280;margin-bottom:16px}
+    .q-tit{font-size:1.1rem;font-weight:800;letter-spacing:-.01em;line-height:1.35;margin-bottom:14px}
+    .ops{display:flex;flex-direction:column;gap:10px}
+    .op{font:inherit;font-size:15px;text-align:left;cursor:pointer;color:#14181f;background:#f8fafc;
+      border:1px solid #d6dce5;border-radius:10px;padding:13px 14px;transition:border-color .15s,background .15s}
+    .op:hover{border-color:var(--blue);background:#eff6ff}
+    .op.sel{border-color:var(--blue);background:#dbeafe;font-weight:600}
+    .campo{margin-bottom:12px}
+    .campo label{display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:5px}
+    .campo input,.campo textarea{width:100%;font:inherit;font-size:16px;color:#14181f;background:#f8fafc;
+      border:1px solid #d6dce5;border-radius:10px;padding:13px 14px;outline:none}
+    .campo textarea{min-height:110px;resize:vertical}
+    .campo input:focus,.campo textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.18);background:#fff}
+    .erro-msg{display:none;color:#dc2626;font-size:.8rem;margin-top:6px}
+    .erro-msg.on{display:block}
+    .nav{display:flex;gap:10px;margin-top:16px}
+    .btn{flex:1;font:inherit;font-size:15px;font-weight:700;cursor:pointer;border:0;border-radius:12px;padding:15px;color:#fff;
+      background:linear-gradient(180deg,var(--blue) 0%,var(--blue-dark) 100%)}
+    .btn[disabled]{opacity:.7;cursor:wait}
+    .btn.sec{flex:0 0 auto;background:#eef1f5;color:#374151;padding:15px 18px}
+    .msg-ok{text-align:center;padding:10px 4px}
+    .msg-ok b{display:block;font-size:1.15rem;margin-bottom:6px}
+    .msg-ok p{color:#4b5563;font-size:.95rem;line-height:1.55}
+
+    /* Agenda (pagina /agendar do CRM, liberada depois da pesquisa) */
+    .agenda{padding:10px}
+    .agenda iframe{width:100%;height:760px;border:0;display:block;border-radius:12px;background:#fff}
+    .trava{display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;
+      padding:56px 24px;border-radius:14px;background:#0b1224;color:#fff}
     .trava .cad{font-size:34px}
-    .trava p{color:#fff;font-weight:700;font-size:17px;max-width:360px;line-height:1.4}
+    .trava p{font-weight:700;font-size:17px;max-width:360px;line-height:1.4}
     .trava a{color:var(--blue-2);font-size:14px;font-weight:600;text-decoration:none}
     .agenda.travada .trava{display:flex}
-    .agenda.travada iframe{filter:blur(2px);pointer-events:none}
-    .agenda.travada{min-height:360px}
-    .fora{display:none;padding:22px;text-align:center;color:#14181f;font-size:15px;line-height:1.6}
+    .agenda.travada iframe,.agenda.travada .fora{display:none}
+    .fora{display:none;padding:22px;text-align:center;font-size:15px;line-height:1.6}
     .agenda.nao-qualificado .fora{display:block}
-    .agenda.nao-qualificado iframe,.agenda.nao-qualificado .trava{display:none}
-
-    .pesq-ok{display:none;text-align:center;color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:14px;font-weight:600;font-size:.95rem}
-    .pesquisa.enviada .pesq-ok{display:block}
-    .pesquisa.enviada iframe{display:none}
+    .agenda.nao-qualificado iframe{display:none}
 
     footer{border-top:1px solid rgba(255,255,255,.06);padding:40px 0 52px;text-align:center;margin-top:24px}
     footer .brand{font-weight:800;font-size:15px;margin-bottom:14px}
@@ -201,16 +219,13 @@
       <h2>Conte Um Pouco Sobre o Seu Negócio</h2>
       <p class="bloco-sub">Leva menos de 2 minutos. Com essas respostas o nosso time chega na reunião já sabendo do seu cenário.</p>
 
-      <div class="card pesquisa" id="cardPesquisa">
-        <!-- Form do CRM XPN — PESQUISA de qualificação do teste 2.
-             REPLACE: trocar FORM_ID_PESQUISA pelo id do form criado no CRM.
-             Para disparar o Lead qualificado, configurar o redirect do form no CRM com ?fat={{faturamento}}
-             (o redirect NAO e seguido — a pagina so le o fat e libera a agenda). -->
-        <iframe id="crm-mc2-pesquisa"
-          data-src="https://crm.xpndigital.com/form/FORM_ID_PESQUISA"
-          title="Pesquisa — Mega Conteúdo" scrolling="no"></iframe>
-        <div class="aviso">⚙️ Pesquisa ainda não configurada.<br>Falta o ID do form no CRM (<code>FORM_ID_PESQUISA</code>).</div>
-        <div class="pesq-ok">✅ Pesquisa recebida! Agora escolha o seu horário logo abaixo.</div>
+      <!-- Pesquisa nativa: as perguntas espelham o form [MC2] Pesquisa + Agenda do CRM
+           (7eb5edcc). O envio vai para o receive-lead com esse form_id; com faturamento
+           >= R$20k o CRM devolve um token de agenda (mesma regua do [LT] Agendamento). -->
+      <div class="card" id="cardPesquisa">
+        <div class="prog"><i id="progBar"></i></div>
+        <p class="prog-txt" id="progTxt"></p>
+        <div id="quiz"></div>
         <p class="card-seg">🔒 Seus dados estão seguros com a gente.</p>
       </div>
     </div>
@@ -223,20 +238,15 @@
       <h2>Escolha o Melhor Horário</h2>
       <p class="bloco-sub">Reunião online, sem custo, com um especialista do nosso time. Escolha o dia e o horário que ficam melhores para você.</p>
 
+      <!-- Agenda do CRM (/agendar/:token — a mesma do low ticket). O token vem na resposta
+           da pesquisa; sem ele (faturamento abaixo da regua) a pessoa ve a mensagem de contato. -->
       <div class="card agenda travada" id="cardAgenda">
-        <!-- Calendário do CRM XPN (widget de agendamento).
-             REPLACE: trocar CALENDARIO_ID pelo id do calendário no CRM
-             (ou colar a URL completa do widget em data-src). Configurar no CRM o
-             redirect pós-agendamento para a página de obrigado. -->
-        <iframe id="crm-mc2-agenda"
-          data-src="https://crm.xpndigital.com/widget/booking/CALENDARIO_ID"
-          title="Agenda — Mega Conteúdo"></iframe>
-        <div class="aviso">⚙️ Calendário ainda não configurado.<br>Falta o ID do calendário no CRM (<code>CALENDARIO_ID</code>).</div>
         <div class="trava">
           <span class="cad" aria-hidden="true">🔒</span>
           <p>Responda a pesquisa acima para liberar a agenda.</p>
           <a href="#pesquisa">↑ Ir para a pesquisa</a>
         </div>
+        <iframe id="crm-mc2-agenda" title="Agenda — Mega Conteúdo"></iframe>
         <div class="fora">
           <strong>Obrigado pelas respostas!</strong><br>
           Pelo seu momento atual, o nosso time vai entrar em contato pelo WhatsApp com o próximo passo ideal para você.
@@ -259,28 +269,49 @@
 
   <script>
     (function () {
-      // ---------------- CONFIG DO TESTE ----------------
-      // true  = libera a agenda só para quem respondeu a pesquisa (recomendado)
-      // false = agenda já aparece liberada desde o início
-      var AGENDA_SO_APOS_PESQUISA = true;
-      // true = só quem marcou um faturamento qualificado vê a agenda; os demais
-      //        recebem a mensagem de "o time vai entrar em contato".
-      var AGENDA_SO_QUALIFICADOS = false;
-      var QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
-      // -------------------------------------------------
-
-      var ORIGIN = 'https://crm.xpndigital.com';
+      var CRM_ENDPOINT = 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
+        '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1';
+      var FORM_ID = '7eb5edcc-0581-4821-b793-ece2c55b1966';   // [MC2] Pesquisa + Agenda
+      var AGENDA_URL = 'https://crm.xpndigital.com/agendar/';
       var FUNIL = 'mega_conteudo_teste_2';
+      var QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
+
+      // Mesmas perguntas (e mesmo map_to) do form [MC2] Pesquisa + Agenda no CRM.
+      // Mudou a pergunta? Mude nos dois lugares.
+      var PERGUNTAS = [
+        { k: 'ocupacao', t: 'Qual a área de atuação principal do seu negócio?',
+          o: ['Trabalhista','Previdenciário','Empresarial / Tributário','Civil','Causas Familiares','Outra área do direito','Não sou da advocacia'] },
+        { k: 'capital_disponivel', t: 'Qual o faturamento mensal médio hoje?',
+          o: ['Entre R$0 a R$5.000','Entre R$5.000 a R$10.000','Entre R$10.000 a R$20.000','Entre R$20.000 a R$40.000','Entre R$50.000 a R$100.000','Mais de R$100.000'] },
+        { k: 'investimento_ads', t: 'Quanto investe por mês em anúncios?',
+          o: ['Ainda não invisto','Menos de R$5.000 /mês','Entre R$5.000 a R$10.000 /mês','Entre R$10.000 a R$30.000 /mês','Mais de R$30.000 /mês'] },
+        { k: 'problema_principal', t: 'Qual o maior gargalo hoje?',
+          o: ['Poucas reuniões na semana','Leads que chegam desqualificados','Baixa conversão nas reuniões','Muito no-show','Dependo de indicação'] },
+        { k: 'porque_nao_resolveu', t: 'Por que ainda não conseguiu resolver esse gargalo?', texto: true },
+        { k: 'urgencia', t: 'Resolver isso é prioridade para você hoje?',
+          o: ['Sim, quero resolver o quanto antes','É, mas não pretendo fazer agora','Não é prioridade no momento'] },
+        { k: 'decisor', t: 'Você é o dono / um dos sócios?', o: ['Sim','Não'] },
+        { k: 'tem_socio', t: 'Você tem sócio(s)?', o: ['Sim','Não'] }
+      ];
+
       var par = new URLSearchParams(window.location.search);
       var eid = par.get('lead_id') || '';
       if (!/^mc2_[0-9]+_[a-z0-9]+$/.test(eid)) eid = '';
-      var CHAVE_PESQ = 'xpn_mc2_pesq_' + (eid || 'anon');
+      var CHAVE = 'xpn_mc2_pesq_' + (eid || 'anon');
 
-      var cardP = document.getElementById('cardPesquisa');
+      // Dados do cadastro guardados pela captura (nunca pela URL).
+      var cad = {};
+      try { cad = JSON.parse(sessionStorage.getItem('xpn_mc2_cadastro') || '{}') || {}; } catch (e) {}
+      var temContato = !!(cad.name && cad.email && cad.phone);
+
+      var quiz = document.getElementById('quiz');
+      var bar = document.getElementById('progBar');
+      var txt = document.getElementById('progTxt');
       var cardA = document.getElementById('cardAgenda');
-      var fPesq = document.getElementById('crm-mc2-pesquisa');
       var fAgen = document.getElementById('crm-mc2-agenda');
       var passos = document.querySelectorAll('.passo');
+      var total = PERGUNTAS.length + (temContato ? 0 : 1);
+      var resp = {}, passo = 0, enviada = false;
 
       function marcarPasso(n) {
         passos.forEach(function (p) {
@@ -289,106 +320,136 @@
           p.classList.toggle('on', i === n);
         });
       }
+      function esc(v) { var d = document.createElement('div'); d.textContent = v; return d.innerHTML; }
+      function progresso() {
+        var n = Math.min(passo, total);
+        bar.style.width = Math.round(n / total * 100) + '%';
+        txt.textContent = n < total ? 'Pergunta ' + (n + 1) + ' de ' + total : '';
+      }
 
-      // Query comum aos dois iframes: UTMs + rastreio da LP + dados da captura
-      // (name/email/phone) para o lead nao digitar de novo.
-      function montarUrl(base) {
-        var q = [];
+      function render() {
+        progresso();
+        var voltar = passo > 0 ? '<button type="button" class="btn sec" id="qVoltar">← Voltar</button>' : '';
+        if (passo < PERGUNTAS.length) {
+          var q = PERGUNTAS[passo];
+          if (q.texto) {
+            quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '</p>' +
+              '<div class="campo"><textarea id="qTexto" placeholder="Pode ser em poucas linhas">' + esc(resp[q.k] || '') + '</textarea></div>' +
+              '<p class="erro-msg" id="qErro">Escreva rapidinho para continuar.</p>' +
+              '<div class="nav">' + voltar + '<button type="button" class="btn" id="qSeguir">Continuar →</button></div>';
+            document.getElementById('qSeguir').onclick = function () {
+              var v = document.getElementById('qTexto').value.trim();
+              if (v.length < 2) { document.getElementById('qErro').classList.add('on'); return; }
+              resp[q.k] = v.slice(0, 1000); passo++; render();
+            };
+          } else {
+            quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '</p><div class="ops">' +
+              q.o.map(function (op, i) {
+                return '<button type="button" class="op' + (resp[q.k] === op ? ' sel' : '') + '" data-i="' + i + '">' + esc(op) + '</button>';
+              }).join('') + '</div>' + (voltar ? '<div class="nav">' + voltar + '</div>' : '');
+            quiz.querySelectorAll('.op').forEach(function (b) {
+              b.onclick = function () { resp[q.k] = q.o[+b.getAttribute('data-i')]; passo++; render(); };
+            });
+          }
+        } else if (!temContato) {
+          quiz.innerHTML = '<p class="q-tit">Para onde enviamos a confirmação?</p>' +
+            '<div class="campo"><label for="cNome">Nome</label><input id="cNome" autocomplete="name" value="' + esc(cad.name || '') + '"></div>' +
+            '<div class="campo"><label for="cEmail">E-mail</label><input id="cEmail" type="email" autocomplete="email" value="' + esc(cad.email || '') + '"></div>' +
+            '<div class="campo"><label for="cTel">WhatsApp com DDD</label><input id="cTel" type="tel" autocomplete="tel" placeholder="(00) 00000-0000"></div>' +
+            '<p class="erro-msg" id="qErro">Confira nome, e-mail e WhatsApp.</p>' +
+            '<div class="nav">' + voltar + '<button type="button" class="btn" id="qEnviar">Ver horários →</button></div>';
+          document.getElementById('qEnviar').onclick = function () {
+            var n = document.getElementById('cNome').value.trim();
+            var m = document.getElementById('cEmail').value.trim().toLowerCase();
+            var t = document.getElementById('cTel').value.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
+            if (n.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m) || !/^[1-9]{2}9?\d{8}$/.test(t)) {
+              document.getElementById('qErro').classList.add('on'); return;
+            }
+            cad = { name: n, email: m, phone: '55' + t };
+            enviar(document.getElementById('qEnviar'));
+          };
+        } else {
+          quiz.innerHTML = '<p class="q-tit">Tudo certo, ' + esc(String(cad.name).split(' ')[0]) + '!</p>' +
+            '<p style="color:#4b5563;margin-bottom:6px">Confirme para liberar os horários disponíveis.</p>' +
+            '<p class="erro-msg" id="qErro"></p>' +
+            '<div class="nav">' + voltar + '<button type="button" class="btn" id="qEnviar">Ver horários →</button></div>';
+          document.getElementById('qEnviar').onclick = function () { enviar(document.getElementById('qEnviar')); };
+        }
+        var v = document.getElementById('qVoltar');
+        if (v) v.onclick = function () { passo = Math.max(0, passo - 1); render(); };
+      }
+
+      function enviar(botao) {
+        if (enviada) return;
+        botao.disabled = true; botao.textContent = 'Enviando…';
+        var payload = {};
+        Object.keys(resp).forEach(function (k) { payload[k] = resp[k]; });
+        payload.name = cad.name; payload.email = cad.email; payload.phone = String(cad.phone).replace(/\D/g, '');
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
-         'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id','name','email','phone']
-          .forEach(function (k) { var v = par.get(k); if (v) q.push(k + '=' + encodeURIComponent(v)); });
-        if (eid) q.push('lead_id=' + encodeURIComponent(eid));
-        q.push('_lp=' + encodeURIComponent(window.location.href));
-        q.push('_ref=' + encodeURIComponent(document.referrer || ''));
-        q.push('_t=' + Date.now());
-        return base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
-      }
-      function carregar(card, iframe, alturaPadrao) {
-        var base = iframe.getAttribute('data-src') || '';
-        if (/FORM_ID_|CALENDARIO_ID/.test(base)) { card.classList.add('sem-config'); return; }
-        if (iframe.getAttribute('src')) return;
-        iframe.src = montarUrl(base);
-        setTimeout(function () { if (!iframe.style.height) iframe.style.height = alturaPadrao; }, 1500);
+         'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) payload[k] = v; });
+        payload.landing_page = window.location.href;
+        payload.referrer = document.referrer || '';
+        payload.source = '[MC2] Pesquisa';
+        payload.form_id = FORM_ID;
+        payload.form_name = '[MC2] Pesquisa + Agenda';
+
+        fetch(CRM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(function () { return {}; }); })
+          .then(function (corpo) {
+            enviada = true;
+            var token = (corpo && typeof corpo.booking_token === 'string') ? corpo.booking_token : '';
+            var fat = resp.capital_disponivel || '';
+            try { sessionStorage.setItem(CHAVE, JSON.stringify({ token: token, fat: fat })); } catch (e) {}
+            try {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({ event: 'pesquisa_enviada', funil: FUNIL, event_id: eid, faturamento: fat, agenda_liberada: !!token });
+              if (QUALIFICADO.test(fat)) {
+                var opts = eid ? { eventID: eid + '-lq' } : undefined;
+                fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: fat }, opts);
+                fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: fat }, opts);
+                window.dataLayer.push({ event: 'lead_qualificado', faturamento: fat, funil: FUNIL, event_id: eid ? eid + '-lq' : '' });
+              }
+            } catch (e) {}
+            concluir(token);
+          })
+          .catch(function () {
+            botao.disabled = false; botao.textContent = 'Tentar de novo →';
+            var e = document.getElementById('qErro');
+            if (e) { e.textContent = 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.'; e.classList.add('on'); }
+          });
       }
 
-      function liberarAgenda(fat) {
+      function concluir(token) {
+        passo = total; progresso();
+        quiz.innerHTML = '<div class="msg-ok"><b>✅ Respostas recebidas!</b><p>' +
+          (token ? 'Agora escolha o melhor horário logo abaixo.' : 'O nosso time vai falar com você pelo WhatsApp.') + '</p></div>';
         cardA.classList.remove('travada');
-        if (AGENDA_SO_QUALIFICADOS && !(fat && QUALIFICADO.test(fat))) {
+        if (token) {
+          fAgen.src = AGENDA_URL + encodeURIComponent(token);
+          marcarPasso(3);
+        } else {
           cardA.classList.add('nao-qualificado');
           marcarPasso(4);
-          return;
         }
-        carregar(cardA, fAgen, '680px');
-        marcarPasso(3);
+        document.getElementById('agenda').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      carregar(cardP, fPesq, '620px');
-
-      // Quem ja respondeu (recarregou a pagina) volta direto para a agenda.
-      var jaRespondeu = null;
-      try { jaRespondeu = sessionStorage.getItem(CHAVE_PESQ); } catch (e) {}
-      if (jaRespondeu !== null) {
-        cardP.classList.add('enviada');
-        liberarAgenda(jaRespondeu);
-      } else if (!AGENDA_SO_APOS_PESQUISA) {
-        liberarAgenda('');
-        marcarPasso(1);
-      }
+      // Recarregou depois de responder: volta direto para a agenda (token e de uso unico,
+      // vale ate a reserva).
+      var salvo = null;
+      try { salvo = JSON.parse(sessionStorage.getItem(CHAVE) || 'null'); } catch (e) {}
+      if (salvo) { enviada = true; concluir(salvo.token || ''); } else { render(); }
 
       // Passo ativo acompanha o scroll ate a pesquisa ser enviada
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (es) {
           es.forEach(function (e) {
-            if (e.isIntersecting && !cardP.classList.contains('enviada')) marcarPasso(e.target.id === 'assista' ? 1 : 2);
+            if (e.isIntersecting && !enviada) marcarPasso(e.target.id === 'assista' ? 1 : 2);
           });
         }, { threshold: 0.4 });
         io.observe(document.getElementById('assista'));
         io.observe(document.getElementById('pesquisa'));
       }
-
-      // Pesquisa enviada: dispara os eventos, libera a agenda e rola ate ela.
-      // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'
-      // (este traz o ?fat= do redirect configurado no CRM).
-      var enviada = false, fat = '', timer = null;
-      function concluirPesquisa() {
-        if (!enviada) {
-          enviada = true;
-          try {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'pesquisa_enviada', funil: FUNIL, event_id: eid, faturamento: fat });
-          } catch (e) {}
-        }
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-          try { sessionStorage.setItem(CHAVE_PESQ, fat); } catch (e) {}
-          if (fat && QUALIFICADO.test(fat)) {
-            try {
-              var opts = eid ? { eventID: eid + '-lq' } : undefined;
-              fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: fat }, opts);
-              fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: fat }, opts);
-              window.dataLayer.push({ event: 'lead_qualificado', faturamento: fat, funil: FUNIL, event_id: eid ? eid + '-lq' : '' });
-            } catch (e) {}
-          }
-          cardP.classList.add('enviada');
-          liberarAgenda(fat);
-          document.getElementById('agenda').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, fat ? 300 : 1200);   // sem o redirect em maos, espera um pouco pelo ?fat=
-      }
-
-      window.addEventListener('message', function (e) {
-        if (e.origin !== ORIGIN || !e.data) return;
-        var alvo = e.source === fPesq.contentWindow ? fPesq : (e.source === fAgen.contentWindow ? fAgen : null);
-        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
-          var h = parseInt(e.data.height, 10);
-          if (alvo && h > 0) alvo.style.height = h + 'px';
-        }
-        if (alvo !== fPesq) return;
-        if (e.data.type === 'crm-form-submitted') concluirPesquisa();
-        if (e.data.type === 'crm-form-redirect' && typeof e.data.url === 'string') {
-          try { fat = (new URL(e.data.url).searchParams.get('fat') || fat).trim().slice(0, 80); } catch (err) {}
-          concluirPesquisa();
-        }
-      });
     })();
   </script>
 </body>
