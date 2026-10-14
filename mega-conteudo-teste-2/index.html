@@ -217,8 +217,9 @@
         '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1';
       var FORM_ID = '6ea80e41-4935-45e4-80c6-a1ca0cd71ba2';   // [MC2] Cadastro
       var FUNIL = 'mega_conteudo_teste_2';
-      // Regua do routing: piso da faixa de faturamento. 10000 = MQL da VSL no CRM.
-      var QUALIFICA_A_PARTIR = 10000;
+      // Regua do routing: piso da faixa de faturamento. 20000 = regua de agendamento
+      // (mesma do [LT] Agendamento e do Lead_qualificado do pixel).
+      var QUALIFICA_A_PARTIR = 20000;
 
       var form = document.getElementById('formCadastro');
       if (!form) return;
