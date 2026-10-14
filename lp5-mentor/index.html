@@ -270,6 +270,20 @@
     footer .copy{font-size:12px;color:var(--txt-3)}
 
     @media (max-width:820px){
+      /* Hero mobile: letreiro menor e vídeo logo abaixo da headline */
+      header{padding:14px 0}
+      .logo{font-size:17px}
+      .hero{padding:26px 0 28px}
+      .hero .container{display:flex;flex-direction:column;align-items:center}
+      .badge{font-size:10px;padding:6px 12px;margin-bottom:14px;letter-spacing:.14em}
+      h1{font-size:clamp(21px, 6vw, 26px);line-height:1.22;letter-spacing:-.015em;margin-bottom:14px;order:1}
+      .vsl-frame{order:2;width:100%;padding:5px;border-radius:14px;margin-bottom:18px}
+      .vsl-inner{border-radius:10px}
+      .sub{order:3;font-size:14px;line-height:1.5;margin-bottom:16px}
+      .micro{display:none}
+      .hero .cta{order:4;width:100%;margin:0}
+      .hero .stars{order:5;margin:14px 0 4px;font-size:15px}
+      .hero .proof{order:6;font-size:12px}
       .results-grid{grid-template-columns:1fr}
       .result-card.destaque{grid-column:span 1;grid-template-columns:1fr;padding:26px 24px}
       .result-card.destaque .result-num{font-size:28px;grid-row:auto}
