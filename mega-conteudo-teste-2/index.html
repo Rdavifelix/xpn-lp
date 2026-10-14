@@ -173,6 +173,22 @@
             <span class="msg">Digite um WhatsApp válido com DDD.</span>
           </div>
           <div class="campo">
+            <label for="cadArea">Área de atuação</label>
+            <select id="cadArea" name="area" required>
+              <option value="" selected disabled>Selecione</option>
+              <option>Consultorias/mentorias</option>
+              <option>Dono de agência</option>
+              <option>Dono de Saas</option>
+              <option>Dono de agência IA</option>
+              <option>Escritório de advocacia</option>
+              <option>Escritório de contabilidade</option>
+              <option>Área da saúde/estética</option>
+              <option>Infoprodutor</option>
+              <option>Outro</option>
+            </select>
+            <span class="msg">Selecione a área de atuação.</span>
+          </div>
+          <div class="campo">
             <label for="cadFat">Faturamento mensal</label>
             <select id="cadFat" name="faturamento" required>
               <option value="" selected disabled>Selecione</option>
@@ -227,6 +243,7 @@
       var email = document.getElementById('cadEmail');
       var tel = document.getElementById('cadTel');
       var fatSel = document.getElementById('cadFat');
+      var areaSel = document.getElementById('cadArea');
       var botao = form.querySelector('button');
 
       // Mascara do telefone: (11) 91234-5678 / (11) 1234-5678
@@ -239,8 +256,8 @@
       });
 
       function marcar(input, ok) { input.parentNode.classList.toggle('erro', !ok); return ok; }
-      [nome, email, tel, fatSel].forEach(function (i) {
-        i.addEventListener(i === fatSel ? 'change' : 'input', function () { i.parentNode.classList.remove('erro'); });
+      [nome, email, tel, areaSel, fatSel].forEach(function (i) {
+        i.addEventListener(i.tagName === 'SELECT' ? 'change' : 'input', function () { i.parentNode.classList.remove('erro'); });
       });
       // Piso da faixa ("Entre R$20.000 a R$40.000" -> 20000), mesma leitura do CRM.
       function pisoDaFaixa(f) {
@@ -256,6 +273,8 @@
         var ok = marcar(nome, dNome.length >= 2);
         ok = marcar(email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(dEmail)) && ok;
         ok = marcar(tel, /^[1-9]{2}9?\d{8}$/.test(dTel)) && ok;
+        var dArea = areaSel.value;
+        ok = marcar(areaSel, !!dArea) && ok;
         var dFat = fatSel.value;
         ok = marcar(fatSel, !!dFat) && ok;
         if (!ok) { var inv = form.querySelector('.erro input, .erro select'); if (inv) inv.focus(); return; }
@@ -267,7 +286,7 @@
         var leadId = 'mc2_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
         var par = new URLSearchParams(window.location.search);
         // Mesmo payload do FormEmbed do CRM (map_to dos campos + rastreio + origem do form)
-        var dados = { name: dNome, email: dEmail, phone: '55' + dTel, capital_disponivel: dFat,
+        var dados = { name: dNome, email: dEmail, phone: '55' + dTel, ocupacao: dArea, capital_disponivel: dFat,
                       landing_page: window.location.href, referrer: document.referrer || '',
                       source: '[MC2] Cadastro', form_id: FORM_ID, form_name: '[MC2] Cadastro' };
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
@@ -276,7 +295,7 @@
         try {
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId,
-                                  faturamento: dFat, qualificado: qualificado });
+                                  area: dArea, faturamento: dFat, qualificado: qualificado });
         } catch (err) {}
 
         function irParaVsl() {
