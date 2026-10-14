@@ -91,6 +91,9 @@
     .campo label{display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:5px}
     .campo input{width:100%;font:inherit;font-size:16px;color:#14181f;background:#f8fafc;
       border:1px solid #d6dce5;border-radius:10px;padding:13px 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+    .campo select{width:100%;font:inherit;font-size:16px;color:#14181f;background:#f8fafc;border:1px solid #d6dce5;border-radius:10px;padding:13px 12px;outline:none}
+    .campo select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.18);background:#fff}
+    .campo.erro select{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
     .campo input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.18);background:#fff}
     .campo.erro input{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
     .campo .msg{display:none;font-size:.76rem;color:#dc2626;margin-top:4px}
@@ -169,6 +172,19 @@
             <input id="cadTel" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" required>
             <span class="msg">Digite um WhatsApp válido com DDD.</span>
           </div>
+          <div class="campo">
+            <label for="cadFat">Faturamento mensal</label>
+            <select id="cadFat" name="faturamento" required>
+              <option value="" selected disabled>Selecione</option>
+              <option>Entre R$0 a R$5.000</option>
+              <option>Entre R$5.000 a R$10.000</option>
+              <option>Entre R$10.000 a R$20.000</option>
+              <option>Entre R$20.000 a R$40.000</option>
+              <option>Entre R$50.000 a R$100.000</option>
+              <option>Mais de R$100.000</option>
+            </select>
+            <span class="msg">Selecione o faturamento.</span>
+          </div>
           <button type="submit">ASSISTIR AGORA →</button>
         </form>
         <p class="form-seg">🔒 Seus dados estão seguros com a gente.</p>
@@ -192,20 +208,24 @@
     // Captura do teste 2: cadastro simples (nome, e-mail, WhatsApp). Ao enviar:
     // valida, gera o lead_id, avisa o dataLayer, grava o lead no CRM (receive-lead,
     // form [MC2] Cadastro — o mesmo endpoint que os forms do CRM usam) e leva o lead
-    // para a /mega-conteudo-teste-2/vsl/ (etapa 2) com lead_id e funil na URL,
-    // preservando as UTMs. Nome/e-mail/telefone vao so pelo sessionStorage (a /vsl/
-    // reenvia junto com a pesquisa) — nunca pela URL, onde o pixel leria.
+    // para a VSL com lead_id, funil e faturamento na URL, preservando as UTMs.
+    // ROUTING pelo faturamento: qualificado (>= QUALIFICA_A_PARTIR) vai para a /vsl/
+    // (com o botao "Pular a fila"); nao qualificado vai para a /assistir/ (sem botao).
+    // Nome/e-mail/telefone nunca vao na URL (o pixel leria).
     (function () {
       var CRM_ENDPOINT = 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
         '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1';
       var FORM_ID = '6ea80e41-4935-45e4-80c6-a1ca0cd71ba2';   // [MC2] Cadastro
       var FUNIL = 'mega_conteudo_teste_2';
+      // Regua do routing: piso da faixa de faturamento. 10000 = MQL da VSL no CRM.
+      var QUALIFICA_A_PARTIR = 10000;
 
       var form = document.getElementById('formCadastro');
       if (!form) return;
       var nome = document.getElementById('cadNome');
       var email = document.getElementById('cadEmail');
       var tel = document.getElementById('cadTel');
+      var fatSel = document.getElementById('cadFat');
       var botao = form.querySelector('button');
 
       // Mascara do telefone: (11) 91234-5678 / (11) 1234-5678
@@ -218,9 +238,14 @@
       });
 
       function marcar(input, ok) { input.parentNode.classList.toggle('erro', !ok); return ok; }
-      [nome, email, tel].forEach(function (i) {
-        i.addEventListener('input', function () { i.parentNode.classList.remove('erro'); });
+      [nome, email, tel, fatSel].forEach(function (i) {
+        i.addEventListener(i === fatSel ? 'change' : 'input', function () { i.parentNode.classList.remove('erro'); });
       });
+      // Piso da faixa ("Entre R$20.000 a R$40.000" -> 20000), mesma leitura do CRM.
+      function pisoDaFaixa(f) {
+        var m = String(f || '').replace(/R\$/gi, ' ').match(/(\d[\d.]*)/);
+        return m ? parseInt(m[1].replace(/\./g, ''), 10) : 0;
+      }
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -230,7 +255,10 @@
         var ok = marcar(nome, dNome.length >= 2);
         ok = marcar(email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(dEmail)) && ok;
         ok = marcar(tel, /^[1-9]{2}9?\d{8}$/.test(dTel)) && ok;
-        if (!ok) { var inv = form.querySelector('.erro input'); if (inv) inv.focus(); return; }
+        var dFat = fatSel.value;
+        ok = marcar(fatSel, !!dFat) && ok;
+        if (!ok) { var inv = form.querySelector('.erro input, .erro select'); if (inv) inv.focus(); return; }
+        var qualificado = pisoDaFaixa(dFat) >= QUALIFICA_A_PARTIR;
 
         botao.disabled = true;
         botao.textContent = 'Liberando o vídeo…';
@@ -238,23 +266,27 @@
         var leadId = 'mc2_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
         var par = new URLSearchParams(window.location.search);
         // Mesmo payload do FormEmbed do CRM (map_to dos campos + rastreio + origem do form)
-        var dados = { name: dNome, email: dEmail, phone: '55' + dTel,
+        var dados = { name: dNome, email: dEmail, phone: '55' + dTel, capital_disponivel: dFat,
                       landing_page: window.location.href, referrer: document.referrer || '',
                       source: '[MC2] Cadastro', form_id: FORM_ID, form_name: '[MC2] Cadastro' };
         ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
          'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) dados[k] = v; });
 
-        try { sessionStorage.setItem('xpn_mc2_cadastro', JSON.stringify({ name: dNome, email: dEmail, phone: '+55' + dTel })); } catch (err) {}
         try {
           window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId });
+          window.dataLayer.push({ event: 'captura_enviada', funil: FUNIL, event_id: leadId,
+                                  faturamento: dFat, qualificado: qualificado });
         } catch (err) {}
 
         function irParaVsl() {
           var p = new URLSearchParams(window.location.search);
           p.set('lead_id', leadId);
           p.set('funil', FUNIL);
-          window.location.href = './vsl/?' + p.toString();
+          p.delete('fat');
+          // fat vai com espaco como %20 (nao "+") e "$" cru (nao %24): o GTM casa regex na
+          // URL crua (r\$100\.000) — mesma regra do FormEmbed do CRM.
+          window.location.href = (qualificado ? './vsl/?' : './assistir/?') + p.toString() +
+            '&fat=' + encodeURIComponent(dFat).replace(/%24/g, '$');
         }
         // Espera o CRM gravar (1-4s) antes de trocar de pagina; keepalive garante o
         // envio mesmo se o timeout de 6s levar o lead antes da resposta.
