@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>XPN Digital — Mega Conteúdo | Assista Agora</title>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Meta Pixel — base nativa (mesmo contrato da /typ_vsl/). NAO dispara PageView:
+       o GTM ja dispara. Fallback de 3s se o GTM nao mandar.
+       Lead: disparado AO ACESSAR esta pagina quando o lead chega da captura
+       /mega-conteudo-teste-2/ (que repassa ?lead_id=mc2_...&funil=...). Recarregar
+       nao conta de novo. Esta e a VSL do lead NAO QUALIFICADO (sem botao);
+       o qualificado cai na /mega-conteudo-teste-2/vsl/ (com o botao). -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+
+    var par = new URLSearchParams(window.location.search);
+    var eid = par.get('lead_id') || '';
+    if (!/^mc2_[0-9]+_[a-z0-9]+$/.test(eid)) return;
+    var chave = 'xpn_lead_' + eid;
+    try{ if (localStorage.getItem(chave)) return; localStorage.setItem(chave, '1'); }catch(e){}
+    try{
+      fbq('track','Lead',{ content_name: 'Captura - Mega Conteudo Teste 2', content_category: 'mega_conteudo_teste_2' },{ eventID: eid });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'lead_captura', funil: 'mega_conteudo_teste_2', event_id: eid });
+    }catch(e){}
+  })();
+
+
+  // Lead qualificado (mesmo contrato da /typ_vsl/): a captura repassa o faturamento em
+  // ?fat=. Nivel >= R$20k dispara Lead_qualificado_geral e Lead_qualificado_vsl, so se
+  // em 2,5s o GTM nao tiver mandado. Recarregar na mesma aba nao dispara de novo.
+  (function(){
+    var par = new URLSearchParams(window.location.search);
+    var fat = (par.get('fat') || '').trim().slice(0, 80);
+    var QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
+    if (!fat || !QUALIFICADO.test(fat)) return;
+    var eid = par.get('lead_id') || '';
+    if (!/^mc2_[0-9]+_[a-z0-9]+$/.test(eid)) eid = '';
+    var chave = 'xpn_lq_' + (eid || fat);
+    function gtmJaMandou(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=Lead_qualificado')>-1;
+        });
+      }catch(e){ return false; }
+    }
+    setTimeout(function(){
+      if (gtmJaMandou()) return;
+      try{ if (sessionStorage.getItem(chave)) return; sessionStorage.setItem(chave, '1'); }catch(e){}
+      try{
+        var opts = eid ? { eventID: eid + '-lq' } : undefined;
+        fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: fat }, opts);
+        fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: fat }, opts);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'lead_qualificado', faturamento: fat, funil: 'mega_conteudo_teste_2', event_id: eid ? eid + '-lq' : '' });
+      }catch(e){}
+    }, 2500);
+  })();
+  </script>
+  <!-- End Meta Pixel -->
+
+  <!-- VTURB -->
+  <!-- REPLACE: hoje usa o mesmo player do /mega-conteudo-tributario. Trocar pelo da VSL do teste 2. -->
+  <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/ab-test/6a6bd571e74a023eeadf1fe5/player.js" as="script">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://m3u8.vturb.net">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#04070F;--bg-2:#060B18;--line:rgba(96,165,250,.07);
+      --border:rgba(255,255,255,.09);--card:rgba(255,255,255,.03);
+      --txt:#FFFFFF;--txt-2:rgba(255,255,255,.68);--txt-3:rgba(255,255,255,.45);
+      --blue:#3B82F6;--blue-2:#60A5FA;--blue-dark:#1E40AF;--green:#34D399;--amber:#F59E0B;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background-color:var(--bg);
+      background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+      background-size:72px 72px;color:var(--txt);
+      font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    }
+    .container{max-width:860px;margin:0 auto;padding:0 20px}
+    .serif{font-family:'Instrument Serif',ui-serif,Georgia,serif;font-style:italic;font-weight:400}
+
+    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
+    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+
+    /* ---------- HERO + VSL ---------- */
+    .hero{padding:36px 0 24px;text-align:center;position:relative}
+    .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 60% 45% at 50% 0%,rgba(59,130,246,.14),transparent 70%)}
+    h1{font-size:clamp(26px,4.4vw,42px);font-weight:800;line-height:1.16;letter-spacing:-.02em;margin:0 auto 14px;max-width:780px}
+    .hl{background:linear-gradient(100deg,var(--blue-2),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{font-size:clamp(15px,1.9vw,17px);color:var(--txt-2);line-height:1.6;max-width:640px;margin:0 auto 26px}
+    .vsl-frame{max-width:760px;margin:0 auto;padding:8px;border-radius:20px;
+      background:linear-gradient(180deg,rgba(96,165,250,.28),rgba(30,64,175,.10));
+      box-shadow:0 0 80px -20px rgba(37,99,235,.45),0 30px 60px -30px rgba(0,0,0,.8)}
+    .vsl-inner{border-radius:14px;overflow:hidden;background:#000;line-height:0}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:40px 0 52px;text-align:center;margin-top:24px}
+    footer .brand{font-weight:800;font-size:15px;margin-bottom:14px}
+    footer .disclaimer{max-width:720px;margin:0 auto 18px;font-size:11.5px;color:var(--txt-3);line-height:1.6}
+    footer nav{display:flex;gap:22px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+    footer nav a{color:var(--txt-2);font-size:13px;text-decoration:none}
+    footer .copy{font-size:12px;color:var(--txt-3)}
+
+    @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header>
+    <a class="logo" href="#">XPN DIGITAL<small>Máquina de Reuniões</small></a>
+  </header>
+
+  <!-- ==================== 1. VSL ==================== -->
+  <section class="hero" id="assista">
+    <div class="container">
+      <!-- REPLACE: headline do teste 2 -->
+      <h1>Assista ao <span class="hl">Mega Conteúdo</span> Até o Final</h1>
+      <p class="sub">No vídeo você vê o método completo para gerar reuniões toda semana, com previsibilidade.</p>
+
+      <div class="vsl-frame">
+        <div class="vsl-inner">
+          <vturb-smartplayer id="ab-6a6bd571e74a023eeadf1fe5" style="display:block;margin:0 auto;width:100%;"></vturb-smartplayer>
+          <script type="text/javascript">
+            var s=document.createElement("script");
+            s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/ab-test/6a6bd571e74a023eeadf1fe5/player.js";
+            s.async=!0;
+            document.head.appendChild(s);
+          </script>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="brand">XPN DIGITAL</div>
+      <p class="disclaimer">Este site não é parte do YouTube, Google ou Facebook; Google Inc. ou Facebook Inc. Este site também NÃO é endossado pelo YouTube, Google ou Facebook de nenhuma forma. FACEBOOK é uma marca registrada da FACEBOOK Inc. YOUTUBE é uma marca registrada da GOOGLE Inc.</p>
+      <nav>
+        <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+      </nav>
+      <p class="copy">©2026 XPN Digital · Belo Horizonte, MG</p>
+    </div>
+  </footer>
+
+</body>
+</html>
