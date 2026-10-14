@@ -64,13 +64,12 @@
 
     .serif{font-family:'Instrument Serif', ui-serif, Georgia, serif;font-style:italic;font-weight:400}
 
-    /* ---------- HEADER ---------- */
-    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
-    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
-    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+    /* ---------- TOPBAR (filtro) ---------- */
+    .topbar{padding:18px 20px;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .topbar .badge{margin-bottom:0}
 
     /* ---------- HERO ---------- */
-    .hero{padding:64px 0 40px;text-align:center}
+    .hero{padding:52px 0 40px;text-align:center}
     .hero::before{
       content:"";position:absolute;inset:0;pointer-events:none;
       background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(59,130,246,.14), transparent 70%);
@@ -271,11 +270,10 @@
 
     @media (max-width:820px){
       /* Hero mobile: letreiro menor e vídeo logo abaixo da headline */
-      header{padding:14px 0}
-      .logo{font-size:17px}
-      .hero{padding:26px 0 28px}
+      .topbar{padding:12px 16px}
+      .hero{padding:22px 0 28px}
       .hero .container{display:flex;flex-direction:column;align-items:center}
-      .badge{font-size:10px;padding:6px 12px;margin-bottom:14px;letter-spacing:.14em}
+      .badge{font-size:10px;padding:6px 12px;letter-spacing:.14em}
       h1{font-size:clamp(21px, 6vw, 26px);line-height:1.22;letter-spacing:-.015em;margin-bottom:14px;order:1}
       .vsl-frame{order:2;width:100%;padding:5px;border-radius:14px;margin-bottom:18px}
       .vsl-inner{border-radius:10px}
@@ -306,15 +304,13 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <header>
-    <a class="logo" href="#">XPN DIGITAL<small>Máquina de Reuniões</small></a>
-  </header>
+  <div class="topbar">
+    <span class="badge">Exclusivo para mentores que já vendem</span>
+  </div>
 
   <!-- ==================== HERO + VSL ==================== -->
   <section class="hero">
     <div class="container">
-      <div class="badge">Exclusivo para mentores que já vendem</div>
-
       <h1>Como Mentores Estão Lotando a Agenda Para Vender Mentorias Com <span class="hl">Leads Qualificados e Educados</span> — Sem Depender de Indicação, Sem Produzir Conteúdo Todo Dia e Sem Prospectar Ninguém</h1>
 
       <p class="sub">Assista ao vídeo onde João Araújo mostra o sistema que enche a agenda da sua mentoria em 1h30 por semana — e os <span class="serif">dados reais</span> de mais de 120.000 agendamentos realizados por meio da nossa estrutura.</p>
