@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<!--
+  FORMATOS QUE AGENDAM · Página de confirmação (pós-compra do low ticket)
+  Estrutura de thank-you page do Jeremy Haynes:
+    1. Confirma a compra e PARA o lead ("não feche esta página")
+    2. Vídeo curto do João: o que fazer agora + a sessão gratuita
+    3. Pesquisa (qualificação) — 1 pergunta por tela
+    4. Agenda CONDICIONAL: só abre para quem se qualifica (faturamento >= R$20k)
+    5. O que acontece depois de agendar (vídeo no WhatsApp → confirmação → ligação)
+    6. Pra quem é / pra quem não é · provas · perguntas frequentes
+
+  A pesquisa e' o form [LT] Agendamento do CRM (5c1b8e37) — o MESMO que o low ticket
+  ja usa. Quem decide se libera a agenda e' o CRM (settings.booking.faturamento_minimo
+  = 20000): o receive-lead so devolve booking_token pra quem passa da regua, e a agenda
+  /agendar/:token so abre com token. Mudar a regua = mudar no form do CRM, nao aqui.
+
+  ┌─ AJUSTES PENDENTES ────────────────────────────────────────────────────────┐
+  │ 1. VÍDEO: trocar VTURB_PLAYER_ID pelo player do vídeo da obrigado. Sem ele  │
+  │    a página mostra um quadro "vídeo em breve" e o resto funciona normal.    │
+  │ 2. ASSINY: configurar a página de obrigado do produto para                 │
+  │    https://maquinadereunioes.com/formatos/obrigado/                         │
+  │    Se a Assiny repassar nome/e-mail/telefone na URL, a página preenche o     │
+  │    contato sozinha e APAGA esses dados da URL antes do pixel carregar.       │
+  └────────────────────────────────────────────────────────────────────────────┘
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+
+<!-- Contato que a Assiny repassar na URL: guarda na sessão e tira da URL ANTES do pixel
+     (o PageView manda a URL inteira pro Meta — dado pessoal nunca vai junto). -->
+<script>
+(function(){
+  try{
+    var p=new URLSearchParams(window.location.search), c={}, mexeu=false;
+    var MAPA={name:['name','nome','full_name','customer_name','client_name'],
+              email:['email','customer_email','client_email'],
+              phone:['phone','telefone','celular','whatsapp','customer_phone','client_phone']};
+    Object.keys(MAPA).forEach(function(k){
+      MAPA[k].forEach(function(q){
+        var v=p.get(q); if(v!==null){ if(v && !c[k]) c[k]=v.trim(); p.delete(q); mexeu=true; }
+      });
+    });
+    if(c.name||c.email||c.phone){
+      var antes={}; try{ antes=JSON.parse(sessionStorage.getItem('xpn_lt_contato')||'{}')||{}; }catch(e){}
+      Object.keys(c).forEach(function(k){ antes[k]=c[k]; });
+      sessionStorage.setItem('xpn_lt_contato', JSON.stringify(antes));
+    }
+    if(mexeu){
+      var q=p.toString();
+      history.replaceState(null,'',window.location.pathname+(q?'?'+q:'')+window.location.hash);
+    }
+  }catch(e){}
+})();
+</script>
+
+<!-- Meta Pixel Code (mesmo pixel da /formatos/). So PageView aqui: a compra (Purchase)
+     ja e' contada pela Assiny e o agendamento (Schedule) sai pela CAPI do CRM quando a
+     reuniao e' criada — disparar de novo aqui duplicaria as conversoes. -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1536075324642200');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1536075324642200&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<title>Compra confirmada · Formatos que Agendam</title>
+<link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+<link rel="apple-touch-icon" href="../assets/favicon.png" />
+<link rel="dns-prefetch" href="https://scripts.converteai.net" />
+<link rel="dns-prefetch" href="https://cdn.converteai.net" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0A0908; --s1:#0F0E0C; --s2:#141210; --s3:#1C1A17;
+  --border:#2A251E; --border-soft:#1B1813;
+  --text:#F4EFE7; --text-2:#9A9087; --text-3:#5C554C;
+  --orange:#E5782A; --orange-bright:#FF8F45; --orange-dim:#B85F1E;
+  --green:#5BAE7B; --red:#D0574A;
+  --sans:'Geist',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+  letter-spacing:-0.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--orange);color:#100B06}
+a{color:inherit;text-decoration:none}
+em{font-style:normal;color:var(--orange)}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-3)}
+.kicker b{color:var(--orange);font-weight:500}
+h1,h2,h3{font-weight:700;letter-spacing:-0.025em;line-height:1.08}
+h1{font-size:clamp(30px,5.4vw,54px);letter-spacing:-0.03em}
+h2{font-size:clamp(26px,4vw,40px)}
+.sub{color:var(--text-2);font-size:clamp(15px,1.9vw,18px);max-width:660px}
+
+/* ── Faixa de compra confirmada ── */
+.ok-bar{background:linear-gradient(90deg,rgba(91,174,123,.16),rgba(91,174,123,.06));border-bottom:1px solid rgba(91,174,123,.3);
+  padding:11px 20px;text-align:center;font-size:14px;color:#CFE9D8}
+.ok-bar b{color:#fff}
+header.top{padding:18px 0;border-bottom:1px solid var(--border-soft)}
+.logo{display:flex;align-items:center;justify-content:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase}
+.logo .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange)}
+
+/* ── Passos ── */
+.passos{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:22px 20px 0}
+.passo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text-3);padding:7px 12px;border:1px solid var(--border-soft);border-radius:999px;transition:.3s var(--ease)}
+.passo b{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;border:1px solid var(--border);color:var(--text-2);font-weight:600}
+.passo.ok{color:var(--green);border-color:rgba(91,174,123,.35)}
+.passo.ok b{background:var(--green);border-color:var(--green);color:#08130C}
+.passo.on{color:var(--text);border-color:var(--orange-dim)}
+.passo.on b{background:var(--orange);border-color:var(--orange);color:#160C04}
+
+/* ── Hero + vídeo ── */
+.hero{padding:30px 0 40px;text-align:center}
+.alerta{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--orange-bright);background:rgba(229,120,42,.1);border:1px solid rgba(229,120,42,.35);padding:7px 14px;border-radius:999px;margin-bottom:20px}
+.alerta i{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pisca 1.2s infinite}
+@keyframes pisca{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{margin:0 auto 16px;max-width:780px}
+.hero .sub{margin:0 auto 28px}
+.video{max-width:760px;margin:0 auto;padding:6px;border-radius:10px;border:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(229,120,42,.22),rgba(229,120,42,.03));box-shadow:0 30px 80px -30px rgba(229,120,42,.35)}
+.video-in{border-radius:6px;overflow:hidden;background:#000;line-height:0;position:relative}
+.video-vazio{aspect-ratio:16/9;display:grid;place-items:center;line-height:1.5;color:var(--text-3);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  background:repeating-linear-gradient(135deg,#0f0e0c 0 12px,#121110 12px 24px)}
+.seta{display:inline-flex;flex-direction:column;align-items:center;gap:4px;margin-top:26px;color:var(--text-2);font-size:14px}
+.seta span{color:var(--orange);font-size:20px;animation:desce 1.6s infinite}
+@keyframes desce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ── Blocos ── */
+.bloco{padding:clamp(40px,6vw,72px) 0;border-top:1px solid var(--border-soft)}
+.bloco .kicker{margin-bottom:12px;display:block}
+.bloco h2{margin-bottom:12px}
+.bloco .sub{margin-bottom:28px}
+.centro{text-align:center}.centro .sub{margin-left:auto;margin-right:auto}
+
+/* ── Card claro da pesquisa / agenda ── */
+.card{background:#fff;color:#14110D;border-radius:10px;padding:24px 20px;box-shadow:0 30px 70px -30px rgba(0,0,0,.9);max-width:640px;margin:0 auto}
+.prog{height:6px;border-radius:99px;background:#EFE9E1;overflow:hidden;margin-bottom:8px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--orange-bright));transition:width .35s var(--ease)}
+.prog-txt{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A8178;margin-bottom:16px;min-height:16px}
+.q-tit{font-size:19px;font-weight:700;letter-spacing:-.015em;line-height:1.3;margin-bottom:16px}
+.ops{display:flex;flex-direction:column;gap:9px}
+.op{font:inherit;font-size:15.5px;text-align:left;color:#14110D;background:#FAF7F3;border:1px solid #E3DBD0;border-radius:8px;padding:14px 16px;cursor:pointer;transition:.15s}
+.op:hover{border-color:var(--orange);background:#FFF5EC}
+.op.sel{border-color:var(--orange);background:#FFEBDA;font-weight:600}
+.campo{margin-bottom:12px}
+.campo label{display:block;font-size:13px;font-weight:600;color:#4A433B;margin-bottom:5px}
+.campo input,.campo textarea{width:100%;font:inherit;font-size:16px;color:#14110D;background:#FAF7F3;border:1px solid #E3DBD0;border-radius:8px;padding:13px 14px;outline:none}
+.campo textarea{min-height:110px;resize:vertical}
+.campo input:focus,.campo textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(229,120,42,.18);background:#fff}
+.nav-q{display:flex;gap:10px;justify-content:space-between;margin-top:16px}
+.bt{font:inherit;font-size:15px;font-weight:700;border:0;border-radius:8px;padding:14px 22px;cursor:pointer;background:var(--orange);color:#160C04;transition:.15s}
+.bt:hover{background:var(--orange-bright)}
+.bt[disabled]{opacity:.6;cursor:wait}
+.bt.sec{background:transparent;color:#6B6259;border:1px solid #E3DBD0;font-weight:600}
+.erro-msg{display:none;color:var(--red);font-size:13.5px;margin-top:6px}
+.erro-msg.on{display:block}
+.card-seg{text-align:center;font-size:12.5px;color:#8A8178;margin-top:16px}
+.msg-ok{text-align:center;padding:10px 0}
+.msg-ok b{display:block;font-size:19px;margin-bottom:6px}
+.msg-ok p{color:#5A5249}
+
+/* Agenda: travada até a pesquisa; aberta só com token (qualificado) */
+.agenda{padding:10px;max-width:760px}
+.agenda iframe{width:100%;height:780px;border:0;display:none;border-radius:8px;background:#fff}
+.agenda .trava,.agenda .fora{text-align:center;padding:40px 18px;color:#5A5249}
+.agenda .trava .cad{font-size:30px;display:block;margin-bottom:10px}
+.agenda .trava a{display:inline-block;margin-top:14px;color:var(--orange-dim);font-weight:600}
+.agenda .fora{display:none}
+.agenda .fora b{display:block;color:#14110D;font-size:18px;margin-bottom:8px}
+.agenda.liberada iframe{display:block}
+.agenda.liberada .trava,.agenda.nao-qualificado .trava{display:none}
+.agenda.nao-qualificado .fora{display:block}
+
+/* ── Próximos passos ── */
+.linha{display:grid;gap:14px;counter-reset:n}
+.etapa{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;padding:20px;border:1px solid var(--border);border-radius:8px;background:var(--s1)}
+.etapa .n{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-weight:600;color:var(--orange);border:1px solid var(--orange-dim);background:rgba(229,120,42,.08)}
+.etapa h3{font-size:18px;margin-bottom:4px}
+.etapa p{color:var(--text-2);font-size:15px}
+
+/* ── Pra quem é ── */
+.dupla{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lista{border:1px solid var(--border);border-radius:8px;padding:22px;background:var(--s1)}
+.lista h3{font-size:16px;margin-bottom:12px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.lista.sim h3{color:var(--green)}.lista.nao h3{color:var(--red)}
+.lista ul{list-style:none;display:grid;gap:10px}
+.lista li{display:flex;gap:10px;color:var(--text-2);font-size:15px}
+.lista.sim li::before{content:"✓";color:var(--green);font-weight:700}
+.lista.nao li::before{content:"✕";color:var(--red);font-weight:700}
+
+/* ── Provas ── */
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.case{border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--s1)}
+.case .num{font-size:24px;font-weight:700;color:var(--orange);letter-spacing:-.02em;line-height:1.15;margin-bottom:8px}
+.case p{color:var(--text-2);font-size:14.5px}
+.case .quem{display:block;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+
+/* ── FAQ ── */
+.faq{display:grid;gap:10px}
+.faq details{border:1px solid var(--border);border-radius:8px;background:var(--s1);padding:16px 18px}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--orange);font-family:var(--mono)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--text-2);margin-top:10px;font-size:15px}
+
+.cta-fim{text-align:center;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;padding:17px 30px;border-radius:2px;background:var(--orange);color:#160C04;
+  box-shadow:0 14px 40px -12px rgba(229,120,42,.55);transition:.25s var(--ease)}
+.btn:hover{background:var(--orange-bright);transform:translateY(-2px)}
+
+footer{border-top:1px solid var(--border-soft);padding:36px 0 48px;text-align:center;margin-top:20px}
+footer .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-top:12px}
+footer nav{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+footer nav a{color:var(--text-2);font-size:13px}
+
+@media(max-width:760px){
+  .dupla,.cases{grid-template-columns:1fr}
+  .card{padding:20px 16px}
+  .agenda iframe{height:860px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="ok-bar">✓ <b>Compra confirmada.</b> Seu acesso aos Formatos que Agendam foi enviado para o seu e-mail.</div>
+<header class="top"><div class="logo"><span class="dot"></span>FORMATOS QUE AGENDAM</div></header>
+
+<nav class="passos" aria-label="Etapas">
+  <span class="passo ok" data-passo="1"><b>✓</b>Compra</span>
+  <a class="passo on" href="#assista" data-passo="2"><b>2</b>Assista</a>
+  <a class="passo" href="#pesquisa" data-passo="3"><b>3</b>Responda</a>
+  <a class="passo" href="#agenda" data-passo="4"><b>4</b>Agende</a>
+</nav>
+
+<!-- ==================== 1. PARE + VÍDEO ==================== -->
+<section class="hero" id="assista">
+  <div class="wrap">
+    <span class="alerta"><i></i>Não feche esta página</span>
+    <h1>Antes de abrir os formatos, <em>assista esse vídeo</em> — sua compra veio com uma sessão estratégica gratuita</h1>
+    <p class="sub">No vídeo eu te mostro como tirar o máximo dos formatos e como reivindicar a sua sessão com o meu time, onde a gente olha o seu funil e te diz qual formato rodar primeiro.</p>
+
+    <div class="video">
+      <div class="video-in" id="videoBox">
+        <!-- REPLACE: VTURB_PLAYER_ID (ver data-player). Sem id configurado a página mostra
+             o quadro abaixo e o resto do fluxo segue funcionando. -->
+        <div class="video-vazio" id="videoVazio">Vídeo em breve</div>
+      </div>
+    </div>
+
+    <a class="seta" href="#pesquisa">Responda as perguntas abaixo para ver os horários<span>↓</span></a>
+  </div>
+</section>
+
+<!-- ==================== 2. PESQUISA ==================== -->
+<section class="bloco centro" id="pesquisa">
+  <div class="wrap">
+    <span class="kicker"><b>Passo 3</b> · menos de 1 minuto</span>
+    <h2>Me conta rapidinho sobre a sua operação</h2>
+    <p class="sub">A sessão é individual e as vagas são poucas. Essas respostas mostram se faz sentido para o seu momento — e fazem a conversa render muito mais.</p>
+
+    <!-- Pesquisa nativa = form [LT] Agendamento do CRM (5c1b8e37). Mesmas perguntas e
+         mesmo map_to: mudou a pergunta no CRM? Mude aqui também. -->
+    <div class="card" id="cardPesquisa">
+      <div class="prog"><i id="progBar"></i></div>
+      <p class="prog-txt" id="progTxt"></p>
+      <div id="quiz"></div>
+      <p class="card-seg">🔒 Suas respostas ficam só com o nosso time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 3. AGENDA (condicional) ==================== -->
+<section class="bloco centro" id="agenda">
+  <div class="wrap">
+    <span class="kicker"><b>Passo 4</b> · sessão online e gratuita</span>
+    <h2>Escolha o melhor horário</h2>
+    <p class="sub">60 minutos com um especialista do time do João Araújo, olhando o seu cenário. Escolha o dia e o horário que ficam melhores para você.</p>
+
+    <!-- Agenda do CRM (/agendar/:token — a mesma do low ticket). Só abre com o token que o
+         CRM devolve para quem passa da régua; os demais veem a mensagem .fora. -->
+    <div class="card agenda" id="cardAgenda">
+      <div class="trava">
+        <span class="cad" aria-hidden="true">🔒</span>
+        Responda as perguntas acima para ver os horários disponíveis.
+        <br><a href="#pesquisa">↑ Ir para as perguntas</a>
+      </div>
+      <iframe id="iframeAgenda" title="Agenda — Formatos que Agendam"></iframe>
+      <div class="fora">
+        <b>Obrigado pelas respostas!</b>
+        Pelo seu momento atual, a sessão individual ainda não é o melhor próximo passo — e a gente prefere te falar isso com sinceridade.
+        Comece pelos formatos que estão no seu e-mail: eles foram feitos exatamente para essa fase. Se tiver qualquer dúvida no acesso, o nosso time te chama no WhatsApp.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4. O QUE ACONTECE DEPOIS ==================== -->
+<section class="bloco">
+  <div class="wrap">
+    <span class="kicker"><b>Depois de agendar</b></span>
+    <h2>O que acontece depois que você marca o horário</h2>
+    <p class="sub">Fique de olho no WhatsApp que você informou. É por lá que o time fala com você.</p>
+    <div class="linha">
+      <div class="etapa"><span class="n">1</span><div><h3>Você recebe um vídeo no WhatsApp</h3><p>Logo depois do agendamento chega um vídeo curto do nosso número oficial. Assista antes da sessão: é ele que faz a conversa ir direto ao ponto.</p></div></div>
+      <div class="etapa"><span class="n">2</span><div><h3>O Lucas confirma o seu horário</h3><p>Em seguida o Lucas, do nosso time, te manda a confirmação com o dia e a hora. Responda a mensagem para garantir a sua vaga.</p></div></div>
+      <div class="etapa"><span class="n">3</span><div><h3>Uma ligação rápida de confirmação</h3><p>Antes da sessão a gente confirma com você por uma ligação curta. Se o horário não servir mais, é aí que a gente remarca.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5. PRA QUEM É ==================== -->
+<section class="bloco">
+  <div class="wrap">
+    <span class="kicker"><b>Sendo direto</b></span>
+    <h2>Pra quem é a sessão (e pra quem não é)</h2>
+    <p class="sub">A sessão não é uma aula. É uma conversa sobre a sua operação, com quem roda isso todo dia.</p>
+    <div class="dupla">
+      <div class="lista sim"><h3>É pra você se</h3><ul>
+        <li>Você já fatura e quer previsibilidade de reuniões qualificadas.</li>
+        <li>Você é o dono (ou um dos sócios) e decide sobre o comercial.</li>
+        <li>Resolver a geração de demanda é prioridade agora.</li>
+      </ul></div>
+      <div class="lista nao"><h3>Não é pra você se</h3><ul>
+        <li>Você ainda está validando o que vende.</li>
+        <li>Você quer só "mais um curso" para assistir depois.</li>
+        <li>Você não pode separar 60 minutos com atenção total.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 6. PROVAS ==================== -->
+<section class="bloco">
+  <div class="wrap">
+    <span class="kicker"><b>Quem já passou por essa conversa</b></span>
+    <h2>Gente que começou exatamente onde você está</h2>
+    <div class="cases">
+      <div class="case"><div class="num">R$750 → R$20.000</div><p>Primeiro webinar: 8 calls, 4 vendas. ROAS de 26x.</p><span class="quem">Cauê Novais</span></div>
+      <div class="case"><div class="num">R$2k → R$30k</div><p>Antes tinha investido R$10k e voltado R$7k. Ajustou só a oferta — mesmo anúncio, mesma página.</p><span class="quem">Kelvin</span></div>
+      <div class="case"><div class="num">R$70-80k → +R$300k/mês</div><p>Mentoria de R$30-40k fechada em uma única reunião.</p><span class="quem">Moises &amp; Breno Perrucho</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 7. FAQ ==================== -->
+<section class="bloco">
+  <div class="wrap">
+    <span class="kicker"><b>Antes de você perguntar</b></span>
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details><summary>Onde está o meu acesso aos formatos?</summary><p>No e-mail que você usou na compra. Se não aparecer na caixa de entrada, procure em Promoções e no Spam. Ainda assim não chegou? Responda a mensagem do nosso time no WhatsApp que a gente reenvia.</p></details>
+      <details><summary>A sessão tem algum custo?</summary><p>Não. Ela vem junto com a sua compra dos Formatos que Agendam.</p></details>
+      <details><summary>Por que preciso responder perguntas para agendar?</summary><p>Porque a agenda é curta e cada sessão é feita para o cenário de quem está do outro lado. As respostas mostram se a conversa faz sentido agora e já chegam com o especialista.</p></details>
+      <details><summary>E se eu precisar remarcar?</summary><p>Responda a mensagem de confirmação no WhatsApp ou fale na ligação de confirmação. A gente encontra outro horário.</p></details>
+    </div>
+    <div class="cta-fim"><a class="btn" href="#pesquisa">Quero ver os horários <span>→</span></a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <nav>
+      <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+      <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+    </nav>
+    <div class="meta">© 2026 João Araújo · XPN Digital · Belo Horizonte, MG</div>
+  </div>
+</footer>
+
+<script>
+// Vídeo da obrigado (VTURB). Trocar o id quando o vídeo estiver pronto.
+(function () {
+  var VTURB_PLAYER_ID = '';   // REPLACE: ex. '6a6bd571e74a023eeadf1fe5'
+  var VTURB_CONTA = 'b538529b-a043-41f8-96cc-3886a55667c2';
+  if (!VTURB_PLAYER_ID) return;
+  var box = document.getElementById('videoBox');
+  box.innerHTML = '<vturb-smartplayer id="vid-' + VTURB_PLAYER_ID + '" style="display:block;margin:0 auto;width:100%;"></vturb-smartplayer>';
+  var s = document.createElement('script');
+  s.src = 'https://scripts.converteai.net/' + VTURB_CONTA + '/players/' + VTURB_PLAYER_ID + '/v4/player.js';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+</script>
+
+<script>
+// Pesquisa [LT] Agendamento + agenda condicional.
+// Envia para o receive-lead com o form_id do [LT] Agendamento. O CRM:
+//  - grava/reconverte o lead e sobe o card do Low Ticket para "Pré Agendado"
+//    (trigger lowticket_pediu_agendamento) e avisa no Discord;
+//  - com faturamento >= settings.booking.faturamento_minimo (R$20k) devolve um
+//    booking_token de uso único. Com token, a agenda /agendar/:token abre aqui;
+//    sem token, a pessoa vê a mensagem de "ainda não é o momento".
+// O agendamento cria a reunião (origem "LOW ticket") e dispara o meeting_scheduled,
+// que é onde ficam as mensagens de WhatsApp pós-agendamento.
+(function () {
+  var CRM_ENDPOINT = 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
+    '?key=9c4e7d21-5a86-4b03-8f19-2e7a4c6d0b58&forceFunctionRegion=us-east-1';  // distribution_key do [LT]
+  var FORM_ID = '5c1b8e37-9d42-4a06-b7f5-1e83c9a2604d';   // [LT] Agendamento
+  var AGENDA_URL = 'https://crm.xpndigital.com/agendar/';
+  var FUNIL = 'lowticket_formatos';
+  var CHAVE = 'xpn_lt_obrigado';
+
+  // Mesmas perguntas, opções e map_to do [LT] Agendamento no CRM.
+  var PERGUNTAS = [
+    { k: 'ocupacao', t: 'Qual seu modelo de negócio hoje?',
+      o: ['Agência de Marketing','Agencia de IA','Consultorias/Mentorias','Dono de SaaS','Infoprodutor','Outros'] },
+    { k: 'capital_disponivel', t: 'Qual sua média de faturamento?',
+      o: ['R$ 0 á R$5.000 por mês','R$ 5.000 á 10.000 por mês','R$ 10.000 a 20.000 por mês','R$ 20.000 a 50.000 por mês','R$ 50.000 a 100.000 por mês','Mais de R$ 100.000 por mês'] },
+    { k: 'problema_principal', t: 'Qual você acredita ser seu maior gargalo operacional hoje?',
+      o: ['Poucas reuniões na semana','Baixo investimento em Ads','Baixa entrada de leads qualificados','Baixa conversão nas reuniões','Falta de gestão dos números do negócio'] },
+    { k: 'porque_nao_resolveu', t: 'Me diga brevemente porque não conseguiu resolver esse gargalo ainda?', texto: true },
+    { k: 'urgencia', t: 'Resolver esse gargalo é prioridade para você hoje?',
+      o: ['Sim, gostaria de resolver o quanto antes e escalar','Até é, mas não pretendo fazer por agora','Não é prioridade no momento'] },
+    { k: 'decisor', t: 'Você é o dono/um dos donos do negócio?', o: ['Sim','Não'] },
+    { k: 'tem_socio', t: 'Você tem sócio(s)?', o: ['Sim','Não'] }
+  ];
+
+  var par = new URLSearchParams(window.location.search);
+  var cad = {};
+  try { cad = JSON.parse(sessionStorage.getItem('xpn_lt_contato') || '{}') || {}; } catch (e) {}
+
+  var quiz = document.getElementById('quiz');
+  var bar = document.getElementById('progBar');
+  var txt = document.getElementById('progTxt');
+  var cardA = document.getElementById('cardAgenda');
+  var fAgen = document.getElementById('iframeAgenda');
+  var passos = document.querySelectorAll('.passo[data-passo]');
+  var total = PERGUNTAS.length + 1;   // + tela de contato
+  var resp = {}, passo = 0, enviada = false;
+
+  function marcarPasso(n) {
+    passos.forEach(function (p) {
+      var i = parseInt(p.getAttribute('data-passo'), 10);
+      p.classList.toggle('ok', i < n);
+      p.classList.toggle('on', i === n);
+      var b = p.querySelector('b'); if (b) b.textContent = i < n ? '✓' : String(i);
+    });
+  }
+  function esc(v) { var d = document.createElement('div'); d.textContent = v == null ? '' : v; return d.innerHTML; }
+  function soDigitos(t) { return String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); }
+  function progresso() {
+    var n = Math.min(passo, total);
+    bar.style.width = Math.round(n / total * 100) + '%';
+    txt.textContent = n < total ? 'Pergunta ' + (n + 1) + ' de ' + total : '';
+  }
+  function push(ev) { try { window.dataLayer = window.dataLayer || []; ev.funil = FUNIL; window.dataLayer.push(ev); } catch (e) {} }
+
+  function render() {
+    progresso();
+    var voltar = passo > 0 ? '<button type="button" class="bt sec" id="qVoltar">← Voltar</button>' : '';
+    if (passo < PERGUNTAS.length) {
+      var q = PERGUNTAS[passo];
+      if (q.texto) {
+        quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '</p>' +
+          '<div class="campo"><textarea id="qTexto" placeholder="Pode ser em poucas linhas">' + esc(resp[q.k] || '') + '</textarea></div>' +
+          '<p class="erro-msg" id="qErro">Escreva rapidinho para continuar.</p>' +
+          '<div class="nav-q">' + (voltar || '<span></span>') + '<button type="button" class="bt" id="qSeguir">Continuar →</button></div>';
+        document.getElementById('qSeguir').onclick = function () {
+          var v = document.getElementById('qTexto').value.trim();
+          if (v.length < 2) { document.getElementById('qErro').classList.add('on'); return; }
+          resp[q.k] = v.slice(0, 1000); passo++; render();
+        };
+      } else {
+        quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '</p><div class="ops">' +
+          q.o.map(function (op, i) {
+            return '<button type="button" class="op' + (resp[q.k] === op ? ' sel' : '') + '" data-i="' + i + '">' + esc(op) + '</button>';
+          }).join('') + '</div>' + (voltar ? '<div class="nav-q">' + voltar + '</div>' : '');
+        quiz.querySelectorAll('.op').forEach(function (b) {
+          b.onclick = function () { resp[q.k] = q.o[+b.getAttribute('data-i')]; passo++; render(); };
+        });
+      }
+    } else {
+      var tel = soDigitos(cad.phone);
+      quiz.innerHTML = '<p class="q-tit">Para onde enviamos a confirmação?</p>' +
+        '<div class="campo"><label for="cNome">Nome</label><input id="cNome" autocomplete="name" value="' + esc(cad.name) + '"></div>' +
+        '<div class="campo"><label for="cTel">WhatsApp com DDD</label><input id="cTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" value="' + esc(tel) + '"></div>' +
+        '<div class="campo"><label for="cEmail">E-mail usado na compra</label><input id="cEmail" type="email" inputmode="email" autocomplete="email" value="' + esc(cad.email) + '"></div>' +
+        '<p class="erro-msg" id="qErro">Confira nome, WhatsApp e e-mail.</p>' +
+        '<div class="nav-q">' + voltar + '<button type="button" class="bt" id="qEnviar">Ver horários →</button></div>';
+      var campoTel = document.getElementById('cTel');
+      function mascara() {
+        var d = soDigitos(campoTel.value).slice(0, 11), r = d;
+        if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+        campoTel.value = r;
+      }
+      campoTel.addEventListener('input', mascara); mascara();
+      document.getElementById('qEnviar').onclick = function () {
+        var n = document.getElementById('cNome').value.trim().replace(/\s+/g, ' ');
+        var m = document.getElementById('cEmail').value.trim().toLowerCase();
+        var t = soDigitos(campoTel.value);
+        if (n.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m) || !/^[1-9]{2}9?\d{8}$/.test(t)) {
+          document.getElementById('qErro').classList.add('on'); return;
+        }
+        cad = { name: n, email: m, phone: '55' + t };
+        enviar(document.getElementById('qEnviar'));
+      };
+    }
+    var v = document.getElementById('qVoltar');
+    if (v) v.onclick = function () { passo = Math.max(0, passo - 1); render(); };
+  }
+
+  function enviar(botao) {
+    if (enviada) return;
+    botao.disabled = true; botao.textContent = 'Enviando…';
+    // Mesmo payload do FormEmbed do CRM (map_to dos campos + rastreio + origem do form)
+    var payload = {};
+    Object.keys(resp).forEach(function (k) { payload[k] = resp[k]; });
+    payload.name = cad.name; payload.email = cad.email; payload.phone = cad.phone;
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+     'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) payload[k] = v; });
+    payload.landing_page = window.location.href;
+    payload.referrer = document.referrer || '';
+    payload.source = '[LT] Agendamento';
+    payload.form_id = FORM_ID;
+    payload.form_name = '[LT] Agendamento';
+
+    fetch(CRM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(function () { return {}; }); })
+      .then(function (corpo) {
+        enviada = true;
+        var token = (corpo && typeof corpo.booking_token === 'string') ? corpo.booking_token : '';
+        try { sessionStorage.setItem(CHAVE, JSON.stringify({ token: token })); } catch (e) {}
+        push({ event: 'pesquisa_lt_enviada', faturamento: resp.capital_disponivel || '', agenda_liberada: !!token });
+        if (token) { try { fbq('trackCustom', 'Lead_qualificado_lowticket', { faturamento: resp.capital_disponivel || '' }); } catch (e) {} }
+        concluir(token, true);
+      })
+      .catch(function () {
+        botao.disabled = false; botao.textContent = 'Tentar de novo →';
+        var e = document.getElementById('qErro');
+        if (e) { e.textContent = 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.'; e.classList.add('on'); }
+      });
+  }
+
+  function concluir(token, rolar) {
+    passo = total; progresso();
+    quiz.innerHTML = '<div class="msg-ok"><b>✅ Respostas recebidas!</b><p>' +
+      (token ? 'Agora escolha o melhor horário logo abaixo.' : 'Obrigado! Veja o próximo passo logo abaixo.') + '</p></div>';
+    if (token) {
+      fAgen.src = AGENDA_URL + encodeURIComponent(token);
+      cardA.classList.add('liberada');
+      marcarPasso(4);
+    } else {
+      cardA.classList.add('nao-qualificado');
+      marcarPasso(5);
+    }
+    if (rolar) document.getElementById('agenda').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Recarregou depois de responder: volta direto para a agenda (o token é de uso
+  // único e vale até a reserva).
+  var salvo = null;
+  try { salvo = JSON.parse(sessionStorage.getItem(CHAVE) || 'null'); } catch (e) {}
+  if (salvo) { enviada = true; concluir(salvo.token || '', false); } else { render(); }
+
+  // Passo ativo acompanha o scroll até a pesquisa ser enviada
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !enviada) marcarPasso(e.target.id === 'assista' ? 2 : 3);
+      });
+    }, { threshold: 0.4 });
+    io.observe(document.getElementById('assista'));
+    io.observe(document.getElementById('pesquisa'));
+  }
+})();
+</script>
+</body>
+</html>
