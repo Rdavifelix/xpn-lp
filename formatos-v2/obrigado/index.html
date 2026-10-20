@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+  FORMATOS QUE AGENDAM · v2 · Página de obrigado e ativação do Bônus 5
+  Configurar na Assiny como URL de redirecionamento pós-compra.
+  Uma ação só: publicar o primeiro anúncio. Nada de "veja também" nem oferta nova.
+
+  PREENCHER (em vermelho na página, class="fill"):
+  - vídeo de 1 a 2 min do João
+  - nome do formato mais simples
+  - AGENDA_URL no script lá embaixo (link da agenda do Bônus 5)
+  Purchase NÃO é disparado aqui: a Assiny já envia a compra ao pixel. Só PageView.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1536075324642200');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1536075324642200&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<title>Seu acesso chegou · Formatos que Agendam</title>
+<link rel="icon" type="image/png" sizes="256x256" href="../../formatos/assets/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../formatos/assets/favicon-32.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0A0908; --s1:#0F0E0C; --s2:#141210; --s3:#1C1A17;
+  --border:#2A251E; --text:#F4EFE7; --text-2:#A39990; --text-3:#6A6258;
+  --orange:#E5782A; --orange-bright:#FF8F45; --orange-deep:#8A4514; --red:#FF4D4D;
+  --sans:'Geist',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+b{font-weight:600}
+.fill{color:var(--red);font-weight:600;background:rgba(255,77,77,.08);border:1px dashed rgba(255,77,77,.55);border-radius:3px;padding:0 4px}
+.fill-box{border:1.5px dashed rgba(255,77,77,.6);background:rgba(255,77,77,.05);border-radius:10px;color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;font-size:14px;font-weight:500;height:100%}
+.fill-box small{display:block;margin-top:8px;font-family:var(--mono);font-size:10.5px;color:rgba(255,77,77,.8);font-weight:400}
+.wrap{max-width:720px;margin:0 auto;padding:clamp(32px,6vw,72px) 20px}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.1;letter-spacing:-0.025em;text-align:center;margin-bottom:28px}
+.video{aspect-ratio:16/9;margin-bottom:22px}
+.lead{font-size:17px;color:var(--text-2);text-align:center;max-width:56ch;margin:0 auto 36px}
+.steps{list-style:none;display:grid;gap:12px;margin-bottom:28px}
+.steps label{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;background:var(--s2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-size:16px}
+.steps input{appearance:none;-webkit-appearance:none;flex-shrink:0;width:22px;height:22px;border:1.5px solid var(--text-3);border-radius:5px;margin-top:2px;display:grid;place-content:center;cursor:pointer}
+.steps input:checked{background:var(--orange);border-color:var(--orange)}
+.steps input:checked::after{content:"✓";color:#160C04;font-size:14px;font-weight:700}
+.steps label:has(input:checked) span{color:var(--text-3);text-decoration:line-through}
+.send{background:var(--s1);border:1px solid var(--orange-deep);border-radius:12px;padding:24px}
+.send p{font-size:15px;color:var(--text-2);margin-bottom:14px}
+.send input[type=url]{width:100%;padding:15px 16px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:15px;margin-bottom:14px}
+.send input[type=url]:focus{outline:none;border-color:var(--orange)}
+.btn{display:block;width:100%;text-align:center;font-family:var(--sans);font-weight:600;font-size:16px;padding:18px;border-radius:3px;border:none;background:var(--orange);color:#160C04;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--orange-bright)}
+.btn[aria-disabled=true]{background:var(--s3);color:var(--text-3);cursor:not-allowed;pointer-events:none}
+.hint{margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);text-align:center}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Seu acesso chegou no e-mail. Antes de abrir, faça isto.</h1>
+
+  <div class="video">
+    <!-- TROCAR por <iframe> do vídeo de 1 a 2 min. -->
+    <div class="fill-box">[VÍDEO DO JOÃO, 1 A 2 MIN]<small>Uma instrução só: abra o formato mais simples, cole o prompt, grave hoje e publique.<br>Quando estiver no ar, mande o link aqui embaixo e agende a análise.</small></div>
+  </div>
+
+  <p class="lead">Abra o formato <span class="fill">[NOME DO FORMATO MAIS SIMPLES]</span>, cole o prompt, grave o anúncio hoje e publique. Quando estiver no ar, mande o link aqui embaixo e agende o Bônus 5, a análise da sua operação.</p>
+
+  <ol class="steps">
+    <li><label><input type="checkbox" data-step="1" /><span>Abri o formato <span class="fill">[NOME DO FORMATO MAIS SIMPLES]</span> e colei o prompt na IA.</span></label></li>
+    <li><label><input type="checkbox" data-step="2" /><span>Gravei o anúncio com o roteiro que saiu.</span></label></li>
+    <li><label><input type="checkbox" data-step="3" /><span>Publiquei no Meta Ads.</span></label></li>
+  </ol>
+
+  <div class="send">
+    <p><b>Anúncio no ar?</b> Cole o link dele (da Biblioteca de Anúncios ou do post) para liberar o agendamento da análise.</p>
+    <input type="url" id="ad" placeholder="https://www.facebook.com/ads/library/?id=..." autocomplete="off" />
+    <a href="#" id="agendar" class="btn" aria-disabled="true">Agendar a análise da minha operação</a>
+    <p class="hint" id="hint">Liberado depois que você colar o link do anúncio</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  // Link da agenda do Bônus 5. O link do anúncio vai junto como ?anuncio=...
+  var AGENDA_URL = ''; // ex.: https://calendly.com/xpn/analise
+
+  // checkboxes lembrados neste navegador
+  document.querySelectorAll('[data-step]').forEach(function(cb){
+    var k='fqa_step_'+cb.getAttribute('data-step');
+    try{ cb.checked = localStorage.getItem(k)==='1'; }catch(e){}
+    cb.addEventListener('change',function(){ try{ localStorage.setItem(k, cb.checked?'1':'0'); }catch(e){} });
+  });
+
+  var ad=document.getElementById('ad'), btn=document.getElementById('agendar'), hint=document.getElementById('hint');
+  function valido(v){ try{ var u=new URL(v); return /^https?:$/.test(u.protocol) && u.hostname.indexOf('.')>0; }catch(e){ return false; } }
+  function atualiza(){
+    var v=ad.value.trim();
+    if(valido(v) && AGENDA_URL){
+      btn.setAttribute('aria-disabled','false');
+      btn.href=AGENDA_URL+(AGENDA_URL.indexOf('?')>-1?'&':'?')+'anuncio='+encodeURIComponent(v);
+      btn.target='_blank'; btn.rel='noopener';
+      hint.textContent='Link recebido. Escolha o horário.';
+    }else{
+      btn.setAttribute('aria-disabled','true'); btn.href='#';
+      hint.textContent = AGENDA_URL ? 'Liberado depois que você colar o link do anúncio' : '[FALTA CONFIGURAR AGENDA_URL]';
+      if(!AGENDA_URL) hint.className='hint fill';
+    }
+  }
+  ad.addEventListener('input',atualiza); atualiza();
+  btn.addEventListener('click',function(){ if(btn.getAttribute('aria-disabled')==='false' && window.fbq) fbq('trackCustom','AnuncioPublicado'); });
+})();
+</script>
+</body>
+</html>

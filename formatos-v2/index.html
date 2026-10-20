@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<!--
+  FORMATOS QUE AGENDAM · v2 · João Araújo (XPN Digital)
+  Página nova para comparar com /formatos/ no mesmo tráfego. Oferta igual: R$47, principal + 5 bônus.
+  Estrutura: prompt "nova página de vendas Formatos que Agendam" (20/10/2026).
+
+  Tudo que aparece em VERMELHO na página (class="fill") é lacuna de dado real.
+  Antes de subir tráfego, trocar cada um. Busque por class="fill" neste arquivo.
+
+  Dados já preenchidos pelo dono (20/10/2026):
+  - testado em mais de 200 contas
+  - estrutura que gera mais de 60 reuniões por semana por vendedor
+    (o teto é definido pela agenda do cliente, pelo tempo médio de reunião)
+  - 50% dos formatos não exigem rosto (14 de 28)
+  - Bônus 5 sem limite de vagas fixo: a página NÃO fala em escassez
+  - depoimentos: 3 vídeos no Google Drive (Murilo, Matheus Nakaoka, Enzo Sanches)
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1536075324642200');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1536075324642200&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<title>Formatos que Agendam · Máquina de Reuniões</title>
+<link rel="icon" type="image/png" sizes="256x256" href="../formatos/assets/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="../formatos/assets/favicon-32.png" />
+<link rel="apple-touch-icon" href="../formatos/assets/favicon.png" />
+<meta name="description" content="28 formatos de anúncio que já geraram reunião, cada um com o anúncio original aberto na Biblioteca do Meta e um prompt de IA. Para quem vende por reunião. R$47." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0A0908; --s1:#0F0E0C; --s2:#141210; --s3:#1C1A17;
+  --border:#2A251E; --border-soft:#1B1813;
+  --text:#F4EFE7; --text-2:#A39990; --text-3:#6A6258;
+  --orange:#E5782A; --orange-bright:#FF8F45; --orange-dim:#B85F1E; --orange-deep:#8A4514;
+  --red:#FF4D4D;
+  --sans:'Geist',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--orange);color:#100B06}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+b{color:var(--text);font-weight:600}
+em{font-style:normal;color:var(--orange)}
+
+/* lacuna de dado real: o dono substitui */
+.fill{color:var(--red);font-weight:600;background:rgba(255,77,77,.08);border:1px dashed rgba(255,77,77,.55);border-radius:3px;padding:0 4px}
+.fill-box{border:1.5px dashed rgba(255,77,77,.6);background:rgba(255,77,77,.05);border-radius:10px;color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;font-size:14px;line-height:1.5;font-weight:500}
+.fill-box small{display:block;margin-top:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:rgba(255,77,77,.8);font-weight:400}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.narrow{max-width:720px;margin:0 auto}
+.sec{padding:clamp(52px,7vw,92px) 0}
+.alt{background:var(--s1);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+h1,h2,h3{font-weight:700;letter-spacing:-0.025em;line-height:1.08}
+h2{font-size:clamp(28px,4.2vw,46px);margin-bottom:24px}
+h3{font-size:20px}
+.body p{font-size:17px;color:var(--text-2);margin-bottom:16px;max-width:60ch}
+.body p:last-child{margin-bottom:0}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--sans);font-weight:600;font-size:16px;padding:20px 30px;border-radius:3px;background:var(--orange);color:#160C04;line-height:1.25;text-align:center;
+  box-shadow:0 0 0 1px rgba(229,120,42,.25),0 14px 40px -12px rgba(229,120,42,.55);transition:transform .25s var(--ease),background .25s}
+.btn:hover{background:var(--orange-bright);transform:translateY(-2px)}
+.under{margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.cta{display:flex;flex-direction:column;align-items:center;text-align:center}
+@media(max-width:520px){.btn{width:100%;padding:19px 18px;font-size:15px}}
+
+/* 1 · primeira dobra */
+.hero{padding:clamp(28px,5vw,64px) 0 clamp(40px,6vw,72px);text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:760px;height:760px;left:50%;top:-30%;transform:translateX(-50%);background:radial-gradient(circle,rgba(229,120,42,.14),transparent 60%);pointer-events:none}
+.hero .wrap{position:relative}
+.pre{display:inline-block;padding:8px 16px;border:1px solid var(--border);border-radius:100px;background:var(--s2);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:22px}
+.hero h1{font-size:clamp(30px,4.8vw,56px);max-width:20ch;margin:0 auto}
+.hero .sub{margin:20px auto 0;max-width:58ch;font-size:clamp(16px,1.9vw,19px);color:var(--text-2)}
+.proof-shot{max-width:560px;margin:34px auto 30px}
+.proof-shot .fill-box{aspect-ratio:4/3}
+.caption{margin-top:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--text-2)}
+
+/* 2 · vídeo */
+.video{aspect-ratio:16/9;max-width:860px;margin:0 auto}
+.video .fill-box{height:100%}
+.video-note{max-width:860px;margin:14px auto 0;font-size:13px;color:var(--text-3);text-align:center}
+
+/* 4 · ceticismo */
+.diffs{list-style:none;display:grid;gap:14px;margin:6px 0 34px;max-width:720px}
+.diffs li{display:flex;gap:16px;padding:20px 22px;background:var(--s2);border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text-2)}
+.diffs .n{font-family:var(--mono);color:var(--orange);font-size:13px;padding-top:2px}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shots .fill-box{aspect-ratio:4/5}
+@media(max-width:640px){.shots{grid-template-columns:1fr}}
+.measure{margin-top:14px;font-size:13.5px;color:var(--text-3);max-width:70ch}
+
+/* 5 · mecanismo */
+.fmts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+@media(max-width:820px){.fmts{grid-template-columns:1fr}}
+.fmt{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.fmt .no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--orange)}
+.fmt p{font-size:15px;color:var(--text-2)}
+.fmt .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.rest{margin-top:26px;padding:22px;border:1px dashed var(--border);border-radius:10px;font-size:14.5px;color:var(--text-2)}
+.rest .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:10px}
+
+/* 6 · como funciona */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.steps{grid-template-columns:1fr}}
+.steps li{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:24px}
+.steps li.unlock{border-color:var(--orange-deep);background:linear-gradient(165deg,#22170e,var(--s2))}
+.steps .no{font-size:40px;font-weight:700;color:var(--orange);line-height:1;letter-spacing:-0.03em;margin-bottom:14px}
+.steps h3{margin-bottom:8px;font-size:18px}
+.steps p{font-size:14.5px;color:var(--text-2)}
+
+/* 7 · o que está dentro */
+.items{display:grid;gap:14px;margin-top:34px}
+.item{display:grid;grid-template-columns:240px 1fr;background:var(--s2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.item.heavy{border-color:var(--orange-deep)}
+.item .img{background:#edeae5;position:relative;min-height:170px}
+.item .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.item .img.dark{background:linear-gradient(160deg,#241d15,#100d0a);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.item .txt{padding:24px 26px}
+.item .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+.item h3{font-size:clamp(19px,2.2vw,23px);margin-bottom:10px}
+.item p{font-size:15.5px;color:var(--text-2)}
+.item .cond{margin-top:12px;font-size:14px;color:var(--text);border-left:2px solid var(--orange);padding-left:12px}
+@media(max-width:700px){.item{grid-template-columns:1fr}.item .img{min-height:190px}}
+
+/* 8 · prova */
+.depos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+@media(max-width:860px){.depos{grid-template-columns:1fr}}
+.depo{background:var(--s2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.depo .player{aspect-ratio:9/16;background:#000;max-height:560px;width:100%}
+.depo .player iframe{width:100%;height:100%;border:0;display:block}
+@media(max-width:860px){.depo .player{aspect-ratio:16/12;max-height:none}}
+.depo .meta{padding:18px 20px;font-size:14.5px;color:var(--text-2)}
+.depo .meta .nm{font-size:16px;color:var(--text);font-weight:600;margin-bottom:2px}
+.depo .meta .role{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
+
+/* 9 · fit */
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.fit{grid-template-columns:1fr}}
+.fit > div{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:28px}
+.fit .yes{border-color:var(--orange-deep)}
+.fit h3{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+.fit .yes h3{color:var(--orange)}
+.fit .no h3{color:var(--text-3)}
+.fit ul{list-style:none;display:grid;gap:12px}
+.fit li{font-size:15.5px;color:var(--text-2);padding-left:24px;position:relative}
+.fit .yes li{color:var(--text)}
+.fit li::before{position:absolute;left:0;top:0;font-family:var(--mono)}
+.fit .yes li::before{content:"✓";color:var(--orange)}
+.fit .no li::before{content:"✕";color:var(--text-3)}
+
+/* 10 · joão */
+.about{display:grid;grid-template-columns:300px 1fr;gap:clamp(28px,5vw,56px);align-items:center}
+.about .fill-box{aspect-ratio:4/5}
+@media(max-width:760px){.about{grid-template-columns:1fr}.about .fill-box{max-width:320px;width:100%;margin:0 auto}}
+
+/* 11 · preço */
+.price{max-width:620px;margin:0 auto;background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--orange-deep);border-radius:16px;padding:clamp(26px,4vw,44px);box-shadow:0 40px 100px -40px rgba(229,120,42,.45)}
+.price ol{list-style:none;counter-reset:i;margin-bottom:30px;border-top:1px solid var(--border)}
+.price li{padding:13px 0;border-bottom:1px solid var(--border);font-size:15.5px;color:var(--text);display:flex;gap:12px}
+.price li span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);min-width:74px;padding-top:3px}
+.price h2{text-align:center;margin-bottom:14px}
+.price .why{text-align:center;color:var(--text-2);font-size:16px;margin:0 auto 26px;max-width:46ch}
+.price .btn{width:100%}
+
+/* 12 · garantia */
+.guar{text-align:center;font-size:15.5px;color:var(--text-2);padding:34px 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);background:var(--s1)}
+
+/* 13 · perguntas */
+.faq{border-top:1px solid var(--border);max-width:780px}
+.faq details{border-bottom:1px solid var(--border)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 34px 22px 0;font-size:17px;font-weight:500;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:18px;color:var(--orange);font-size:22px;transition:transform .3s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 0 22px;font-size:15.5px;color:var(--text-2);max-width:64ch}
+
+.foot{padding:36px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);text-align:center}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ 1 · PRIMEIRA DOBRA ═══════════ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="pre">Para quem vende por reunião e já paga anúncio no Meta</p>
+    <h1>28 formatos de anúncio que já geraram reunião, com o <em>anúncio original aberto</em> na Biblioteca do Meta</h1>
+    <p class="sub">Você escolhe o formato, cola o prompt na IA e publica o seu hoje. Em vez de descobrir sozinho o que funciona, começa pelo que já funcionou em mais de 200 contas.</p>
+
+    <figure class="proof-shot">
+      <!-- TROCAR: print real de um anúncio rodando, com o link da Biblioteca visível. Envolver a <img> num <a href="LINK DA BIBLIOTECA" target="_blank">. -->
+      <div class="fill-box">[PRINT DE UM ANÚNCIO ATIVO NA BIBLIOTECA DE ANÚNCIOS DO META]<small>com a URL da Biblioteca visível no print</small></div>
+      <figcaption class="caption">Formato <span class="fill">[NOME DO FORMATO]</span>. Ativo desde <span class="fill">[DATA]</span>. <a class="fill" href="#" target="_blank" rel="noopener">[LINK] Abre na Biblioteca</a></figcaption>
+    </figure>
+
+    <div class="cta">
+      <a href="#preco" class="btn">Quero os 28 formatos e os 5 bônus por R$47</a>
+      <p class="under">Acesso imediato. 7 dias de garantia.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ 2 · VÍDEO ═══════════ -->
+<section class="sec alt" style="padding-top:clamp(40px,5vw,64px)">
+  <div class="wrap">
+    <div class="video">
+      <!-- TROCAR por <iframe> do vídeo (2 a 4 min). -->
+      <div class="fill-box">[VÍDEO DO JOÃO, 2 A 4 MIN]
+        <small>Gravar no ambiente de trabalho real, sem fundo neutro de estúdio.<br>Abrir a Biblioteca do Meta ao vivo e mostrar dois formatos rodando.<br>Uma frase por formato: por que ele gera reunião, e não só clique.<br>Fechar dizendo para quem o produto não serve.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 3 · ONDE VOCÊ ESTÁ ═══════════ -->
+<section class="sec">
+  <div class="wrap narrow body">
+    <h2>O problema não é falta de ideia de anúncio. É o que cada ideia custa pra testar.</h2>
+    <p>O mês vira. A agenda tem três reuniões, e uma não aparece.</p>
+    <p>O criativo que funcionava em agosto parou. O gestor de tráfego diz que está testando.</p>
+    <p>E o valor que sai da conta é o mesmo de quando a agenda estava cheia.</p>
+    <p>Um anúncio que você acha que vai funcionar custa o mesmo que um que o mercado já validou. A diferença é que o segundo tem histórico. O primeiro tem esperança.</p>
+    <p><b>Testar formato novo toda semana é pagar duas vezes:</b> a verba, e o tempo de descobrir que não era aquilo.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 4 · CETICISMO ═══════════ -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="narrow body" style="margin:0 0 20px">
+      <h2>Você já viu material de R$47 que era um PDF com 10 ideias de criativo. Isso aqui não é isso.</h2>
+      <p>Três diferenças que você confere antes de comprar:</p>
+    </div>
+    <ul class="diffs">
+      <li><span class="n">01</span><span><b>Cada formato tem o anúncio real linkado na Biblioteca do Meta.</b> Você abre e vê rodando. Se saiu do ar, está marcado com a data em que rodou.</span></li>
+      <li><span class="n">02</span><span><b>Os formatos vêm da estrutura que gera mais de 60 reuniões por semana para cada vendedor</b>, testada em mais de 200 contas da XPN e de clientes. Não é compilação de internet.</span></li>
+      <li><span class="n">03</span><span><b>O prompt não é genérico.</b> Ele pergunta sobre a sua oferta, o seu comprador e a sua linguagem antes de escrever.</span></li>
+    </ul>
+    <div class="shots">
+      <figure>
+        <div class="fill-box">[PRINT NA BIBLIOTECA: ANÚNCIO COM ROSTO]</div>
+        <figcaption class="caption">Formato <span class="fill">[NOME]</span>. Ativo desde <span class="fill">[DATA]</span>. <a class="fill" href="#" target="_blank" rel="noopener">[LINK] Abre na Biblioteca</a></figcaption>
+      </figure>
+      <figure>
+        <div class="fill-box">[PRINT NA BIBLIOTECA: ANÚNCIO SEM ROSTO]</div>
+        <figcaption class="caption">Formato <span class="fill">[NOME]</span>. Ativo desde <span class="fill">[DATA]</span>. <a class="fill" href="#" target="_blank" rel="noopener">[LINK] Abre na Biblioteca</a></figcaption>
+      </figure>
+    </div>
+    <p class="measure">Como medimos as 60 reuniões: reuniões na agenda de cada vendedor por semana. O teto não é o anúncio, é a agenda. Quem define é o cliente, pelo tempo médio de cada reunião.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 5 · MECANISMO ═══════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="narrow body" style="margin:0">
+      <h2>Por que o mesmo formato agenda reunião para advogado, consultor e imobiliária</h2>
+      <p>Um formato é a estrutura do vídeo: como abre, o que mostra, em que ordem, como pede a ação.</p>
+      <p>O que muda de um nicho para outro é a linguagem e a oferta. É isso que o prompt adapta.</p>
+      <p>Por isso você não precisa de um formato "para o seu nicho". <b>Precisa de um formato que já provou que leva alguém a marcar uma conversa.</b></p>
+    </div>
+
+    <div class="fmts">
+      <div class="fmt">
+        <span class="no">Formato 01</span>
+        <h3><span class="fill">[NOME DO FORMATO]</span></h3>
+        <p><span class="fill">[UMA FRASE DO QUE ELE FAZ]</span></p>
+        <span class="lbl">Funciona melhor para</span>
+        <p><span class="fill">[TIPO DE OFERTA]</span></p>
+        <a class="fill" href="#" target="_blank" rel="noopener">[LINK DO EXEMPLO NA BIBLIOTECA]</a>
+      </div>
+      <div class="fmt">
+        <span class="no">Formato 02</span>
+        <h3><span class="fill">[NOME DO FORMATO]</span></h3>
+        <p><span class="fill">[UMA FRASE DO QUE ELE FAZ]</span></p>
+        <span class="lbl">Funciona melhor para</span>
+        <p><span class="fill">[TIPO DE OFERTA]</span></p>
+        <a class="fill" href="#" target="_blank" rel="noopener">[LINK DO EXEMPLO NA BIBLIOTECA]</a>
+      </div>
+      <div class="fmt">
+        <span class="no">Formato 03</span>
+        <h3><span class="fill">[NOME DO FORMATO]</span></h3>
+        <p><span class="fill">[UMA FRASE DO QUE ELE FAZ]</span></p>
+        <span class="lbl">Funciona melhor para</span>
+        <p><span class="fill">[TIPO DE OFERTA]</span></p>
+        <a class="fill" href="#" target="_blank" rel="noopener">[LINK DO EXEMPLO NA BIBLIOTECA]</a>
+      </div>
+    </div>
+    <div class="rest">
+      <span class="lbl">Os outros 25 formatos</span>
+      <span class="fill">[NOMES DOS 25 FORMATOS RESTANTES, SEPARADOS POR " · "]</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 6 · COMO FUNCIONA ═══════════ -->
+<section class="sec alt">
+  <div class="wrap">
+    <h2>Como funciona</h2>
+    <ol class="steps">
+      <li>
+        <div class="no">1</div>
+        <h3>Escolha o formato</h3>
+        <p>Veja o anúncio original rodando e entenda a estrutura por trás dele.</p>
+      </li>
+      <li>
+        <div class="no">2</div>
+        <h3>Cole o prompt na IA</h3>
+        <p>Com a Skill no Claude, vira um comando só. O roteiro sai na sua linguagem.</p>
+      </li>
+      <li>
+        <div class="no">3</div>
+        <h3>Grave e publique</h3>
+        <p>Sobe no Meta Ads. 14 dos 28 formatos não pedem que você apareça.</p>
+      </li>
+      <li class="unlock">
+        <div class="no">4</div>
+        <h3>Libere a análise</h3>
+        <p>Com o primeiro anúncio no ar, você libera o Bônus 5: a análise da sua operação com o time. Mostra o que está rodando e sai sabendo onde está o gargalo entre o anúncio e a agenda.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════ 7 · O QUE ESTÁ DENTRO ═══════════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>O que está dentro</h2>
+    <div class="items">
+      <div class="item heavy">
+        <div class="img dark">28 formatos</div>
+        <div class="txt">
+          <div class="tag">Principal</div>
+          <h3>Para não começar do zero a cada criativo</h3>
+          <p>28 formatos, cada um com o exemplo real na Biblioteca do Meta, a estrutura explicada e o prompt de IA que escreve o roteiro.</p>
+        </div>
+      </div>
+      <div class="item heavy">
+        <div class="img"><img src="../formatos/assets/skill-macbook.png" alt="Skill no Claude para criar anúncios" loading="lazy" /></div>
+        <div class="txt">
+          <div class="tag">Bônus 3</div>
+          <h3>Para não depender de copywriter nem saber escrever prompt</h3>
+          <p>A Skill exclusiva no Claude: o prompt de cada formato vira um comando só. Vem com o passo a passo de instalação.</p>
+        </div>
+      </div>
+      <div class="item heavy">
+        <div class="img dark">Análise com o time</div>
+        <div class="txt">
+          <div class="tag">Bônus 5</div>
+          <h3>Para o material não ficar parado</h3>
+          <p>Análise da sua operação com o time. Você mostra o que está rodando e sai sabendo onde está o gargalo entre o anúncio e a agenda.</p>
+          <p class="cond">Liberada quando você publica o primeiro anúncio com um dos formatos.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="img"><img src="../formatos/assets/roube-artista.png" alt="Guia de modelagem de concorrentes" loading="lazy" /></div>
+        <div class="txt">
+          <div class="tag">Bônus 2</div>
+          <h3>Para não gastar sua verba descobrindo o que o concorrente já descobriu</h3>
+          <p>Guia de como modelar seus concorrentes da forma certa, usando a Biblioteca de Anúncios como mapa.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="img"><img src="../formatos/assets/central-criativos.png" alt="Planilha de controle de performance de criativos" loading="lazy" /></div>
+        <div class="txt">
+          <div class="tag">Bônus 4</div>
+          <h3>Para não repetir erro nem desligar um vencedor sem perceber</h3>
+          <p>Planilha de controle de performance de criativos. A mesma que a operação usa.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="img"><img src="../formatos/assets/ads-gringa.png" alt="Anúncios vencedores de fora do Brasil" loading="lazy" /></div>
+        <div class="txt">
+          <div class="tag">Bônus 1</div>
+          <h3>Para sair na frente com o que ainda não chegou no Brasil</h3>
+          <p>Anúncios vencedores de fora do país, traduzidos e comentados.</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="img dark">1 ano</div>
+        <div class="txt">
+          <div class="tag">Acesso</div>
+          <h3>Para não perder o acesso</h3>
+          <p>1 ano de acesso, com os formatos novos que entrarem no período.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8 · PROVA ═══════════ -->
+<!-- Vídeos tocam pelo Google Drive: o compartilhamento de cada arquivo precisa estar
+     em "Qualquer pessoa com o link". Para carregar mais rápido, subir no YouTube (não listado) ou Vimeo. -->
+<section class="sec alt">
+  <div class="wrap">
+    <h2>Quem já roda essa estrutura</h2>
+    <div class="depos">
+      <div class="depo">
+        <div class="player"><iframe src="https://drive.google.com/file/d/1jHYgX1nTCY5NsRbkWhlJRDksXsbA2hMT/preview" allow="autoplay; fullscreen" loading="lazy" title="Depoimento Murilo"></iframe></div>
+        <div class="meta">
+          <p class="nm">Murilo <span class="fill">[SOBRENOME]</span></p>
+          <p class="role">Infoprodutor e mentor · <span class="fill">[EMPRESA]</span></p>
+          <p><span class="fill">[O QUE FEZ COM O FORMATO]</span> <span class="fill">[O QUE ACONTECEU]</span></p>
+          <p style="margin-top:8px"><a class="fill" href="#" target="_blank" rel="noopener">[LINK DO PERFIL]</a></p>
+        </div>
+      </div>
+      <div class="depo">
+        <div class="player"><iframe src="https://drive.google.com/file/d/1-VziWHHBZMQcIHFl-Its52XEJHYuyv5q/preview" allow="autoplay; fullscreen" loading="lazy" title="Depoimento Matheus Nakaoka"></iframe></div>
+        <div class="meta">
+          <p class="nm">Matheus Nakaoka</p>
+          <p class="role"><span class="fill">[PERFIL]</span> · <span class="fill">[EMPRESA]</span></p>
+          <p><span class="fill">[O QUE FEZ COM O FORMATO]</span> <span class="fill">[O QUE ACONTECEU]</span></p>
+          <p style="margin-top:8px"><a class="fill" href="#" target="_blank" rel="noopener">[LINK DO PERFIL]</a></p>
+        </div>
+      </div>
+      <div class="depo">
+        <div class="player"><iframe src="https://drive.google.com/file/d/1Z9qvFQYufu9BU5Ha2vAI5I3d-uMnXC0o/preview" allow="autoplay; fullscreen" loading="lazy" title="Depoimento Enzo Sanches"></iframe></div>
+        <div class="meta">
+          <p class="nm">Enzo Sanches</p>
+          <p class="role">Pós-graduação, coprodutor e mentor · <span class="fill">[EMPRESA]</span></p>
+          <p><span class="fill">[O QUE FEZ COM O FORMATO]</span> <span class="fill">[O QUE ACONTECEU]</span></p>
+          <p style="margin-top:8px"><a class="fill" href="#" target="_blank" rel="noopener">[LINK DO PERFIL]</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 9 · É / NÃO É PRA VOCÊ ═══════════ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="fit">
+      <div class="yes">
+        <h3>É pra você se</h3>
+        <ul>
+          <li>Vende por reunião, call ou conversa: consultoria, mentoria, agência, serviço local, advocacia, imóveis, consórcio, SaaS, infoproduto.</li>
+          <li>Já investe em anúncio, ou vai começar e não quer queimar verba no início.</li>
+          <li>Quer executar você mesmo, com a IA como braço.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h3>Não é pra você se</h3>
+        <ul>
+          <li>Fecha no automático, como e-commerce.</li>
+          <li>Quer testar ideia da própria cabeça e torcer.</li>
+          <li>Procura truque, e não um sistema para executar.</li>
+          <li>Não tem verba nenhuma para anunciar nos próximos 30 dias.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 10 · QUEM É O JOÃO ═══════════ -->
+<section class="sec alt">
+  <div class="wrap about">
+    <!-- TROCAR: foto do João no ambiente de trabalho, não no palco. -->
+    <div class="fill-box">[FOTO DO JOÃO NO AMBIENTE DE TRABALHO]</div>
+    <div class="body">
+      <p class="kicker">Quem é o João</p>
+      <h2>João Araújo, XPN Digital</h2>
+      <p>Mais de 5 anos no digital, sempre com venda consultiva.</p>
+      <p>A estrutura da XPN gera mais de 60 reuniões por semana para cada vendedor, e já rodou em mais de 200 contas, da própria XPN e de clientes.</p>
+      <p>Os formatos desta biblioteca são os que a própria operação usa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 11 · PREÇO ═══════════ -->
+<section class="sec" id="preco">
+  <div class="wrap">
+    <div class="price">
+      <ol>
+        <li><span>Principal</span>28 formatos com exemplo real na Biblioteca e prompt de IA</li>
+        <li><span>Bônus 3</span>Skill exclusiva no Claude, com passo a passo de instalação</li>
+        <li><span>Bônus 5</span>Análise da sua operação com o time, liberada no 1º anúncio publicado</li>
+        <li><span>Bônus 2</span>Guia: como modelar seus concorrentes da forma certa</li>
+        <li><span>Bônus 4</span>Planilha de controle de performance de criativos</li>
+        <li><span>Bônus 1</span>Anúncios vencedores de fora do Brasil, traduzidos</li>
+      </ol>
+      <h2>Tudo isso por R$47</h2>
+      <p class="why">R$47 é menos do que um dia de verba de teste de quem está começando. A diferença é que aqui você compra o que já foi testado, com o anúncio original aberto na Biblioteca.</p>
+      <p class="why" style="font-size:14.5px">Acesso imediato por e-mail, válido por 1 ano.</p>
+      <div class="cta">
+        <a href="https://pay.assiny.com.br/7043bb/node/A4fjOp" data-checkout-assiny onclick="if(window.fbq)fbq('track','InitiateCheckout');" class="btn">Quero os 28 formatos e os 5 bônus por R$47</a>
+        <p class="under">Pra quem vende por reunião. Não é pra e-commerce.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 12 · GARANTIA ═══════════ -->
+<div class="guar">
+  <div class="wrap">7 dias para pedir reembolso, por qualquer motivo, como manda a lei. Sem formulário, sem pergunta.</div>
+</div>
+
+<!-- ═══════════ 13 · PERGUNTAS ═══════════ -->
+<section class="sec">
+  <div class="wrap">
+    <h2>Perguntas</h2>
+    <div class="faq">
+      <details open><summary>Funciona para o meu nicho?</summary><div class="a">Os formatos são estruturas. Servem para qualquer negócio que fecha por reunião ou conversa. O prompt adapta oferta e linguagem.</div></details>
+      <details><summary>Preciso aparecer na câmera?</summary><div class="a">Não. Há formatos com rosto, sem rosto, com IA, com print e com meme. 14 dos 28 não exigem rosto.</div></details>
+      <details><summary>Preciso saber usar IA?</summary><div class="a">Não. O prompt vem pronto e faz as perguntas. A Skill no Claude vem com o passo a passo de instalação.</div></details>
+      <details><summary>Vou ter reunião garantida?</summary><div class="a">Não. Os formatos são provados. O resultado depende da sua oferta, do seu público e da sua execução. O que a biblioteca garante é que você não começa do zero.</div></details>
+      <details><summary>Como recebo?</summary><div class="a">Por e-mail, na hora. O acesso vale 1 ano.</div></details>
+      <details><summary>Como libero a análise da operação?</summary><div class="a">Publicou o primeiro anúncio com um dos formatos, manda o link na área de membros e agenda.</div></details>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">© 2026 João Araújo · XPN Digital · <a href="../privacidade/">Privacidade</a></footer>
+
+<!-- Repassa o rastreio da URL para o checkout da Assiny (mesma lógica de /formatos/).
+     O ad_id viaja em utm_content (macro {{ad.id}} nos anúncios). -->
+<script>
+(function(){
+  var a=document.querySelector("a[data-checkout-assiny]");if(!a)return;
+  var p=new URLSearchParams(window.location.search);
+  var keys=["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid","ttclid","msclkid"];
+  var vals={},achou=false;
+  keys.forEach(function(k){var v=p.get(k);if(v){vals[k]=v;achou=true}});
+  try{
+    if(achou){sessionStorage.setItem("xpn_trk",JSON.stringify(vals))}
+    else{var g=sessionStorage.getItem("xpn_trk");if(g){vals=JSON.parse(g);achou=true}}
+  }catch(e){}
+  if(!achou)return;
+  var q=[];
+  Object.keys(vals).forEach(function(k){q.push(k+"="+encodeURIComponent(vals[k]))});
+  if(vals.utm_content)q.push("trk_ad="+encodeURIComponent(vals.utm_content));
+  if(vals.utm_campaign)q.push("trk_cpg="+encodeURIComponent(vals.utm_campaign));
+  if(vals.utm_source)q.push("trk_src="+encodeURIComponent(vals.utm_source));
+  if(vals.utm_medium)q.push("trk_adgp="+encodeURIComponent(vals.utm_medium));
+  a.href=a.href+(a.href.indexOf("?")>-1?"&":"?")+q.join("&");
+})();
+</script>
+</body>
+</html>
