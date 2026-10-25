@@ -6,3 +6,7 @@ package-lock.json
 temporary screenshots/
 screenshot.mjs
 screenshot-section.mjs
+
+# perfume-app (Expo/React Native project) needs its own package files tracked
+!perfume-app/package.json
+!perfume-app/package-lock.json
