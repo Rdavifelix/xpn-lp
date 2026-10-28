@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<!--
+  MÁQUINA DE REUNIÕES · VSL + Aplicação (modelo "stryker-digital.com/b/vsl")
+  Dinâmica da página de referência, reproduzida aqui:
+    1. Eyebrow de qualificação + headline com grifo + subheadline
+    2. VSL (VTurb, mesmo player da home) + "ligue o som, assista até o fim"
+    3. "Aplique" + texto que filtra quem NÃO é o perfil
+    4. Formulário de aplicação no estilo Saleskick: UMA pergunta por tela,
+       opções com letra (A, B, C…), barra de progresso, Enter avança, Voltar.
+    5. Agenda CONDICIONAL: aparece inline, no lugar do formulário, logo depois
+       da última resposta — SÓ para quem fatura acima de R$20.000/mês.
+       Quem não se qualifica é redirecionado para a página de obrigado.
+    6. Prova: 3 cards de clientes, CTA, parede de provas (4 cards iguais), CTA,
+       lista de resultados de clientes, CTA, fundadores, disclaimers, rodapé.
+
+  COMO O ENVIO FUNCIONA (mesmo contrato do form nativo de /formatos/obrigado):
+    - POST JSON no receive-lead do CRM XPN com as respostas (map_to iguais ao
+      form do CRM) + nome/e-mail/WhatsApp + UTMs + origem.
+    - O CRM devolve booking_token quando o faturamento passa da régua
+      (settings.booking.faturamento_minimo = R$20.000). Com token, a agenda
+      https://crm.xpndigital.com/agendar/:token abre aqui, já com o lead salvo.
+    - A página também qualifica no cliente (opções de faturamento >= R$20k)
+      para decidir entre "mostrar agenda" e "redirecionar para obrigado".
+
+  ┌─ AJUSTES PENDENTES ────────────────────────────────────────────────────────┐
+  │ 1. CRM: criar o form "[VSL] Aplicação" no CRM XPN com as MESMAS perguntas  │
+  │    e map_to abaixo e trocar CRM_KEY (distribution_key) e FORM_ID em CONFIG. │
+  │    Hoje estão apontando para o form [LT] Agendamento (5c1b8e37), que é o   │
+  │    único contrato conhecido — leads da VSL cairiam como Low Ticket.         │
+  │ 2. AGENDA: a página /agendar/:token do CRM precisa redirecionar para        │
+  │    CONFIG.OBRIGADO_URL depois da reserva (ou enviar postMessage             │
+  │    {type:'crm-booking-done'}) para o lead cair na página de obrigado.       │
+  │ 3. OBRIGADO: /vsl/obrigado/ está com conteúdo provisório (etapa 2).         │
+  └────────────────────────────────────────────────────────────────────────────┘
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Aplicação · Máquina de Reuniões — XPN Digital</title>
+<meta name="description" content="Como empresários estão colocando 3 a 5 reuniões qualificadas na agenda todo dia sem depender de conteúdo, prospecção ou sorte. Assista e aplique." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Como Empresários Estão Colocando 3 a 5 Reuniões Qualificadas na Agenda Todo Dia" />
+<meta property="og:description" content="Sem depender de conteúdo, prospecção ou sorte. Assista ao vídeo e aplique para uma consultoria com um especialista da Máquina de Reuniões." />
+<meta property="og:image" content="https://maquinadereunioes.com/images/fundadores-xpn.jpg" />
+<link rel="icon" type="image/png" sizes="256x256" href="../obrigado/assets/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="../obrigado/assets/favicon-32.png" />
+<link rel="apple-touch-icon" href="../obrigado/assets/favicon.png" />
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel — mesmo pixel e mesmo contrato da /typ_vsl: o GTM dispara o
+     PageView; se em 3s ele não tiver mandado (bloqueado), a página manda um. -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','764164756172990');
+(function(){
+  function jaMandouPageView(){
+    try{
+      return performance.getEntriesByType('resource').some(function(r){
+        return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+      });
+    }catch(e){ return true; }
+  }
+  setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=764164756172990&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel -->
+
+<!-- VTurb SmartPlayer (mesmo vídeo da home) -->
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a03bcb82b686c56bf033ea1/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
+<link rel="preconnect" href="https://crm.xpndigital.com" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --ink:#16171a; --ink-2:#3d4046; --ink-3:#6c6f76;
+  --line:#e6e6e8; --bg:#fff; --bg-soft:#f6f6f7;
+  --grifo:#FFE99A;
+  --cta:#FE063B; --cta-2:#E0052F; --cta-3:#C20429;
+  --ok:#1f8f4e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg)}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* Grifo amarelo (mesma marcação da referência) */
+.hl{background-image:linear-gradient(var(--grifo),var(--grifo));background-repeat:no-repeat;background-size:100% .92em;background-position:0 .24em;padding:0 8px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+.page{min-height:100vh;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
+
+/* ---------------- HERO ---------------- */
+.hero{width:100%;max-width:860px;display:flex;flex-direction:column;align-items:center;gap:24px}
+.eyebrow{margin:0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#55585f;text-align:center}
+h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;letter-spacing:-.02em;text-align:center;text-wrap:balance}
+.hero-sub{margin:0;font-size:clamp(17px,2.2vw,22px);line-height:1.5;color:var(--ink-2);text-align:center;max-width:720px;text-wrap:pretty}
+.hero-sub strong{color:var(--ink);font-weight:700}
+
+.vsl{position:relative;width:100%;background:#000;border-radius:4px;margin-top:8px;overflow:hidden;min-height:200px}
+.vsl vturb-smartplayer{display:block;margin:0 auto;width:100%}
+.vsl-note{margin:0;font-size:17px;color:var(--ink-2);text-align:center}
+
+/* ---------------- APLICAÇÃO ---------------- */
+.form-head{width:100%;max-width:640px;margin-top:24px;display:flex;flex-direction:column;gap:14px;align-items:center}
+.form-head h2{margin:0;font-size:clamp(26px,3.6vw,36px);line-height:1.18;font-weight:700;letter-spacing:-.01em;text-align:center;text-wrap:balance}
+.form-head p{margin:0;font-size:18px;line-height:1.55;color:var(--ink-2);text-align:center;text-wrap:pretty}
+.form-head p strong{color:var(--ink)}
+
+.form-shell{width:100%;max-width:640px;margin-top:4px;border:1px solid var(--line);border-radius:6px;padding:8px;background:#fff;scroll-margin-top:24px}
+.app{position:relative;padding:12px 36px 36px;min-height:420px}
+.prog{height:4px;background:#ffd3dc;border-radius:999px;overflow:hidden;margin:0 0 28px}
+.prog > span{display:block;height:100%;width:0;background:var(--cta);transition:width .3s ease}
+.q-tit{margin:0 0 6px;font-size:22px;line-height:1.3;font-weight:600;color:var(--ink);text-wrap:pretty}
+.q-tit .req{color:var(--cta);margin-left:2px}
+.q-sub{margin:0 0 20px;font-size:15px;line-height:1.5;color:var(--ink-3)}
+.ops{display:flex;flex-direction:column;gap:10px}
+.op{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff2f5;border:1px solid #ffb9c7;border-radius:6px;padding:12px 14px;font:inherit;font-size:17px;color:var(--ink);cursor:pointer;transition:background .12s,border-color .12s,transform .12s}
+.op:hover,.op:focus-visible{background:#ffe6ec;border-color:var(--cta);outline:none}
+.op.sel{background:#ffe6ec;border-color:var(--cta);box-shadow:0 0 0 2px rgba(254,6,59,.18)}
+.op .k{flex:none;width:26px;height:26px;border:1px solid var(--cta);border-radius:5px;background:#fff;color:var(--cta);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.op.sel .k{background:var(--cta);color:#fff}
+.campo{margin:0 0 14px}
+.campo label{display:block;font-size:14px;font-weight:600;color:var(--ink-2);margin:0 0 6px}
+.campo input,.campo textarea{width:100%;font:inherit;font-size:17px;color:var(--ink);background:#fff;border:1px solid #c9cacf;border-radius:6px;padding:13px 14px;outline:none;transition:border-color .12s,box-shadow .12s}
+.campo input:focus,.campo textarea:focus{border-color:var(--cta);box-shadow:0 0 0 3px rgba(254,6,59,.14)}
+.campo textarea{min-height:120px;resize:vertical}
+.hint{margin:8px 0 0;font-size:13px;color:var(--ink-3)}
+.erro{display:none;margin:10px 0 0;font-size:14px;color:#c20429;font-weight:600}
+.erro.on{display:block}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}
+.bt{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:16px;font-weight:700;letter-spacing:-.01em;padding:14px 26px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(180deg,#FF2A58 0%,var(--cta) 55%,var(--cta-2) 100%);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 1px 2px rgba(24,6,10,.18),0 8px 20px rgba(254,6,59,.28);transition:transform .12s,box-shadow .12s}
+.bt:hover{transform:translateY(-1px)}
+.bt:active{transform:translateY(1px)}
+.bt:disabled{opacity:.7;cursor:wait;transform:none}
+.bt.sec{background:#fff;color:var(--ink-2);box-shadow:none;border:1px solid var(--line);font-weight:600}
+.keyhint{font-size:12px;color:var(--ink-3)}
+.keyhint kbd{font:inherit;border:1px solid #c9cacf;border-radius:4px;padding:1px 6px;background:#fff}
+
+/* Estado: agenda liberada */
+.agenda{display:none;padding:12px 8px 8px}
+.agenda.on{display:block}
+.agenda .ok{display:flex;align-items:flex-start;gap:12px;background:#eefaf2;border:1px solid #bfe8cc;border-radius:6px;padding:14px 16px;margin:0 0 14px}
+.agenda .ok b{color:var(--ok);display:block;font-size:17px}
+.agenda .ok p{margin:4px 0 0;font-size:15px;color:var(--ink-2)}
+.agenda iframe{width:100%;min-height:760px;border:0;border-radius:6px;background:#fff;display:block}
+.agenda .pos{margin:12px 0 0;text-align:center;font-size:13px;color:var(--ink-3)}
+.agenda .fora{display:none;padding:28px 20px;text-align:center;font-size:16px;color:var(--ink-2)}
+.agenda.sem-token iframe{display:none}
+.agenda.sem-token .fora{display:block}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:360px;color:var(--ink-3);font-size:15px}
+.spin{width:28px;height:28px;border:3px solid #ffd3dc;border-top-color:var(--cta);border-radius:50%;animation:g 1s linear infinite}
+@keyframes g{to{transform:rotate(360deg)}}
+
+/* ---------------- CTA ---------------- */
+.cta{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#FF2A58 0%,var(--cta) 55%,var(--cta-2) 100%);color:#fff;font-size:18px;font-weight:700;letter-spacing:-.01em;padding:20px 44px;border-radius:10px;text-decoration:none;text-align:center;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 1px 2px rgba(24,6,10,.18),0 8px 20px rgba(254,6,59,.30);transition:transform .12s,box-shadow .12s,background .12s}
+.cta:hover,.cta:focus-visible{background:linear-gradient(180deg,#F01A48 0%,var(--cta-2) 55%,var(--cta-3) 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 4px rgba(24,6,10,.2),0 14px 28px rgba(254,6,59,.38)}
+.cta:active{transform:translateY(1px)}
+
+/* ---------------- PROVAS ---------------- */
+.proof{width:100%;max-width:1120px;margin-top:80px;padding-top:64px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:40px}
+.proof-head{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:820px}
+.proof-head h2{margin:0;font-size:clamp(28px,4vw,42px);line-height:1.22;font-weight:800;letter-spacing:-.02em;text-align:center;text-wrap:balance}
+.proof-head p{margin:0;font-size:17px;line-height:1.5;color:var(--ink-3);text-align:center}
+.grid3{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+.card > img{width:100%;aspect-ratio:3/2;height:auto;object-fit:cover}
+.card-body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card-body h3{margin:0;font-size:22px;line-height:1.22;font-weight:800;letter-spacing:-.02em;text-wrap:pretty}
+.metric{margin:0;font-size:17px;line-height:1.4;font-weight:700;color:var(--ink);text-wrap:pretty}
+.where{margin:-4px 0 0;font-size:13px;color:var(--ink-3)}
+.quote{margin:0;font-size:15px;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
+.attrib{margin:auto 0 0;padding-top:6px;font-size:13px;font-weight:600;color:var(--ink-3)}
+
+/* Print estilo conversa (os prints reais dos clientes substituem este bloco) */
+.chat{background:#0f1a24;padding:22px 20px;aspect-ratio:3/2;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.chat .who{display:flex;align-items:center;gap:8px;color:#9fb3c8;font-size:12px}
+.chat .who i{font-style:normal;width:24px;height:24px;border-radius:50%;background:#2f80ed;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.chat .bub{background:#1f2c3a;color:#e8eef5;border-radius:10px 10px 10px 2px;padding:10px 12px;font-size:13px;line-height:1.45;max-width:92%}
+.chat .bub b{background:rgba(255,233,154,.95);color:#16171a;padding:0 4px;border-radius:2px}
+.chat .t{font-size:10px;color:#7f93a8;text-align:right}
+
+/* Parede de provas: 4 cards iguais (mesma largura, mesma altura) */
+.wall{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.wcard{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.wcard .shot{background:var(--bg-soft);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wcard .shot img{width:100%;height:100%;object-fit:cover}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;padding:24px}
+.stat div{background:#fff;border:1px solid var(--line);border-radius:6px;padding:16px 8px;text-align:center}
+.stat b{display:block;font-size:clamp(22px,2.6vw,30px);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.stat span{display:block;font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.ba{display:flex;align-items:center;justify-content:center;gap:14px;padding:24px;width:100%}
+.ba div{flex:1;background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px 10px;text-align:center}
+.ba b{display:block;font-size:clamp(20px,2.4vw,28px);font-weight:800;letter-spacing:-.02em}
+.ba span{display:block;font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.ba .arrow{flex:none;font-size:26px;color:var(--cta);font-weight:800}
+.ba .hi b{color:var(--ok)}
+.wbody{padding:20px 24px 24px;display:flex;flex-direction:column;gap:8px}
+.wbody h3{margin:0;font-size:18px;line-height:1.3;font-weight:800;letter-spacing:-.01em}
+.wbody .sub{margin:0;font-size:13px;color:var(--ink-3)}
+.wbody p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-2)}
+
+/* Resultados de clientes (lista) */
+.results{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rcard{border:1px solid var(--line);border-radius:6px;padding:20px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.rcard b{font-size:16px;letter-spacing:-.01em}
+.rcard .r{font-size:14px;font-weight:700;color:var(--ink)}
+.rcard .r em{font-style:normal;background:var(--grifo);padding:0 4px}
+.rcard small{font-size:12px;color:var(--ink-3)}
+
+/* Fundadores */
+.founders{width:100%;max-width:1120px;margin-top:80px;padding-top:64px;border-top:1px solid var(--line);display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.founders h2{margin:0 0 16px;font-size:clamp(26px,3.4vw,36px);line-height:1.2;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.founders p{margin:0 0 14px;font-size:17px;line-height:1.6;color:var(--ink-2)}
+.founders p strong{color:var(--ink)}
+.founders img{border-radius:6px;aspect-ratio:3/4;object-fit:cover;object-position:center top;width:100%}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;max-width:1120px;margin-top:32px}
+.nums div{border:1px solid var(--line);border-radius:6px;padding:20px 12px;text-align:center}
+.nums b{display:block;font-size:clamp(24px,3vw,34px);font-weight:800;letter-spacing:-.02em}
+.nums span{display:block;font-size:12px;color:var(--ink-3);margin-top:4px;line-height:1.4}
+
+.cta-row{display:flex;justify-content:center;width:100%}
+.section-cta{margin-top:40px}
+
+/* Disclaimers + rodapé */
+.legal{width:100%;max-width:960px;margin-top:80px;padding-top:40px;border-top:1px solid var(--line);font-size:12px;line-height:1.6;color:var(--ink-3)}
+.legal p{margin:0 0 12px}
+.legal b{color:var(--ink-2)}
+.foot{width:100%;max-width:960px;margin-top:24px;font-size:12px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+.foot a{color:var(--ink-3)}
+
+@media (max-width:980px){
+  .grid3{grid-template-columns:1fr 1fr}
+  .results{grid-template-columns:repeat(2,1fr)}
+  .founders{grid-template-columns:1fr}
+  .founders img{max-width:420px;margin:0 auto}
+  .nums{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .page{padding:36px 16px 64px}
+  .grid3,.wall{grid-template-columns:1fr}
+  .app{padding:10px 18px 26px}
+  .q-tit{font-size:20px}
+  .op{font-size:16px}
+  .cta{width:100%;padding:18px 20px;font-size:17px}
+  .stat{padding:16px;gap:6px}
+  .ba{padding:16px;gap:8px}
+  .agenda iframe{min-height:700px}
+  .keyhint{display:none}
+}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<main class="page">
+
+  <!-- ==================== 1. HERO + VSL ==================== -->
+  <section class="hero">
+    <p class="eyebrow">Para empresários e sócios que faturam R$20.000+ por mês</p>
+    <h1>Como Empresários Estão Colocando <span class="hl">3 a 5 Reuniões Qualificadas</span> na Agenda Todo Dia — Sem Depender de Conteúdo, Prospecção ou Sorte</h1>
+    <p class="hero-sub">Neste vídeo curto, você vai ver o sistema que usamos com mais de 180 empresários para gerar reuniões qualificadas todos os dias e <strong>encher a agenda do time comercial só com quem está pronto para comprar</strong> — sem postar todo dia, sem prospecção manual e sem anúncio que não converte.</p>
+
+    <div class="vsl" id="assista">
+      <vturb-smartplayer id="vid-6a03bcb82b686c56bf033ea1" style="display:block;margin:0 auto;width:100%;"></vturb-smartplayer>
+      <script type="text/javascript">
+        var s=document.createElement("script");
+        s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a03bcb82b686c56bf033ea1/v4/player.js";
+        s.async=!0;
+        document.head.appendChild(s);
+      </script>
+    </div>
+    <p class="vsl-note">Ligue o som. Assista até o final antes de aplicar.</p>
+
+    <!-- ==================== 2. APLICAÇÃO ==================== -->
+    <div class="form-head">
+      <h2>Aplique para uma consultoria com um especialista da Máquina de Reuniões</h2>
+      <p>Isto <strong>NÃO</strong> é um curso nem um "pacote de tráfego". Só implementamos a Máquina de Reuniões para empresários que <strong>já têm um produto que vende</strong> e querem um sistema completo de aquisição rodando todo mês — da captação ao fechamento.</p>
+    </div>
+
+    <div class="form-shell" id="aplicar">
+      <div class="app" id="app">
+        <div class="prog" aria-hidden="true"><span id="progBar"></span></div>
+        <div id="quiz" aria-live="polite"></div>
+      </div>
+
+      <div class="agenda" id="agenda">
+        <div class="ok">
+          <span aria-hidden="true">✅</span>
+          <div>
+            <b>Aplicação recebida!</b>
+            <p id="agendaMsg">Pelo seu perfil, você se qualificou. Escolha abaixo o melhor horário para a sua consultoria.</p>
+          </div>
+        </div>
+        <iframe id="iframeAgenda" title="Agenda — Máquina de Reuniões"></iframe>
+        <div class="fora" id="agendaFora"></div>
+        <p class="pos">Depois de confirmar o horário você será direcionado para a próxima etapa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. PROVAS (3 cards) ==================== -->
+  <section class="proof">
+    <div class="proof-head">
+      <p class="eyebrow">Provas reais</p>
+      <h2>Resultados reais de empresários usando a <span class="hl">Máquina de Reuniões</span></h2>
+      <p>+180 empresários acelerados em +35 nichos: saúde, consultoria, mentoria, SaaS, beleza, educação, advocacia e mais.</p>
+    </div>
+
+    <div class="grid3">
+      <!-- Cauê Novais -->
+      <article class="card">
+        <!-- TROCAR: print real do WhatsApp/Telegram do Cauê (3:2) -->
+        <div class="chat" aria-label="Mensagem do Cauê Novais no grupo de alunos">
+          <div class="who"><i>CN</i>~ Cauê Novais</div>
+          <div class="bub">Primeiro webinar do ano com métricas diferenciadas 😄<br>R$750,00 investidos · 50 no grupo · 20 no webinar · 10 aplicações · 8 calls · 4 vendas<br><b>Até então, R$20.000,00 em vendas 👌</b></div>
+          <div class="t">20:01</div>
+        </div>
+        <div class="card-body">
+          <h3>Cauê Novais</h3>
+          <p class="metric"><span class="hl">R$750 investidos → R$20.000 em vendas (ROAS 26x)</span></p>
+          <p class="where">Semana recorde: R$54.000 em 7 dias</p>
+          <p class="quote">Antes demorava 2 semanas para encher a agenda. Com o webinar, fez 20 agendamentos em 1h30 — e fechou 4 vendas no mesmo dia.</p>
+          <p class="attrib">Cauê Novais, fundador</p>
+        </div>
+      </article>
+
+      <!-- Marcelo Rodrigues -->
+      <article class="card">
+        <!-- TROCAR: print real do WhatsApp do Marcelo (3:2) -->
+        <div class="chat" aria-label="Mensagem do Marcelo Rodrigues no grupo de alunos">
+          <div class="who"><i>MR</i>~ Marcelo Rodrigues</div>
+          <div class="bub"><b>+70 mil reais hoje!!</b> @Davi @Joao Araujo !!<br>Boraaaa. 21:44 e fazendo as calls!! Bora que ainda dá para sair mais uma!</div>
+          <div class="t">21:44 · Editada</div>
+        </div>
+        <div class="card-body">
+          <h3>Marcelo Rodrigues</h3>
+          <p class="metric"><span class="hl">R$1.540 investidos → R$112.000 faturados (ROAS 72x)</span></p>
+          <p class="where">R$70 mil em um único dia</p>
+          <p class="quote">"A gente investiu 1.540 e voltou 112 mil." O maior ROAS documentado na XPN — ainda fechando calls às 21h44 e pedindo mais uma rodada.</p>
+          <p class="attrib">Marcelo Rodrigues, fundador</p>
+        </div>
+      </article>
+
+      <!-- Kelvin -->
+      <article class="card">
+        <!-- TROCAR: print real do WhatsApp do Kelvin (3:2) -->
+        <div class="chat" aria-label="Resumo do resultado do Kelvin">
+          <div class="who"><i>K</i>[PAA] Kelvin</div>
+          <div class="bub">Antes: R$10k investidos → R$7k de volta.<br>Mudamos SÓ a oferta (mesmo anúncio, mesma página).<br><b>Depois: R$2k investidos → R$30k (ROAS 15x)</b></div>
+          <div class="t">Onboarding na segunda-feira</div>
+        </div>
+        <div class="card-body">
+          <h3>Kelvin</h3>
+          <p class="metric"><span class="hl">De ROAS negativo para ROAS 15x ajustando só a oferta</span></p>
+          <p class="where">Entrou no sábado, onboarding na segunda</p>
+          <p class="quote">Mesmo anúncio, mesma página, tudo igual. A XPN ajustou apenas a oferta: R$2.000 investidos viraram R$30.000 — R$26k ao vivo + 4 vendas na plataforma.</p>
+          <p class="attrib">Kelvin, fundador</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="cta-row"><a class="cta" href="#aplicar">Quero aplicar agora</a></div>
+
+    <!-- ==================== 4. PAREDE DE PROVAS (4 cards iguais) ==================== -->
+    <div class="wall">
+      <article class="wcard">
+        <div class="shot"><img src="../images/resultados-mensais.png" alt="Resultado mensal da empresa de IA da XPN do dia 1: de R$164.910 em janeiro a R$482.324 em junho" loading="lazy"></div>
+        <div class="wbody">
+          <h3>Do zero a R$482k/mês em 6 meses — na nossa própria operação</h3>
+          <p class="sub">Empresa de IA da XPN · Instagram com 2 publicações e 100 seguidores no dia 1</p>
+          <p>Mesmo webinar gravado, repetido de janeiro a agosto. Janeiro: R$164.910. Março: R$328.313. Junho: R$482.324. Sem conteúdo diário, sem audiência prévia.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="shot">
+          <div class="stat" aria-label="Métricas do funil de webinar da XPN">
+            <div><b>104+</b><span>webinars no ano</span></div>
+            <div><b>50%+</b><span>comparecimento</span></div>
+            <div><b>64%</b><span>viram agendamento</span></div>
+          </div>
+        </div>
+        <div class="wbody">
+          <h3>1h30 de apresentação = agenda da semana inteira</h3>
+          <p class="sub">Funil de webinar da XPN · 2.500+ agendamentos gerados em 2025</p>
+          <p>Mesmo roteiro toda semana, 60 a 100 agendamentos por evento. Conversão por horário medida: 21,9% de manhã, 39,9% à tarde, 51% à noite. Não existe "eu acho" — existe o dado.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="shot">
+          <div class="ba" aria-label="Murilo Vila Verde: antes e depois">
+            <div><b>R$70–90k</b><span>por mês · antes</span></div>
+            <span class="arrow" aria-hidden="true">→</span>
+            <div class="hi"><b>R$500–600k</b><span>por mês · hoje</span></div>
+          </div>
+        </div>
+        <div class="wbody">
+          <h3>Murilo Vila Verde: 7x de crescimento e a mentoria high ticket virou o carro-chefe</h3>
+          <p class="sub">Relacionamento para homens · produtos low ticket de R$297–397 antes</p>
+          <p>"Depois que a gente implementou aquele processinho de comercial que tu passou, a gente começou a vender bem as mentorias high ticket. Hoje a nossa empresa gira só em torno da mentoria high ticket."</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="shot">
+          <div class="stat" aria-label="Vanderson Silveira: números do webinar">
+            <div><b>R$10</b><span>custo por lead</span></div>
+            <div><b>70</b><span>leads por dia</span></div>
+            <div><b>+R$100k</b><span>faturados</span></div>
+          </div>
+        </div>
+        <div class="wbody">
+          <h3>Vanderson Silveira: de social selling para webinar — e o gargalo virou a entrega</h3>
+          <p class="sub">SaaS / IA white label · R$70k em janeiro investindo ~R$8k</p>
+          <p>"É um lead muito educado, muito mais propício a comprar. Nossa principal dificuldade nem é funil, comercial tá tranquilo, conversão tá lá em cima." — Rian, sócio</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="cta-row"><a class="cta" href="#aplicar">Quero aplicar agora</a></div>
+
+    <!-- ==================== 5. RESULTADOS DE CLIENTES ==================== -->
+    <div class="proof-head">
+      <h2>Resultados de clientes</h2>
+      <p>Números reais, documentados em prints, dashboards e depoimentos em vídeo.</p>
+    </div>
+    <div class="results">
+      <div class="rcard"><b>Eduardo Lustosa</b><span class="r"><em>+R$100k no 1º mês</em> — empresa criada do zero</span><small>Consultoria / mentoria · Implementação</small></div>
+      <div class="rcard"><b>Luan Gonçalves</b><span class="r">Vendas de <em>R$10.700, R$9.500 e R$3.200</em> em semanas seguidas</span><small>High ticket · PAA</small></div>
+      <div class="rcard"><b>Renê Guzmão</b><span class="r">De R$15–20k/mês para <em>R$105–120k/mês</em></span><small>Serviços</small></div>
+      <div class="rcard"><b>Celton Gomes</b><span class="r">De R$30k/mês para <em>R$200–230k/mês</em></span><small>Serviços</small></div>
+      <div class="rcard"><b>Moises &amp; Breno Perrucho</b><span class="r">De R$70–80k/mês para <em>+R$300k/mês</em>, fechando em uma reunião</span><small>Mentoria high ticket (R$30–40k)</small></div>
+      <div class="rcard"><b>Rafa — Barbearia do Rafa</b><span class="r"><em>R$25k investidos → R$525k</em> faturados (ROAS 21x)</span><small>Gestão para barbearias</small></div>
+      <div class="rcard"><b>Gui</b><span class="r">De R$20–30k/mês para R$150k/mês no 1º ano e <em>R$430k/mês</em> no 2º</span><small>Consultoria / mentoria</small></div>
+      <div class="rcard"><b>Pedro Souza</b><span class="r">De R$20k/mês para <em>R$50k em 21 dias</em></span><small>Processo comercial</small></div>
+    </div>
+
+    <div class="cta-row"><a class="cta" href="#aplicar">Quero aplicar agora</a></div>
+  </section>
+
+  <!-- ==================== 6. FUNDADORES ==================== -->
+  <section class="founders">
+    <div>
+      <p class="eyebrow" style="text-align:left;margin-bottom:12px">Quem está por trás</p>
+      <h2>João Araújo e Davi Felix — fundadores da XPN Digital</h2>
+      <p>A XPN não é uma agência. É uma <strong>Máquina de Reuniões</strong>: entregamos o processo completo de aquisição — da captação do lead ao fechamento — em vez de jogar lead no seu colo e mandar se virar.</p>
+      <p>Em 5 anos de mercado, lideramos <strong>+R$14 milhões em vendas</strong>, investimos <strong>+R$2 milhões em anúncios próprios</strong> e construímos do zero uma empresa de IA que saiu de zero a R$450k/mês em 4 meses com o mesmo sistema que implementamos nos clientes.</p>
+      <p>Hoje somos parceiros da <strong>Honest FBA</strong>, nos EUA (US$400k/mês), provando que a metodologia funciona em qualquer mercado e idioma. <strong>Se eu não agendo, eu não vendo.</strong></p>
+    </div>
+    <img src="../images/fundadores-xpn.jpg" alt="João Araújo e Davi Felix, fundadores da XPN Digital" loading="lazy">
+  </section>
+  <div class="nums">
+    <div><b>R$14MI+</b><span>em vendas lideradas<br>nos últimos 3 anos</span></div>
+    <div><b>2.500+</b><span>agendamentos<br>gerados em 2025</span></div>
+    <div><b>104+</b><span>webinars rodados no ano<br>50%+ de comparecimento</span></div>
+    <div><b>12x+</b><span>ROAS médio<br>nos clientes da XPN</span></div>
+  </div>
+  <div class="cta-row section-cta"><a class="cta" href="#aplicar">Quero aplicar agora</a></div>
+
+  <!-- ==================== 7. DISCLAIMERS + RODAPÉ ==================== -->
+  <section class="legal">
+    <p><b>Aviso sobre resultados:</b> os cases, depoimentos, prints e números exibidos nesta página são de operações reais de clientes e da própria XPN e servem apenas como ilustração. Não constituem promessa nem garantia de resultado. O desempenho de cada empresa depende de oferta, mercado, investimento, equipe e execução — e muitos dos fatores estão fora do nosso controle.</p>
+    <p><b>Aviso geral:</b> o conteúdo desta página tem caráter educacional e não substitui aconselhamento jurídico, contábil ou financeiro. Ao usar este site você concorda em tomar suas próprias decisões de negócio por conta própria. Este site não é afiliado, endossado ou patrocinado pelo Facebook, Instagram, Google ou qualquer plataforma de mídia social.</p>
+  </section>
+  <footer class="foot">
+    <span>XPN Digital · Belo Horizonte, MG · © 2026 — Todos os direitos reservados.</span>
+    <a href="/privacidade/">Política de Privacidade</a>
+    <a href="/exclusao-de-dados/">Exclusão de dados</a>
+  </footer>
+</main>
+
+<script>
+// ============================================================================
+// APLICAÇÃO (1 pergunta por tela) + AGENDA CONDICIONAL
+// ============================================================================
+(function () {
+  var CONFIG = {
+    // Contrato do receive-lead do CRM XPN. TROCAR pelo form "[VSL] Aplicação"
+    // assim que ele existir no CRM (hoje aponta para o [LT] Agendamento).
+    CRM_ENDPOINT: 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
+      '?key=9c4e7d21-5a86-4b03-8f19-2e7a4c6d0b58&forceFunctionRegion=us-east-1',
+    FORM_ID: '5c1b8e37-9d42-4a06-b7f5-1e83c9a2604d',
+    FORM_NAME: '[VSL] Aplicação',
+    AGENDA_URL: 'https://crm.xpndigital.com/agendar/',   // + booking_token
+    OBRIGADO_URL: 'obrigado/',
+    FUNIL: 'vsl_aplicacao',
+    CHAVE: 'xpn_vsl_aplicacao'
+  };
+
+  // Opções de faturamento que liberam a agenda (>= R$20.000/mês). Mesma régua
+  // do CRM (settings.booking.faturamento_minimo). Os textos são os map_to do CRM.
+  var FATURAMENTO = ['R$ 0 á R$5.000 por mês','R$ 5.000 á 10.000 por mês','R$ 10.000 a 20.000 por mês',
+                     'R$ 20.000 a 50.000 por mês','R$ 50.000 a 100.000 por mês','Mais de R$ 100.000 por mês'];
+  var QUALIFICA_A_PARTIR = 3;   // índice em FATURAMENTO
+
+  var PERGUNTAS = [
+    { k: 'decisor', t: 'Você é o dono ou um dos donos do negócio?',
+      s: 'A consultoria é só para quem decide — não para gestores, vendedores ou colaboradores.',
+      o: ['Sim','Não'] },
+    { k: 'ocupacao', t: 'Qual é o seu modelo de negócio hoje?',
+      o: ['Agência de Marketing','Agencia de IA','Consultorias/Mentorias','Dono de SaaS','Infoprodutor','Outros'] },
+    { k: 'capital_disponivel', t: 'Qual é a média de faturamento mensal da empresa?',
+      s: 'Responda com sinceridade: é o que define se a reunião faz sentido para você agora.',
+      o: FATURAMENTO },
+    { k: 'problema_principal', t: 'Qual você acredita ser o seu maior gargalo hoje?',
+      o: ['Poucas reuniões na semana','Baixo investimento em Ads','Baixa entrada de leads qualificados','Baixa conversão nas reuniões','Falta de gestão dos números do negócio'] },
+    { k: 'porque_nao_resolveu', t: 'Por que você ainda não conseguiu resolver esse gargalo?',
+      s: 'Em poucas linhas. O especialista lê isso antes da reunião.', texto: true },
+    { k: 'urgencia', t: 'Resolver esse gargalo é prioridade para você hoje?',
+      o: ['Sim, gostaria de resolver o quanto antes e escalar','Até é, mas não pretendo fazer por agora','Não é prioridade no momento'] },
+    { k: 'tem_socio', t: 'Você tem sócio(s)?', o: ['Sim','Não'] }
+  ];
+
+  var par = new URLSearchParams(window.location.search);
+  var quiz = document.getElementById('quiz');
+  var bar = document.getElementById('progBar');
+  var appBox = document.getElementById('app');
+  var agenda = document.getElementById('agenda');
+  var fAgen = document.getElementById('iframeAgenda');
+  var total = PERGUNTAS.length + 1;   // + tela de contato
+  var resp = {}, cad = {}, passo = 0, enviada = false;
+
+  function esc(v) { var d = document.createElement('div'); d.textContent = v == null ? '' : v; return d.innerHTML; }
+  function soDigitos(t) { return String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); }
+  function letra(i) { return String.fromCharCode(65 + i); }
+  function progresso() { bar.style.width = Math.round(Math.min(passo, total) / total * 100) + '%'; }
+  function push(ev) { try { window.dataLayer = window.dataLayer || []; ev.funil = CONFIG.FUNIL; window.dataLayer.push(ev); } catch (e) {} }
+  function qualificaNoCliente() { return FATURAMENTO.indexOf(resp.capital_disponivel) >= QUALIFICA_A_PARTIR; }
+  function rolarParaForm() {
+    var r = appBox.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.5) document.getElementById('aplicar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function render() {
+    progresso();
+    var voltar = passo > 0 ? '<button type="button" class="bt sec" id="qVoltar">← Voltar</button>' : '<span></span>';
+    var q = PERGUNTAS[passo];
+
+    if (passo < PERGUNTAS.length && !q.texto) {
+      quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '<span class="req" aria-hidden="true">*</span></p>' +
+        (q.s ? '<p class="q-sub">' + esc(q.s) + '</p>' : '<div style="height:14px"></div>') +
+        '<div class="ops" role="radiogroup" aria-label="' + esc(q.t) + '">' +
+        q.o.map(function (op, i) {
+          return '<button type="button" class="op' + (resp[q.k] === op ? ' sel' : '') + '" data-i="' + i + '" role="radio" aria-checked="' + (resp[q.k] === op) + '">' +
+            '<span class="k">' + letra(i) + '</span><span>' + esc(op) + '</span></button>';
+        }).join('') + '</div>' +
+        '<div class="nav">' + voltar + '<span class="keyhint">Digite a letra ou clique na opção</span></div>';
+      quiz.querySelectorAll('.op').forEach(function (b) {
+        b.onclick = function () {
+          var i = +b.getAttribute('data-i');
+          resp[q.k] = q.o[i];
+          b.classList.add('sel');
+          setTimeout(function () { passo++; render(); rolarParaForm(); }, 160);
+        };
+      });
+
+    } else if (passo < PERGUNTAS.length) {
+      quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '<span class="req" aria-hidden="true">*</span></p>' +
+        (q.s ? '<p class="q-sub">' + esc(q.s) + '</p>' : '') +
+        '<div class="campo"><textarea id="qTexto" placeholder="Pode ser em poucas linhas…">' + esc(resp[q.k] || '') + '</textarea></div>' +
+        '<p class="erro" id="qErro">Escreva rapidinho para continuar.</p>' +
+        '<div class="nav">' + voltar + '<button type="button" class="bt" id="qSeguir">OK →</button></div>';
+      var ta = document.getElementById('qTexto');
+      ta.focus();
+      document.getElementById('qSeguir').onclick = function () {
+        var v = ta.value.trim();
+        if (v.length < 2) { document.getElementById('qErro').classList.add('on'); return; }
+        resp[q.k] = v.slice(0, 1000); passo++; render(); rolarParaForm();
+      };
+
+    } else {
+      quiz.innerHTML = '<p class="q-tit">Para onde enviamos a confirmação?<span class="req" aria-hidden="true">*</span></p>' +
+        '<p class="q-sub">Última etapa. Se o seu momento se encaixar, você escolhe o horário da consultoria logo em seguida.</p>' +
+        '<div class="campo"><label for="cNome">Nome completo</label><input id="cNome" autocomplete="name" placeholder="Seu nome" value="' + esc(cad.name) + '"></div>' +
+        '<div class="campo"><label for="cTel">WhatsApp com DDD</label><input id="cTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" value="' + esc(soDigitos(cad.phone)) + '"></div>' +
+        '<div class="campo"><label for="cEmail">Seu melhor e-mail</label><input id="cEmail" type="email" inputmode="email" autocomplete="email" placeholder="voce@empresa.com" value="' + esc(cad.email) + '"></div>' +
+        '<p class="erro" id="qErro">Confira nome, WhatsApp e e-mail.</p>' +
+        '<div class="nav">' + voltar + '<button type="button" class="bt" id="qEnviar">Enviar aplicação →</button></div>' +
+        '<p class="hint" style="text-align:center;margin-top:16px">🔒 Seus dados estão seguros. Não enviamos spam.</p>';
+      var campoTel = document.getElementById('cTel');
+      function mascara() {
+        var d = soDigitos(campoTel.value).slice(0, 11), r = d;
+        if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+        campoTel.value = r;
+      }
+      campoTel.addEventListener('input', mascara); mascara();
+      document.getElementById('cNome').focus();
+      document.getElementById('qEnviar').onclick = function () {
+        var n = document.getElementById('cNome').value.trim().replace(/\s+/g, ' ');
+        var m = document.getElementById('cEmail').value.trim().toLowerCase();
+        var t = soDigitos(campoTel.value);
+        if (n.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m) || !/^[1-9]{2}9?\d{8}$/.test(t)) {
+          document.getElementById('qErro').classList.add('on'); return;
+        }
+        cad = { name: n, email: m, phone: '55' + t };
+        enviar(document.getElementById('qEnviar'));
+      };
+    }
+
+    var v = document.getElementById('qVoltar');
+    if (v) v.onclick = function () { passo = Math.max(0, passo - 1); render(); };
+  }
+
+  // Teclado: letra escolhe a opção; Enter avança (Ctrl/Cmd+Enter no texto).
+  document.addEventListener('keydown', function (e) {
+    if (enviada || passo >= PERGUNTAS.length) {
+      if (e.key === 'Enter' && !enviada && passo === PERGUNTAS.length && e.target && e.target.tagName === 'INPUT') {
+        e.preventDefault(); var b = document.getElementById('qEnviar'); if (b) b.click();
+      }
+      return;
+    }
+    var q = PERGUNTAS[passo];
+    if (q.texto) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); var s = document.getElementById('qSeguir'); if (s) s.click(); }
+      return;
+    }
+    if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    var i = e.key.length === 1 ? e.key.toUpperCase().charCodeAt(0) - 65 : -1;
+    if (i >= 0 && i < q.o.length) {
+      var opt = quiz.querySelector('.op[data-i="' + i + '"]'); if (opt) opt.click();
+    }
+  });
+
+  function enviar(botao) {
+    if (enviada) return;
+    botao.disabled = true; botao.textContent = 'Enviando…';
+    var payload = {};
+    Object.keys(resp).forEach(function (k) { payload[k] = resp[k]; });
+    payload.name = cad.name; payload.email = cad.email; payload.phone = cad.phone;
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+     'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) payload[k] = v; });
+    payload.landing_page = window.location.href;
+    payload.referrer = document.referrer || '';
+    payload.source = CONFIG.FORM_NAME;
+    payload.form_id = CONFIG.FORM_ID;
+    payload.form_name = CONFIG.FORM_NAME;
+
+    fetch(CONFIG.CRM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(function () { return {}; }); })
+      .then(function (corpo) {
+        enviada = true;
+        var token = (corpo && typeof corpo.booking_token === 'string') ? corpo.booking_token : '';
+        var qual = qualificaNoCliente();
+        var eid = 'vsl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        try { sessionStorage.setItem(CONFIG.CHAVE, JSON.stringify({ token: token, qual: qual, fat: resp.capital_disponivel || '', eid: eid })); } catch (e) {}
+        push({ event: 'aplicacao_vsl_enviada', faturamento: resp.capital_disponivel || '', qualificado: qual, agenda_liberada: !!token, event_id: eid });
+        try {
+          fbq('track', 'Lead', { content_name: 'Aplicacao VSL', content_category: 'vsl' }, { eventID: eid });
+          if (qual) {
+            fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: resp.capital_disponivel || '' }, { eventID: eid + '-lq' });
+            fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: resp.capital_disponivel || '' }, { eventID: eid + '-lq' });
+          }
+        } catch (e) {}
+        concluir(token, qual, eid);
+      })
+      .catch(function () {
+        botao.disabled = false; botao.textContent = 'Tentar de novo →';
+        var e = document.getElementById('qErro');
+        if (e) { e.textContent = 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.'; e.classList.add('on'); }
+      });
+  }
+
+  function irParaObrigado(qual, eid) {
+    var qs = new URLSearchParams();
+    qs.set('q', qual ? '1' : '0');
+    if (resp.capital_disponivel) qs.set('fat', resp.capital_disponivel);
+    if (eid) qs.set('lead_id', eid);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function (k) { var v = par.get(k); if (v) qs.set(k, v); });
+    window.location.href = CONFIG.OBRIGADO_URL + '?' + qs.toString();
+  }
+
+  // Qualificado (fatura > R$20k): agenda inline, no lugar do formulário.
+  // Não qualificado: vai direto para a página de obrigado.
+  function concluir(token, qual, eid) {
+    passo = total; progresso();
+    if (!qual) { irParaObrigado(false, eid); return; }
+    appBox.style.display = 'none';
+    agenda.classList.add('on');
+    if (token) {
+      fAgen.src = CONFIG.AGENDA_URL + encodeURIComponent(token);
+    } else {
+      // Qualificou na página mas o CRM não devolveu token (form/key errados ou
+      // régua diferente no CRM): não deixa o lead sem próximo passo.
+      agenda.classList.add('sem-token');
+      document.getElementById('agendaFora').innerHTML = '<b>Recebemos sua aplicação.</b><br>Nosso time vai entrar em contato pelo WhatsApp para marcar o melhor horário da sua consultoria.';
+      setTimeout(function () { irParaObrigado(true, eid); }, 4000);
+    }
+    document.getElementById('aplicar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Depois da reserva na agenda do CRM → página de obrigado.
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.origin !== 'https://crm.xpndigital.com') return;
+    var d = e.data;
+    if ((d.type === 'crm-form-height' || d.type === 'np-form-height' || d.type === 'crm-agenda-height') && d.height > 0) {
+      fAgen.style.minHeight = Math.max(560, d.height) + 'px';
+    }
+    if (d.type === 'crm-booking-done' || d.type === 'crm-agendamento-confirmado' || d.agendado === true) {
+      var s = null; try { s = JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || 'null'); } catch (err) {}
+      irParaObrigado(true, s && s.eid);
+    }
+    if (d.type === 'crm-form-redirect' && typeof d.url === 'string' && d.url.indexOf('https://') === 0) {
+      window.location.href = d.url;
+    }
+  });
+
+  // Recarregou depois de aplicar: volta direto para a agenda (token é de uso único).
+  var salvo = null;
+  try { salvo = JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || 'null'); } catch (e) {}
+  if (salvo && salvo.qual && salvo.token) { enviada = true; concluir(salvo.token, true, salvo.eid); }
+  else render();
+})();
+</script>
+</body>
+</html>
