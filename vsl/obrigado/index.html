@@ -4,8 +4,8 @@
   Chega aqui:
     - quem NÃO se qualificou na aplicação (?q=0) — direto depois do envio;
     - quem se qualificou e reservou o horário na agenda do CRM (?q=1).
-  A URL traz ?fat=<faturamento>&lead_id=<id> (mesmo contrato da /typ_vsl), então
-  os eventos de lead qualificado podem ser disparados aqui pelo GTM se preferir.
+  A URL traz ?inv=<investimento mensal>&lead_id=<id>, então os eventos de lead
+  qualificado podem ser disparados aqui pelo GTM se preferir.
   O conteúdo final (vídeo, próximos passos, WhatsApp) entra na etapa 2.
 -->
 <html lang="pt-BR">
@@ -40,7 +40,7 @@ setTimeout(function(){
 },3000);
 (function(){
   var p = new URLSearchParams(window.location.search);
-  try{ window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'obrigado_vsl', qualificado: p.get('q') === '1', faturamento: p.get('fat') || '', event_id: p.get('lead_id') || '', funil: 'vsl_aplicacao' }); }catch(e){}
+  try{ window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'obrigado_vsl', qualificado: p.get('q') === '1', investimento: p.get('inv') || '', event_id: p.get('lead_id') || '', funil: 'vsl_aplicacao' }); }catch(e){}
 })();
 </script>
 <!-- End Meta Pixel -->
