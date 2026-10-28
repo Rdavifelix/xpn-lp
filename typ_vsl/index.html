@@ -1,10 +1,71 @@
 <!DOCTYPE html>
+<!--
+  MÁQUINA DE REUNIÕES · Página de confirmação da VSL (/typ_vsl/)
+  O lead chega aqui logo depois de preencher o formulário do CRM. A URL traz
+  ?fat=<faixa de faturamento> (ex.: ?fat=Entre%20R$10.000%20a%20R$20.000).
+
+  O QUE ESTA PÁGINA FAZ, NESTA ORDEM:
+    1. Faz o lead atender o contato do time nos próximos 5 minutos (bloco 1 e 2).
+    2. Faz o lead comparecer à reunião (vídeo principal, breakouts, provas).
+    3. Faz o lead chegar à reunião com as dúvidas respondidas (breakouts).
+  Ela não explica a metodologia nem refaz a VSL.
+
+  ONDE PREENCHER: tudo que ainda falta está no objeto CONFIG, no início do
+  <script> principal (procure por "CONFIG ="). Cada lacuna aparece na página
+  como um bloco tracejado dourado com o texto entre colchetes. Para publicar
+  antes de preencher tudo, mude CONFIG.OCULTAR_LACUNAS para true: os blocos
+  sem material somem e a copy se adapta.
+
+  LACUNAS (estado em 28/10/2026):
+    OBRIGATÓRIAS ANTES DE PUBLICAR
+      [NOME DO SDR]            CONFIG.SDR_NOME
+      [FOTO DO SDR]            CONFIG.SDR_FOTO
+      [NÚMERO]                 CONFIG.NUMERO — preenchido com o número que já
+                               estava no botão da página antiga (5519995029309).
+                               Confirmar que é dele que o SDR chama.
+      [WHATSAPP / LIGAÇÃO]     CONFIG.CANAL ('whatsapp' ou 'ligacao')
+    PODEM ENTRAR DEPOIS (ficam como placeholder)
+      [VÍDEO PRINCIPAL]        CONFIG.VIDEO_PRINCIPAL (título, player, thumb, capítulos)
+      [BREAKOUTS 1 a 5]        CONFIG.BREAKOUTS (pergunta, duração, vídeo)
+      [VÍDEO] Murilo Vila Verde
+      [PRINT DA DM] Pedro Souza
+      [PRINT] Cauê Novais — R$54.000 em 7 dias
+      [PRINTS] Luan Gonçalves — vendas de R$10.700 e R$3.200
+      [PRINT] Vinicius Alves — R$1.8k → R$8.5k
+      [PRINT] Vanderson Silveira — R$1.500 → ~R$15k (base antiga)
+      [CASE COM RESULTADO MODESTO, SE HOUVER]
+
+  ATIVOS JÁ LIGADOS (todos já estavam hospedados e em uso em outras páginas do site):
+      Vídeo Marcelo Rodrigues, Vanderson Silveira + Rian, Eduardo Lustosa (mp4 + poster)
+      Prints: Cauê (1º webinar), Cauê (31/out), Kelvin (antes/depois), Luan (R$9.500),
+              Marcelo (grupo [PAA]), dashboard mensal do case de IA (/images/resultados-mensais.png)
+
+  FAIXAS DO FORMULÁRIO DO CRM → bloco "Quem chegou faturando parecido com você":
+      Entre R$0 a R$5.000          → até R$30 mil
+      Entre R$5.000 a R$10.000     → até R$30 mil
+      Entre R$10.000 a R$20.000    → até R$30 mil
+      Entre R$20.000 a R$40.000    → até R$30 mil   (ajustável em CONFIG.FAIXA_POR_VALOR)
+      Entre R$50.000 a R$100.000   → R$30 mil a R$100 mil
+      Mais de R$100.000            → acima de R$100 mil
+      Sem parâmetro / desconhecido → até R$30 mil
+  Qualquer outro texto é lido pelo piso da faixa (primeiro número da string).
+
+  RASTREAMENTO (dataLayer → GTM-WBZLWJ8X):
+      video_play       { video_nome }      no primeiro play de cada vídeo
+      salvar_contato   { numero }          clique em "Salvar contato"
+      abrir_whatsapp   { numero, origem }  clique em "Abrir no WhatsApp" (topo ou rodapé)
+      print_abrir      { print_nome }      abertura de print no lightbox
+  Pixels, GTM, Lead e Lead_qualificado: mantidos exatamente como estavam.
+-->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Obrigado — XPN Digital</title>
+  <title>Cadastro confirmado — Máquina de Reuniões | XPN Digital</title>
+  <link rel="icon" type="image/png" sizes="256x256" href="../obrigado/assets/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../obrigado/assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../obrigado/assets/favicon.png">
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -97,34 +158,36 @@
 
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
 
-  <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a0f585dd73d7a41257a84ac/v4/player.js" as="script">
   <link rel="dns-prefetch" href="https://cdn.converteai.net">
   <link rel="dns-prefetch" href="https://scripts.converteai.net">
   <link rel="dns-prefetch" href="https://images.converteai.net">
   <link rel="dns-prefetch" href="https://api.vturb.com.br">
+  <link rel="preconnect" href="https://assets.cdn.filesafe.space">
+  <link rel="preconnect" href="https://images.leadconnectorhq.com">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Sora:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --xpn-azul:          #1B4FD8;
-      --xpn-azul-hover:    #1640BB;
-      --xpn-preto:         #000000;
-      --xpn-cinza-card:    #0C0F1A;
-      --xpn-dourado:       #C8A227;
-      --xpn-branco:        #FFFFFF;
-      --xpn-cinza-texto:   #F2F2F2;
-      --xpn-cinza-muted:   #8A8FA8;
-      --xpn-verde-cta:     #22C55E;
-      --xpn-verde-hover:   #16A34A;
+      --xpn-azul:        #1B4FD8;
+      --xpn-preto:       #000000;
+      --xpn-cinza-card:  #0C0F1A;
+      --xpn-dourado:     #C8A227;
+      --xpn-branco:      #FFFFFF;
+      --xpn-cinza-texto: #F2F2F2;
+      --xpn-cinza-muted: #8A8FA8;
+      --xpn-verde-cta:   #22C55E;
+      --xpn-verde-hover: #16A34A;
+      --borda:           rgba(255,255,255,0.08);
+      --borda-ouro:      rgba(200,162,39,0.25);
+      --gutter:          16px;
+      --timer-h:         44px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
       background: var(--xpn-preto);
       color: var(--xpn-cinza-texto);
@@ -132,444 +195,277 @@
       font-weight: 400;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
-    .container {
-      width: 100%;
-      max-width: 840px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .container { width: 100%; max-width: 860px; margin: 0 auto; padding: 0 var(--gutter); }
+    .mont { font-family: 'Montserrat', sans-serif; }
 
-    /* ===== TIMER DE CONTATO (barra fixa no topo) ===== */
-    .contato-timer {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: linear-gradient(90deg, #C8A227 0%, #E8C342 50%, #C8A227 100%);  /* dourado chamativo sobre a pagina preta */
-      border-bottom: 3px solid #7A5E0E;
-      box-shadow: 0 8px 28px rgba(200, 162, 39, 0.35), 0 6px 24px rgba(0, 0, 0, 0.45);
-    }
-    .contato-timer__in {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px 18px;
-      min-height: 56px;
-      padding-top: 8px;
-      padding-bottom: 8px;
-    }
-    .contato-timer__txt {
+    /* ===== LACUNAS (material que ainda não existe) ===== */
+    .lacuna {
+      border: 2px dashed var(--xpn-dourado);
+      background: rgba(200,162,39,0.07);
+      color: var(--xpn-dourado);
       font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(12px, 1.6vw, 15px);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #0B0B0B;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      padding: 14px 16px;
+      border-radius: 10px;
       text-align: center;
+      line-height: 1.5;
     }
-    .contato-timer__clock {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(18px, 2.4vw, 22px);
-      line-height: 1;
-      letter-spacing: 0.04em;
-      font-variant-numeric: tabular-nums;
-      color: var(--xpn-branco);
-      background: #0B0B0B;
-      border: 1px solid rgba(0, 0, 0, 0.6);
-      border-radius: 100px;
-      padding: 7px 14px;
-    }
-    .contato-timer__clock svg { width: 18px; height: 18px; color: var(--xpn-dourado); flex: none; }
-    @keyframes contato-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
-    .contato-timer.final .contato-timer__clock { animation: contato-pulse 1s ease-in-out infinite; } /* ultimo minuto */
-    @media (prefers-reduced-motion: reduce) { .contato-timer.final .contato-timer__clock { animation: none; } }
-
-    /* ===== HEADLINE ===== */
-    .hero {
-      padding: clamp(48px, 8vw, 80px) 0 clamp(32px, 5vw, 48px);
-      text-align: center;
-    }
-
-    .badge {
+    .lacuna-inline {
       display: inline-block;
-      background: rgba(200, 162, 39, 0.12);
-      border: 1px solid var(--xpn-dourado);
+      border: 1.5px dashed var(--xpn-dourado);
       color: var(--xpn-dourado);
+      border-radius: 6px;
+      padding: 0 6px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: clamp(12px, 1.4vw, 14px);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 8px 20px;
-      border-radius: 100px;
-      margin-bottom: 24px;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+    .sem-lacunas .lacuna, .sem-lacunas .lacuna-inline, .sem-lacunas [data-lacuna] { display: none !important; }
+
+    /* ===== BLOCO 1 · BARRA FIXA ===== */
+    .timer {
+      position: sticky; top: 0; z-index: 60;
+      background: linear-gradient(90deg, #C8A227 0%, #E8C342 50%, #C8A227 100%);
+      border-bottom: 2px solid #7A5E0E;
+      box-shadow: 0 6px 22px rgba(200,162,39,0.3), 0 4px 18px rgba(0,0,0,0.45);
+    }
+    .timer__in {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; min-height: var(--timer-h); padding-top: 6px; padding-bottom: 6px;
+    }
+    .timer__txt {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #0B0B0B; line-height: 1.25; text-align: center;
+    }
+    .timer__clock {
+      display: inline-flex; align-items: center; gap: 6px; flex: none;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; line-height: 1;
+      font-variant-numeric: tabular-nums; color: var(--xpn-branco);
+      background: #0B0B0B; border-radius: 100px; padding: 6px 11px;
+    }
+    .timer__clock svg { width: 14px; height: 14px; color: var(--xpn-dourado); flex: none; }
+    @keyframes timer-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+    .timer.final .timer__clock { animation: timer-pulse 1s ease-in-out infinite; }
+    .timer.zerado .timer__clock { display: none; }
+    .timer.zerado { background: linear-gradient(90deg, #16A34A 0%, #22C55E 50%, #16A34A 100%); border-bottom-color: #0F6B33; box-shadow: 0 6px 22px rgba(34,197,94,0.3); }
+    @media (prefers-reduced-motion: reduce) { .timer.final .timer__clock { animation: none; } }
+    @media (min-width: 640px) {
+      .timer__txt { font-size: 13px; letter-spacing: 0.08em; }
+      .timer__clock { font-size: 19px; padding: 7px 14px; }
+      .timer__clock svg { width: 17px; height: 17px; }
     }
 
+    /* ===== BLOCO 2 · CONFIRMAÇÃO ===== */
+    .hero { padding: 36px 0 28px; text-align: center; }
+    .badge {
+      display: inline-block; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.5);
+      color: var(--xpn-verde-cta); font-family: 'Montserrat', sans-serif; font-weight: 500;
+      font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 18px;
+    }
     .hero h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(28px, 5.5vw, 48px);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--xpn-branco);
-      margin-bottom: 20px;
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: clamp(26px, 6vw, 42px); line-height: 1.12; letter-spacing: -0.02em;
+      color: var(--xpn-branco); margin-bottom: 14px;
     }
+    .hero__txt { font-size: clamp(15px, 2vw, 18px); color: #C8CCDA; max-width: 560px; margin: 0 auto; }
+    .hero__txt b { color: var(--xpn-branco); font-weight: 600; }
 
-    .hero h1 span {
-      color: var(--xpn-dourado);
+    .sdr {
+      display: flex; align-items: center; gap: 14px; text-align: left;
+      max-width: 460px; margin: 22px auto 0;
+      background: var(--xpn-cinza-card); border: 1px solid var(--borda-ouro); border-radius: 14px; padding: 14px 16px;
     }
-
-    .hero-sub {
-      font-size: clamp(15px, 2vw, 18px);
-      color: var(--xpn-cinza-muted);
-      max-width: 560px;
-      margin: 0 auto;
+    .sdr__foto {
+      width: 60px; height: 60px; border-radius: 50%; flex: none; object-fit: cover;
+      border: 2px solid var(--xpn-dourado); background: #050810;
     }
-
-    /* ===== VSL ===== */
-    .vsl-section {
-      padding: 0 0 clamp(48px, 7vw, 72px);
+    .sdr__foto--lacuna {
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      border-style: dashed; color: var(--xpn-dourado); font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 9px; line-height: 1.1; padding: 4px;
     }
+    .sdr__nome { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: var(--xpn-branco); }
+    .sdr__num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(18px, 5vw, 22px); color: var(--xpn-dourado); letter-spacing: 0.02em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .sdr__sub { font-size: 12px; color: var(--xpn-cinza-muted); margin-top: 2px; }
 
-    .vsl-wrapper {
-      position: relative;
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid rgba(200, 162, 39, 0.25);
-      background: #050810;
+    .acoes { display: flex; gap: 10px; max-width: 460px; margin: 14px auto 0; }
+    .btn {
+      flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 15px 10px; border-radius: 10px; text-decoration: none; line-height: 1.1; min-height: 52px;
+      transition: transform 0.15s ease, background 0.2s ease;
     }
+    .btn:active { transform: translateY(1px); }
+    .btn svg { width: 18px; height: 18px; flex: none; }
+    .btn--ouro { background: var(--xpn-dourado); color: #0B0B0B; box-shadow: 0 4px 0 #7A5E0E; }
+    .btn--ouro:hover { background: #E8C342; }
+    .btn--verde { background: var(--xpn-verde-cta); color: var(--xpn-branco); box-shadow: 0 4px 0 #15803D; }
+    .btn--verde:hover { background: var(--xpn-verde-hover); }
+    .transicao { margin: 26px auto 0; max-width: 520px; font-size: 15px; color: var(--xpn-cinza-muted); }
+    .transicao b { color: var(--xpn-cinza-texto); font-weight: 600; }
 
-    /* ===== DEPOIMENTOS ===== */
-    .testimonials {
-      padding: clamp(48px, 7vw, 72px) 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
+    /* ===== SEÇÕES ===== */
+    section.bloco { padding: 36px 0; border-top: 1px solid var(--borda); }
+    .eyebrow {
+      font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--xpn-dourado); text-align: center; margin-bottom: 8px;
     }
-
-    .section-label {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      font-size: clamp(11px, 1.3vw, 13px);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--xpn-dourado);
-      text-align: center;
-      margin-bottom: 12px;
+    .titulo {
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(21px, 4.2vw, 30px);
+      line-height: 1.2; text-align: center; color: var(--xpn-branco); margin-bottom: 8px;
     }
+    .sub { text-align: center; color: var(--xpn-cinza-muted); font-size: 15px; max-width: 560px; margin: 0 auto 22px; }
 
-    .section-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(22px, 3.5vw, 32px);
-      text-align: center;
-      color: var(--xpn-branco);
-      margin-bottom: clamp(32px, 4vw, 48px);
+    /* ===== BLOCO 3 · VÍDEO PRINCIPAL ===== */
+    .player-box {
+      position: relative; border-radius: 12px; overflow: hidden;
+      border: 2px solid var(--borda-ouro); background: #050810; aspect-ratio: 16/9;
     }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+    .player-box vturb-smartplayer, .player-box video { display: block; width: 100%; height: 100%; }
+    .player-box .lacuna { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 0; }
+    .capitulos { list-style: none; margin-top: 14px; display: grid; gap: 6px; }
+    .capitulos li a {
+      display: flex; gap: 12px; align-items: baseline; text-decoration: none;
+      padding: 10px 12px; border-radius: 8px; background: var(--xpn-cinza-card); border: 1px solid var(--borda);
+      font-size: 14px; color: var(--xpn-cinza-texto);
     }
+    .capitulos li a:hover { border-color: var(--borda-ouro); }
+    .capitulos .t { font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--xpn-dourado); font-variant-numeric: tabular-nums; flex: none; }
+    .capitulos .lacuna { margin-top: 0; }
 
-    .testimonial-card {
-      background: var(--xpn-cinza-card);
-      border: 1px solid rgba(200, 162, 39, 0.2);
-      border-radius: 12px;
-      padding: 28px 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    /* ===== BLOCO 4 · BREAKOUTS ===== */
+    .grade { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .grade { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .grade--3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .card {
+      background: var(--xpn-cinza-card); border: 1px solid var(--borda); border-radius: 12px;
+      padding: 16px; display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%;
     }
+    .card--clicavel { cursor: pointer; transition: border-color 0.2s ease, transform 0.15s ease; }
+    .card--clicavel:hover { border-color: var(--xpn-dourado); transform: translateY(-2px); }
+    .card__num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px; color: var(--xpn-dourado); letter-spacing: 0.08em; }
+    .card__pergunta { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; line-height: 1.3; color: var(--xpn-branco); }
+    .card__meta { font-size: 13px; color: var(--xpn-cinza-muted); display: flex; align-items: center; gap: 8px; }
+    .card__meta svg { width: 14px; height: 14px; }
 
-    .stars {
-      color: var(--xpn-dourado);
-      font-size: 14px;
-      letter-spacing: 2px;
+    /* ===== BLOCO 5 · FAIXA ===== */
+    .faixa-tag {
+      display: inline-block; margin: 0 auto 18px; padding: 6px 14px; border-radius: 100px;
+      border: 1px solid var(--borda-ouro); color: var(--xpn-dourado); font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
     }
+    .caso__nome { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: var(--xpn-branco); line-height: 1.3; }
+    .caso__nicho { font-size: 12px; color: var(--xpn-cinza-muted); margin-top: -4px; }
+    .caso__txt { font-size: 14px; color: #C8CCDA; line-height: 1.55; }
+    .caso__txt b { color: var(--xpn-branco); font-weight: 600; }
+    .caso__prova { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px; color: var(--xpn-dourado); text-transform: uppercase; letter-spacing: 0.04em; }
+    .caso__prova svg { width: 14px; height: 14px; }
 
-    .testimonial-text {
-      font-size: clamp(13px, 1.5vw, 15px);
-      color: #C8CCDA;
-      flex: 1;
-      font-style: italic;
-      line-height: 1.7;
+    /* ===== BLOCO 6 · PROVAS ===== */
+    .subbloco { margin-top: 22px; }
+    .subbloco h3 {
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: var(--xpn-branco);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
     }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .subbloco h3::after { content: ""; flex: 1; height: 1px; background: var(--borda); }
+    .prova__nome { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; color: var(--xpn-branco); line-height: 1.3; }
+    .prova__nicho { font-size: 12px; color: var(--xpn-cinza-muted); }
+    .prova__num { font-size: 14px; color: #C8CCDA; line-height: 1.55; }
+    .prova__num b { color: var(--xpn-branco); font-weight: 600; }
+    .prova__seta { color: var(--xpn-dourado); font-weight: 600; }
+    .thumb {
+      position: relative; display: block; width: 100%; border-radius: 8px; overflow: hidden;
+      background: #050810; border: 1px solid var(--borda); cursor: pointer; padding: 0; text-align: left;
     }
-
-    .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--xpn-azul);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 14px;
-      color: var(--xpn-branco);
-      flex-shrink: 0;
-      border: 2px solid rgba(200, 162, 39, 0.3);
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .thumb--video { aspect-ratio: 16/9; }
+    .thumb--print { height: 200px; }
+    .thumb--print img { object-fit: cover; object-position: top center; height: 200px; }
+    .thumb__play {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);
     }
-
-    .author-info .name {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 14px;
-      color: var(--xpn-branco);
+    .thumb__play span {
+      width: 56px; height: 56px; border-radius: 50%; background: var(--xpn-dourado); color: #0B0B0B;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 28px rgba(0,0,0,0.5);
     }
-
-    .author-info .role {
-      font-size: 12px;
-      color: var(--xpn-cinza-muted);
+    .thumb__play svg { width: 22px; height: 22px; margin-left: 3px; }
+    .thumb__zoom {
+      position: absolute; right: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(0,0,0,0.7); color: var(--xpn-branco); font-size: 11px; font-family: 'Montserrat', sans-serif; font-weight: 500;
+      padding: 5px 9px; border-radius: 100px; letter-spacing: 0.04em;
     }
-
-    /* ===== FLYWHEEL ===== */
-    .methodology {
-      padding: clamp(48px, 7vw, 72px) 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
+    .thumb__zoom svg { width: 12px; height: 12px; }
+    .prints { display: grid; gap: 8px; grid-template-columns: 1fr; }
+    .prints--2 { grid-template-columns: 1fr 1fr; }
+    .prints .thumb--print, .prints .thumb--print img { height: 150px; }
+    .prints .lacuna { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .link-print {
+      display: inline-flex; align-items: center; gap: 6px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px;
+      color: var(--xpn-dourado); text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 0;
     }
+    .link-print svg { width: 14px; height: 14px; }
+    .card .lacuna { margin-top: 2px; }
 
-    .flywheel-wrapper {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 0;
-      width: min(500px, 100%);
-      margin: 0 auto;
-      aspect-ratio: 1;
+    /* ===== BLOCO 7 · NÚMEROS ===== */
+    .numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (min-width: 720px) { .numeros { grid-template-columns: repeat(4, 1fr); } }
+    .numero { background: var(--xpn-cinza-card); border: 1px solid var(--borda-ouro); border-radius: 12px; padding: 16px 12px; text-align: center; }
+    .numero b { display: block; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(20px, 5vw, 26px); color: var(--xpn-dourado); line-height: 1.1; letter-spacing: -0.01em; }
+    .numero span { display: block; font-size: 12px; color: var(--xpn-cinza-muted); margin-top: 6px; line-height: 1.4; }
+    .numeros-link { text-align: center; margin-top: 14px; }
+
+    /* ===== BLOCO 8 · FLYWHEEL EM LINHA ===== */
+    .fly { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; list-style: none; }
+    @media (min-width: 720px) { .fly { grid-template-columns: repeat(4, 1fr); } }
+    .fly li { display: flex; align-items: center; gap: 10px; background: var(--xpn-cinza-card); border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; }
+    .fly i { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--xpn-dourado); color: var(--xpn-dourado); font-style: normal; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+    .fly span { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 12px; color: var(--xpn-branco); line-height: 1.25; }
+
+    /* ===== BLOCO 9 · RODAPÉ ===== */
+    .rodape { padding: 32px 0 40px; border-top: 1px solid var(--borda); text-align: center; }
+    .rodape__num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(20px, 5.5vw, 26px); color: var(--xpn-dourado); font-variant-numeric: tabular-nums; }
+    .rodape__txt { font-size: 14px; color: #C8CCDA; margin-top: 4px; }
+    .rodape .btn { max-width: 300px; margin: 16px auto 0; flex: none; width: 100%; }
+    .legal { margin-top: 28px; font-size: 12px; color: var(--xpn-cinza-muted); line-height: 1.8; max-width: 680px; margin-left: auto; margin-right: auto; }
+
+    /* ===== OVERLAYS ===== */
+    .overlay {
+      position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.94);
+      display: none; align-items: center; justify-content: center; padding: 0;
     }
-
-    .flywheel-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      background: var(--xpn-azul);
-      border: 3px solid rgba(200, 162, 39, 0.5);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-      box-shadow: 0 0 40px rgba(27, 79, 216, 0.4);
+    .overlay.aberto { display: flex; }
+    .overlay__fechar {
+      position: absolute; top: max(10px, env(safe-area-inset-top)); right: 12px; z-index: 3;
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.12); color: var(--xpn-branco);
+      display: flex; align-items: center; justify-content: center; font-size: 26px; line-height: 1;
     }
-
-    .flywheel-center .center-icon {
-      font-size: 28px;
-      line-height: 1;
+    .overlay__titulo {
+      position: absolute; left: 12px; top: max(14px, env(safe-area-inset-top)); right: 64px; z-index: 2;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; color: var(--xpn-branco);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
-    .flywheel-center .center-label {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 9px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--xpn-branco);
-      text-align: center;
-      margin-top: 4px;
-      line-height: 1.2;
+    .overlay__video { width: 100%; max-width: 960px; aspect-ratio: 16/9; background: #000; }
+    .overlay__video video { width: 100%; height: 100%; }
+    @media (max-width: 639px) { .overlay__video { max-height: 100dvh; } }
+    .overlay__scroll {
+      width: 100%; height: 100%; overflow: auto; -webkit-overflow-scrolling: touch;
+      padding: calc(56px + env(safe-area-inset-top)) 8px 24px; touch-action: pan-x pan-y pinch-zoom;
     }
-
-    .flywheel-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 12px;
-      text-align: center;
-      position: relative;
-    }
-
-    .step-circle {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: var(--xpn-cinza-card);
-      border: 2px solid var(--xpn-dourado);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      color: var(--xpn-dourado);
-      margin-bottom: 10px;
-      flex-shrink: 0;
-    }
-
-    .step-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(11px, 1.4vw, 13px);
-      color: var(--xpn-branco);
-      line-height: 1.3;
-    }
-
-    .step-desc {
-      font-size: clamp(10px, 1.2vw, 12px);
-      color: var(--xpn-cinza-muted);
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-
-    /* SVG arrows between steps */
-    .flywheel-arrows {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    /* ===== CTA ===== */
-    .cta-section {
-      padding: clamp(48px, 7vw, 72px) 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      text-align: center;
-    }
-
-    .cta-support-text {
-      font-size: clamp(15px, 2vw, 18px);
-      color: #C8CCDA;
-      margin-bottom: 32px;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--xpn-verde-cta);
-      color: var(--xpn-branco);
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: clamp(15px, 2vw, 17px);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 20px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-      box-shadow: 0 6px 0 #15803D, 0 12px 40px rgba(34, 197, 94, 0.3);
-      animation: pulse-cta 2.5s ease-in-out infinite;
-      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .cta-btn:hover {
-      background: var(--xpn-verde-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #15803D, 0 16px 48px rgba(34, 197, 94, 0.35);
-      animation: none;
-    }
-
-    .cta-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #15803D, 0 6px 20px rgba(34, 197, 94, 0.2);
-    }
-
-    .cta-btn svg {
-      width: 22px;
-      height: 22px;
-      flex-shrink: 0;
-    }
-
-    @keyframes pulse-cta {
-      0%, 100% { transform: scale(1); box-shadow: 0 6px 0 #15803D, 0 12px 40px rgba(34,197,94,0.3); }
-      50%       { transform: scale(1.025); box-shadow: 0 6px 0 #15803D, 0 16px 52px rgba(34,197,94,0.45); }
-    }
-
-    /* ===== DISCLAIMER ===== */
-    .disclaimer {
-      padding: clamp(24px, 4vw, 36px) 0 clamp(32px, 5vw, 48px);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      text-align: center;
-    }
-
-    .disclaimer p {
-      font-size: 12px;
-      color: var(--xpn-cinza-muted);
-      line-height: 1.8;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* ===== MOBILE ===== */
-    @media (max-width: 640px) {
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-      }
-
-      /* Flywheel vira lista vertical */
-      .flywheel-wrapper {
-        display: flex;
-        flex-direction: column;
-        aspect-ratio: unset;
-        width: 100%;
-        gap: 0;
-      }
-
-      .flywheel-center { display: none; }
-      .flywheel-arrows { display: none; }
-
-      .flywheel-step {
-        flex-direction: row;
-        text-align: left;
-        padding: 0;
-        gap: 16px;
-      }
-
-      .flywheel-step:not(:last-child)::after {
-        content: none;
-      }
-
-      .step-circle {
-        margin-bottom: 0;
-      }
-
-      .flywheel-mobile-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-
-      .flywheel-mobile-item {
-        display: flex;
-        gap: 16px;
-        align-items: flex-start;
-        padding: 20px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-      }
-
-      .flywheel-mobile-item:last-child { border-bottom: none; }
-
-      .flywheel-arrow-down {
-        text-align: center;
-        color: var(--xpn-dourado);
-        font-size: 20px;
-        padding: 4px 0;
-        display: block;
-      }
-
-      .step-text { flex: 1; }
-    }
+    .overlay__img { margin: 0 auto; width: auto; max-width: min(100%, 900px); height: auto; border-radius: 8px; cursor: zoom-in; }
+    .overlay__img.zoom { max-width: none; width: 180%; cursor: zoom-out; }
+    @media (min-width: 640px) { .overlay__img.zoom { width: 1400px; } }
+    body.travado { overflow: hidden; }
   </style>
 </head>
 
@@ -579,234 +475,244 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!-- ===== TIMER DE CONTATO: 5 minutos, conta a partir do primeiro acesso e continua de onde parou ao recarregar (mesma aba) ===== -->
-<div class="contato-timer" id="contatoTimer" role="timer" aria-label="Iremos entrar em contato em 5 minutos">
-  <div class="container contato-timer__in">
-    <span class="contato-timer__txt">IREMOS ENTRAR EM CONTATO EM 5 MINUTOS</span>
-    <span class="contato-timer__clock">
+<!-- ===== BLOCO 1 · BARRA FIXA: 5 minutos, conta do primeiro acesso e continua ao recarregar (mesma aba) ===== -->
+<div class="timer" id="timer" role="timer" aria-live="polite">
+  <div class="container timer__in">
+    <span class="timer__txt" id="timerTxt">Nosso time vai te chamar em até 5 minutos</span>
+    <span class="timer__clock">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-      <span id="contatoTimerVal">05:00</span>
+      <span id="timerVal">05:00</span>
     </span>
   </div>
 </div>
-<script>
-(function () {
-  var DURACAO = 5 * 60 * 1000;                   // 5 minutos
-  var CHAVE = 'typ_vsl_contato_timer_inicio';    // recarregar a pagina nao reinicia a contagem (mesma aba)
-  var el = document.getElementById('contatoTimerVal');
-  var box = document.getElementById('contatoTimer');
-  if (!el || !box) return;
-  var inicio = 0;
-  try { inicio = parseInt(sessionStorage.getItem(CHAVE), 10) || 0; } catch (e) {}
-  if (!inicio || inicio > Date.now()) {
-    inicio = Date.now();
-    try { sessionStorage.setItem(CHAVE, String(inicio)); } catch (e) {}
-  }
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function tick() {
-    var resta = Math.max(0, DURACAO - (Date.now() - inicio));
-    var seg = Math.ceil(resta / 1000);
-    el.textContent = pad(Math.floor(seg / 60)) + ':' + pad(seg % 60);
-    box.classList.toggle('final', resta > 0 && resta <= 60000);
-    box.classList.toggle('zerado', resta === 0);
-    if (resta > 0) setTimeout(tick, 250);
-  }
-  tick();
-})();
-</script>
 
-<!-- ===== HEADLINE ===== -->
+<!-- ===== BLOCO 2 · CONFIRMAÇÃO E A ÚNICA INSTRUÇÃO ===== -->
 <section class="hero">
   <div class="container">
-    <div class="badge">✅ Cadastro confirmado</div>
-    <h1>Parabéns pelo <span>cadastro!</span></h1>
-    <p class="hero-sub">Em breve meu time <span style="color: var(--xpn-dourado);">ligará</span> para você para entender sobre sua necessidade e seu cenário atual!</p>
-    <p class="hero-sub" style="margin-top: 12px;">Assista esse vídeo abaixo e entenda quais são os próximos passos!</p>
-  </div>
-</section>
+    <div class="badge">Cadastro confirmado</div>
+    <h1>Antes de falarmos com você,<br>uma coisa</h1>
+    <p class="hero__txt" id="heroTxt"></p>
 
-<!-- ===== VSL ===== -->
-<section class="vsl-section">
-  <div class="container">
-    <div class="vsl-wrapper">
-      <vturb-smartplayer id="vid-6a0f585dd73d7a41257a84ac" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
-      <script type="text/javascript">
-        var s=document.createElement("script");
-        s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6a0f585dd73d7a41257a84ac/v4/player.js";
-        s.async=!0;
-        document.head.appendChild(s);
-      </script>
+    <div class="sdr" id="sdrBox">
+      <span id="sdrFoto"></span>
+      <div>
+        <div class="sdr__nome" id="sdrNome"></div>
+        <div class="sdr__num" id="sdrNum"></div>
+        <div class="sdr__sub" id="sdrSub"></div>
+      </div>
     </div>
+
+    <div class="acoes">
+      <button type="button" class="btn btn--ouro" id="btnSalvar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        Salvar contato
+      </button>
+      <a class="btn btn--verde" id="btnWhats" href="#" target="_blank" rel="noopener noreferrer" data-origem="topo">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Abrir no WhatsApp
+      </a>
+    </div>
+
+    <p class="transicao" id="transicao"></p>
   </div>
 </section>
 
-<!-- ===== DEPOIMENTOS ===== -->
-<section class="testimonials">
+<!-- ===== BLOCO 3 · VÍDEO PRINCIPAL ===== -->
+<section class="bloco" id="blocoVideo">
   <div class="container">
-    <p class="section-label">O que dizem nossos clientes</p>
-    <h2 class="section-title">Resultados reais de quem já aplicou</h2>
+    <h2 class="titulo" id="videoTitulo"></h2>
+    <div class="player-box" id="playerBox"></div>
+    <ul class="capitulos" id="capitulos"></ul>
+  </div>
+</section>
 
-    <div class="testimonials-grid">
+<!-- ===== BLOCO 4 · PERGUNTAS ANTES DA REUNIÃO (breakouts) ===== -->
+<section class="bloco" id="blocoBreakouts">
+  <div class="container">
+    <p class="eyebrow">Antes da reunião</p>
+    <h2 class="titulo">As perguntas que mais ouvimos antes da reunião</h2>
+    <p class="sub">Clique na sua. Cada vídeo responde no primeiro minuto.</p>
+    <div class="grade" id="breakouts"></div>
+  </div>
+</section>
 
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Em menos de 60 dias aplicando o método, triplicamos o volume de reuniões qualificadas. O processo é claro e replicável."</p>
-        <div class="testimonial-author">
-          <div class="avatar">MR</div>
-          <div class="author-info">
-            <div class="name">Marcos Ribeiro</div>
-            <div class="role">CEO · Agência de Tráfego</div>
+<!-- ===== BLOCO 5 · QUEM COMEÇOU NA SUA FAIXA (personalizado pelo ?fat=) ===== -->
+<section class="bloco" id="blocoFaixa">
+  <div class="container" style="text-align:center">
+    <p class="eyebrow">Na sua faixa</p>
+    <h2 class="titulo">Quem chegou faturando parecido com você</h2>
+    <span class="faixa-tag" id="faixaTag"></span>
+    <div class="grade grade--3" id="faixaCases" style="text-align:left"></div>
+  </div>
+</section>
+
+<!-- ===== BLOCO 6 · RESULTADOS EM VOLUME ===== -->
+<section class="bloco" id="blocoProvas">
+  <div class="container">
+    <p class="eyebrow">Prova</p>
+    <h2 class="titulo">Resultados de quem já aplicou</h2>
+    <p class="sub">Nome completo, investimento e retorno. Toque para ampliar o print ou assistir ao vídeo.</p>
+
+    <!-- 6a. Depoimentos em vídeo -->
+    <div class="subbloco">
+      <h3>Depoimentos em vídeo</h3>
+      <div class="grade">
+
+        <article class="card">
+          <button type="button" class="thumb thumb--video" data-video="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aaa5fd146b064c1cf20b.mp4" data-poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/a0c49cdba4e3ba72.jpg" data-nome="Depoimento Marcelo Rodrigues" aria-label="Assistir ao depoimento de Marcelo Rodrigues">
+            <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/a0c49cdba4e3ba72.jpg" alt="" loading="lazy" width="900" height="506">
+            <span class="thumb__play"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></span>
+          </button>
+          <div class="prova__nome">Marcelo Rodrigues</div>
+          <div class="prova__nicho">Reunião com Davi, sócio da XPN</div>
+          <p class="prova__num">Investiu <b>R$1.540</b> em um webinar e faturou <b>R$112.000</b>.</p>
+          <button type="button" class="link-print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/699e107e3db1c142153be8b8.png" data-nome="Print Marcelo Rodrigues (grupo PAA)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+            Ver a mensagem no grupo
+          </button>
+        </article>
+
+        <article class="card">
+          <button type="button" class="thumb thumb--video" data-video="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aa9e101e2abcd1bed723.mp4" data-poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/62cd7be8d6f5c0f8.jpg" data-nome="Depoimento Vanderson Silveira e Rian" aria-label="Assistir ao depoimento de Vanderson Silveira e Rian">
+            <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/62cd7be8d6f5c0f8.jpg" alt="" loading="lazy" width="900" height="506">
+            <span class="thumb__play"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></span>
+          </button>
+          <div class="prova__nome">Vanderson Silveira e Rian</div>
+          <div class="prova__nicho">SaaS / IA white label</div>
+          <p class="prova__num">Em janeiro, <b>R$70k</b> faturados investindo cerca de <b>R$8k</b>.</p>
+        </article>
+
+        <article class="card" data-lacuna="video-murilo">
+          <div class="lacuna" style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center">[VÍDEO]<br>Murilo Vila Verde</div>
+          <div class="prova__nome">Murilo Vila Verde</div>
+          <div class="prova__nicho">Relacionamento para homens</div>
+          <p class="prova__num">De <b>R$70-90k/mês</b> para <b>R$500-600k/mês</b>.</p>
+        </article>
+
+        <article class="card">
+          <button type="button" class="thumb thumb--video" data-video="https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/69a5aa9eb617a74d91886fba.mp4" data-poster="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/cb3e99925cc7e699.jpg" data-nome="Depoimento Eduardo Lustosa" aria-label="Assistir ao depoimento de Eduardo Lustosa">
+            <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/transcoded_videos/cb3e99925cc7e699.jpg" alt="" loading="lazy" width="900" height="506">
+            <span class="thumb__play"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></span>
+          </button>
+          <div class="prova__nome">Eduardo Lustosa</div>
+          <div class="prova__nicho">Consultoria e mentoria criadas do zero com a XPN</div>
+          <p class="prova__num">Mais de <b>R$100k</b> no primeiro mês.</p>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- 6b. Viradas -->
+    <div class="subbloco">
+      <h3>Viradas</h3>
+      <div class="grade">
+
+        <article class="card">
+          <button type="button" class="thumb thumb--print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de1f5e0aa78bc84226.png" data-nome="Print Kelvin (antes e depois)" aria-label="Ampliar o print do Kelvin">
+            <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de1f5e0aa78bc84226.png" alt="" loading="lazy" width="900" height="1951">
+            <span class="thumb__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>ampliar</span>
+          </button>
+          <div class="prova__nome">Kelvin</div>
+          <p class="prova__num"><b>Antes:</b> investiu R$10k e voltou R$7k.<br>Mudou só a oferta, com o mesmo anúncio e a mesma página.<br><b>Depois:</b> investiu R$2k e fez R$26k ao vivo + 4 vendas pela Kiwify, <b>R$30k</b> no total.</p>
+        </article>
+
+        <article class="card">
+          <div class="prints prints--2">
+            <button type="button" class="thumb thumb--print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696c51c9439b6bb177372283.png" data-nome="Print Cauê Novais (primeiro webinar)" aria-label="Ampliar o print do primeiro webinar do Cauê">
+              <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696c51c9439b6bb177372283.png" alt="" loading="lazy" width="528" height="466">
+              <span class="thumb__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>ampliar</span>
+            </button>
+            <button type="button" class="thumb thumb--print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be1ebef24b63.png" data-nome="Print Cauê Novais (semana de 31/out)" aria-label="Ampliar o print da semana de 31 de outubro do Cauê">
+              <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be1ebef24b63.png" alt="" loading="lazy" width="572" height="236">
+              <span class="thumb__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>ampliar</span>
+            </button>
           </div>
-        </div>
-      </div>
+          <div class="prova__nome">Cauê Novais</div>
+          <p class="prova__num"><b>Primeiro webinar:</b> investiu R$750 <span class="prova__seta">→</span> 50 no grupo <span class="prova__seta">→</span> 20 no webinar <span class="prova__seta">→</span> 10 aplicações <span class="prova__seta">→</span> 8 calls <span class="prova__seta">→</span> 4 vendas = <b>R$20.000</b>.<br><b>Depois:</b> uma semana com vendas de R$11.700, R$2.500 e R$3.000. Semana recorde: <b>R$54.000 em 7 dias</b>.</p>
+          <div class="lacuna" data-lacuna="print-caue-54k">[PRINT] R$54.000 em 7 dias</div>
+        </article>
 
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Fechamos R$180k em novos contratos no primeiro trimestre após implementar a Máquina de Reuniões. Vale muito o investimento."</p>
-        <div class="testimonial-author">
-          <div class="avatar">CF</div>
-          <div class="author-info">
-            <div class="name">Carla Ferreira</div>
-            <div class="role">Diretora Comercial · SaaS B2B</div>
-          </div>
-        </div>
       </div>
+    </div>
 
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Antes eu dependia de indicações. Hoje tenho um fluxo previsível de leads qualificados entrando toda semana. Mudou meu negócio."</p>
-        <div class="testimonial-author">
-          <div class="avatar">TP</div>
-          <div class="author-info">
-            <div class="name">Thiago Prado</div>
-            <div class="role">Consultor · Gestão Empresarial</div>
-          </div>
-        </div>
+    <!-- 6c. Resultados do dia a dia -->
+    <div class="subbloco">
+      <h3>Resultados do dia a dia</h3>
+      <div class="grade">
+
+        <article class="card">
+          <button type="button" class="thumb thumb--print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be5697f24b62.png" data-nome="Print Luan Gonçalves (R$9.500)" aria-label="Ampliar o print do Luan">
+            <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de02f1be5697f24b62.png" alt="" loading="lazy" width="528" height="252">
+            <span class="thumb__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>ampliar</span>
+          </button>
+          <div class="prova__nome">Luan Gonçalves</div>
+          <p class="prova__num">Vendas de <b>R$10.700</b>, <b>R$3.200</b> e <b>R$9.500</b>, com aumento da conversão nas reuniões.</p>
+          <div class="lacuna" data-lacuna="prints-luan">[PRINTS] vendas de R$10.700 e R$3.200</div>
+        </article>
+
+        <article class="card">
+          <div class="lacuna thumb--print" data-lacuna="print-vinicius" style="display:flex;align-items:center;justify-content:center">[PRINT]<br>Vinicius Alves</div>
+          <div class="prova__nome">Vinicius Alves</div>
+          <p class="prova__num">Investiu <b>R$1.8k</b> e faturou <b>R$8.5k</b> com a repescagem de quem não assistiu ao webinar.</p>
+        </article>
+
+        <article class="card">
+          <div class="lacuna thumb--print" data-lacuna="print-vanderson-base" style="display:flex;align-items:center;justify-content:center">[PRINT]<br>Vanderson Silveira</div>
+          <div class="prova__nome">Vanderson Silveira</div>
+          <div class="prova__nicho">SaaS / IA white label</div>
+          <p class="prova__num">Webinar para a base antiga, com <b>R$1.500</b> investidos, rendeu cerca de <b>R$15k</b>.</p>
+        </article>
+
+        <article class="card" data-lacuna="case-modesto">
+          <div class="lacuna thumb--print" style="display:flex;align-items:center;justify-content:center">[CASE COM RESULTADO MODESTO, SE HOUVER]</div>
+          <div class="prova__nome"><span class="lacuna-inline">[NOME]</span></div>
+          <p class="prova__num"><span class="lacuna-inline">[INVESTIMENTO → RETORNO]</span></p>
+        </article>
+
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ===== METODOLOGIA — FLYWHEEL ===== -->
-<section class="methodology">
+<!-- ===== BLOCO 7 · OS NÚMEROS DA PRÓPRIA XPN ===== -->
+<section class="bloco">
   <div class="container">
-    <p class="section-label">Nossa metodologia</p>
-    <h2 class="section-title">O flywheel que gera reuniões<br>e vendas de alto ticket</h2>
-
-    <!-- Desktop: flywheel circular -->
-    <div class="flywheel-wrapper" aria-hidden="true" id="flywheel-desktop">
-
-      <!-- Setas SVG circulares -->
-      <svg class="flywheel-arrows" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Arco 1→2 (topo esquerda → topo direita) -->
-        <path d="M 200 120 Q 250 80 300 120" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
-        <polygon points="298,108 302,122 312,114" fill="#C8A227" opacity="0.7"/>
-        <!-- Arco 2→3 (topo direita → baixo direita) -->
-        <path d="M 370 200 Q 410 250 370 300" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
-        <polygon points="358,298 372,302 366,312" fill="#C8A227" opacity="0.7"/>
-        <!-- Arco 3→4 (baixo direita → baixo esquerda) -->
-        <path d="M 300 380 Q 250 420 200 380" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
-        <polygon points="202,392 198,378 188,386" fill="#C8A227" opacity="0.7"/>
-        <!-- Arco 4→1 (baixo esquerda → topo esquerda) -->
-        <path d="M 130 300 Q 90 250 130 200" stroke="#C8A227" stroke-width="2" stroke-dasharray="6 4" fill="none" opacity="0.5"/>
-        <polygon points="142,202 128,198 134,188" fill="#C8A227" opacity="0.7"/>
-      </svg>
-
-      <!-- Centro -->
-      <div class="flywheel-center">
-        <span class="center-icon">⚙️</span>
-        <span class="center-label">Máquina de<br>Reuniões</span>
-      </div>
-
-      <!-- Etapa 1 — topo esquerda -->
-      <div class="flywheel-step">
-        <div class="step-circle">1</div>
-        <div class="step-title">Atrair<br>Demanda</div>
-        <div class="step-desc">Tráfego qualificado chegando todos os dias</div>
-      </div>
-
-      <!-- Etapa 2 — topo direita -->
-      <div class="flywheel-step">
-        <div class="step-circle">2</div>
-        <div class="step-title">Educar<br>a Demanda</div>
-        <div class="step-desc">Conteúdo e funil que prepara o lead</div>
-      </div>
-
-      <!-- Etapa 3 — baixo direita -->
-      <div class="flywheel-step" style="align-self: end;">
-        <div class="step-circle">3</div>
-        <div class="step-title">Agendamento<br>Educado e Qualificado</div>
-        <div class="step-desc">Reuniões com quem já entende o valor</div>
-      </div>
-
-      <!-- Etapa 4 — baixo esquerda -->
-      <div class="flywheel-step" style="align-self: end;">
-        <div class="step-circle">4</div>
-        <div class="step-title">Vendas de Alto Ticket<br>com Baixo Esforço</div>
-        <div class="step-desc">Fechamentos previsíveis e recorrentes</div>
-      </div>
-
+    <p class="eyebrow">A XPN em números</p>
+    <div class="numeros">
+      <div class="numero"><b>+R$14 mi</b><span>em vendas lideradas em 3 anos</span></div>
+      <div class="numero"><b>+2.500</b><span>agendamentos gerados em 2025</span></div>
+      <div class="numero"><b>104</b><span>webinars rodados no ano</span></div>
+      <div class="numero"><b>R$450k/mês</b><span>empresa de IA, do zero, em 4 meses</span></div>
     </div>
-
-    <!-- Mobile: lista vertical -->
-    <div class="flywheel-mobile-list" id="flywheel-mobile">
-      <div class="flywheel-mobile-item">
-        <div class="step-circle">1</div>
-        <div class="step-text">
-          <div class="step-title">Atrair Demanda</div>
-          <div class="step-desc">Tráfego qualificado chegando todos os dias</div>
-        </div>
-      </div>
-      <span class="flywheel-arrow-down">↓</span>
-      <div class="flywheel-mobile-item">
-        <div class="step-circle">2</div>
-        <div class="step-text">
-          <div class="step-title">Educar a Demanda</div>
-          <div class="step-desc">Conteúdo e funil que prepara o lead</div>
-        </div>
-      </div>
-      <span class="flywheel-arrow-down">↓</span>
-      <div class="flywheel-mobile-item">
-        <div class="step-circle">3</div>
-        <div class="step-text">
-          <div class="step-title">Agendamento Educado e Qualificado</div>
-          <div class="step-desc">Reuniões com quem já entende o valor</div>
-        </div>
-      </div>
-      <span class="flywheel-arrow-down">↓</span>
-      <div class="flywheel-mobile-item">
-        <div class="step-circle">4</div>
-        <div class="step-text">
-          <div class="step-title">Vendas de Alto Ticket com Baixo Esforço</div>
-          <div class="step-desc">Fechamentos previsíveis e recorrentes</div>
-        </div>
-      </div>
+    <div class="numeros-link">
+      <button type="button" class="link-print" data-print="../images/resultados-mensais.png" data-nome="Dashboard mensal do case de IA">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-5 4 3 5-7"/></svg>
+        Ver o dashboard
+      </button>
     </div>
-
   </div>
 </section>
 
-<!-- ===== CTA ===== -->
-<section class="cta-section">
+<!-- ===== BLOCO 8 · COMO A MÁQUINA FUNCIONA (uma linha) ===== -->
+<section class="bloco">
   <div class="container">
-    <p class="section-label">Próximo passo</p>
-    <h2 class="section-title">Pronto para aplicar<br>o método no seu negócio?</h2>
-    <p class="cta-support-text">Nosso time está pronto para apresentar como a Máquina de Reuniões pode funcionar especificamente para o seu mercado.</p>
-    <a href="https://api.whatsapp.com/send/?phone=5519995029309&text=Quero+aumentar+meu+numero+de+reuni%C3%B5es%21&type=phone_number&app_absent=0" class="cta-btn" target="_blank" rel="noopener noreferrer">
-      <!-- WhatsApp icon -->
-      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-      Falar com o time agora
-    </a>
+    <p class="eyebrow">Como a Máquina funciona</p>
+    <ol class="fly">
+      <li><i>1</i><span>Atrair demanda</span></li>
+      <li><i>2</i><span>Educar a demanda</span></li>
+      <li><i>3</i><span>Agendamento educado e qualificado</span></li>
+      <li><i>4</i><span>Vendas de alto ticket com baixo esforço</span></li>
+    </ol>
   </div>
 </section>
 
-<!-- ===== DISCLAIMER ===== -->
-<footer class="disclaimer">
+<!-- ===== BLOCO 9 · RODAPÉ ===== -->
+<footer class="rodape">
   <div class="container">
-    <p>
+    <div class="rodape__num" id="rodapeNum"></div>
+    <p class="rodape__txt">Nosso time vai te chamar deste número</p>
+    <a class="btn btn--verde" id="btnWhatsRodape" href="#" target="_blank" rel="noopener noreferrer" data-origem="rodape">Abrir no WhatsApp</a>
+    <p class="legal">
       Este site não é afiliado, endossado ou patrocinado pelo Facebook, Instagram ou qualquer plataforma de mídia social.<br>
       Os resultados apresentados são casos reais de clientes da XPN Digital e não constituem garantia de resultados futuros.<br>
       Os resultados variam conforme o comprometimento, mercado e aplicação de cada cliente.<br><br>
@@ -815,19 +721,425 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </footer>
 
+<!-- ===== OVERLAYS: vídeo em modal e print em lightbox ===== -->
+<div class="overlay" id="ovVideo" role="dialog" aria-modal="true" aria-label="Vídeo">
+  <span class="overlay__titulo" id="ovVideoTitulo"></span>
+  <button type="button" class="overlay__fechar" data-fechar aria-label="Fechar">&times;</button>
+  <div class="overlay__video"><video id="ovVideoEl" controls playsinline preload="none"></video></div>
+</div>
+<div class="overlay" id="ovPrint" role="dialog" aria-modal="true" aria-label="Print ampliado">
+  <span class="overlay__titulo" id="ovPrintTitulo"></span>
+  <button type="button" class="overlay__fechar" data-fechar aria-label="Fechar">&times;</button>
+  <div class="overlay__scroll" data-fechar-fundo><img class="overlay__img" id="ovPrintImg" alt=""></div>
+</div>
+
 <script>
-  // Mostra flywheel correto conforme viewport
-  (function() {
-    var desktop = document.getElementById('flywheel-desktop');
-    var mobile  = document.getElementById('flywheel-mobile');
-    function toggle() {
-      var isMobile = window.innerWidth <= 640;
-      desktop.style.display = isMobile ? 'none' : 'grid';
-      mobile.style.display  = isMobile ? 'flex'  : 'none';
+(function () {
+  'use strict';
+
+  /* =====================================================================
+     CONFIG — único lugar para preencher o que falta.
+     Deixe '' (vazio) no que ainda não existe: a página mostra a lacuna.
+     ===================================================================== */
+  var CONFIG = {
+    // true = esconde todas as lacunas e adapta a copy, para publicar com o que já existe.
+    OCULTAR_LACUNAS: false,
+
+    // --- Bloco 2: quem chama o lead ---
+    SDR_NOME: '',                       // [NOME DO SDR]
+    SDR_FOTO: '',                       // [FOTO DO SDR] — URL da foto (quadrada)
+    NUMERO:   '5519995029309',          // [NÚMERO] só dígitos, com DDI. Veio do botão da página antiga: CONFIRMAR que é o número de onde o SDR chama.
+    NUMERO_CONFIRMADO: false,           // mude para true depois de confirmar o número acima
+    CANAL: 'whatsapp',                  // [WHATSAPP / LIGAÇÃO]: 'whatsapp' ou 'ligacao'
+    MENSAGEM_WHATSAPP: 'Oi! Acabei de me cadastrar na Máquina de Reuniões.',
+
+    // --- Bloco 3: vídeo principal (FAQ, urgência ou due diligence — decisão na seção 4 do documento) ---
+    VIDEO_PRINCIPAL: {
+      titulo: '',                       // [TÍTULO DO VÍDEO PRINCIPAL]
+      tipo: 'vturb',                    // 'vturb' (player que já usamos; mede play rate e retenção) ou 'mp4'
+      vturbId: '',                      // [EMBED DO VÍDEO PRINCIPAL] id do player VTurb, ex.: '6a0f585dd73d7a41257a84ac'
+      vturbConta: 'b538529b-a043-41f8-96cc-3886a55667c2',
+      mp4: '',                          // usado só se tipo = 'mp4'
+      thumbnail: '',                    // [THUMBNAIL] URL da imagem (16:9)
+      capitulos: []                     // [CAPÍTULOS COM MINUTAGEM] ex.: [{ t: '0:00', titulo: 'O que acontece na reunião' }, { t: '1:40', titulo: 'Quanto custa' }]
+    },
+
+    // --- Bloco 4: breakouts, 1 por pergunta, na ordem de frequência. Card sem vídeo não aparece. ---
+    BREAKOUTS: [
+      { pergunta: '', duracao: '', vturbId: '', mp4: '', poster: '' },   // [PERGUNTA 1] · [DURAÇÃO] · [EMBED]
+      { pergunta: '', duracao: '', vturbId: '', mp4: '', poster: '' },   // [PERGUNTA 2]
+      { pergunta: '', duracao: '', vturbId: '', mp4: '', poster: '' },   // [PERGUNTA 3]
+      { pergunta: '', duracao: '', vturbId: '', mp4: '', poster: '' },   // [PERGUNTA 4]
+      { pergunta: '', duracao: '', vturbId: '', mp4: '', poster: '' }    // [PERGUNTA 5]
+    ],
+
+    // --- Bloco 5: provas que ainda faltam nos cases por faixa ---
+    PRINT_DM_PEDRO_SOUZA: '',           // [PRINT DA DM] URL do print
+    VIDEO_MURILO_MP4: '',               // [VÍDEO] Murilo Vila Verde (mp4) — também alimenta o card do bloco 6a
+    VIDEO_MURILO_POSTER: '',
+
+    // --- Bloco 5: mapeamento exato valor do form → faixa. Se o valor não estiver aqui, usa o piso da faixa. ---
+    FAIXA_POR_VALOR: {
+      'Entre R$0 a R$5.000':        'ate30',
+      'Entre R$5.000 a R$10.000':   'ate30',
+      'Entre R$10.000 a R$20.000':  'ate30',
+      'Entre R$20.000 a R$40.000':  'ate30',     // faixa que cruza R$30 mil: decisão de produto, troque para '30a100' se preferir
+      'Entre R$50.000 a R$100.000': '30a100',
+      'Mais de R$100.000':          'mais100'
     }
-    toggle();
-    window.addEventListener('resize', toggle);
+  };
+
+  /* ===================== dados dos cases por faixa (bloco 5) ===================== */
+  var CASES = {
+    rene:    { nome: 'Renê Guzmão', txt: 'Chegou faturando <b>R$15-20k/mês</b>. Hoje fatura <b>R$105-120k/mês</b>.' },
+    mariaf:  { nome: 'Maria Fernanda (e irmão)', txt: 'Chegaram faturando <b>R$20-25k/mês</b>. Hoje faturam <b>mais de R$50k/mês</b>.' },
+    gui:     { nome: 'Gui', txt: 'Faturava <b>R$20-30k/mês</b>. Em 1 ano, <b>R$150k/mês</b>. No segundo ano, <b>R$430k/mês</b>.' },
+    pedro:   { nome: 'Pedro Souza', txt: 'Faturava <b>R$20k/mês</b>. Fez <b>R$50k em 21 dias</b>.', print: CONFIG.PRINT_DM_PEDRO_SOUZA, lacuna: '[PRINT DA DM]' },
+    celton:  { nome: 'Celton Gomes', txt: 'Chegou faturando <b>R$30k/mês</b>. Hoje fatura <b>R$200-230k/mês</b>.' },
+    moises:  { nome: 'Moises e Breno Perrucho', nicho: 'Mentoria e consultoria, produtos de R$30-40k', txt: 'Chegaram faturando <b>R$70-80k/mês</b>. Hoje faturam <b>mais de R$300k/mês</b> e fecham em uma única reunião.' },
+    murilo:  { nome: 'Murilo Vila Verde', nicho: 'Relacionamento para homens', txt: 'Faturava <b>R$70-90k/mês</b> no máximo. Hoje fatura <b>R$500-600k/mês</b>, com a mentoria high ticket como carro-chefe.', video: CONFIG.VIDEO_MURILO_MP4, poster: CONFIG.VIDEO_MURILO_POSTER, lacuna: '[VÍDEO]' },
+    hugo:    { nome: 'Hugo, SMAEDu', nicho: 'Educação corporativa', txt: 'Gestor de projetos da <b>maior empresa de educação corporativa do Brasil</b>.' },
+    honest:  { nome: 'Honest FBA', nicho: 'E-commerce nos EUA', txt: 'Fatura <b>US$400 mil/mês</b> vendendo para o cliente americano. Davi é Business Partner.' }
+  };
+  var FAIXAS = {
+    ate30:   { rotulo: 'Até R$30 mil/mês',            cases: ['rene', 'mariaf', 'gui', 'pedro', 'celton'] },
+    '30a100':{ rotulo: 'De R$30 mil a R$100 mil/mês', cases: ['celton', 'moises', 'murilo'] },
+    mais100: { rotulo: 'Acima de R$100 mil/mês',      cases: ['murilo', 'moises', 'hugo', 'honest'] }
+  };
+
+  /* ===================== utilidades ===================== */
+  var OCULTAR = !!CONFIG.OCULTAR_LACUNAS;
+  if (OCULTAR) document.documentElement.classList.add('sem-lacunas');
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function rastrear(evento, dados) {
+    try {
+      window.dataLayer = window.dataLayer || [];
+      var o = { event: evento }; for (var k in dados) o[k] = dados[k];
+      window.dataLayer.push(o);
+    } catch (e) {}
+  }
+  function lacuna(txt, extra) { return OCULTAR ? '' : '<div class="lacuna"' + (extra || '') + '>' + txt + '</div>'; }
+  function lacunaInline(txt) { return '<span class="lacuna-inline">' + txt + '</span>'; }
+  function formatarNumero(d) {
+    d = String(d || '').replace(/\D/g, '');
+    var m = d.match(/^55(\d{2})(\d{4,5})(\d{4})$/);
+    return m ? '+55 (' + m[1] + ') ' + m[2] + '-' + m[3] : (d ? '+' + d : '');
+  }
+  function segundos(t) { // '1:40' | '01:02:03' | 100 -> segundos
+    if (typeof t === 'number') return t;
+    var p = String(t).split(':').map(Number); var s = 0;
+    for (var i = 0; i < p.length; i++) s = s * 60 + (p[i] || 0);
+    return s;
+  }
+  var ICONE_PLAY = '<span class="thumb__play"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></span>';
+  var ICONE_ZOOM = '<span class="thumb__zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>ampliar</span>';
+
+  /* ===================== BLOCO 1 · timer ===================== */
+  (function () {
+    var DURACAO = 5 * 60 * 1000;
+    var CHAVE = 'typ_vsl_contato_timer_inicio';
+    var el = $('timerVal'), txt = $('timerTxt'), box = $('timer');
+    var inicio = 0;
+    try { inicio = parseInt(sessionStorage.getItem(CHAVE), 10) || 0; } catch (e) {}
+    if (!inicio || inicio > Date.now()) {
+      inicio = Date.now();
+      try { sessionStorage.setItem(CHAVE, String(inicio)); } catch (e) {}
+    }
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var resta = Math.max(0, DURACAO - (Date.now() - inicio));
+      var seg = Math.ceil(resta / 1000);
+      el.textContent = pad(Math.floor(seg / 60)) + ':' + pad(seg % 60);
+      box.classList.toggle('final', resta > 0 && resta <= 60000);
+      if (resta === 0) {
+        box.classList.add('zerado');
+        txt.textContent = CONFIG.CANAL === 'ligacao'
+          ? 'Nosso time já está te ligando. Atenda o telefone.'
+          : 'Nosso time já está te chamando. Confira o WhatsApp.';
+      } else {
+        setTimeout(tick, 250);
+      }
+    }
+    tick();
   })();
+
+  /* ===================== BLOCO 2 · SDR, vCard, WhatsApp ===================== */
+  var NUM = String(CONFIG.NUMERO || '').replace(/\D/g, '');
+  var NUM_FMT = formatarNumero(NUM);
+  var WA = 'https://wa.me/' + NUM + '?text=' + encodeURIComponent(CONFIG.MENSAGEM_WHATSAPP || '');
+  (function () {
+    var nome = CONFIG.SDR_NOME ? '<b>' + esc(CONFIG.SDR_NOME) + '</b>' : (OCULTAR ? '<b>alguém do nosso time</b>' : lacunaInline('[NOME DO SDR]'));
+    var canal = CONFIG.CANAL === 'ligacao' ? 'te ligar' : 'te chamar no WhatsApp';
+    var numTxt = NUM ? '<b>' + NUM_FMT + '</b>' : lacunaInline('[NÚMERO]');
+    $('heroTxt').innerHTML = 'Quem vai ' + canal + ' é ' + nome + ', deste número: ' + numTxt + '. Salve agora para a mensagem não se perder.';
+
+    $('sdrFoto').innerHTML = CONFIG.SDR_FOTO
+      ? '<img class="sdr__foto" src="' + esc(CONFIG.SDR_FOTO) + '" alt="' + esc(CONFIG.SDR_NOME || 'Quem vai te chamar') + '" width="60" height="60" loading="lazy">'
+      : (OCULTAR ? '' : '<span class="sdr__foto sdr__foto--lacuna">[FOTO DO SDR]</span>');
+    $('sdrNome').innerHTML = CONFIG.SDR_NOME ? esc(CONFIG.SDR_NOME) : (OCULTAR ? 'Time XPN · Máquina de Reuniões' : lacunaInline('[NOME DO SDR]'));
+    $('sdrNum').textContent = NUM_FMT || '';
+    $('sdrSub').innerHTML = (CONFIG.CANAL === 'ligacao' ? 'É deste número que a ligação vai chegar.' : 'É deste número que a mensagem vai chegar.')
+      + (!CONFIG.NUMERO_CONFIRMADO && !OCULTAR ? ' ' + lacunaInline('[CONFIRMAR: é deste número que o SDR chama?]') : '');
+    $('rodapeNum').textContent = NUM_FMT || '';
+
+    var transicao = $('transicao');
+    var temVideo = !!(CONFIG.VIDEO_PRINCIPAL.vturbId || CONFIG.VIDEO_PRINCIPAL.mp4);
+    transicao.innerHTML = (temVideo || !OCULTAR)
+      ? 'Enquanto isso, <b>assista ao vídeo abaixo</b>. Ele responde o que quase todo mundo pergunta antes da reunião.'
+      : 'Enquanto isso, <b>veja abaixo</b> quem chegou faturando parecido com você e o que aconteceu depois.';
+
+    // WhatsApp (topo e rodapé)
+    [$('btnWhats'), $('btnWhatsRodape')].forEach(function (a) {
+      a.href = NUM ? WA : '#';
+      a.addEventListener('click', function () { rastrear('abrir_whatsapp', { numero: NUM, origem: a.getAttribute('data-origem') }); });
+    });
+
+    // vCard
+    function vcard() {
+      var nomeC = CONFIG.SDR_NOME ? CONFIG.SDR_NOME + ' · XPN' : 'XPN · Máquina de Reuniões';
+      var partes = nomeC.split(' ');
+      return [
+        'BEGIN:VCARD', 'VERSION:3.0',
+        'N:' + partes.slice(1).join(' ') + ';' + partes[0] + ';;;',
+        'FN:' + nomeC,
+        'ORG:XPN Digital',
+        'TEL;TYPE=CELL,VOICE:+' + NUM,
+        CONFIG.SDR_FOTO ? 'PHOTO;VALUE=URI:' + CONFIG.SDR_FOTO : '',
+        'NOTE:Máquina de Reuniões — contato da reunião',
+        'END:VCARD'
+      ].filter(Boolean).join('\r\n');
+    }
+    $('btnSalvar').addEventListener('click', function () {
+      rastrear('salvar_contato', { numero: NUM });
+      if (!NUM) return;
+      var conteudo = vcard();
+      var arquivo = 'contato-xpn.vcf';
+      try {
+        var blob = new Blob([conteudo], { type: 'text/vcard;charset=utf-8' });
+        var file = (typeof File === 'function') ? new File([blob], arquivo, { type: 'text/vcard' }) : null;
+        // iOS/Android: a folha de compartilhar abre direto nos Contatos
+        if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] }) && /Android|iPhone|iPad/i.test(navigator.userAgent)) {
+          navigator.share({ files: [file], title: 'Salvar contato' }).catch(function () { baixar(blob); });
+          return;
+        }
+        baixar(blob);
+      } catch (e) {
+        window.location.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(conteudo);
+      }
+      function baixar(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a'); a.href = url; a.download = arquivo; a.rel = 'noopener';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      }
+    });
+  })();
+
+  /* ===================== player (VTurb ou mp4) ===================== */
+  // VTurb v4: o elemento <vturb-smartplayer> expõe playback.seek(seg), playback.play() e
+  // dispara "video:play" / "video:timeupdate". A própria VTurb mede play rate e retenção.
+  var vturbCarregado = {};
+  function montarPlayer(alvo, v, nomeVideo) {
+    var tipo = v.vturbId ? 'vturb' : (v.mp4 ? 'mp4' : '');
+    if (!tipo) return null;
+    if (tipo === 'vturb') {
+      var id = 'vid-' + v.vturbId;
+      alvo.innerHTML = '<vturb-smartplayer id="' + id + '" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>';
+      var el = alvo.firstChild;
+      el.addEventListener('video:play', function () { rastrear('video_play', { video_nome: nomeVideo }); }, { once: true });
+      function carregar() {
+        if (vturbCarregado[v.vturbId]) return;
+        vturbCarregado[v.vturbId] = true;
+        var s = document.createElement('script');
+        s.src = 'https://scripts.converteai.net/' + (v.vturbConta || CONFIG.VIDEO_PRINCIPAL.vturbConta) + '/players/' + v.vturbId + '/v4/player.js';
+        s.async = true; document.head.appendChild(s);
+      }
+      if ('IntersectionObserver' in window) {   // lazy: só carrega o player quando o bloco se aproxima da tela
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { carregar(); io.disconnect(); } }); }, { rootMargin: '600px 0px' });
+        io.observe(alvo);
+      } else { carregar(); }
+      return {
+        ir: function (seg) {
+          try { el.playback.seek(seg); el.playback.play(); } catch (e) { try { el.interface.seek(seg); el.interface.play(); } catch (e2) { carregar(); } }
+        }
+      };
+    }
+    alvo.innerHTML = '<video controls playsinline preload="none"' + (v.thumbnail || v.poster ? ' poster="' + esc(v.thumbnail || v.poster) + '"' : '') + '></video>';
+    var vid = alvo.firstChild;
+    vid.setAttribute('data-src', v.mp4);
+    function garantirSrc() { if (!vid.getAttribute('src')) { vid.src = vid.getAttribute('data-src'); } }
+    vid.addEventListener('play', function () { rastrear('video_play', { video_nome: nomeVideo }); }, { once: true });
+    if ('IntersectionObserver' in window) {
+      var io2 = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { garantirSrc(); io2.disconnect(); } }); }, { rootMargin: '300px 0px' });
+      io2.observe(alvo);
+    } else { garantirSrc(); }
+    return { ir: function (seg) { garantirSrc(); vid.currentTime = seg; vid.play(); } };
+  }
+
+  /* ===================== BLOCO 3 · vídeo principal ===================== */
+  (function () {
+    var v = CONFIG.VIDEO_PRINCIPAL;
+    var tem = !!(v.vturbId || v.mp4);
+    var bloco = $('blocoVideo');
+    if (!tem && OCULTAR) { bloco.style.display = 'none'; return; }
+    $('videoTitulo').innerHTML = v.titulo ? esc(v.titulo) : lacunaInline('[TÍTULO DO VÍDEO PRINCIPAL]');
+    var box = $('playerBox');
+    var api = tem ? montarPlayer(box, v, 'principal') : null;
+    if (!tem) box.innerHTML = lacuna('[EMBED DO VÍDEO PRINCIPAL]<br>+ [THUMBNAIL]', ' style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:0"');
+    var ul = $('capitulos');
+    if (v.capitulos && v.capitulos.length) {
+      ul.innerHTML = v.capitulos.map(function (c) {
+        return '<li><a href="#" data-seg="' + segundos(c.t) + '"><span class="t">' + esc(c.t) + '</span><span>' + esc(c.titulo) + '</span></a></li>';
+      }).join('');
+      ul.addEventListener('click', function (e) {
+        var a = e.target.closest('a[data-seg]'); if (!a) return;
+        e.preventDefault();
+        if (api) api.ir(parseInt(a.getAttribute('data-seg'), 10) || 0);
+        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    } else {
+      ul.innerHTML = OCULTAR ? '' : '<li>' + lacuna('[CAPÍTULOS COM MINUTAGEM] — lista clicável que pula para o tempo certo') + '</li>';
+    }
+  })();
+
+  /* ===================== BLOCO 4 · breakouts ===================== */
+  (function () {
+    var grade = $('breakouts');
+    var comVideo = CONFIG.BREAKOUTS.filter(function (b) { return b && (b.vturbId || b.mp4); });
+    if (!comVideo.length) {
+      if (OCULTAR) { $('blocoBreakouts').style.display = 'none'; return; }
+      grade.innerHTML = lacuna('[BREAKOUT VIDEOS] 5 cards, um por pergunta, na ordem de frequência: [PERGUNTA] · [DURAÇÃO] · [EMBED].<br>Card sem vídeo não aparece. Nenhum gravado ainda.');
+      return;
+    }
+    grade.innerHTML = comVideo.map(function (b, i) {
+      return '<button type="button" class="card card--clicavel" data-breakout="' + i + '" aria-label="' + esc(b.pergunta) + '">'
+        + '<span class="card__num">PERGUNTA ' + (i + 1) + '</span>'
+        + '<span class="card__pergunta">' + esc(b.pergunta || '[PERGUNTA ' + (i + 1) + ']') + '</span>'
+        + '<span class="card__meta"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' + esc(b.duracao || '') + (b.duracao ? ' · ' : '') + 'Assistir</span>'
+        + '</button>';
+    }).join('');
+    grade.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-breakout]'); if (!btn) return;
+      var b = comVideo[parseInt(btn.getAttribute('data-breakout'), 10)];
+      if (b.mp4) { abrirVideo(b.mp4, b.poster, b.pergunta); return; }
+      abrirVideoVturb(b);
+    });
+  })();
+
+  /* ===================== BLOCO 5 · cases por faixa ===================== */
+  (function () {
+    var par = new URLSearchParams(window.location.search);   // decodifica + e %20
+    var fat = (par.get('fat') || '').trim().replace(/\s+/g, ' ');
+    var faixa = CONFIG.FAIXA_POR_VALOR[fat];
+    if (!faixa && fat) {
+      var m = fat.replace(/R\$/gi, ' ').match(/(\d[\d.]*)/);
+      var piso = m ? parseInt(m[1].replace(/\./g, ''), 10) : 0;
+      faixa = piso >= 100000 ? 'mais100' : (piso >= 30000 ? '30a100' : 'ate30');
+    }
+    if (!FAIXAS[faixa]) faixa = 'ate30';
+    var f = FAIXAS[faixa];
+    $('faixaTag').textContent = f.rotulo;
+    $('faixaCases').innerHTML = f.cases.map(function (k) {
+      var c = CASES[k];
+      var prova = '';
+      if (c.video) {
+        prova = '<button type="button" class="thumb thumb--video" data-video="' + esc(c.video) + '" data-poster="' + esc(c.poster || '') + '" data-nome="Depoimento ' + esc(c.nome) + '" aria-label="Assistir ao vídeo de ' + esc(c.nome) + '">'
+          + (c.poster ? '<img src="' + esc(c.poster) + '" alt="" loading="lazy">' : '') + ICONE_PLAY + '</button>';
+      } else if (c.print) {
+        prova = '<button type="button" class="thumb thumb--print" data-print="' + esc(c.print) + '" data-nome="Print ' + esc(c.nome) + '" aria-label="Ampliar o print de ' + esc(c.nome) + '"><img src="' + esc(c.print) + '" alt="" loading="lazy">' + ICONE_ZOOM + '</button>';
+      } else if (c.lacuna) {
+        prova = lacuna(c.lacuna + ' ' + esc(c.nome));
+      }
+      return '<article class="card">' + prova
+        + '<div class="caso__nome">' + esc(c.nome) + '</div>'
+        + (c.nicho ? '<div class="caso__nicho">' + esc(c.nicho) + '</div>' : '')
+        + '<p class="caso__txt">' + c.txt + '</p>'
+        + '</article>';
+    }).join('');
+  })();
+
+  /* ===================== bloco 6a: vídeo do Murilo, se existir ===================== */
+  (function () {
+    var card = document.querySelector('[data-lacuna="video-murilo"]');
+    if (!card || !CONFIG.VIDEO_MURILO_MP4) return;
+    card.removeAttribute('data-lacuna');
+    card.querySelector('.lacuna').outerHTML = '<button type="button" class="thumb thumb--video" data-video="' + esc(CONFIG.VIDEO_MURILO_MP4) + '" data-poster="' + esc(CONFIG.VIDEO_MURILO_POSTER || '') + '" data-nome="Depoimento Murilo Vila Verde" aria-label="Assistir ao depoimento de Murilo Vila Verde">'
+      + (CONFIG.VIDEO_MURILO_POSTER ? '<img src="' + esc(CONFIG.VIDEO_MURILO_POSTER) + '" alt="" loading="lazy">' : '') + ICONE_PLAY + '</button>';
+  })();
+
+  /* ===================== overlays: vídeo em modal, print em lightbox ===================== */
+  var ovVideo = $('ovVideo'), vidEl = $('ovVideoEl'), ovPrint = $('ovPrint'), imgEl = $('ovPrintImg');
+  var mobile = function () { return window.innerWidth < 640; };
+
+  function travar(sim) { document.body.classList.toggle('travado', sim); }
+  function abrirVideo(src, poster, nome) {
+    $('ovVideoTitulo').textContent = nome || '';
+    vidEl.poster = poster || '';
+    vidEl.src = src;                      // carrega só agora (lazy)
+    ovVideo.classList.add('aberto'); travar(true);
+    var p = vidEl.play();
+    if (p && p.catch) p.catch(function () {});
+    if (mobile()) {                       // mobile: tela cheia
+      try {
+        if (vidEl.webkitEnterFullscreen) vidEl.webkitEnterFullscreen();
+        else if (vidEl.requestFullscreen) vidEl.requestFullscreen().catch(function () {});
+      } catch (e) {}
+    }
+  }
+  function abrirVideoVturb(b) {           // breakout em VTurb: monta o player dentro do modal
+    $('ovVideoTitulo').textContent = b.pergunta || '';
+    var box = ovVideo.querySelector('.overlay__video');
+    box.innerHTML = '';
+    montarPlayer(box, b, 'breakout: ' + (b.pergunta || b.vturbId));
+    vturbCarregado[b.vturbId] = false;
+    var s = document.createElement('script');
+    s.src = 'https://scripts.converteai.net/' + (b.vturbConta || CONFIG.VIDEO_PRINCIPAL.vturbConta) + '/players/' + b.vturbId + '/v4/player.js';
+    s.async = true; document.head.appendChild(s);
+    ovVideo.classList.add('aberto'); travar(true);
+  }
+  function fecharVideo() {
+    ovVideo.classList.remove('aberto'); travar(false);
+    try { vidEl.pause(); } catch (e) {}
+    var box = ovVideo.querySelector('.overlay__video');
+    if (!box.contains(vidEl)) { box.innerHTML = ''; box.appendChild(vidEl); }   // restaura o <video> depois de um breakout VTurb
+    vidEl.removeAttribute('src'); vidEl.load();
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function () {});
+  }
+  function abrirPrint(src, nome) {
+    $('ovPrintTitulo').textContent = nome || '';
+    imgEl.classList.remove('zoom'); imgEl.src = src; imgEl.alt = nome || '';
+    ovPrint.classList.add('aberto'); travar(true);
+    ovPrint.querySelector('.overlay__scroll').scrollTop = 0;
+    rastrear('print_abrir', { print_nome: nome || src });
+  }
+  function fecharPrint() { ovPrint.classList.remove('aberto'); travar(false); imgEl.removeAttribute('src'); }
+
+  vidEl.addEventListener('play', function () { rastrear('video_play', { video_nome: $('ovVideoTitulo').textContent }); });
+  vidEl.addEventListener('webkitendfullscreen', fecharVideo);   // iOS: sair da tela cheia fecha o modal
+  document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement && ovVideo.classList.contains('aberto') && mobile()) fecharVideo(); });
+
+  document.addEventListener('click', function (e) {
+    var v = e.target.closest('[data-video]');
+    if (v) { abrirVideo(v.getAttribute('data-video'), v.getAttribute('data-poster'), v.getAttribute('data-nome')); return; }
+    var p = e.target.closest('[data-print]');
+    if (p) { abrirPrint(p.getAttribute('data-print'), p.getAttribute('data-nome')); return; }
+    if (e.target.closest('[data-fechar]')) {
+      if (ovVideo.classList.contains('aberto')) fecharVideo();
+      if (ovPrint.classList.contains('aberto')) fecharPrint();
+      return;
+    }
+    if (e.target === imgEl) { imgEl.classList.toggle('zoom'); return; }
+    if (e.target.hasAttribute && e.target.hasAttribute('data-fechar-fundo')) fecharPrint();
+    if (e.target === ovVideo) fecharVideo();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (ovVideo.classList.contains('aberto')) fecharVideo();
+    if (ovPrint.classList.contains('aberto')) fecharPrint();
+  });
+})();
 </script>
 
 </body>
