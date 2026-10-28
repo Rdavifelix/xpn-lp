@@ -41,8 +41,8 @@
 
   ┌─ AJUSTES PENDENTES ────────────────────────────────────────────────────────┐
   │ 1. OBRIGADO: /vsl/obrigado/ está com conteúdo provisório (etapa 2).         │
-  │ 2. PROVAS: trocar os blocos "chat" pelos prints reais (Cauê, Marcelo,       │
-  │    Kelvin), 3:2.                                                            │
+  │ 2. PROVAS: feito — os 3 cards usam os prints reais (Cauê, Marcelo, Kelvin),  │
+  │    com lightbox para ampliar.                                               │
   └────────────────────────────────────────────────────────────────────────────┘
 -->
 <html lang="pt-BR">
@@ -214,6 +214,14 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
 .attrib{margin:auto 0 0;padding-top:6px;font-size:13px;font-weight:600;color:var(--ink-3)}
 
 /* Print estilo conversa (os prints reais dos clientes substituem este bloco) */
+.print{position:relative;display:block;width:100%;aspect-ratio:3/2;padding:0;border:0;background:#0f1a24;cursor:zoom-in;overflow:hidden}
+.print img{width:100%;height:100%;object-fit:cover;display:block}
+.print-zoom{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.7);color:#fff;font:600 11px/1 "Inter",system-ui,sans-serif;letter-spacing:.04em;padding:6px 9px;border-radius:100px}
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.94);display:none;overflow:auto;-webkit-overflow-scrolling:touch;padding:56px 10px 24px}
+.lightbox.aberto{display:block}
+.lightbox img{display:block;margin:0 auto;max-width:min(100%,900px);height:auto;border-radius:8px}
+.lightbox-fechar{position:fixed;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.lightbox-titulo{position:fixed;top:22px;left:14px;right:64px;color:#fff;font:700 13px/1.2 "Inter",system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat{background:#0f1a24;padding:22px 20px;aspect-ratio:3/2;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
 .chat .who{display:flex;align-items:center;gap:8px;color:#9fb3c8;font-size:12px}
 .chat .who i{font-style:normal;width:24px;height:24px;border-radius:50%;background:#2f80ed;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
@@ -371,12 +379,10 @@ body.com-barra{padding-bottom:88px}
     <div class="grid3">
       <!-- Cauê Novais -->
       <article class="card">
-        <!-- TROCAR: print real do WhatsApp/Telegram do Cauê (3:2) -->
-        <div class="chat" aria-label="Mensagem do Cauê Novais no grupo de alunos">
-          <div class="who"><i>CN</i>~ Cauê Novais</div>
-          <div class="bub">Primeiro webinar do ano com métricas diferenciadas 😄<br>R$750,00 investidos · 50 no grupo · 20 no webinar · 10 aplicações · 8 calls · 4 vendas<br><b>Até então, R$20.000,00 em vendas 👌</b></div>
-          <div class="t">20:01</div>
-        </div>
+        <button type="button" class="print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696c51c9439b6bb177372283.png" data-titulo="Print do Cauê Novais" aria-label="Ampliar o print: print do cauê novais">
+          <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696c51c9439b6bb177372283.png" alt="Mensagem do Cauê Novais no grupo: R$750 investidos, 50 no grupo, 20 no webinar, 10 aplicações, 8 calls, 4 vendas, R$20.000 em vendas" loading="lazy" style="object-position:center 45%">
+          <span class="print-zoom">ampliar</span>
+        </button>
         <div class="card-body">
           <h3>Cauê Novais</h3>
           <p class="metric"><span class="hl">R$750 investidos → R$20.000 em vendas (ROAS 26x)</span></p>
@@ -388,12 +394,10 @@ body.com-barra{padding-bottom:88px}
 
       <!-- Marcelo Rodrigues -->
       <article class="card">
-        <!-- TROCAR: print real do WhatsApp do Marcelo (3:2) -->
-        <div class="chat" aria-label="Mensagem do Marcelo Rodrigues no grupo de alunos">
-          <div class="who"><i>MR</i>~ Marcelo Rodrigues</div>
-          <div class="bub"><b>+70 mil reais hoje!!</b> @Davi @Joao Araujo !!<br>Boraaaa. 21:44 e fazendo as calls!! Bora que ainda dá para sair mais uma!</div>
-          <div class="t">21:44 · Editada</div>
-        </div>
+        <button type="button" class="print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/699e107e3db1c142153be8b8.png" data-titulo="Print do Marcelo Rodrigues" aria-label="Ampliar o print: print do marcelo rodrigues">
+          <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/699e107e3db1c142153be8b8.png" alt="Mensagem do Marcelo Rodrigues no grupo: investido 1.500 no último webinar e voltou R$112.000" loading="lazy" style="object-position:center">
+          <span class="print-zoom">ampliar</span>
+        </button>
         <div class="card-body">
           <h3>Marcelo Rodrigues</h3>
           <p class="metric"><span class="hl">R$1.540 investidos → R$112.000 faturados (ROAS 72x)</span></p>
@@ -405,12 +409,10 @@ body.com-barra{padding-bottom:88px}
 
       <!-- Kelvin -->
       <article class="card">
-        <!-- TROCAR: print real do WhatsApp do Kelvin (3:2) -->
-        <div class="chat" aria-label="Resumo do resultado do Kelvin">
-          <div class="who"><i>K</i>[PAA] Kelvin</div>
-          <div class="bub">Antes: R$10k investidos → R$7k de volta.<br>Mudamos SÓ a oferta (mesmo anúncio, mesma página).<br><b>Depois: R$2k investidos → R$30k (ROAS 15x)</b></div>
-          <div class="t">Onboarding na segunda-feira</div>
-        </div>
+        <button type="button" class="print" data-print="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de1f5e0aa78bc84226.png" data-titulo="Print do Kelvin" aria-label="Ampliar o print: print do kelvin">
+          <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_900/u_https://assets.cdn.filesafe.space/vjZ5C77dlVyRlNKk44wh/media/696586de1f5e0aa78bc84226.png" alt="Conversa do Kelvin: investimos 10k voltou 7k; ajustamos só a oferta; 2k de investimento, 26k ao vivo, 4 vendas pela Kiwify, batemos 30k" loading="lazy" style="object-position:center 80%">
+          <span class="print-zoom">ampliar</span>
+        </button>
         <div class="card-body">
           <h3>Kelvin</h3>
           <p class="metric"><span class="hl">De ROAS negativo para ROAS 15x ajustando só a oferta</span></p>
@@ -930,6 +932,24 @@ body.com-barra{padding-bottom:88px}
   if (salvo && salvo.agendou) { irParaObrigado(true, salvo.eid); }
   else if (salvo && salvo.qual && salvo.token) { enviada = true; concluir(salvo.token, true, salvo.eid); }
   else render();
+})();
+</script>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Print ampliado">
+  <span class="lightbox-titulo" id="lightboxTitulo"></span>
+  <button type="button" class="lightbox-fechar" id="lightboxFechar" aria-label="Fechar">&times;</button>
+  <img id="lightboxImg" alt="">
+</div>
+<script>
+(function(){
+  var lb=document.getElementById("lightbox"),img=document.getElementById("lightboxImg"),tit=document.getElementById("lightboxTitulo");
+  function fechar(){lb.classList.remove("aberto");img.removeAttribute("src");document.body.style.overflow="";}
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-print]");
+    if(b){img.src=b.getAttribute("data-print");img.alt=b.getAttribute("data-titulo")||"";tit.textContent=img.alt;lb.classList.add("aberto");lb.scrollTop=0;document.body.style.overflow="hidden";return;}
+    if(e.target===lb||e.target.id==="lightboxFechar")fechar();
+  });
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&lb.classList.contains("aberto"))fechar();});
 })();
 </script>
 </body>
