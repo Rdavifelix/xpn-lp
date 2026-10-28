@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+  MÁQUINA DE REUNIÕES · VSL — Página de obrigado (PROVISÓRIA — etapa 2)
+  Chega aqui:
+    - quem NÃO se qualificou na aplicação (?q=0) — direto depois do envio;
+    - quem se qualificou e reservou o horário na agenda do CRM (?q=1).
+  A URL traz ?fat=<faturamento>&lead_id=<id> (mesmo contrato da /typ_vsl), então
+  os eventos de lead qualificado podem ser disparados aqui pelo GTM se preferir.
+  O conteúdo final (vídeo, próximos passos, WhatsApp) entra na etapa 2.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Aplicação recebida · Máquina de Reuniões</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../../obrigado/assets/favicon-32.png" />
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel (o GTM dispara o PageView; fallback em 3s) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','764164756172990');
+setTimeout(function(){
+  try{
+    var ok = performance.getEntriesByType('resource').some(function(r){ return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1; });
+    if(!ok) fbq('track','PageView');
+  }catch(e){}
+},3000);
+(function(){
+  var p = new URLSearchParams(window.location.search);
+  try{ window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'obrigado_vsl', qualificado: p.get('q') === '1', faturamento: p.get('fat') || '', event_id: p.get('lead_id') || '', funil: 'vsl_aplicacao' }); }catch(e){}
+})();
+</script>
+<!-- End Meta Pixel -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--ink:#16171a;--ink-2:#3d4046;--ink-3:#6c6f76;--line:#e6e6e8;--grifo:#FFE99A;--cta:#FE063B;--ok:#1f8f4e}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff}
+body{font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+.page{min-height:100vh;padding:64px 20px 80px;display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#eefaf2;border:1px solid #bfe8cc;color:var(--ok);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:999px}
+h1{margin:0;max-width:760px;font-size:clamp(28px,4.4vw,42px);line-height:1.25;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.hl{background-image:linear-gradient(var(--grifo),var(--grifo));background-repeat:no-repeat;background-size:100% .92em;background-position:0 .24em;padding:0 8px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+p.sub{margin:0;max-width:620px;font-size:18px;color:var(--ink-2);text-wrap:pretty}
+.box{width:100%;max-width:640px;border:1px solid var(--line);border-radius:6px;padding:28px 24px;text-align:left;margin-top:8px}
+.box h2{margin:0 0 12px;font-size:18px;font-weight:700}
+.box ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:16px}
+.box li{margin:0 0 8px}
+.foot{margin-top:40px;font-size:12px;color:var(--ink-3)}
+.foot a{color:var(--ink-3)}
+</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<main class="page">
+  <span class="badge">✅ Aplicação recebida</span>
+  <h1 id="titulo">Recebemos a sua aplicação, <span class="hl">obrigado!</span></h1>
+  <p class="sub" id="sub">Nosso time vai analisar as suas respostas e entrar em contato pelo WhatsApp.</p>
+
+  <div class="box" id="qualificado" hidden>
+    <h2>Seu horário está reservado. O que acontece agora:</h2>
+    <ol>
+      <li>Você recebe a confirmação por e-mail e WhatsApp com o link da reunião.</li>
+      <li>Um especialista da Máquina de Reuniões analisa as suas respostas antes da call.</li>
+      <li>Na reunião, você sai com o gargalo principal identificado e um plano de ação para os próximos 90 dias.</li>
+    </ol>
+  </div>
+
+  <div class="box" id="nao-qualificado" hidden>
+    <h2>Próximos passos</h2>
+    <ol>
+      <li>Fique atento ao seu WhatsApp: o nosso time vai te chamar por lá.</li>
+      <li>Enquanto isso, assista novamente ao vídeo e anote as dúvidas sobre o seu cenário.</li>
+    </ol>
+  </div>
+
+  <p class="foot">XPN Digital · Belo Horizonte, MG · © 2026 · <a href="/privacidade/">Política de Privacidade</a></p>
+</main>
+
+<script>
+(function(){
+  var p = new URLSearchParams(window.location.search);
+  var q = p.get('q') === '1';
+  document.getElementById(q ? 'qualificado' : 'nao-qualificado').hidden = false;
+  if (q) {
+    document.getElementById('titulo').innerHTML = 'Sua consultoria está <span class="hl">agendada!</span>';
+    document.getElementById('sub').textContent = 'Confira o e-mail e o WhatsApp: a confirmação com o link da reunião já está a caminho.';
+  }
+})();
+</script>
+</body>
+</html>
