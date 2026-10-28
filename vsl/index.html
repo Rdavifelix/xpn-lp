@@ -29,9 +29,9 @@
 
   QUEM VÊ A AGENDA: a decisão é desta página (função qualifica()). O form no CRM
   está com faturamento_minimo = 0, ou seja, o CRM devolve booking_token para
-  toda aplicação e a página só abre a agenda para quem passa no critério:
-    · investimento mensal disponível (pergunta 7) a partir de R$5.000  E
-    · momento (pergunta 6) diferente de "Estou só pesquisando por enquanto".
+  toda aplicação. A página abre a agenda para todo mundo, menos para quem
+  marca "Estou só pesquisando por enquanto" (pergunta 6). O investimento
+  disponível (pergunta 7) NÃO barra a agenda (pedido do Davi, 28/10).
   Mudar a régua = mudar qualifica() aqui.
 
   AGENDA PRÓPRIA: a página não embute mais a /agendar/ do CRM. Ela usa as mesmas
@@ -608,7 +608,6 @@ body.com-barra{padding-bottom:88px}
   // Investimento mensal disponível (pergunta 7). Valores com número completo
   // (não "5 mil") para o CRM conseguir ler a faixa; o primeiro número é o piso.
   var INVESTIMENTO = ['R$0 a R$5.000 por mês','R$5.000 a R$10.000 por mês','R$10.000 a R$20.000 por mês','Mais de R$20.000 por mês'];
-  var INVESTE_A_PARTIR = 1;   // índice em INVESTIMENTO que libera a agenda
   var SO_PESQUISANDO = 'Estou só pesquisando por enquanto';
 
   var PERGUNTAS = [
@@ -630,9 +629,9 @@ body.com-barra{padding-bottom:88px}
       o: ['Quero escalar o que já funciona','Quero reduzir a dependência de indicação','Preciso de previsibilidade de caixa','Surgiu uma meta ou prazo que exige mais vendas'] }
   ];
 
-  // Critério da agenda (ver cabeçalho do arquivo).
+  // Critério da agenda (ver cabeçalho do arquivo): só "só pesquisando" fica de fora.
   function qualifica() {
-    return INVESTIMENTO.indexOf(resp.investimento_mensal) >= INVESTE_A_PARTIR && resp.momento !== SO_PESQUISANDO;
+    return resp.momento !== SO_PESQUISANDO;
   }
 
   var par = new URLSearchParams(window.location.search);
