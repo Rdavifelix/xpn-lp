@@ -22,15 +22,22 @@
     - A página também qualifica no cliente (opções de faturamento >= R$20k)
       para decidir entre "mostrar agenda" e "redirecionar para obrigado".
 
+  CRM: form "[VSL] Agendamento" (a3f1c2d4), distribuição "VSL → Kauan", tags
+  funil:vsl + aplicou_vsl, agenda com faturamento_minimo = 20000 (sdr Kauan,
+  closer Luã, sala "vsl-"). As perguntas/opções abaixo são as MESMAS do form no
+  CRM (map_to iguais) — mudar aqui = mudar lá. As faixas de faturamento usam o
+  formato do funil VSL ("Entre R$20.000 a R$40.000"), que é o que o CRM usa para
+  MQL, lead score, aviso no Discord e dashboards.
+
+  DEPOIS DA RESERVA: a página /agendar/:token do CRM só mostra "confirmado" inline
+  (não redireciona nem avisa o pai). Por isso esta página consulta a RPC pública
+  agenda_token_status(token) a cada poucos segundos enquanto a agenda está aberta
+  e, quando o token foi usado, manda o lead para /vsl/obrigado/?q=1.
+
   ┌─ AJUSTES PENDENTES ────────────────────────────────────────────────────────┐
-  │ 1. CRM: criar o form "[VSL] Aplicação" no CRM XPN com as MESMAS perguntas  │
-  │    e map_to abaixo e trocar CRM_KEY (distribution_key) e FORM_ID em CONFIG. │
-  │    Hoje estão apontando para o form [LT] Agendamento (5c1b8e37), que é o   │
-  │    único contrato conhecido — leads da VSL cairiam como Low Ticket.         │
-  │ 2. AGENDA: a página /agendar/:token do CRM precisa redirecionar para        │
-  │    CONFIG.OBRIGADO_URL depois da reserva (ou enviar postMessage             │
-  │    {type:'crm-booking-done'}) para o lead cair na página de obrigado.       │
-  │ 3. OBRIGADO: /vsl/obrigado/ está com conteúdo provisório (etapa 2).         │
+  │ 1. OBRIGADO: /vsl/obrigado/ está com conteúdo provisório (etapa 2).         │
+  │ 2. PROVAS: trocar os blocos "chat" pelos prints reais (Cauê, Marcelo,       │
+  │    Kelvin), 3:2.                                                            │
   └────────────────────────────────────────────────────────────────────────────┘
 -->
 <html lang="pt-BR">
@@ -502,30 +509,38 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
 // ============================================================================
 (function () {
   var CONFIG = {
-    // Contrato do receive-lead do CRM XPN. TROCAR pelo form "[VSL] Aplicação"
-    // assim que ele existir no CRM (hoje aponta para o [LT] Agendamento).
+    // Contrato do receive-lead do CRM XPN — form "[VSL] Agendamento".
+    // key = distribution_key do form (api_key "Formulários do Site"); o form
+    // sobrescreve a distribuição para "VSL → Kauan" via distribution_config_id.
     CRM_ENDPOINT: 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
-      '?key=9c4e7d21-5a86-4b03-8f19-2e7a4c6d0b58&forceFunctionRegion=us-east-1',
-    FORM_ID: '5c1b8e37-9d42-4a06-b7f5-1e83c9a2604d',
-    FORM_NAME: '[VSL] Aplicação',
+      '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1',
+    FORM_ID: 'a3f1c2d4-7e5b-4c9a-9d21-5b8e0f6a7c13',
+    FORM_NAME: '[VSL] Agendamento',
     AGENDA_URL: 'https://crm.xpndigital.com/agendar/',   // + booking_token
+    // RPC pública (anon) que diz se o token já foi usado = reunião reservada.
+    // A chave anon é a mesma que a própria página /agendar/ do CRM usa.
+    STATUS_RPC: 'https://gaeimhrftedqdkjkpyyr.supabase.co/rest/v1/rpc/agenda_token_status',
+    ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhZWltaHJmdGVkcWRramtweXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDI2NDcsImV4cCI6MjA4OTk3ODY0N30.ISF6Z-zuc55C8vdLXmMmK5UOnYCjmT2o_zNRh-0CkkM',
+    POLL_MS: 4000,
     OBRIGADO_URL: 'obrigado/',
     FUNIL: 'vsl_aplicacao',
     CHAVE: 'xpn_vsl_aplicacao'
   };
 
-  // Opções de faturamento que liberam a agenda (>= R$20.000/mês). Mesma régua
-  // do CRM (settings.booking.faturamento_minimo). Os textos são os map_to do CRM.
-  var FATURAMENTO = ['R$ 0 á R$5.000 por mês','R$ 5.000 á 10.000 por mês','R$ 10.000 a 20.000 por mês',
-                     'R$ 20.000 a 50.000 por mês','R$ 50.000 a 100.000 por mês','Mais de R$ 100.000 por mês'];
+  // Faixas de faturamento no formato do funil VSL (as mesmas do [VSL] Cadastro):
+  // é o texto que o CRM usa para MQL, lead score, aviso no Discord e dashboards.
+  // A agenda libera a partir de "Entre R$20.000 a R$40.000" (>= R$20.000/mês),
+  // mesma régua de settings.booking.faturamento_minimo no CRM.
+  var FATURAMENTO = ['Entre R$0 a R$5.000','Entre R$5.000 a R$10.000','Entre R$10.000 a R$20.000',
+                     'Entre R$20.000 a R$40.000','Entre R$50.000 a R$100.000','Mais de R$100.000'];
   var QUALIFICA_A_PARTIR = 3;   // índice em FATURAMENTO
 
   var PERGUNTAS = [
     { k: 'decisor', t: 'Você é o dono ou um dos donos do negócio?',
       s: 'A consultoria é só para quem decide — não para gestores, vendedores ou colaboradores.',
       o: ['Sim','Não'] },
-    { k: 'ocupacao', t: 'Qual é o seu modelo de negócio hoje?',
-      o: ['Agência de Marketing','Agencia de IA','Consultorias/Mentorias','Dono de SaaS','Infoprodutor','Outros'] },
+    { k: 'ocupacao', t: 'Qual é a sua área de atuação?',
+      o: ['Consultorias/mentorias','Dono de agência','Dono de Saas','Dono de agência IA','Escritório de advocacia','Escritório de contabilidade','Área da saúde/estética','Infoprodutor','Outro'] },
     { k: 'capital_disponivel', t: 'Qual é a média de faturamento mensal da empresa?',
       s: 'Responda com sinceridade: é o que define se a reunião faz sentido para você agora.',
       o: FATURAMENTO },
@@ -691,7 +706,9 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
   function irParaObrigado(qual, eid) {
     var qs = new URLSearchParams();
     qs.set('q', qual ? '1' : '0');
-    if (resp.capital_disponivel) qs.set('fat', resp.capital_disponivel);
+    var fat = resp.capital_disponivel;
+    if (!fat) { try { fat = (JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || '{}') || {}).fat; } catch (e) {} }
+    if (fat) qs.set('fat', fat);
     if (eid) qs.set('lead_id', eid);
     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function (k) { var v = par.get(k); if (v) qs.set(k, v); });
     window.location.href = CONFIG.OBRIGADO_URL + '?' + qs.toString();
@@ -706,6 +723,7 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
     agenda.classList.add('on');
     if (token) {
       fAgen.src = CONFIG.AGENDA_URL + encodeURIComponent(token);
+      vigiarReserva(token);
     } else {
       // Qualificou na página mas o CRM não devolveu token (form/key errados ou
       // régua diferente no CRM): não deixa o lead sem próximo passo.
@@ -717,6 +735,37 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
   }
 
   // Depois da reserva na agenda do CRM → página de obrigado.
+  // A /agendar/ do CRM não redireciona nem avisa o pai, então a página pergunta
+  // ao CRM (RPC pública agenda_token_status) se o token já foi usado.
+  var pollTimer = null;
+  function vigiarReserva(token) {
+    if (pollTimer || !token) return;
+    var tentativas = 0;
+    function checar() {
+      if (document.hidden) { pollTimer = setTimeout(checar, CONFIG.POLL_MS); return; }
+      tentativas++;
+      if (tentativas > 900) return;   // ~1h; o token expira antes disso
+      fetch(CONFIG.STATUS_RPC, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: CONFIG.ANON_KEY, Authorization: 'Bearer ' + CONFIG.ANON_KEY },
+        body: JSON.stringify({ p_token: token })
+      })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (st) {
+          if (st && st.usado) {
+            var s = null; try { s = JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || 'null'); } catch (err) {}
+            try { sessionStorage.setItem(CONFIG.CHAVE, JSON.stringify(Object.assign({}, s || {}, { agendou: true }))); } catch (err) {}
+            push({ event: 'reuniao_agendada_vsl', event_id: s && s.eid });
+            setTimeout(function () { irParaObrigado(true, s && s.eid); }, 1500);   // deixa o "confirmado" aparecer
+            return;
+          }
+          pollTimer = setTimeout(checar, CONFIG.POLL_MS);
+        })
+        .catch(function () { pollTimer = setTimeout(checar, CONFIG.POLL_MS * 2); });
+    }
+    pollTimer = setTimeout(checar, CONFIG.POLL_MS);
+  }
+
   window.addEventListener('message', function (e) {
     if (!e.data || e.origin !== 'https://crm.xpndigital.com') return;
     var d = e.data;
@@ -735,7 +784,8 @@ h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;let
   // Recarregou depois de aplicar: volta direto para a agenda (token é de uso único).
   var salvo = null;
   try { salvo = JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || 'null'); } catch (e) {}
-  if (salvo && salvo.qual && salvo.token) { enviada = true; concluir(salvo.token, true, salvo.eid); }
+  if (salvo && salvo.agendou) { irParaObrigado(true, salvo.eid); }
+  else if (salvo && salvo.qual && salvo.token) { enviada = true; concluir(salvo.token, true, salvo.eid); }
   else render();
 })();
 </script>
