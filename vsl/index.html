@@ -134,12 +134,13 @@ a{color:inherit}
 /* Grifo amarelo (mesma marcação da referência) */
 .hl{background-image:linear-gradient(var(--grifo),var(--grifo));background-repeat:no-repeat;background-size:100% .92em;background-position:0 .24em;padding:0 8px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 
-.page{min-height:100vh;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
+.page{min-height:100vh;padding:28px 20px 80px;display:flex;flex-direction:column;align-items:center}
 
 /* ---------------- HERO ---------------- */
-.hero{width:100%;max-width:860px;display:flex;flex-direction:column;align-items:center;gap:24px}
-.eyebrow{margin:0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#55585f;text-align:center}
-h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.3;font-weight:800;letter-spacing:-.02em;text-align:center;text-wrap:balance}
+.hero{width:100%;max-width:920px;display:flex;flex-direction:column;align-items:center;gap:22px}
+.eyebrow{margin:0;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#3d4046;text-align:center}
+.hero > .eyebrow{display:inline-block;background:var(--grifo);padding:7px 14px;border-radius:3px}
+h1{margin:0;font-size:clamp(24px,3.6vw,38px);line-height:1.25;font-weight:800;letter-spacing:-.02em;text-align:center;text-wrap:balance}
 .hero-sub{margin:0;font-size:clamp(17px,2.2vw,22px);line-height:1.5;color:var(--ink-2);text-align:center;max-width:720px;text-wrap:pretty}
 .hero-sub strong{color:var(--ink);font-weight:700}
 .hero-prova{margin:-8px 0 0;font-size:15px;color:#9a9ca3;text-align:center;font-weight:500}
@@ -332,7 +333,23 @@ body.com-barra{padding-bottom:88px}
   .nums{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:640px){
-  .page{padding:36px 16px 64px}
+  .page{padding:14px 12px 64px}
+  .hero{gap:12px}
+  .hero > .eyebrow{font-size:10.5px;letter-spacing:.1em;padding:6px 10px;line-height:1.35}
+  h1{font-size:clamp(21px,6.3vw,25px);line-height:1.22;letter-spacing:-.025em;text-wrap:pretty}
+  h1 .hl{padding:0 4px}
+  /* Ordem no celular: tarja → headline → VÍDEO → "ligue o som" → sub → prova → aplicação */
+  .hero > .eyebrow{order:0}
+  .hero > h1{order:1}
+  .hero > .vsl{order:2;margin:2px -12px 0;width:calc(100% + 24px);border-radius:0}
+  .hero > .vsl-note{order:3;font-size:13px;color:var(--ink-3)}
+  .hero > .hero-sub{order:4;font-size:15px;line-height:1.45;margin-top:6px}
+  .hero > .hero-prova{order:5;font-size:12.5px;margin:-4px 0 0}
+  .hero > .form-head{order:6;margin-top:14px}
+  .hero > .form-shell{order:7}
+  .form-head h2{font-size:23px}
+  .form-head p{font-size:15px}
+  .form-shell{padding:6px}
   .grid3,.wall{grid-template-columns:1fr}
   .app{padding:10px 18px 26px}
   .q-tit{font-size:20px}
