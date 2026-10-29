@@ -27,6 +27,11 @@
   opções abaixo são as MESMAS do form no CRM (map_to iguais) — mudar aqui =
   mudar lá. Toda resposta chega ao card do lead (extra_data).
 
+  FATURAMENTO (29/10): a pergunta "faturamento mensal" voltou, com as MESMAS
+  opções do [VSL] Cadastro (map_to capital_disponivel). Sem ela o lead nunca
+  virava MQL no CRM e a cadência automática do SDR (abertura + follow-ups)
+  não disparava para quem só preenchia o formulário. Ela NÃO barra a agenda.
+
   QUEM VÊ A AGENDA: a decisão é desta página (função qualifica()). O form no CRM
   está com faturamento_minimo = 0, ou seja, o CRM devolve booking_token para
   toda aplicação. A página abre a agenda para todo mundo, menos para quem
@@ -613,6 +618,11 @@ body.com-barra{padding-bottom:88px}
   var PERGUNTAS = [
     { k: 'ocupacao', t: 'Qual é o seu negócio hoje?',
       o: ['Mentoria ou consultoria','Agência','Infoproduto ou curso','Serviço B2B','Outro'] },
+    // Faturamento = a régua do CRM (tag MQL, cadência de abertura do SDR de IA e
+    // notificação). As opções são EXATAMENTE as do [VSL] Cadastro — o CRM lê o
+    // texto cru (map_to capital_disponivel). Mudar o texto aqui = mudar lá.
+    { k: 'capital_disponivel', t: 'Qual é o faturamento mensal do seu negócio hoje?',
+      o: ['Entre R$0 a R$5.000','Entre R$5.000 a R$10.000','Entre R$10.000 a R$20.000','Entre R$20.000 a R$40.000','Entre R$50.000 a R$100.000','Mais de R$100.000'] },
     { k: 'reunioes_mes', t: 'Quantas reuniões comerciais você agenda por mês hoje?',
       o: ['Menos de 10','De 10 a 30','De 30 a 60','Mais de 60'] },
     { k: 'canais_aquisicao', t: 'Como você gera essas reuniões hoje?', s: 'Pode marcar mais de uma.', multi: true,
@@ -889,7 +899,7 @@ body.com-barra{padding-bottom:88px}
         var inv = resp.investimento_mensal || '';
         var eid = 'vsl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
         try { sessionStorage.setItem(CONFIG.CHAVE, JSON.stringify({ token: token, qual: qual, inv: inv, eid: eid })); } catch (e) {}
-        push({ event: 'aplicacao_vsl_enviada', investimento: inv, momento: resp.momento || '', qualificado: qual, agenda_liberada: !!token, event_id: eid });
+        push({ event: 'aplicacao_vsl_enviada', investimento: inv, faturamento: resp.capital_disponivel || '', momento: resp.momento || '', qualificado: qual, agenda_liberada: !!token, event_id: eid });
         try {
           fbq('track', 'Lead', { content_name: 'Aplicacao VSL', content_category: 'vsl' }, { eventID: eid });
           if (qual) {
