@@ -1,0 +1,38 @@
+BEGIN;
+UPDATE public.config SET value='true' WHERE key='multi_tenant_enabled';
+INSERT INTO auth.users(id,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+VALUES ('ce8f8da2-0e18-4200-bb52-977aac215332','mcp-rollback-test@example.invalid',now(),'{}','{}');
+SELECT set_config('request.jwt.claims','{"sub":"ce8f8da2-0e18-4200-bb52-977aac215332","role":"authenticated"}',true);
+SET LOCAL ROLE authenticated;
+SELECT public.tenant_onboard('MCP operações teste rollback');
+RESET ROLE;
+INSERT INTO auth.sessions(id,user_id) VALUES('a202a202-1111-4111-8111-222222222222','ce8f8da2-0e18-4200-bb52-977aac215332');
+INSERT INTO crm_mcp.clients(client_id,resource,can_write,is_active) VALUES('test-crm-operations','https://test.example/mcp',true,true);
+SELECT set_config('request.jwt.claims',jsonb_build_object('sub','ce8f8da2-0e18-4200-bb52-977aac215332','role','authenticated','client_id','test-crm-operations','aud','https://test.example/mcp','session_id','a202a202-1111-4111-8111-222222222222','app_metadata',(SELECT raw_app_meta_data FROM auth.users WHERE id='ce8f8da2-0e18-4200-bb52-977aac215332'))::text,true);
+RESET ROLE;
+DO $$ DECLARE tid uuid:=public.get_tenant_id();a uuid;l uuid;d uuid;sid uuid;mid uuid;pid uuid;st uuid;r jsonb;cfg jsonb;t public.agents_registry%ROWTYPE;task uuid;meeting uuid;noteid uuid;BEGIN
+ SELECT * INTO t FROM public.agents_registry WHERE is_template AND tenant_id IS NULL LIMIT 1;
+ cfg:=jsonb_build_object('name','Agente novo sem template','system_prompt','Agente SDR de validação das ferramentas operacionais.','provider',t.provider,'model',t.model,'tools',jsonb_build_array('mark_deal_lost','cancel_meeting','criar_tarefa','concluir_tarefa','notify_human','schedule_meeting','confirm_meeting','reschedule_meeting','listar_notas','ler_nota'));
+ r:=public.mcp_agent_setup('create',gen_random_uuid(),NULL,cfg);a:=(r->>'agent_id')::uuid;
+ IF (SELECT count(*) FROM public.agents_tools WHERE agent_id=a AND is_active AND NOT requires_approval)<>10 THEN RAISE EXCEPTION 'Habilidades não nasceram habilitadas';END IF;
+ SELECT id INTO mid FROM public.team_members WHERE auth_user_id=auth.uid() AND tenant_id=tid;
+ r:=public.mcp_agent_admin('knowledge_save',a,gen_random_uuid(),'{"title":"Oferta","content":"Programa de implementação com diagnóstico inicial"}');noteid:=(r->>'note_id')::uuid;
+ IF noteid IS NULL THEN RAISE EXCEPTION 'Conhecimento não criado';END IF;
+ r:=public.mcp_agent_admin('settings_save',a,gen_random_uuid(),jsonb_build_object('responsible_user_id',mid,'max_tool_iterations',12));
+ SELECT id INTO pid FROM public.sales_pipelines WHERE tenant_id=tid LIMIT 1;
+ SELECT id INTO st FROM public.sales_pipeline_stages WHERE pipeline_id=pid AND NOT is_lost AND NOT is_won ORDER BY position LIMIT 1;
+ INSERT INTO public.leads(tenant_id,name) VALUES(tid,'Contato QA novo') RETURNING id INTO l;
+ INSERT INTO public.deals(tenant_id,lead_id,title,pipeline_id,pipeline_stage_id,status) VALUES(tid,l,'Teste novo',pid,st,'open') RETURNING id INTO d;
+ INSERT INTO public.agents_sessions(tenant_id,agent_id,user_id,channel,playground_context) VALUES(tid,a,mid,'playground',jsonb_build_object('lead_id',l,'deal_id',d)) RETURNING id INTO sid;
+ r:=public.playground_crm_action(a,sid,l,d,'notes_read','{"p_title":"Oferta"}');IF jsonb_array_length(r->'notes')<>1 THEN RAISE EXCEPTION 'Agente não leu conhecimento';END IF;
+ r:=public.playground_crm_action(a,sid,l,d,'task_create','{"p_name":"Revisar proposta"}');task:=(r->>'task_id')::uuid;
+ r:=public.playground_crm_action(a,sid,l,d,'task_complete',jsonb_build_object('p_task_id',task));IF NOT EXISTS(SELECT 1 FROM public.company_activities WHERE id=task AND completed) THEN RAISE EXCEPTION 'Tarefa não concluída';END IF;
+ BEGIN PERFORM public.playground_crm_action(a,sid,l,d,'meeting_cancel',jsonb_build_object('p_activity_id',task,'p_reason','Teste'));RAISE EXCEPTION 'Tipo incompatível aceito';EXCEPTION WHEN SQLSTATE '22023' THEN NULL;END;
+ r:=public.playground_crm_action(a,sid,l,d,'team','{}');IF jsonb_array_length(r->'members')<1 THEN RAISE EXCEPTION 'Equipe vazia';END IF;
+ r:=public.playground_crm_action(a,sid,l,d,'followup',jsonb_build_object('p_message_brief','Retomar proposta','p_scheduled_for',now()+interval '1 day'));IF r->>'delivery'<>'internal_task' THEN RAISE EXCEPTION 'Followup incorreto';END IF;
+ r:=public.playground_mark_deal_lost(d,a,'Desistência explícita',sid);IF r->>'ok'<>'true' THEN RAISE EXCEPTION 'Perda falhou';END IF;
+ BEGIN PERFORM public.playground_crm_action(a,sid,gen_random_uuid(),d,'task_create','{"p_name":"Intruso"}');RAISE EXCEPTION 'Contato externo aceito';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ UPDATE crm_mcp.clients SET can_write=false WHERE client_id='test-crm-operations';
+ BEGIN PERFORM public.mcp_agent_admin('skill_set',a,gen_random_uuid(),'{"skill":"mark_deal_lost","enabled":false}');RAISE EXCEPTION 'Leitor escreveu';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+END $$;
+ROLLBACK;

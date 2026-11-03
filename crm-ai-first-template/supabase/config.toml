@@ -1,0 +1,343 @@
+# Supabase project config
+# Este arquivo define config por função. O default do Supabase é verify_jwt = true.
+# Só listamos aqui as funções que PRECISAM ficar com verify_jwt = false.
+#
+# CLASSIFICAÇÃO:
+# 1. WEBHOOKS — quem chama é sistema externo (não manda JWT do Supabase)
+# 2. ENDPOINTS PÚBLICOS — chamados por páginas sem login (quiz, NPS, PWA evento)
+# 3. CRONS / SCHEDULERS — chamados pelo pg_cron/scheduler sem user context
+#
+# REGRA DE OURO:
+# - Default (não listado aqui) = verify_jwt = true (seguro por padrão)
+# - Se função precisa ser pública → listar abaixo na categoria correta
+# - Se desativa JWT, precisa implementar auth custom (API key, HMAC, validação interna)
+
+project_id = "seu-projeto-aqui"
+
+# ============================================================
+# WEBHOOKS EXTERNOS — JWT não se aplica (fontes externas)
+# ============================================================
+
+[functions.wavoip-webhook]
+verify_jwt = false
+
+[functions.whatsapp-webhook]
+verify_jwt = false
+
+[functions.whatsapp-cloud-webhook]
+verify_jwt = false
+
+[functions.google-calendar-webhook]
+verify_jwt = false
+
+[functions.book-meeting]
+verify_jwt = false
+
+# Página pública de NPS (/nps/:token)
+[functions.roleplay-session]
+verify_jwt = true
+
+[functions.roleplay-evaluate]
+verify_jwt = true
+
+# Health check (endpoint de status)
+[functions.health-check]
+verify_jwt = true
+
+# ============================================================
+# CRONS / SCHEDULERS — chamados pelo pg_cron sem user context
+# ============================================================
+
+# Agentes IA automáticos
+[functions.ai-sales-agent]
+verify_jwt = true
+
+[functions.process-task-reminders]
+verify_jwt = true
+
+[functions.process-noshow-followup]
+verify_jwt = true
+
+[functions.process-notification-event]
+verify_jwt = true
+
+[functions.process-notification-rules]
+verify_jwt = true
+
+[functions.process-automation-rules]
+verify_jwt = true
+
+# Verificadores automáticos
+[functions.check-hot-leads]
+verify_jwt = true
+
+[functions.check-sales-alerts]
+verify_jwt = true
+
+[functions.check-pending-meetings]
+verify_jwt = true
+
+# Resumos e briefings diários
+[functions.daily-sales-digest]
+verify_jwt = true
+
+[functions.renew-calendar-watches]
+verify_jwt = true
+
+[functions.migrate-profile-photos]
+verify_jwt = true
+
+# Syncs periódicos
+[functions.sync-missed-messages]
+verify_jwt = true
+
+[functions.sync-whatsapp-groups]
+verify_jwt = true
+
+[functions.sync-whatsapp-status]
+verify_jwt = true
+
+[functions.sync-member-data]
+verify_jwt = true
+
+[functions.batch-fetch-avatars]
+verify_jwt = true
+
+# Asaas sync (cron pull)
+[functions.agent-runner]
+verify_jwt = true
+
+[functions.agent-followup]
+verify_jwt = true
+
+[functions.agent-jobs-poller]
+verify_jwt = true
+
+[functions.generate-embedding]
+verify_jwt = true
+
+[functions.agents-codex-import]
+verify_jwt = true
+
+[functions.telegram-webhook]
+verify_jwt = false
+
+[functions.receive-lead]
+verify_jwt = false
+
+[functions.meta-lead-webhook]
+verify_jwt = false
+
+[functions.connect-meta]
+verify_jwt = true
+
+[functions.validate-meta-token]
+verify_jwt = true
+
+[functions.fetch-meta-creative]
+verify_jwt = true
+
+[functions.brevo-webhook]
+verify_jwt = false
+
+[functions.google-ads-webhook]
+verify_jwt = false
+
+# ============================================================
+# verify_jwt por function (estado espelhado da produção)
+# — permite `supabase functions deploy` (todas de uma vez)
+# ============================================================
+
+[functions.analyze-conversation]
+verify_jwt = true
+
+[functions.analyze-sales-call]
+verify_jwt = false
+
+[functions.calculate-commission]
+verify_jwt = true
+
+[functions.calculate-lead-score]
+verify_jwt = true
+
+[functions.campaign-processor]
+verify_jwt = true
+
+[functions.chat-manager]
+verify_jwt = true
+
+[functions.coach-suggestion]
+verify_jwt = true
+
+[functions.create-calendar-event]
+verify_jwt = true
+
+[functions.create-whatsapp-template]
+verify_jwt = true
+
+[functions.email-automation-tick]
+verify_jwt = true
+
+[functions.email-automation-trigger]
+verify_jwt = true
+
+[functions.extract-lead-from-image]
+verify_jwt = true
+
+[functions.extract-meeting-datetime]
+verify_jwt = true
+
+[functions.generate-briefing]
+verify_jwt = true
+
+[functions.generate-sales-message]
+verify_jwt = true
+
+[functions.generate-social-selling-message]
+verify_jwt = true
+
+[functions.get-social-selling-enrollments]
+verify_jwt = true
+
+[functions.log-social-selling-action]
+verify_jwt = true
+
+[functions.manage-team-member]
+verify_jwt = true
+
+[functions.mirror-ig-media]
+verify_jwt = true
+
+[functions.process-call-recording]
+verify_jwt = true
+
+[functions.process-call-transcription]
+verify_jwt = true
+
+[functions.process-email-event]
+verify_jwt = false
+
+[functions.process-message-sequences]
+verify_jwt = true
+
+[functions.process-scheduled-messages]
+verify_jwt = true
+
+[functions.process-team-meeting]
+verify_jwt = true
+
+[functions.prospeccao-analisar]
+verify_jwt = true
+
+[functions.prospeccao-buscar]
+verify_jwt = true
+
+[functions.prospeccao-detectar-intent]
+verify_jwt = true
+
+[functions.prospeccao-diagnostico-publico]
+verify_jwt = false
+
+[functions.prospeccao-direct-lead]
+verify_jwt = true
+
+[functions.prospeccao-enviar-email]
+verify_jwt = true
+
+[functions.prospeccao-gerar-mensagem]
+verify_jwt = true
+
+[functions.prospeccao-virar-lead]
+verify_jwt = true
+
+[functions.save-lead-insights]
+verify_jwt = true
+
+[functions.send-email-campaign]
+verify_jwt = true
+
+[functions.send-meeting-email]
+verify_jwt = true
+
+[functions.send-whatsapp-cloud]
+verify_jwt = true
+
+[functions.setup-calendar-watch]
+verify_jwt = true
+
+[functions.social-selling-config-api]
+verify_jwt = true
+
+[functions.social-selling-mark-reply]
+verify_jwt = true
+
+[functions.social-selling-plan-day]
+verify_jwt = true
+
+[functions.social-selling-qualify-followers]
+verify_jwt = true
+
+[functions.soniox-token]
+verify_jwt = false
+
+[functions.suggest-proposal]
+verify_jwt = true
+
+[functions.sync-google-calendar]
+verify_jwt = true
+
+[functions.sync-whatsapp-templates]
+verify_jwt = true
+
+[functions.template-extractor]
+verify_jwt = true
+
+[functions.tenant-signup]
+verify_jwt = true
+
+[functions.uazapi-proxy]
+verify_jwt = true
+
+[functions.unsubscribe]
+verify_jwt = false
+
+[functions.whatsapp-embedded-signup]
+verify_jwt = true
+
+[functions.whatsapp-group]
+verify_jwt = true
+
+[functions.whatsapp-task-assistant]
+verify_jwt = true
+
+[functions.public-form]
+verify_jwt = false
+
+[functions.mcp-provision-member]
+verify_jwt = false
+
+[functions.mcp-playground-test]
+verify_jwt = false
+
+# OAuth MCP validated by mcp_context inside the handler (including revocation/tenant).
+[functions.mcp-whatsapp]
+verify_jwt = false
+
+[functions.receive-channel]
+verify_jwt = false
+
+[functions.zernio-api]
+verify_jwt = false
+[functions.zernio-webhook]
+verify_jwt = false
+
+[functions.social-api]
+verify_jwt = false
+[functions.social-webhook]
+verify_jwt = false
+
+[functions.enrich-instagram-leads]
+verify_jwt = false
+
+[functions.web-track]
+verify_jwt = false

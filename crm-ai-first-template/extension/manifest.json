@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "IAP Social Selling",
+  "version": "0.1.0",
+  "description": "Cadência outbound automatizada no Instagram — IAP CRM",
+  "icons": {
+    "16": "public/icons/icon-16.png",
+    "48": "public/icons/icon-48.png",
+    "128": "public/icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "IAP Social Selling — abrir painel",
+    "default_icon": {
+      "16": "public/icons/icon-16.png",
+      "48": "public/icons/icon-48.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "src/popup/index.html"
+  },
+  "options_page": "src/options/index.html",
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*", "https://instagram.com/*"],
+      "js": ["src/content/bridge.ts"],
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": ["https://www.instagram.com/*", "https://instagram.com/*"],
+      "js": ["src/content/instagram.ts"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ],
+  "permissions": [
+    "alarms",
+    "notifications",
+    "storage",
+    "tabs",
+    "scripting",
+    "sidePanel",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://instagram.com/*",
+    "https://*.supabase.co/*"
+  ]
+}

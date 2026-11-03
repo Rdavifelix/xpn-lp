@@ -1,0 +1,35 @@
+import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
+import {QueryClient,QueryClientProvider} from '@tanstack/react-query';
+import {MemoryRouter,Routes,Route} from 'react-router-dom';
+import {afterEach,expect,it,vi} from 'vitest';
+import AgentPlaygroundPage from './AgentPlaygroundPage';
+const mocks=vi.hoisted(()=>({rpc:vi.fn(),agent:vi.fn()}));
+vi.mock('@/components/layout/AppLayout',()=>({AppLayout:({children}:{children:React.ReactNode})=><div>{children}</div>}));
+vi.mock('@/contexts/AuthContext',()=>({useAuth:()=>({teamMember:{id:'member'}})}));
+vi.mock('../hooks/useAgentConfig',()=>({useAgentConfig:()=>({loading:false,config:{display_name:'SDR'}})}));
+vi.mock('../hooks/useAgent',()=>({useAgent:(...args:unknown[])=>{mocks.agent(...args);return {streaming:false,toolHistory:[]};}}));
+vi.mock('../components/AgentChat',()=>({AgentChat:({toolbar,sendDisabledReason}:{toolbar:React.ReactNode;sendDisabledReason?:string})=><div>{toolbar}<div>Chat disponível</div><button disabled={!!sendDisabledReason}>Enviar</button></div>}));
+vi.mock('@/lib/supabase',()=>({supabase:{rpc:mocks.rpc,from:(table:string)=>{
+ const data=table==='leads'?[{id:'lead-a',name:'Contato A'},{id:'lead-b',name:'Contato B'}]:[{id:'deal-a',title:'Proposta A'}];
+ const q={select:()=>q,eq:()=>q,order:()=>q,ilike:()=>q,limit:()=>Promise.resolve({data,error:null})};return q;
+}}}));
+afterEach(()=>{cleanup();vi.clearAllMocks();});
+it('mantém o chat aberto e seleciona contexto dentro dele sem tela de início',async()=>{
+ mocks.rpc.mockImplementation((_name,args)=>Promise.resolve({data:{lead:{name:args.p_lead_id},deal:args.p_deal_id?{title:'Proposta A'}:null},error:null}));
+ const q=new QueryClient({defaultOptions:{queries:{retry:false}}});
+ render(<QueryClientProvider client={q}><MemoryRouter initialEntries={['/agentes/sdr/playground']}><Routes><Route path="/agentes/:slug/playground" element={<AgentPlaygroundPage/>}/></Routes></MemoryRouter></QueryClientProvider>);
+ expect(screen.getByText('Chat disponível')).toBeInTheDocument();
+ expect(screen.getByRole('button',{name:'Enviar'})).toBeEnabled();
+ expect(screen.queryByText('Iniciar teste com execução real')).not.toBeInTheDocument();
+ fireEvent.click(screen.getByRole('button',{name:'Selecionar contato'}));
+ await screen.findByRole('option',{name:'Contato A'});
+ fireEvent.change(screen.getByLabelText('Contato'),{target:{value:'lead-a'}});
+ await screen.findByRole('option',{name:'Proposta A'});
+ await waitFor(()=>expect(screen.getByLabelText('Oportunidade')).toHaveValue('deal-a'));
+ await waitFor(()=>expect(screen.getByRole('button',{name:'Enviar'})).toBeEnabled());
+ expect(mocks.agent).toHaveBeenCalledWith('sdr','playground',{lead_id:'lead-a',deal_id:'deal-a'});
+ fireEvent.change(screen.getByLabelText('Contato'),{target:{value:'lead-b'}});
+ expect(screen.getByLabelText('Oportunidade')).toHaveValue('');
+ expect(mocks.agent).toHaveBeenLastCalledWith('sdr','playground',{lead_id:'lead-b',deal_id:null});
+ expect(screen.getByText('Chat disponível')).toBeInTheDocument();
+});

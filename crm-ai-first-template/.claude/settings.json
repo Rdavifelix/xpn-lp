@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_navigate_back",
+      "mcp__playwright__browser_evaluate",
+      "mcp__supabase-aifirst__execute_sql",
+      "mcp__supabase-aifirst__get_logs",
+      "mcp__supabase-aifirst__list_tables",
+      "mcp__curl__curl"
+    ]
+  }
+}

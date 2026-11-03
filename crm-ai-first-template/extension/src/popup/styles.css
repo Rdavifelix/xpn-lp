@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #0c0c0e;
+  color: #f8f6f1;
+}
+
+/* Scrollbar custom */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(248, 246, 241, 0.04); }
+::-webkit-scrollbar-thumb { background: rgba(248, 246, 241, 0.18); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(248, 246, 241, 0.3); }

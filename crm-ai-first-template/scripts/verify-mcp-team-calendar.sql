@@ -1,0 +1,42 @@
+BEGIN;
+UPDATE public.config SET value='true' WHERE key='multi_tenant_enabled';
+INSERT INTO auth.users(id,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+VALUES ('ce8f8da2-0e18-4200-bb52-977aac215332','mcp-rollback-test@example.invalid',now(),'{}','{}');
+SELECT set_config('request.jwt.claims','{"sub":"ce8f8da2-0e18-4200-bb52-977aac215332","role":"authenticated"}',true);
+SET LOCAL ROLE authenticated;
+SELECT public.tenant_onboard('MCP operações teste rollback');
+RESET ROLE;
+INSERT INTO auth.sessions(id,user_id) VALUES('a202a202-1111-4111-8111-222222222222','ce8f8da2-0e18-4200-bb52-977aac215332');
+INSERT INTO crm_mcp.clients(client_id,resource,can_write,is_active) VALUES('test-crm-operations','https://test.example/mcp',true,true);
+SELECT set_config('request.jwt.claims',jsonb_build_object('sub','ce8f8da2-0e18-4200-bb52-977aac215332','role','authenticated','client_id','test-crm-operations','aud','https://test.example/mcp','session_id','a202a202-1111-4111-8111-222222222222','app_metadata',(SELECT raw_app_meta_data FROM auth.users WHERE id='ce8f8da2-0e18-4200-bb52-977aac215332'))::text,true);
+RESET ROLE;
+DO $$ DECLARE tid uuid:=public.get_tenant_id(); mid uuid; r jsonb; saved jsonb; req uuid:=gen_random_uuid();start_at timestamptz:=((now() AT TIME ZONE 'America/Sao_Paulo')::date+1+time '10:00') AT TIME ZONE 'America/Sao_Paulo'; b uuid;activity uuid;BEGIN
+ INSERT INTO team_members(tenant_id,name,email,role,sub_role) VALUES(tid,'Closer teste','closer-test@example.invalid','comercial','closer') RETURNING id INTO mid;
+ r:=public.mcp_team('hours',mid,req,'{"working_hours":{"0":{"start":"09:00","end":"18:00"},"1":{"start":"09:00","end":"18:00"},"2":{"start":"09:00","end":"18:00"},"3":{"start":"09:00","end":"18:00"},"4":{"start":"09:00","end":"18:00"},"5":{"start":"09:00","end":"18:00"},"6":{"start":"09:00","end":"18:00"}},"meeting_duration_minutes":30}');
+ saved:=r;
+ BEGIN PERFORM public.mcp_team('hours',mid,req,'{"working_hours":{}}');RAISE EXCEPTION 'Replay diferente aceito';EXCEPTION WHEN SQLSTATE '22023' THEN NULL;END;
+ IF NOT crm_mcp.calendar_free(tid,mid,start_at,start_at+interval '30 minutes') THEN RAISE EXCEPTION 'Expediente falhou';END IF;
+ IF crm_mcp.calendar_free(tid,mid,start_at-interval '3 hours',start_at-interval '2 hours') THEN RAISE EXCEPTION 'Fora expediente aceito';END IF;
+ r:=public.mcp_team('block_create',mid,gen_random_uuid(),'{"title":"Almoço","block_type":"recurring","recurrence_days":[0,1,2,3,4,5,6],"recurrence_start_time":"12:00","recurrence_end_time":"13:00"}');b:=(r->>'id')::uuid;
+ IF crm_mcp.calendar_free(tid,mid,start_at+interval '2 hours',start_at+interval '2 hours 30 minutes') THEN RAISE EXCEPTION 'Almoço livre';END IF;
+ r:=public.mcp_team('block_create',mid,gen_random_uuid(),jsonb_build_object('title','Férias','block_type','one_time','start_datetime',start_at,'end_datetime',start_at+interval '1 hour'));b:=(r->>'id')::uuid;
+ BEGIN INSERT INTO company_activities(tenant_id,responsavel_id,name,task_type,scheduled_at,end_datetime) VALUES(tid,mid,'Reunião bloqueada','meeting',start_at,start_at+interval '30 minutes');RAISE EXCEPTION 'Bloqueio burlado';EXCEPTION WHEN SQLSTATE '22023' THEN NULL;END;
+ PERFORM public.mcp_team('block_remove',mid,gen_random_uuid(),jsonb_build_object('block_id',b));
+ INSERT INTO company_activities(tenant_id,responsavel_id,name,task_type,scheduled_at,end_datetime) VALUES(tid,mid,'Reunião permitida','meeting',start_at,start_at+interval '30 minutes') RETURNING id INTO activity;
+ IF crm_mcp.calendar_free(tid,mid,start_at,start_at+interval '30 minutes') THEN RAISE EXCEPTION 'Reunião ignorada';END IF;
+ UPDATE company_activities SET status='cancelled' WHERE id=activity;
+ IF NOT crm_mcp.calendar_free(tid,mid,start_at,start_at+interval '30 minutes') THEN RAISE EXCEPTION 'Cancelada ocupou';END IF;
+ r:=public.playground_check_availability(ARRAY[mid]);IF jsonb_array_length(r->'slots')=0 THEN RAISE EXCEPTION 'Não retornou slots';END IF;
+ BEGIN PERFORM public.playground_check_availability(ARRAY[gen_random_uuid()]);RAISE EXCEPTION 'Membro externo aceito';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.mcp_team('get',gen_random_uuid());RAISE EXCEPTION 'Tenant ignorado';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.mcp_team('update',(public.mcp_context()->>'member_id')::uuid,gen_random_uuid(),'{"is_active":false}');RAISE EXCEPTION 'Auto desativação permitida';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.mcp_team('hours',mid,gen_random_uuid(),'{"working_hours":{"1":{"start":"18:00","end":"09:00"}}}');RAISE EXCEPTION 'Horas invertidas';EXCEPTION WHEN SQLSTATE '22023' THEN NULL;END;
+ UPDATE crm_mcp.clients SET can_write=false WHERE client_id='test-crm-operations';
+ BEGIN PERFORM public.mcp_team('update',mid,gen_random_uuid(),'{"name":"Inválido"}');RAISE EXCEPTION 'Leitor escreveu';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+END $$;
+SET LOCAL ROLE anon;
+DO $$ BEGIN
+ BEGIN PERFORM public.mcp_team('get',gen_random_uuid());RAISE EXCEPTION 'Anon acessou';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ BEGIN PERFORM public.team_provision_finish(gen_random_uuid(),gen_random_uuid());RAISE EXCEPTION 'Anon provisionou';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+END $$;
+ROLLBACK;

@@ -1,0 +1,36 @@
+BEGIN;
+UPDATE public.config SET value='true' WHERE key='multi_tenant_enabled';
+INSERT INTO auth.users(id,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+VALUES ('ce8f8da2-0e18-4200-bb52-977aac215332','mcp-rollback-test@example.invalid',now(),'{}','{}');
+SELECT set_config('request.jwt.claims','{"sub":"ce8f8da2-0e18-4200-bb52-977aac215332","role":"authenticated"}',true);
+SET LOCAL ROLE authenticated;
+SELECT public.tenant_onboard('MCP operações teste rollback');
+RESET ROLE;
+INSERT INTO auth.sessions(id,user_id) VALUES('a202a202-1111-4111-8111-222222222222','ce8f8da2-0e18-4200-bb52-977aac215332');
+INSERT INTO crm_mcp.clients(client_id,resource,can_write,is_active) VALUES('test-crm-operations','https://test.example/mcp',true,true);
+SELECT set_config('request.jwt.claims',jsonb_build_object('sub','ce8f8da2-0e18-4200-bb52-977aac215332','role','authenticated','client_id','test-crm-operations','aud','https://test.example/mcp','session_id','a202a202-1111-4111-8111-222222222222','app_metadata',(SELECT raw_app_meta_data FROM auth.users WHERE id='ce8f8da2-0e18-4200-bb52-977aac215332'))::text,true);
+RESET ROLE;
+DO $$ DECLARE tid uuid:=public.get_tenant_id();a uuid;m1 uuid;m2 uuid;l1 uuid;l2 uuid;l3 uuid;r jsonb;first_id uuid;t timestamptz:=((now() AT TIME ZONE 'America/Sao_Paulo')::date+1+time '10:00') AT TIME ZONE 'America/Sao_Paulo';hours jsonb:='{"0":{"start":"09:00","end":"18:00"},"1":{"start":"09:00","end":"18:00"},"2":{"start":"09:00","end":"18:00"},"3":{"start":"09:00","end":"18:00"},"4":{"start":"09:00","end":"18:00"},"5":{"start":"09:00","end":"18:00"},"6":{"start":"09:00","end":"18:00"}}';BEGIN
+ INSERT INTO team_members(tenant_id,name,email,role,sub_role,working_hours) VALUES(tid,'Closer A','rr-a@example.invalid','comercial','closer',hours) RETURNING id INTO m1;
+ INSERT INTO team_members(tenant_id,name,email,role,sub_role,working_hours) VALUES(tid,'Closer B','rr-b@example.invalid','comercial','closer',hours) RETURNING id INTO m2;
+ INSERT INTO agents_registry(tenant_id,slug,display_name,provider,model,system_prompt,is_active) VALUES(tid,'rr-test-'||gen_random_uuid(),'Teste RR','openai','gpt-test','Prompt de teste controlado',false) RETURNING id INTO a;
+ INSERT INTO leads(tenant_id,name) VALUES(tid,'Lead 1') RETURNING id INTO l1;
+ INSERT INTO leads(tenant_id,name) VALUES(tid,'Lead 2') RETURNING id INTO l2;
+ INSERT INTO leads(tenant_id,name) VALUES(tid,'Lead 3') RETURNING id INTO l3;
+ r:=public.mcp_agent_operation('rotation',a,jsonb_build_object('member_ids',ARRAY[m1,m2]));
+ r:=public.agent_schedule_meeting(l1,a,m2,t,45);first_id:=(r->>'activity_id')::uuid;
+ IF (r->>'closer_id')::uuid<>m1 THEN RAISE EXCEPTION 'Primeiro não foi A';END IF;
+ r:=public.agent_schedule_meeting(l1,a,m2,t,45);
+ IF (r->>'activity_id')::uuid<>first_id OR (SELECT last_member FROM crm_mcp.agent_rotations WHERE agent_id=a)<>m1 THEN RAISE EXCEPTION 'Replay avançou';END IF;
+ r:=public.agent_schedule_meeting(l2,a,m1,t,45);
+ IF (r->>'closer_id')::uuid<>m2 THEN RAISE EXCEPTION 'Segundo não foi B';END IF;
+ r:=public.agent_schedule_meeting(l3,a,m1,t,45);
+ IF r->>'ok'<>'false' OR (SELECT last_member FROM crm_mcp.agent_rotations WHERE agent_id=a)<>m2 THEN RAISE EXCEPTION 'Ocupados não recusados';END IF;
+ r:=public.playground_schedule_meeting(l3,a,m2,t+interval '1 hour',45);
+ IF (r->>'closer_id')::uuid<>m1 THEN RAISE EXCEPTION 'Playground não respeitou A/B/A';END IF;
+ BEGIN PERFORM public.mcp_agent_operation('rotation',a,jsonb_build_object('member_ids',ARRAY[gen_random_uuid()]));RAISE EXCEPTION 'Closer externo aceito';EXCEPTION WHEN SQLSTATE '22023' THEN NULL;END;
+ BEGIN PERFORM public.mcp_agent_operation('credential',a,jsonb_build_object('credential_id',gen_random_uuid()));RAISE EXCEPTION 'Credencial externa aceita';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+ r:=public.mcp_agent_operation('status',a);
+ IF r->>'validation_status'<>'not_tested' THEN RAISE EXCEPTION 'Teste fictício';END IF;
+END $$;
+ROLLBACK;

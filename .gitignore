@@ -6,3 +6,9 @@ package-lock.json
 temporary screenshots/
 screenshot.mjs
 screenshot-section.mjs
+
+# O CRM (crm-ai-first-template) precisa dos manifests npm versionados
+!crm-ai-first-template/package.json
+!crm-ai-first-template/package-lock.json
+!crm-ai-first-template/**/package.json
+!crm-ai-first-template/**/package-lock.json

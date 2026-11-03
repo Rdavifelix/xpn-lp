@@ -1,0 +1,30 @@
+BEGIN;
+DO $$
+DECLARE tid uuid:='460a7547-78fb-4c5a-adac-e1837abeb607';mid uuid:='0ffc1a8e-acf9-41b5-b2f4-9dda34adc2ab';pipe uuid:='bc16a1c7-378e-4df3-a84f-70f521472a19';stage uuid;ig uuid;eid uuid;cv public.zernio_conversations;body jsonb;n int;
+BEGIN
+ UPDATE public.tenants SET is_active=true WHERE id=tid;UPDATE public.team_members SET is_active=true WHERE id=mid;
+ SELECT id INTO stage FROM public.sales_pipeline_stages WHERE pipeline_id=pipe AND NOT is_won AND NOT is_lost ORDER BY position LIMIT 1;
+ INSERT INTO public.zernio_connections(tenant_id,api_key,key_hash) VALUES(tid,'synthetic-only-never-call','synthetic-qa-hash');
+ INSERT INTO public.instagram_business_accounts(tenant_id,name,instagram_username,access_token) VALUES(tid,'QA Zernio','qa_zernio','managed-by-zernio') RETURNING id INTO ig;
+ INSERT INTO public.zernio_accounts(id,tenant_id,profile_id,platform,name,instagram_account_id,member_id,pipeline_id,stage_id) VALUES('qa-zernio-account',tid,'qa-profile','instagram','QA Zernio',ig,mid,pipe,stage);
+ body:=jsonb_build_object('account',jsonb_build_object('accountId','qa-zernio-account'),'conversation',jsonb_build_object('id','opaque:thread/1'),'message',jsonb_build_object('id','mid-1','platformMessageId','platform-mid-1','conversationId','opaque:thread/1','text','Oi, quero conhecer','direction','incoming','sentAt',now(),'sender',jsonb_build_object('id','person1','name','Pessoa QA','username','pessoa_qa')));
+ INSERT INTO public.zernio_events(tenant_id,remote_id,event,payload) VALUES(tid,'qa-event1','message.received',body) RETURNING id INTO eid;
+ PERFORM public.zernio_ingest(eid);
+ SELECT * INTO cv FROM public.zernio_conversations WHERE account_id='qa-zernio-account';
+ IF cv.lead_id IS NULL OR cv.deal_id IS NULL OR cv.instagram_conversation_id IS NULL THEN RAISE EXCEPTION 'Missing CRM links';END IF;
+ IF NOT EXISTS(SELECT 1 FROM public.deals WHERE id=cv.deal_id AND tenant_id=tid AND pipeline_stage_id=stage AND sales_rep_id=mid) THEN RAISE EXCEPTION 'Wrong destination';END IF;
+ PERFORM public.zernio_ingest(eid);
+ SELECT count(*) INTO n FROM public.instagram_messages WHERE conversation_id=cv.instagram_conversation_id;IF n<>1 THEN RAISE EXCEPTION 'Replay duplicated message';END IF;
+ INSERT INTO public.zernio_events(tenant_id,remote_id,event,payload) VALUES(tid,'qa-event2','message.received',jsonb_set(body,'{message,text}','"Segunda mensagem"')) RETURNING id INTO eid;
+ PERFORM public.zernio_ingest(eid);
+ SELECT count(*) INTO n FROM public.zernio_conversations WHERE account_id='qa-zernio-account';IF n<>1 THEN RAISE EXCEPTION 'Duplicated conversation';END IF;
+ INSERT INTO public.zernio_events(tenant_id,remote_id,event,payload) VALUES(tid,'qa-foreign','message.received',jsonb_set(body,'{account,accountId}','"foreign-account"')) RETURNING id INTO eid;PERFORM public.zernio_ingest(eid);
+ IF (SELECT status FROM public.zernio_events WHERE id=eid)<>'ignored' THEN RAISE EXCEPTION 'Foreign account accepted';END IF;
+ IF has_table_privilege('authenticated','public.zernio_connections','SELECT') OR has_table_privilege('anon','public.zernio_connections','SELECT') OR has_function_privilege('authenticated','public.zernio_ingest(uuid)','EXECUTE') THEN RAISE EXCEPTION 'Secret/service permissions exposed';END IF;
+ PERFORM set_config('request.jwt.claims',jsonb_build_object('sub','e0f6b184-6262-4a76-baa2-9e4be3368a3c','role','authenticated','app_metadata',jsonb_build_object('tenant_id',tid))::text,true);
+ IF (public.zernio_context()->>'tenant_id')::uuid<>tid THEN RAISE EXCEPTION 'Context mismatch';END IF;
+END $$;
+SET LOCAL ROLE authenticated;
+SELECT CASE WHEN count(*)=1 THEN 'tenant rows isolated' ELSE 'ERROR' END FROM public.zernio_accounts WHERE id='qa-zernio-account';
+RESET ROLE;
+ROLLBACK;

@@ -1,0 +1,36 @@
+BEGIN;
+UPDATE public.config SET value='true' WHERE key='multi_tenant_enabled';
+INSERT INTO auth.users(id,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data)
+VALUES ('ce8f8da2-0e18-4200-bb52-977aac215332','mcp-rollback-test@example.invalid',now(),'{}','{}');
+SELECT set_config('request.jwt.claims','{"sub":"ce8f8da2-0e18-4200-bb52-977aac215332","role":"authenticated"}',true);
+SET LOCAL ROLE authenticated;
+SELECT public.tenant_onboard('MCP operações teste rollback');
+RESET ROLE;
+INSERT INTO auth.sessions(id,user_id) VALUES('a202a202-1111-4111-8111-222222222222','ce8f8da2-0e18-4200-bb52-977aac215332');
+INSERT INTO crm_mcp.clients(client_id,resource,can_write,is_active) VALUES('test-crm-operations','https://test.example/mcp',true,true);
+SELECT set_config('request.jwt.claims',jsonb_build_object('sub','ce8f8da2-0e18-4200-bb52-977aac215332','role','authenticated','client_id','test-crm-operations','aud','https://test.example/mcp','session_id','a202a202-1111-4111-8111-222222222222','app_metadata',(SELECT raw_app_meta_data FROM auth.users WHERE id='ce8f8da2-0e18-4200-bb52-977aac215332'))::text,true);
+RESET ROLE;
+DO $$ DECLARE tid uuid:=public.get_tenant_id();pid uuid;st uuid;lid uuid;did uuid;rid uuid;r jsonb;n integer;BEGIN
+ SELECT id INTO pid FROM public.sales_pipelines WHERE tenant_id=tid LIMIT 1;
+ SELECT id INTO st FROM public.sales_pipeline_stages WHERE pipeline_id=pid ORDER BY position LIMIT 1;
+ INSERT INTO public.sales_automation_rules(tenant_id,name,trigger_type,trigger_conditions,action_type,action_config,is_active,priority) VALUES(tid,'QA Criar tarefa no novo deal','deal_created','{}','create_task','{"task_template":{"name":"Atender lead novo","task_type":"internal"}}',false,1) RETURNING id INTO rid;
+ r:=public.mcp_automation('activate',rid,gen_random_uuid(),true);
+ INSERT INTO public.leads(tenant_id,name) VALUES(tid,'QA Automação') RETURNING id INTO lid;
+ INSERT INTO public.deals(tenant_id,title,lead_id,pipeline_id,pipeline_stage_id,status) VALUES(tid,'Deal novo',lid,pid,st,'open') RETURNING id INTO did;
+ SELECT count(*) INTO n FROM public.company_activities WHERE tenant_id=tid AND lead_id=lid AND metadata->>'automation_id'=rid::text;
+ IF n<>1 THEN RAISE EXCEPTION 'Evento não criou a tarefa: %',n;END IF;
+ r:=public.mcp_automation('runs',rid);IF jsonb_array_length(r)<>1 OR r->0->>'status'<>'success' THEN RAISE EXCEPTION 'Execução não auditada: %',r;END IF;
+ UPDATE public.deals SET title='Renomeado' WHERE id=did;
+ IF (SELECT count(*) FROM public.company_activities WHERE tenant_id=tid AND lead_id=lid)<>1 THEN RAISE EXCEPTION 'Atualização sem evento duplicou tarefa';END IF;
+ PERFORM public.mcp_automation('activate',rid,gen_random_uuid(),false);
+ INSERT INTO public.deals(tenant_id,title,lead_id,pipeline_id,pipeline_stage_id,status) VALUES(tid,'Outro deal',lid,pid,st,'open');
+ IF (SELECT count(*) FROM public.company_activities WHERE tenant_id=tid AND lead_id=lid)<>1 THEN RAISE EXCEPTION 'Regra pausada executou';END IF;
+ SELECT id INTO st FROM public.sales_pipeline_stages WHERE pipeline_id=pid AND NOT is_won AND NOT is_lost ORDER BY position OFFSET 1 LIMIT 1;
+ INSERT INTO public.sales_automation_rules(tenant_id,name,trigger_type,trigger_conditions,action_type,action_config,is_active,priority) VALUES(tid,'QA Avançar etapa','deal_created','{}','move_deal_stage',jsonb_build_object('target_stage_id',st),false,1) RETURNING id INTO rid;
+ PERFORM public.mcp_automation('activate',rid,gen_random_uuid(),true);
+ INSERT INTO public.deals(tenant_id,title,lead_id,pipeline_id,pipeline_stage_id,status) VALUES(tid,'Avanço automático',lid,pid,(SELECT id FROM public.sales_pipeline_stages WHERE pipeline_id=pid ORDER BY position LIMIT 1),'open') RETURNING id INTO did;
+ IF NOT EXISTS(SELECT 1 FROM public.deals WHERE id=did AND pipeline_stage_id=st AND status='open') THEN RAISE EXCEPTION 'Automação não moveu etapa';END IF;
+ UPDATE crm_mcp.clients SET can_write=false WHERE client_id='test-crm-operations';
+ BEGIN PERFORM public.mcp_automation('activate',rid,gen_random_uuid(),true);RAISE EXCEPTION 'Leitor ativou';EXCEPTION WHEN insufficient_privilege THEN NULL;END;
+END $$;
+ROLLBACK;

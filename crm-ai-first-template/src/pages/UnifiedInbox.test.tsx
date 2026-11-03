@@ -1,0 +1,27 @@
+import {render,screen,fireEvent} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
+import {expect,it,vi} from 'vitest';
+import UnifiedInbox from './UnifiedInbox';
+vi.mock('@/components/layout/AppLayout',()=>({AppLayout:({children}:any)=><div>{children}</div>}));
+vi.mock('@/components/inbox/WhatsAppChat',()=>({WhatsAppChat:()=> <div>Chat WhatsApp existente</div>}));
+vi.mock('@/components/inbox/ClientInfoPanel',()=>({ClientInfoPanel:()=> <div>Dados do lead WhatsApp</div>}));
+vi.mock('@/components/sales/instagram/InstagramChat',()=>({InstagramChat:()=> <div>Chat Instagram existente</div>}));
+vi.mock('@/components/sales/instagram/InstagramClientInfoPanel',()=>({InstagramClientInfoPanel:()=> <div>Dados do lead Instagram</div>}));
+vi.mock('@/hooks/useCSInbox',()=>({useInboxConversations:()=>({data:[{conversation_id:'wa1',conversation_name:'Ana WhatsApp',last_message:'Quero saber mais',last_message_at:'2026-09-11T01:00:00Z',unread_count:1,lead_id:'lead1',conversation_type:'individual'}]})}));
+vi.mock('@/hooks/useInstagram',()=>({useInstagramConversations:()=>({data:[{id:'ig1',participant_name:'Bruno Instagram',last_message:'Olá',last_message_at:'2026-09-11T01:01:00Z',unread_count:2}]})}));
+vi.mock('@/contexts/AuthContext',()=>({useAuth:()=>({tenantId:'tenant'})}));
+const client=vi.hoisted(()=>({invalidateQueries:vi.fn()}));
+vi.mock('@tanstack/react-query',()=>({useQueryClient:()=>client}));
+vi.mock('@/lib/supabase',()=>({supabase:{removeChannel:vi.fn(),channel:()=>{const c={on:()=>c,subscribe:()=>c};return c;}}}));
+it('unifies channels and opens the existing chat and lead panel for each',()=>{
+ const view=render(<MemoryRouter><UnifiedInbox/></MemoryRouter>);
+ fireEvent.click(screen.getByText('Bruno Instagram'));
+ expect(screen.getByText('Chat Instagram existente')).toBeTruthy();
+ expect(screen.getAllByText('Dados do lead Instagram').length).toBeGreaterThan(0);
+ fireEvent.click(screen.getByRole('button',{name:'WhatsApp',exact:true}));
+ expect(screen.queryByText('Bruno Instagram')).toBeNull();
+ fireEvent.click(screen.getByText('Ana WhatsApp'));
+ expect(screen.getByText('Chat WhatsApp existente')).toBeTruthy();
+ expect(screen.getAllByText('Dados do lead WhatsApp').length).toBeGreaterThan(0);
+ view.unmount();
+});

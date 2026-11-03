@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vite-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--host"],
+      "port": 8080
+    },
+    {
+      "name": "supabase-functions-serve",
+      "runtimeExecutable": "supabase",
+      "runtimeArgs": ["functions", "serve", "--no-verify-jwt"],
+      "port": 54321
+    }
+  ]
+}
