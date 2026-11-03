@@ -96,18 +96,24 @@ export default function Login() {
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    supabase
-      .from('config')
-      .select('value')
-      .eq('key', 'multi_tenant_enabled')
-      .maybeSingle()
-      .then(({ data }) => {
+    let active = true;
+    (async () => {
+      try {
+        const { data } = await supabase
+          .from('config')
+          .select('value')
+          .eq('key', 'multi_tenant_enabled')
+          .maybeSingle();
+        if (!active) return;
         const enabled = data?.value === 'true';
         setMultiTenant(enabled);
         setMultiTenantChecked(true);
         if (enabled && new URLSearchParams(window.location.search).get('cadastro') === '1') setIsSignUp(true);
-      })
-      .catch(() => { /* sem rede: segue como single-tenant; o cadastro reconsulta a flag ao enviar */ });
+      } catch {
+        /* sem rede: segue como single-tenant; o cadastro reconsulta a flag ao enviar */
+      }
+    })();
+    return () => { active = false; };
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {

@@ -77,6 +77,7 @@ Validação: aplicada duas vezes (idempotente) no PostgreSQL local; `scripts/ver
 8. **12 Edge Functions referenciadas pelo frontend não existem no pacote** (`sync-ads-data`, `event-app-auth`, `generate-lead-intelligence`, …): funcionalidades quebradas, tenancy não verificável.
 9. **Migration `20260914152849`** quebra em banco limpo; corrigir a origem de `from_email` antes de instalar do zero.
 10. **`send-whatsapp-cloud`**: quando nenhuma instância é resolvida ainda cai nas chaves legadas `WHATSAPP_CLOUD_TOKEN`/`WHATSAPP_PHONE_NUMBER_ID` via `getIntegrationKey` (override do tenant → `config` global). Remover o fallback global assim que todas as empresas tiverem instância Cloud cadastrada.
-11. Homologação em projeto Supabase real com dois tenants e OAuth/MCP ainda precisa ser feita pelo proprietário (não há Supabase nesta sessão).
+11. **`npm run typecheck` do template é um no-op** (`tsconfig.json` com `files: []` e apenas `references`); o typecheck real (`npx tsc -p tsconfig.app.json --noEmit`, precisa de `NODE_OPTIONS=--max-old-space-size=8192`) acusa 2 323 erros pré-existentes no pacote 2026.09.14 (`database.types.ts` desatualizado). Os arquivos criados nesta entrega têm 0 erros e os alterados não ganharam erros novos; o número total ficou idêntico ao do pacote original. Recomendado regenerar `database.types.ts` e tornar o typecheck real parte do `npm run check`.
+12. Homologação em projeto Supabase real com dois tenants e OAuth/MCP ainda precisa ser feita pelo proprietário (não há Supabase nesta sessão).
 
 Relatórios detalhados dos auditores (com `arquivo:linha`) ficam fora do pacote distribuído; os achados relevantes estão resumidos acima e refletidos no código.
