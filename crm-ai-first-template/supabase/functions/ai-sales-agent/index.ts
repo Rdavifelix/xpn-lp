@@ -2983,6 +2983,7 @@ async function executeTool(
             body: JSON.stringify({
               event_type: 'meeting_scheduled',
               context: {
+                lead_id: lead.id,
                 cliente: lead.name || '-',
                 cliente_empresa: lead.company_name || '-',
                 cliente_email: lead.email || '-',
@@ -3130,6 +3131,7 @@ async function executeTool(
             body: JSON.stringify({
               event_type: 'meeting_confirmed',
               context: {
+                lead_id: lead.id,
                 cliente: lead.name || '-',
                 cliente_empresa: lead.company_name || '-',
                 meeting_data: meetDateStr,
@@ -3251,6 +3253,7 @@ async function executeTool(
             body: JSON.stringify({
               event_type: 'webinar_registered',
               context: {
+                lead_id: lead.id,
                 cliente: lead.name || '-',
                 cliente_telefone: lead.phone || '-',
                 cliente_empresa: lead.company_name || '-',
@@ -3476,6 +3479,7 @@ async function executeTool(
             body: JSON.stringify({
               event_type: 'lead_hot',
               context: {
+                lead_id: lead.id,
                 cliente: lead.name || '-',
                 cliente_telefone: lead.phone || '-',
                 cliente_empresa: lead.company_name || '-',

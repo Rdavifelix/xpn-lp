@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { authErrorResponse, requireServiceRole } from "../_shared/auth.ts";
 import { getTenantFromRequest } from "../_shared/tenant.ts";
 
 const corsHeaders = {
@@ -9,6 +10,14 @@ const corsHeaders = {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
+  }
+
+  // Processador agendado: só pg_cron / function→function com a service_role key.
+  // Nenhum usuário logado pode disparar esta função.
+  try {
+    requireServiceRole(req);
+  } catch (e) {
+    return authErrorResponse(e);
   }
 
   try {

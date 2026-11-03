@@ -6,6 +6,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { authErrorResponse, requireServiceRole } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -148,6 +149,14 @@ async function processOne(msg: ScheduledMessage): Promise<{ ok: boolean; error?:
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  // Processador agendado: só pg_cron / function→function com a service_role key.
+  // Nenhum usuário logado pode disparar esta função.
+  try {
+    requireServiceRole(req);
+  } catch (e) {
+    return authErrorResponse(e);
+  }
 
   try {
     const now = new Date().toISOString();

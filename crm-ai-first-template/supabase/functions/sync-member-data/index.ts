@@ -1,5 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
 import { requireServiceRole, authErrorResponse } from "../_shared/auth.ts";
 
 const corsHeaders = {
@@ -42,7 +42,8 @@ function emptyResults() {
   };
 }
 type SyncResults = ReturnType<typeof emptyResults>;
-type Client = ReturnType<typeof createClient>;
+// Mesmo tipo que `createClient(url, key)` sem generics devolve.
+type Client = SupabaseClient<any, "public", any>;
 
 /**
  * Sincroniza a área de membros (banco PAIN do tenant) → leads/orgs do CS,

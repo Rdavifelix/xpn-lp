@@ -1,5 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { authErrorResponse, requireServiceRole } from "../_shared/auth.ts";
+import { rowTenantOrSkip } from "../_shared/tenant.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +10,7 @@ const corsHeaders = {
 
 interface NotificationRule {
   id: string;
-  tenant_id?: string | null;
+  tenant_id: string;
   name: string;
   trigger_type: string;
   trigger_event?: string;
@@ -119,6 +121,14 @@ Deno.serve(async (req: Request) => {
     return new Response('ok', { headers: corsHeaders });
   }
 
+  // Processador agendado: só pg_cron / function→function com a service_role key.
+  // Nenhum usuário logado pode disparar esta função.
+  try {
+    requireServiceRole(req);
+  } catch (e) {
+    return authErrorResponse(e);
+  }
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -130,10 +140,13 @@ Deno.serve(async (req: Request) => {
     const currentTimeBRT = brNow.toISOString().slice(11, 16); // HH:MM em BRT
     console.log(`🔔 Processando regras de notificação - ${now.toISOString()} (BRT: ${currentTimeBRT})`);
 
+    // Regra sem tenant_id não se aplica a ninguém — cada regra só processa
+    // tarefas/instâncias do PRÓPRIO tenant.
     const { data: rules, error: rulesError } = await supabase
       .from('notification_rules')
       .select('*')
-      .eq('enabled', true);
+      .eq('enabled', true)
+      .not('tenant_id', 'is', null);
 
     if (rulesError) throw rulesError;
     if (!rules || rules.length === 0) {
@@ -151,6 +164,7 @@ Deno.serve(async (req: Request) => {
       try {
         // Skip on_event rules - handled by triggers
         if (rule.trigger_type === 'on_event') continue;
+        if (!rowTenantOrSkip(rule, `process-notification-rules:rule:${rule.id}`)) continue;
 
         if (rule.trigger_type === 'before_event' || rule.trigger_type === 'after_event') {
           const sent = await processEventBasedRule(supabase, rule, now);
@@ -240,10 +254,7 @@ async function processEventBasedRule(supabase: any, rule: NotificationRule, now:
     .eq('completed', false);
 
   // Partição por tenant: cada regra só varre as tarefas do próprio tenant
-  // (regra sem tenant_id → varredura global, comportamento single-tenant)
-  if (rule.tenant_id) {
-    query = query.eq('tenant_id', rule.tenant_id);
-  }
+  query = query.eq('tenant_id', rule.tenant_id);
 
   if (taskTypeFilter) {
     query = query.eq('task_type', taskTypeFilter);
@@ -330,9 +341,7 @@ async function processDailyRule(supabase: any, rule: NotificationRule, now: Date
     .gte('scheduled_at', todayStartUTC)
     .lt('scheduled_at', todayEndUTC);
 
-  if (rule.tenant_id) {
-    dailyQuery = dailyQuery.eq('tenant_id', rule.tenant_id);
-  }
+  dailyQuery = dailyQuery.eq('tenant_id', rule.tenant_id);
 
   const { data: tasks, error } = await dailyQuery.order('scheduled_at', { ascending: true });
 
@@ -482,17 +491,16 @@ async function sendNotification(supabase: any, rule: NotificationRule, task: Tas
     formattedNumber = targetNumber;
   }
 
-  // Buscar instância WhatsApp (sem instância explícita → fallback escopado ao
-  // tenant da regra, pra não enviar pela instância de outro tenant)
+  // Buscar instância WhatsApp — SEMPRE do tenant da regra (mesmo com instância
+  // explícita), pra nunca enviar pela instância de outro tenant
   let instanceQuery = supabase
     .from('whatsapp_instances')
     .select('id, name, api_key, api_url')
-    .eq('status', 'connected');
+    .eq('status', 'connected')
+    .eq('tenant_id', rule.tenant_id);
 
   if (rule.action_instance_id) {
     instanceQuery = instanceQuery.eq('id', rule.action_instance_id);
-  } else if (rule.tenant_id) {
-    instanceQuery = instanceQuery.eq('tenant_id', rule.tenant_id);
   }
 
   const { data: instance, error: instanceError } = await instanceQuery.limit(1).single();
@@ -586,7 +594,7 @@ async function logNotification(
   try {
     await supabase.from('notification_logs').insert({
       // tenant explícito da regra de origem (service role não tem JWT)
-      ...(rule.tenant_id ? { tenant_id: rule.tenant_id } : {}),
+      tenant_id: rule.tenant_id,
       rule_id: rule.id,
       rule_name: rule.name,
       event_id: eventId,

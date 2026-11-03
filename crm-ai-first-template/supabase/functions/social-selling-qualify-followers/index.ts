@@ -18,14 +18,14 @@ const SUPA_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 // Dispara mirror em background (fire-and-forget)
 function fireMirrorProfilePic(profile: any) {
-  if (!profile?.profile_picture_url_hd || !profile?.id) return;
+  if (!profile?.profile_picture_url_hd || !profile?.id || !profile?.tenant_id) return;
   const url = profile.profile_picture_url_hd;
   if (url.startsWith(`${SUPA_URL}/storage/v1/object/public/`)) return; // já mirrored
   fetch(`${SUPA_URL}/functions/v1/mirror-ig-media`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${SUPA_KEY}` },
     body: JSON.stringify({
-      url, path: `profiles/${profile.id}.jpg`,
+      url, path: `profiles/${profile.id}.jpg`, tenant_id: profile.tenant_id,
       table: "instagram_profiles", row_id: profile.id, column: "stored_profile_picture_url",
     }),
   }).catch((e) => console.warn("mirror profile pic falhou:", e?.message));
@@ -51,7 +51,7 @@ async function saveProfile(supabase: any, meta: any, tenantId: string | null): P
   };
   const { data: saved, error } = await supabase.from("instagram_profiles")
     .upsert(profile, { onConflict: "tenant_id,username" })
-    .select("id, username, biography, follower_count, following_count, media_count, is_verified, is_private, is_business, full_name, instagram_user_id, profile_picture_url_hd, stored_profile_picture_url")
+    .select("id, tenant_id, username, biography, follower_count, following_count, media_count, is_verified, is_private, is_business, full_name, instagram_user_id, profile_picture_url_hd, stored_profile_picture_url")
     .single();
   if (error) return { ok: false, error: `db: ${error.message}` };
   if (!saved?.stored_profile_picture_url) fireMirrorProfilePic(saved);

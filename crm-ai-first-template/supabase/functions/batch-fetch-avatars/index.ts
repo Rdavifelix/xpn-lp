@@ -1,11 +1,20 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { authErrorResponse, requireServiceRole } from "../_shared/auth.ts";
 import { getTenantFromRequest } from "../_shared/tenant.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 Deno.serve(async (req) => {
+  // Processador agendado: só pg_cron / function→function com a service_role key.
+  // Nenhum usuário logado pode disparar esta função.
+  try {
+    requireServiceRole(req);
+  } catch (e) {
+    return authErrorResponse(e);
+  }
+
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
   const body = await req.json().catch(() => ({}));
   const limit = body.limit || 50;

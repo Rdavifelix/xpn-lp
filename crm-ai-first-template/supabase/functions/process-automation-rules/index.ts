@@ -1,5 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { authenticateRequest, authErrorResponse } from "../_shared/auth.ts";
+import { assertEntityTenant, requireTenantFromRequest, rowTenantOrSkip, tenantErrorResponse } from "../_shared/tenant.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,15 +53,52 @@ Deno.serve(async (req: Request) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Multi-tenant: caller com JWT de usuário → tenant do JWT (toda entidade do
+    // evento precisa pertencer a ele); caller service_role (whatsapp-webhook,
+    // cron) → tenant da entidade do evento (deal → lead → task). Regras são
+    // SEMPRE filtradas pelo tenant do evento — regra sem tenant_id não se aplica
+    // a ninguém.
+    const principal = await authenticateRequest(req);
+    const callerTenantId: string | null = principal.isServiceRole ? null : requireTenantFromRequest(req);
+
     // Modo especial: days_in_stage — buscar deals parados e executar regras
     if (event.trigger_type === "days_in_stage") {
-      return await processDaysInStage(supabase);
+      return await processDaysInStage(supabase, callerTenantId);
     }
 
-    // 1. Buscar regras ativas para este trigger
+    let eventTenantId: string | null = callerTenantId;
+    const entityRefs: Array<[string, string | undefined]> = [
+      ["deals", event.deal_id],
+      ["leads", event.lead_id],
+      ["company_activities", event.task_id],
+    ];
+    for (const [table, id] of entityRefs) {
+      if (!id) continue;
+      if (eventTenantId) {
+        await assertEntityTenant(supabase, table, id, eventTenantId);
+      } else {
+        const { data: row } = await supabase.from(table).select("tenant_id").eq("id", id).maybeSingle();
+        eventTenantId = (row?.tenant_id as string | undefined) || null;
+        if (!eventTenantId) {
+          return new Response(
+            JSON.stringify({ error: `Entidade do evento não encontrada (${table})` }),
+            { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+    }
+    if (!eventTenantId) {
+      return new Response(
+        JSON.stringify({ error: "Tenant do evento não identificado (informe deal_id, lead_id ou task_id)" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // 1. Buscar regras ativas para este trigger — só do tenant do evento
     const { data: rules, error: rulesError } = await supabase
       .from("sales_automation_rules")
       .select("*")
+      .eq("tenant_id", eventTenantId)
       .eq("trigger_type", event.trigger_type)
       .eq("is_active", true)
       .order("priority", { ascending: true });
@@ -79,39 +118,18 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Resolver tenant do evento pela entidade (deal → lead) pra aplicar só
-    // regras do mesmo tenant. Sem tenant identificável → comportamento antigo
-    // (todas as regras — instalação single-tenant continua idêntica).
-    let eventTenantId: string | null = null;
-    try {
-      if (event.deal_id) {
-        const { data: d } = await supabase.from("deals").select("tenant_id").eq("id", event.deal_id).maybeSingle();
-        eventTenantId = d?.tenant_id || null;
-      } else if (event.lead_id) {
-        const { data: l } = await supabase.from("leads").select("tenant_id").eq("id", event.lead_id).maybeSingle();
-        eventTenantId = l?.tenant_id || null;
-      }
-    } catch (err: any) {
-      console.error("Erro resolvendo tenant do evento:", err);
-    }
-
     const results: Array<{ rule_id: string; rule_name: string; action: string; success: boolean; error?: string }> = [];
 
     for (const rule of rules as AutomationRule[]) {
       if(rule.action_config?.executor==='mcp_sql')continue; // Executado transacionalmente no banco, não repetir pela UI.
       try {
-        // Regra de outro tenant → não se aplica a este evento
-        if (eventTenantId && rule.tenant_id && rule.tenant_id !== eventTenantId) {
-          continue;
-        }
-
         // 2. Verificar condições
         if (!matchesConditions(rule, event)) {
           continue;
         }
 
         // 3. Executar ação
-        const result = await executeAction(supabase, rule, event, rule.tenant_id ?? eventTenantId);
+        const result = await executeAction(supabase, rule, event, eventTenantId);
         results.push({ rule_id: rule.id, rule_name: rule.name, action: rule.action_type, success: true, ...result });
       } catch (err: any) {
         console.error(`Error executing rule ${rule.id}:`, err);
@@ -124,6 +142,11 @@ Deno.serve(async (req: Request) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error: any) {
+    const t = tenantErrorResponse(error, corsHeaders);
+    if (t) return t;
+    if (error instanceof Error && (error.message === "unauthorized" || error.message === "auth_not_configured")) {
+      return authErrorResponse(error);
+    }
     console.error("Error:", error);
     return new Response(
       JSON.stringify({ error: "Erro interno", details: String(error) }),
@@ -168,12 +191,12 @@ async function executeAction(
   supabase: any,
   rule: AutomationRule,
   event: EventContext,
-  tenantId?: string | null
+  tenantId: string
 ): Promise<Record<string, any>> {
   const config = rule.action_config || {};
   // tenant explícito nos inserts derivados (service role não tem JWT — o
-  // DEFAULT get_tenant_id() cairia no tenant 0001 pra todo mundo)
-  const tenantFields = tenantId ? { tenant_id: tenantId } : {};
+  // DEFAULT get_tenant_id() cairia no tenant default pra todo mundo)
+  const tenantFields = { tenant_id: tenantId };
 
   switch (rule.action_type) {
     case "move_deal_stage": {
@@ -184,6 +207,7 @@ async function executeAction(
         .from("sales_pipeline_stages")
         .select("id, pipeline_id, name")
         .eq("id", config.target_stage_id)
+        .eq("tenant_id", tenantId)
         .single();
 
       if (!targetStage) return { skipped: "Stage destino não encontrado" };
@@ -196,6 +220,7 @@ async function executeAction(
         const { data: deals } = await supabase
           .from("deals")
           .select("id, pipeline_id, pipeline_stage:sales_pipeline_stages(position)")
+          .eq("tenant_id", tenantId)
           .eq("lead_id", event.lead_id)
           .eq("pipeline_id", targetStage.pipeline_id)
           .not("status", "in", "(won,lost)");
@@ -221,7 +246,8 @@ async function executeAction(
             pipeline_id: targetStage.pipeline_id,
             updated_at: new Date().toISOString(),
           })
-          .eq("id", dealId);
+          .eq("id", dealId)
+          .eq("tenant_id", tenantId);
       }
 
       // Atualizar lead também (pipeline_stage_id + etapa_funil + sales_stage)
@@ -248,7 +274,8 @@ async function executeAction(
             sales_stage: etapaFunil,
             updated_at: new Date().toISOString(),
           })
-          .eq("id", event.lead_id);
+          .eq("id", event.lead_id)
+          .eq("tenant_id", tenantId);
       }
 
       return { moved_deals: dealIds.length, target_stage: targetStage.name };
@@ -335,7 +362,8 @@ async function executeAction(
       await supabase
         .from("leads")
         .update({ [config.field]: config.value, updated_at: new Date().toISOString() })
-        .eq("id", event.lead_id);
+        .eq("id", event.lead_id)
+        .eq("tenant_id", tenantId);
 
       return { updated_field: config.field };
     }
@@ -372,6 +400,7 @@ async function executeAction(
         const { data: existing } = await supabase
           .from("email_automation_runs")
           .select("id")
+          .eq("tenant_id", tenantId)
           .eq("rule_id", rule.id)
           .eq("lead_id", leadId)
           .eq("status", "sent")
@@ -383,6 +412,7 @@ async function executeAction(
         .from("leads")
         .select("id, name, phone, email")
         .eq("id", leadId)
+        .eq("tenant_id", tenantId)
         .single();
       if (!lead?.phone) return { skipped: "lead sem telefone" };
 
@@ -411,7 +441,7 @@ async function executeAction(
           template_params: renderedParams,
           phone: lead.phone,
           lead_id: leadId,
-          tenant_id: tenantId || null,
+          tenant_id: tenantId,
           sent_by: "ai_agent",
           sent_by_name: "Automação pipeline",
         }),
@@ -473,13 +503,17 @@ async function executeAction(
  * Processa regras do tipo "days_in_stage" — busca deals parados há X dias
  * Chamado via cron (1x/dia)
  */
-async function processDaysInStage(supabase: any): Promise<Response> {
-  const { data: rules } = await supabase
+async function processDaysInStage(supabase: any, callerTenantId: string | null): Promise<Response> {
+  // Cron (service_role) varre as regras de todos os tenants; usuário logado só
+  // as do próprio tenant. Regra sem tenant_id não se aplica a ninguém.
+  let rulesQuery = supabase
     .from("sales_automation_rules")
     .select("*")
     .eq("trigger_type", "days_in_stage")
     .eq("is_active", true)
-    .order("priority", { ascending: true });
+    .not("tenant_id", "is", null);
+  if (callerTenantId) rulesQuery = rulesQuery.eq("tenant_id", callerTenantId);
+  const { data: rules } = await rulesQuery.order("priority", { ascending: true });
 
   if (!rules || rules.length === 0) {
     return new Response(
@@ -491,6 +525,8 @@ async function processDaysInStage(supabase: any): Promise<Response> {
   const results: Array<{ rule_id: string; rule_name: string; deals_affected: number }> = [];
 
   for (const rule of rules as AutomationRule[]) {
+    const ruleTenantId = rowTenantOrSkip(rule, `process-automation-rules:days_in_stage:${rule.id}`);
+    if (!ruleTenantId) continue;
     const days = rule.trigger_conditions?.days;
     if (!days) continue;
 
@@ -498,17 +534,13 @@ async function processDaysInStage(supabase: any): Promise<Response> {
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
     // Buscar deals abertos que estão na mesma stage desde antes da cutoff.
-    // Partição por tenant: cada regra só varre os deals do próprio tenant
-    // (regra sem tenant_id → varredura global, comportamento single-tenant).
+    // Partição por tenant: cada regra só varre os deals do próprio tenant.
     let query = supabase
       .from("deals")
       .select("id, lead_id, pipeline_stage_id, updated_at, tenant_id")
+      .eq("tenant_id", ruleTenantId)
       .not("status", "in", "(won,lost)")
       .lt("updated_at", cutoffDate.toISOString());
-
-    if ((rule as AutomationRule).tenant_id) {
-      query = query.eq("tenant_id", (rule as AutomationRule).tenant_id);
-    }
 
     // Filtrar por stages específicas se configurado
     if (rule.trigger_conditions?.stage_ids?.length > 0) {
@@ -539,8 +571,7 @@ async function processDaysInStage(supabase: any): Promise<Response> {
           stage_id: deal.pipeline_stage_id,
         };
 
-        // tenant da regra, com fallback pro tenant do próprio deal (linha)
-        await executeAction(supabase, rule, event, rule.tenant_id ?? (deal as any).tenant_id ?? null);
+        await executeAction(supabase, rule, event, ruleTenantId);
         affected++;
       } catch (err: any) {
         console.error(`Error processing deal ${deal.id} for rule ${rule.id}:`, err);

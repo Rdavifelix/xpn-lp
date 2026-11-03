@@ -76,6 +76,7 @@ Validação: aplicada duas vezes (idempotente) no PostgreSQL local; `scripts/ver
 7. **Página pública `/comercial/prospeccao/diagnostico/:id/print`** por UUID via função `service_role`: trocar por token assinado.
 8. **12 Edge Functions referenciadas pelo frontend não existem no pacote** (`sync-ads-data`, `event-app-auth`, `generate-lead-intelligence`, …): funcionalidades quebradas, tenancy não verificável.
 9. **Migration `20260914152849`** quebra em banco limpo; corrigir a origem de `from_email` antes de instalar do zero.
-10. Homologação em projeto Supabase real com dois tenants e OAuth/MCP ainda precisa ser feita pelo proprietário (não há Supabase nesta sessão).
+10. **`send-whatsapp-cloud`**: quando nenhuma instância é resolvida ainda cai nas chaves legadas `WHATSAPP_CLOUD_TOKEN`/`WHATSAPP_PHONE_NUMBER_ID` via `getIntegrationKey` (override do tenant → `config` global). Remover o fallback global assim que todas as empresas tiverem instância Cloud cadastrada.
+11. Homologação em projeto Supabase real com dois tenants e OAuth/MCP ainda precisa ser feita pelo proprietário (não há Supabase nesta sessão).
 
 Relatórios detalhados dos auditores (com `arquivo:linha`) ficam fora do pacote distribuído; os achados relevantes estão resumidos acima e refletidos no código.
