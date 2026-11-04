@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Montserrat'; src: url('fonts/Montserrat-var.woff2') format('woff2'); font-weight: 100 900; }
+  :root {
+    --blue: #2BA8E0; --blue-dim: #9AD9F3; --blue-deep: #1E8FC4;
+    --red: #E8515A; --green: #22C55E; --yellow: #F5C518;
+    --dark: #1C1C1E; --grey: #A3AAB1; --grey-2: #6B7280; --navy: #0B1726;
+  }
+  html, body { margin: 0; padding: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  * { box-sizing: border-box; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: 'Montserrat', 'Inter', sans-serif; }
+  #bg { position: absolute; inset: 0; background: linear-gradient(165deg, #F4FAFC 0%, #E6F3F8 45%, #D5ECF4 100%); }
+  #bg svg { position: absolute; inset: 0; }
+  #vidwrap { position: absolute; overflow: hidden; background: #000; }
+  #vid { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+  #overlay { position: absolute; inset: 0; }
+  #cap { position: absolute; left: 0; width: 1080px; text-align: center; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 70px; letter-spacing: -0.015em; line-height: 1.1; white-space: nowrap; }
+  #cap span { display: inline-block; margin: 0 9px; }
+  .m { font-family: 'Montserrat', sans-serif; }
+  .card { position: absolute; left: 65px; width: 950px; background: #fff; border-radius: 28px; box-shadow: 0 24px 60px rgba(20, 60, 90, .14); }
+  .pill { display: inline-block; border-radius: 999px; font-family: 'Montserrat'; font-weight: 700; color: #fff; white-space: nowrap; }
+  .row { position: relative; background: #fff; border: 2px solid #E7EBEE; border-radius: 18px; display: flex; align-items: center; }
+  .stars { color: var(--yellow); font-size: 26px; letter-spacing: 2px; line-height: 1; }
+  .stars.off { color: #D5D9DD; }
+  .num { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 700; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg">
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none">
+      <path d="M-50 1400 C 250 1100, 420 700, 300 -50" stroke="rgba(255,255,255,.75)" stroke-width="3"/>
+      <path d="M-50 1700 C 350 1300, 200 900, 500 -50" stroke="rgba(43,168,224,.10)" stroke-width="3"/>
+      <path d="M1130 1500 C 800 1250, 950 800, 700 1950" stroke="rgba(255,255,255,.7)" stroke-width="3"/>
+      <path d="M1130 300 C 700 500, 300 300, -50 900" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+    </svg>
+  </div>
+  <div id="vidwrap"><img id="vid" alt=""></div>
+  <div id="overlay"></div>
+  <div id="cap"></div>
+</div>
+<script>
+// ---------- helpers ----------
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, p) => a + (b - a) * p;
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const back = p => { const c = 1.70158, d = c + 1; return 1 + d * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const prog = (t, start, dur) => clamp((t - start) / dur, 0, 1);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+// entrada padrão: fade + sobe + leve escala
+function enter(t, start, dur = .4, dy = 40) {
+  const p = easeOut(prog(t, start, dur));
+  return `opacity:${p};transform:translateY(${(1 - p) * dy}px) scale(${lerp(.96, 1, p)});`;
+}
+function pop(t, start, dur = .35) {
+  if (t < start) return 'opacity:0;transform:scale(.5);';
+  const p = prog(t, start, dur);
+  return `opacity:${clamp(p * 3, 0, 1)};transform:scale(${back(p)});`;
+}
+
+let PROJECT = null;
+let CAPTIONS = [];
+let KEYWORDS = [];
+const LAYOUTS = {
+  full:   { rect: [0, 0, 1080, 1920], r: 0, border: 0, cap: 1095, light: false },
+  card:   { rect: [150, 1090, 780, 480], r: 26, border: 4, cap: 1010, light: true },
+  circle: { rect: [690, 845, 300, 300], r: 150, border: 5, cap: 1240, light: true },
+  stat:   { rect: [150, 1090, 780, 480], r: 26, border: 4, cap: 1240, light: true, hideVideo: true },
+};
+
+window.setProject = async (p) => {
+  PROJECT = p;
+  CAPTIONS = p.captions || [];
+  KEYWORDS = (p.keywords || []).map(k => norm(k));
+  // força o carregamento das fontes antes do primeiro frame
+  await Promise.all(['500', '600', '700', '800'].map(w => document.fonts.load(`${w} 40px Montserrat`)).concat([document.fonts.load('500 40px Inter')]));
+  await document.fonts.ready;
+};
+function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9$%+]/g, ''); }
+
+function sceneAt(t) {
+  const scenes = PROJECT.scenes;
+  let idx = scenes.findIndex(s => t >= s.s && t < s.e);
+  if (idx < 0) idx = t >= scenes[scenes.length - 1].e ? scenes.length - 1 : 0;
+  return [scenes[idx], idx];
+}
+
+// ---------- vídeo (posição/recorte animado entre layouts) ----------
+function videoRectFor(scene) {
+  const L = LAYOUTS[scene.layout];
+  const v = scene.video || {};
+  let rect = v.rect || L.rect, r = v.r ?? L.r, border = v.border ?? L.border;
+  return { rect, r, border, hidden: v.hidden ?? L.hideVideo ?? false, focus: v.focus || scene.focus || PROJECT.focus || '50% 30%' };
+}
+function placeVideo(t, scene, idx, imgPath) {
+  const cur = videoRectFor(scene);
+  let prev = idx > 0 ? videoRectFor(PROJECT.scenes[idx - 1]) : cur;
+  const TR = .45;
+  const p = easeInOut(prog(t, scene.s, TR));
+  const rect = cur.rect.map((v, i) => lerp(prev.rect[i], v, p));
+  const r = lerp(prev.r, cur.r, p), border = lerp(prev.border, cur.border, p);
+  const op = lerp(prev.hidden ? 0 : 1, cur.hidden ? 0 : 1, p);
+  const w = document.getElementById('vidwrap');
+  w.style.cssText = `left:${rect[0]}px;top:${rect[1]}px;width:${rect[2]}px;height:${rect[3]}px;border-radius:${r}px;border:${border}px solid var(--blue);opacity:${op};box-shadow:${border ? '0 20px 50px rgba(20,60,90,.18)' : 'none'}`;
+  const img = document.getElementById('vid');
+  img.style.objectPosition = scene.layout === 'full' ? '50% 50%' : cur.focus;
+  // fundo claro só quando não é full
+  const L = LAYOUTS[scene.layout];
+  const bgp = easeOut(prog(t, scene.s, TR));
+  const prevL = idx > 0 ? LAYOUTS[PROJECT.scenes[idx - 1].layout] : L;
+  document.getElementById('bg').style.opacity = lerp(prevL.light ? 1 : 0, L.light ? 1 : 0, bgp);
+}
+
+// ---------- legendas ----------
+function renderCaption(t, scene) {
+  const L = LAYOUTS[scene.layout];
+  const cap = document.getElementById('cap');
+  const c = CAPTIONS.find(c => t >= c.s && t < c.e);
+  if (!c) { cap.innerHTML = ''; return; }
+  const light = L.light;
+  const y = scene.capY ?? L.cap;
+  const p = prog(t, c.s, .12);
+  cap.style.cssText = `top:${y - 42}px;opacity:${clamp(p * 2, 0, 1)};transform:scale(${lerp(.92, 1, easeOut(p))});` +
+    (light ? 'text-shadow:none;' : 'text-shadow:0 2px 14px rgba(0,0,0,.5),0 0 2px rgba(0,0,0,.35);');
+  cap.innerHTML = c.words.map(w => {
+    const spoken = t >= w.s - .04;
+    const kw = w.k !== undefined ? w.k : isKeyword(w.w);
+    let color;
+    if (light) color = kw ? (spoken ? 'var(--blue)' : 'var(--blue-dim)') : (spoken ? 'var(--dark)' : 'var(--grey)');
+    else color = kw ? (spoken ? '#5FC8F5' : 'rgba(120,205,245,.7)') : (spoken ? '#fff' : 'rgba(255,255,255,.55)');
+    return `<span style="color:${color}">${esc(w.w)}</span>`;
+  }).join('');
+}
+function isKeyword(w) { const n = norm(w); return n && KEYWORDS.includes(n); }
+
+// ---------- componentes ----------
+const C = {};
+
+// chip no topo (layout full) — "HOME SERVICE NOS EUA"
+C.chip = (sp, lt) => `<div style="position:absolute;left:0;width:1080px;top:${sp.y ?? 80}px;text-align:center;${pop(lt, sp.t ?? 0)}">
+  <span class="pill" style="background:rgba(255,255,255,.94);color:var(--dark);font-size:22px;letter-spacing:.08em;padding:16px 30px;box-shadow:0 8px 24px rgba(0,0,0,.18);text-transform:uppercase">${esc(sp.text)}</span></div>`;
+
+// ranking "Concorrentes menores acima de você?"
+C.ranking = (sp, lt) => {
+  const rows = sp.items.map((it, i) => {
+    const badge = it.badge && lt >= (it.badge.t ?? 0) ? `<span class="pill" style="position:absolute;right:16px;background:${it.badge.color === 'green' ? 'var(--green)' : it.badge.color === 'blue' ? 'var(--blue)' : 'var(--red)'};font-size:26px;padding:12px 26px;text-transform:uppercase;${pop(lt, it.badge.t ?? 0)}">${esc(it.badge.text)}</span>` : '';
+    const arrow = it.arrow ? `<span style="position:absolute;right:30px;font-size:40px;color:${it.arrow === 'down' ? 'var(--red)' : 'var(--green)'};font-weight:800">${it.arrow === 'down' ? '↓' : '↑'}</span>` : '';
+    const stars = it.stars === false ? `<div class="m" style="font-size:24px;color:var(--grey-2);margin-top:4px">${esc(it.sub || 'sem avaliações')}</div>` : `<div class="stars">★★★★★</div>`;
+    return `<div class="row" style="height:${sp.rowH ?? 112}px;padding:0 24px;margin-top:${i ? 18 : 0}px;${enter(lt, (sp.t ?? 0) + .15 + i * .14, .4, 30)}">
+      <div class="num" style="${it.color ? 'background:' + it.color : ''}">${it.n ?? i + 1}</div>
+      <div style="margin-left:22px"><div class="m" style="font-weight:700;font-size:32px;color:var(--dark)">${esc(it.name)}</div>${stars}</div>${arrow}${badge}</div>`;
+  }).join('');
+  return `<div class="card" style="top:${sp.y ?? 250}px;padding:40px 36px 36px;${enter(lt, sp.t ?? 0)}">
+    <div class="m" style="font-weight:700;font-size:${sp.titleSize ?? 38}px;color:var(--dark);margin-bottom:28px;letter-spacing:-.01em;white-space:nowrap">${esc(sp.title)}</div>${rows}</div>`;
+};
+
+// lista genérica com ícone (checks, X, pins…)
+C.list = (sp, lt) => {
+  const rows = sp.items.map((it, i) => `<div class="row" style="height:${sp.rowH ?? 100}px;padding:0 24px;margin-top:${i ? 16 : 0}px;${enter(lt, (sp.t ?? 0) + .15 + i * .14, .4, 30)}">
+      ${icon(it.icon || 'check', 52)}<div style="margin-left:20px"><div class="m" style="font-weight:700;font-size:30px;color:var(--dark)">${esc(it.name)}</div>${it.sub ? `<div class="m" style="font-size:24px;color:var(--grey-2);margin-top:2px">${esc(it.sub)}</div>` : ''}</div>
+      ${it.badge && lt >= (it.badge.t ?? 0) ? `<span class="pill" style="position:absolute;right:16px;background:${colorOf(it.badge.color)};font-size:24px;padding:10px 22px;text-transform:uppercase;${pop(lt, it.badge.t ?? 0)}">${esc(it.badge.text)}</span>` : ''}</div>`).join('');
+  return `<div class="card" style="top:${sp.y ?? 250}px;padding:40px 36px 36px;${enter(lt, sp.t ?? 0)}">
+    ${sp.title ? `<div class="m" style="font-weight:700;font-size:${sp.titleSize ?? 42}px;color:var(--dark);margin-bottom:26px">${esc(sp.title)}</div>` : ''}${rows}</div>`;
+};
+function colorOf(c) { return c === 'green' ? 'var(--green)' : c === 'blue' ? 'var(--blue)' : c === 'dark' ? 'var(--navy)' : c === 'grey' ? 'var(--grey-2)' : 'var(--red)'; }
+function icon(kind, d) {
+  const base = `width:${d}px;height:${d}px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;`;
+  if (kind === 'x') return `<div style="${base}background:var(--red)"><svg width="${d * .45}" height="${d * .45}" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></svg></div>`;
+  if (kind === 'phone') return `<div style="${base}background:var(--green)"><svg width="${d * .5}" height="${d * .5}" viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></div>`;
+  if (kind === 'pin') return `<div style="${base}background:var(--blue)"><svg width="${d * .5}" height="${d * .5}" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div>`;
+  if (kind === 'user') return `<div style="${base}background:var(--blue)"><svg width="${d * .5}" height="${d * .5}" viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7z"/></svg></div>`;
+  if (kind === 'star') return `<div style="${base}background:var(--yellow);color:#fff;font-size:${d * .55}px">★</div>`;
+  if (/^\d+$/.test(kind)) return `<div class="num" style="width:${d}px;height:${d}px">${kind}</div>`;
+  return `<div style="${base}background:var(--green)"><svg width="${d * .5}" height="${d * .5}" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+}
+
+// notificações iOS empilhadas (layout full)
+C.notifications = (sp, lt) => {
+  const y0 = sp.y ?? 1185, h = 120, gap = 20;
+  return sp.items.map((it, i) => {
+    const st = it.t ?? i * .5;
+    if (lt < st) return '';
+    const p = easeOut(prog(lt, st, .4));
+    return `<div style="position:absolute;left:100px;width:880px;height:${h}px;top:${y0 + i * (h + gap)}px;background:rgba(255,255,255,.97);border-radius:28px;box-shadow:0 12px 34px rgba(0,0,0,.2);display:flex;align-items:center;padding:0 26px;opacity:${p};transform:translateY(${(1 - p) * 50}px) scale(${lerp(.94, 1, p)})">
+      ${icon(it.icon || (it.kind === 'lost' ? 'x' : it.kind === 'call' ? 'phone' : it.kind || 'check'), 76)}
+      <div style="margin-left:24px;flex:1"><div class="m" style="font-weight:700;font-size:38px;color:var(--dark);line-height:1.1">${esc(it.title)}</div><div class="m" style="font-weight:500;font-size:30px;color:var(--grey-2);margin-top:4px">${esc(it.sub || '')}</div></div>
+      <div class="m" style="font-weight:500;font-size:26px;color:var(--grey-2);align-self:flex-start;margin-top:22px">${esc(it.time ?? 'agora')}</div></div>`;
+  }).join('');
+};
+
+// mapa com pins, zonas e etiquetas
+C.map = (sp, lt) => {
+  const W = 950, H = sp.h ?? 750;
+  const grid = (() => {
+    let s = '';
+    for (let x = -100; x < W + 300; x += 118) s += `<line x1="${x}" y1="-100" x2="${x + 40}" y2="${H + 100}" stroke="#fff" stroke-width="16"/>`;
+    for (let y = -60; y < H + 200; y += 112) s += `<line x1="-100" y1="${y}" x2="${W + 100}" y2="${y - 30}" stroke="#fff" stroke-width="16"/>`;
+    return s;
+  })();
+  const parts = (sp.items || []).map(it => {
+    const st = it.t ?? 0; if (lt < st) return '';
+    const x = it.x, y = it.y;
+    if (it.type === 'zone') {
+      const col = it.color === 'red' ? 'rgba(232,81,90,.30)' : 'rgba(43,168,224,.32)';
+      const p = easeOut(prog(lt, st, .6));
+      return `<div style="position:absolute;left:${x - (it.r ?? 200)}px;top:${y - (it.ry ?? it.r ?? 200) * .8}px;width:${(it.r ?? 200) * 2}px;height:${(it.ry ?? it.r ?? 200) * 1.6}px;border-radius:50%;background:${col};transform:scale(${p});opacity:${p}"></div>`;
+    }
+    if (it.type === 'pin') {
+      return `<div style="position:absolute;left:${x - 42}px;top:${y - 112}px;${pop(lt, st)}"><svg width="84" height="112" viewBox="0 0 84 112"><path d="M42 0C18.8 0 0 18.8 0 42c0 31 42 70 42 70s42-39 42-70C84 18.8 65.2 0 42 0z" fill="${it.color || '#0B1726'}"/></svg></div>` +
+        (it.label ? `<div style="position:absolute;left:${x + (it.lx ?? -110)}px;top:${y + (it.ly ?? 8)}px;${pop(lt, st + .1)}"><span class="pill" style="background:${it.color || '#0B1726'};font-size:22px;letter-spacing:.06em;padding:12px 24px;text-transform:uppercase">${esc(it.label)}</span></div>` : '');
+    }
+    if (it.type === 'tag') {
+      return `<div style="position:absolute;left:${x}px;top:${y}px;${pop(lt, st)}"><span class="pill" style="background:${colorOf(it.color || 'blue')};font-size:${it.size ?? 26}px;padding:10px 22px;box-shadow:0 8px 20px rgba(0,0,0,.12)">${esc(it.text)}</span></div>`;
+    }
+    if (it.type === 'banner') {
+      return `<div style="position:absolute;left:${x}px;top:${y}px;transform-origin:left center;${pop(lt, st)}"><span class="pill" style="display:inline-block;background:${colorOf(it.color || 'red')};font-size:30px;padding:14px 30px;text-transform:uppercase;transform:rotate(${it.rot ?? -4}deg);box-shadow:0 10px 26px rgba(0,0,0,.18)">${esc(it.text)}</span></div>`;
+    }
+    if (it.type === 'dots') {
+      let s = '';
+      const n = it.n ?? 60, seed = it.seed ?? 7;
+      for (let i = 0; i < n; i++) {
+        const a = Math.sin(i * 12.9898 + seed) * 43758.5453, b = Math.sin(i * 78.233 + seed) * 43758.5453;
+        const fx = a - Math.floor(a), fy = b - Math.floor(b);
+        const p = pop(lt, st + (i / n) * (it.dur ?? 1.2), .3);
+        s += `<div style="position:absolute;left:${fx * W}px;top:${fy * H}px;width:14px;height:14px;border-radius:50%;background:var(--blue);${p}"></div>`;
+      }
+      return s;
+    }
+    if (it.type === 'pulse') {
+      const p = (lt - st) % 1.4 / 1.4;
+      return `<div style="position:absolute;left:${x - 60}px;top:${y - 60}px;width:120px;height:120px;border-radius:50%;border:5px solid var(--blue);opacity:${1 - p};transform:scale(${.4 + p * 1.2})"></div>`;
+    }
+    return '';
+  }).join('');
+  const title = sp.title ? `<div style="position:absolute;left:24px;top:22px;${pop(lt, (sp.t ?? 0) + .2)}"><span class="pill" style="background:var(--navy);font-size:22px;letter-spacing:.08em;padding:12px 24px;text-transform:uppercase">${esc(sp.title)}</span></div>` : '';
+  return `<div class="card" style="top:${sp.y ?? 250}px;height:${H}px;overflow:hidden;background:#EDEFF1;${enter(lt, sp.t ?? 0)}">
+    <svg width="${W}" height="${H}" style="position:absolute;inset:0" viewBox="0 0 ${W} ${H}">
+      <ellipse cx="120" cy="140" rx="110" ry="80" fill="#CFE8C9"/><ellipse cx="760" cy="520" rx="120" ry="70" fill="#CFE8C9"/><ellipse cx="580" cy="260" rx="70" ry="60" fill="#CFE8C9"/>
+      <path d="M-20 620 C 200 560, 420 700, 600 640 S 900 560, 980 620 L 980 ${H + 20} L -20 ${H + 20} Z" fill="#C4E1EE"/>
+      <g opacity=".95">${grid}</g>
+    </svg>${parts}${title}</div>`;
+};
+
+// número grande / estatística
+C.stat = (sp, lt) => {
+  const vals = sp.values || [{ t: 0, text: sp.text }];
+  let cur = vals[0], ci = 0;
+  vals.forEach((v, i) => { if (lt >= (v.t ?? 0)) { cur = v; ci = i; } });
+  const chips = (sp.chips || []).map((c, i) => lt >= (c.t ?? 0) ? `<div style="margin-top:${i ? 14 : 36}px;${pop(lt, c.t ?? 0)}"><span class="pill" style="background:${colorOf(c.color || 'blue')};font-size:24px;letter-spacing:.06em;padding:14px 30px;text-transform:uppercase">${esc(c.text)}</span></div>` : '').join('');
+  const y = sp.y ?? 760;
+  return `<div style="position:absolute;left:0;width:1080px;top:${y}px;text-align:center;${enter(lt, sp.t ?? 0)}">
+    ${sp.label ? `<div class="m" style="font-weight:600;font-size:26px;color:var(--blue);margin-bottom:22px;letter-spacing:.02em">${esc(sp.label)}</div>` : ''}
+    <div class="m" style="font-weight:800;font-size:${sp.size ?? 116}px;color:${sp.color || 'var(--blue)'};letter-spacing:-.02em;line-height:1;${pop(lt, cur.t ?? 0, .3)}">${esc(cur.text)}</div>
+    ${sp.sub ? `<div class="m" style="font-weight:600;font-size:34px;color:var(--dark);margin-top:22px">${esc(sp.sub)}</div>` : ''}${chips}</div>`;
+};
+
+// CTA escuro com botão + passos
+C.cta = (sp, lt) => {
+  const t0 = sp.t ?? 0;
+  const cp = easeInOut(prog(lt, t0 + .5, .7));          // cursor viaja
+  const click = lt >= t0 + 1.25 && lt < t0 + 1.45;       // clique
+  const cx = lerp(760, 650, cp), cy = lerp(680, 505, cp);
+  const steps = (sp.steps || []).map((s, i) => `<div style="display:flex;align-items:center;margin-top:${i ? 22 : 0}px;${enter(lt, (sp.stepsAt ?? t0 + 1.6) + i * .25, .4, 24)}">
+      <div class="num" style="width:46px;height:46px;font-size:22px">${i + 1}</div><div class="m" style="margin-left:22px;font-weight:600;font-size:30px;color:#fff">${esc(s)}</div></div>`).join('');
+  return `<div class="card" style="top:${sp.y ?? 250}px;height:${sp.h ?? 630}px;background:var(--navy);box-shadow:0 24px 60px rgba(11,23,38,.35);padding:60px 46px;${enter(lt, t0)}">
+    <div class="m" style="font-weight:600;font-size:34px;color:var(--blue)">${esc(sp.label || 'É só tocar em')}</div>
+    <div style="text-align:center;margin-top:12px"><span class="pill" style="background:var(--blue);font-size:46px;padding:30px 0;width:560px;text-align:center;box-shadow:0 0 0 ${click ? 14 : 0}px rgba(43,168,224,.35),0 12px 30px rgba(43,168,224,.35);transform:scale(${click ? .95 : 1})">${esc(sp.button || 'Saiba mais')}</span></div>
+    <div style="margin-top:44px">${steps}</div>
+    <svg style="position:absolute;left:${cx - 65}px;top:${cy - 250}px;${pop(lt, t0 + .4)}" width="60" height="70" viewBox="0 0 60 70"><path d="M8 4l40 36H28l12 24-10 4-11-25L8 62z" fill="#fff" stroke="#0B1726" stroke-width="4" stroke-linejoin="round"/></svg></div>`;
+};
+
+// celular com busca no Google
+C.phone = (sp, lt) => {
+  const t0 = sp.t ?? 0;
+  const typing = sp.typing || { t: .6, text: 'contractor near me', cps: 12 };
+  const n = Math.floor(clamp((lt - typing.t) * (typing.cps ?? 12), 0, typing.text.length));
+  const typed = typing.text.slice(0, n);
+  const caret = Math.floor(lt * 2) % 2 === 0 ? '<span style="color:var(--blue)">|</span>' : '';
+  const showRes = sp.results && lt >= sp.results.t;
+  const res = showRes ? `<div style="margin-top:26px">${sp.results.items.map((r, i) => `<div style="display:flex;align-items:center;margin-top:${i ? 16 : 0}px;${enter(lt, sp.results.t + i * .18, .35, 20)}">${icon(r.icon || String(i + 1), 44)}<div style="margin-left:16px"><div class="m" style="font-weight:700;font-size:26px;color:var(--dark)">${esc(r.name)}</div><div class="stars" style="font-size:20px">★★★★★</div></div></div>`).join('')}
+      ${sp.results.badge && lt >= (sp.results.badge.t ?? sp.results.t + 1) ? `<div style="text-align:center;margin-top:34px;${pop(lt, sp.results.badge.t ?? sp.results.t + 1)}"><span class="pill" style="background:${colorOf(sp.results.badge.color || 'red')};font-size:26px;padding:14px 30px;text-transform:uppercase">${esc(sp.results.badge.text)}</span></div>` : ''}</div>` : '';
+  return `<div style="position:absolute;left:262px;top:${sp.y ?? 250}px;width:556px;height:1040px;background:#0F1B2A;border-radius:74px;box-shadow:0 30px 70px rgba(20,60,90,.25);padding:14px;${enter(lt, t0)}">
+    <div style="position:relative;width:100%;height:100%;background:#fff;border-radius:60px;overflow:hidden;padding:${showRes ? 120 : 330}px 34px 0">
+      <div style="position:absolute;left:50%;top:22px;width:150px;height:38px;margin-left:-75px;background:#0F1B2A;border-radius:999px"></div>
+      ${showRes ? '' : `<div class="m" style="font-weight:600;font-size:30px;color:#6B7280;text-align:center">${esc(sp.heading || 'Pesquise no Google')}</div>`}
+      <div style="margin-top:18px;height:74px;border:2px solid #DDE2E6;border-radius:999px;background:#F7F9FA;display:flex;align-items:center;padding:0 24px"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="10" cy="10" r="7" stroke="#6B7280" stroke-width="2.5" fill="none"/><path d="M15 15l6 6" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/></svg><span class="m" style="margin-left:14px;font-weight:600;font-size:28px;color:var(--dark)">${esc(typed)}${caret}</span></div>${res}</div></div>`;
+};
+
+// perfil "Sua empresa" (Google Business Profile) + janela do site
+C.profile = (sp, lt) => {
+  const t0 = sp.t ?? 0;
+  const rated = sp.ratedAt !== undefined && lt >= sp.ratedAt;
+  const site = sp.siteAt !== undefined && lt >= sp.siteAt;
+  const opt = sp.optimizedAt !== undefined && lt >= sp.optimizedAt;
+  return `<div class="card" style="top:${sp.y ?? 300}px;width:${sp.w ?? 700}px;padding:34px 38px;${enter(lt, t0)}">
+      <div class="m" style="font-weight:600;font-size:20px;color:var(--grey-2);letter-spacing:.04em">${esc(sp.label || 'Perfil no Google')}</div>
+      <div class="m" style="font-weight:700;font-size:40px;color:var(--dark);margin-top:6px">${esc(sp.name || 'Sua empresa')}</div>
+      <div style="display:flex;align-items:center;margin-top:8px"><span class="stars ${rated ? '' : 'off'}" style="font-size:30px">★★★★★</span><span class="m" style="margin-left:14px;font-weight:600;font-size:24px;color:${rated ? 'var(--dark)' : 'var(--grey-2)'}">${esc(rated ? (sp.rating || '4,9 (82)') : 'sem avaliações')}</span></div>
+      <div class="m" style="font-size:22px;color:var(--grey-2);margin-top:8px">${esc(sp.category || 'Serviços locais · Aberto agora')}</div>
+      ${opt ? `<div style="position:absolute;right:28px;top:28px;${pop(lt, sp.optimizedAt)}"><span class="pill" style="background:var(--green);font-size:22px;padding:10px 22px;letter-spacing:.06em">OTIMIZADO</span></div>` : ''}
+    </div>
+    ${site ? `<div class="card" style="left:380px;top:${(sp.y ?? 300) + 250}px;width:640px;height:230px;padding:0;overflow:hidden;${enter(lt, sp.siteAt, .45, 50)}">
+      <div style="height:44px;background:#EEF1F3;display:flex;align-items:center;padding:0 18px;gap:10px"><i style="width:14px;height:14px;border-radius:50%;background:#E8515A;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#F5C518;display:block"></i><i style="width:14px;height:14px;border-radius:50%;background:#22C55E;display:block"></i></div>
+      <div style="padding:22px 26px"><div style="height:22px;width:60%;background:#D5DBE0;border-radius:6px"></div><div style="height:14px;width:85%;background:#E7EBEE;border-radius:6px;margin-top:16px"></div><div style="height:14px;width:70%;background:#E7EBEE;border-radius:6px;margin-top:10px"></div><div style="margin-top:22px;display:inline-block;background:var(--blue);border-radius:8px;width:150px;height:40px"></div></div></div>` : ''}`;
+};
+
+// "Sem depender de" + ícones de apps riscados
+C.logos = (sp, lt) => {
+  const t0 = sp.t ?? 0;
+  const apps = sp.apps || [{ l: 'G', name: 'Google', c: '#4285F4' }, { l: 'M', name: 'Meta', c: '#0866FF' }, { l: 'Y', name: 'Yelp', c: '#D32323' }, { l: 'A', name: 'Angi', c: '#FF6153' }];
+  const w = 170, gap = (1080 - apps.length * w - 2 * 110) / (apps.length - 1);
+  return `<div style="position:absolute;left:0;width:1080px;top:${sp.y ?? 290}px;${enter(lt, t0)}">
+    <div class="m" style="text-align:center;font-weight:700;font-size:${sp.titleSize ?? 60}px;color:var(--dark);letter-spacing:-.01em">${esc(sp.title || 'Sem depender de')}</div>
+    <div style="position:relative;height:260px;margin-top:70px">${apps.map((a, i) => {
+      const x = 110 + i * (w + gap);
+      const crossed = a.t !== undefined && lt >= a.t;
+      return `<div style="position:absolute;left:${x}px;top:0;width:${w}px;text-align:center;${enter(lt, t0 + .15 + i * .12, .4, 30)}">
+        <div style="width:${w}px;height:${w}px;border-radius:40px;background:${a.c};color:#fff;font-family:Montserrat;font-weight:800;font-size:96px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(20,60,90,.18)">${esc(a.l)}</div>
+        <div class="m" style="font-weight:600;font-size:28px;color:var(--dark);margin-top:16px">${esc(a.name)}</div>
+        ${crossed ? `<svg style="position:absolute;left:-14px;top:-14px;${pop(lt, a.t, .3)}" width="${w + 28}" height="${w + 28}" viewBox="0 0 100 100"><path d="M12 12L88 88M88 12L12 88" stroke="#E8515A" stroke-width="11" stroke-linecap="round" opacity=".9"/></svg>` : ''}</div>`;
+    }).join('')}</div></div>`;
+};
+
+// gráfico de barras ("Ligações chegando")
+C.bars = (sp, lt) => {
+  const t0 = sp.t ?? 0, n = sp.n ?? 16, H = 230;
+  const bars = Array.from({ length: n }, (_, i) => {
+    const a = Math.sin(i * 12.9898 + 3) * 43758.5453; const f = a - Math.floor(a);
+    const hgt = (sp.heights && sp.heights[i]) ?? (.3 + .7 * f);
+    const p = easeOut(prog(lt, t0 + .3 + i * .06, .5));
+    const dim = sp.capAt !== undefined && lt >= sp.capAt && i >= (sp.capFrom ?? Math.floor(n * .55));
+    return `<div style="position:absolute;left:${i * (850 / n)}px;bottom:0;width:${850 / n - 12}px;height:${hgt * H * p}px;border-radius:8px 8px 4px 4px;background:${dim ? '#CFE6F2' : 'var(--blue)'}"></div>`;
+  }).join('');
+  const badge = sp.badge && lt >= (sp.badge.t ?? 0) ? `<div style="position:absolute;right:36px;top:34px;${pop(lt, sp.badge.t ?? 0)}"><span class="pill" style="background:${colorOf(sp.badge.color || 'red')};font-size:24px;padding:12px 26px;text-transform:uppercase">${esc(sp.badge.text)}</span></div>` : '';
+  return `<div class="card" style="top:${sp.y ?? 250}px;height:${sp.h ?? 430}px;padding:40px 46px;${enter(lt, t0)}">
+    <div class="m" style="font-weight:700;font-size:40px;color:var(--dark)">${esc(sp.title || 'Ligações chegando')}</div>${badge}
+    <div style="position:absolute;left:50px;right:50px;bottom:44px;height:${H}px">${bars}</div></div>`;
+};
+
+// agenda da equipe (técnicos × horários)
+C.agenda = (sp, lt) => {
+  const t0 = sp.t ?? 0, hours = sp.hours || ['8h', '10h', '12h', '14h', '16h'];
+  const rows = (sp.rows || []).map((r, i) => `<div style="display:flex;align-items:center;height:78px;margin-top:${i ? 10 : 0}px;${enter(lt, t0 + .2 + i * .18, .4, 20)}">
+      <div class="m" style="width:200px;font-weight:700;font-size:26px;color:var(--dark)">${esc(r.name)}</div>
+      <div style="flex:1;display:flex;gap:12px">${hours.map((h, j) => {
+        const on = r.slots && r.slots[j] && lt >= (t0 + .5 + j * .12 + i * .18);
+        return `<div style="flex:1;height:56px;border-radius:12px;background:${on ? 'var(--blue)' : '#EEF1F3'};${on ? pop(lt, t0 + .5 + j * .12 + i * .18, .3) : ''}"></div>`;
+      }).join('')}</div></div>`).join('');
+  const badge = sp.badge && lt >= (sp.badge.t ?? 0) ? `<div style="position:absolute;right:36px;top:34px;${pop(lt, sp.badge.t ?? 0)}"><span class="pill" style="background:${colorOf(sp.badge.color || 'red')};font-size:24px;padding:12px 26px;text-transform:uppercase">${esc(sp.badge.text)}</span></div>` : '';
+  return `<div class="card" style="top:${sp.y ?? 250}px;padding:40px 40px 36px;${enter(lt, t0)}">
+    <div class="m" style="font-weight:700;font-size:40px;color:var(--dark)">${esc(sp.title || 'Agenda da equipe')}</div>${badge}
+    <div style="display:flex;margin:26px 0 12px 200px;gap:12px">${hours.map(h => `<div class="m" style="flex:1;font-weight:600;font-size:20px;color:var(--grey-2);text-align:center">${esc(h)}</div>`).join('')}</div>${rows}</div>`;
+};
+
+// gráfico donut ("Fatia orgânica do mercado")
+C.donut = (sp, lt) => {
+  const t0 = sp.t ?? 0, p = easeOut(prog(lt, t0 + .3, 1.2));
+  const share = (sp.share ?? .62) * p, R = 120, Cc = 2 * Math.PI * R;
+  const legend = (sp.legend || [{ text: 'TOP 3', color: 'blue' }, { text: 'Você', color: 'grey' }]).map((l, i) => `<div style="margin-top:${i ? 14 : 0}px;${pop(lt, t0 + .8 + i * .2)}"><span class="pill" style="background:${colorOf(l.color)};font-size:22px;padding:10px 22px;text-transform:uppercase">${esc(l.text)}</span></div>`).join('');
+  return `<div class="card" style="top:${sp.y ?? 250}px;height:${sp.h ?? 420}px;padding:40px 46px;${enter(lt, t0)}">
+    <div class="m" style="font-weight:700;font-size:40px;color:var(--dark)">${esc(sp.title || 'Fatia orgânica do mercado')}</div>
+    <svg style="position:absolute;left:60px;top:110px" width="280" height="280" viewBox="0 0 280 280"><circle cx="140" cy="140" r="${R}" stroke="#E3E8EC" stroke-width="34" fill="none"/><circle cx="140" cy="140" r="${R}" stroke="var(--blue)" stroke-width="34" fill="none" stroke-linecap="round" stroke-dasharray="${share * Cc} ${Cc}" transform="rotate(-90 140 140)"/></svg>
+    <div class="m" style="position:absolute;left:60px;top:214px;width:280px;text-align:center;font-weight:800;font-size:46px;color:var(--blue)">${Math.round(share * 100)}%</div>
+    <div style="position:absolute;right:60px;top:150px">${legend}</div></div>`;
+};
+
+// onde você aparece (posições na busca)
+C.serp = (sp, lt) => {
+  const t0 = sp.t ?? 0;
+  const rows = (sp.items || []).map((r, i) => `<div style="display:flex;align-items:center;height:70px;border-bottom:2px solid #EEF1F3;${enter(lt, t0 + .2 + i * .14, .35, 20)}">
+      <div class="m" style="width:110px;font-weight:800;font-size:30px;color:${r.you ? 'var(--red)' : 'var(--grey-2)'}">${esc(r.pos)}</div>
+      <div style="flex:1"><div style="height:16px;width:${r.w ?? 60}%;background:${r.you ? 'rgba(232,81,90,.35)' : '#DFE4E8'};border-radius:6px"></div></div>
+      ${r.you ? `<span class="m" style="font-weight:700;font-size:24px;color:var(--red)">${esc(r.label || 'você')}</span>` : ''}</div>`).join('');
+  const badge = sp.badge && lt >= (sp.badge.t ?? 0) ? `<div style="position:absolute;left:0;width:100%;text-align:center;top:${sp.badgeY ?? 320}px;${pop(lt, sp.badge.t)}"><span class="pill" style="background:${colorOf(sp.badge.color || 'red')};font-size:28px;padding:16px 34px;text-transform:uppercase;box-shadow:0 12px 30px rgba(232,81,90,.3)">${esc(sp.badge.text)}</span></div>` : '';
+  return `<div class="card" style="top:${sp.y ?? 250}px;padding:40px 46px;${enter(lt, t0)}">
+    <div class="m" style="font-weight:700;font-size:40px;color:var(--dark);margin-bottom:12px">${esc(sp.title || 'Onde você aparece')}</div>${rows}${badge}</div>`;
+};
+
+// texto livre (título grande) sobre fundo claro
+C.title = (sp, lt) => `<div style="position:absolute;left:0;width:1080px;top:${sp.y ?? 420}px;text-align:center;padding:0 80px;${enter(lt, sp.t ?? 0)}">
+  <div class="m" style="font-weight:${sp.weight ?? 800};font-size:${sp.size ?? 72}px;color:${sp.color || 'var(--dark)'};line-height:1.1;letter-spacing:-.02em">${sp.html || esc(sp.text)}</div>
+  ${sp.sub ? `<div class="m" style="font-weight:600;font-size:30px;color:var(--grey-2);margin-top:22px">${esc(sp.sub)}</div>` : ''}</div>`;
+
+// ---------- render principal ----------
+window.renderFrame = async (t, imgPath) => {
+  const [scene, idx] = sceneAt(t);
+  const lt = t - scene.s;
+  const img = document.getElementById('vid');
+  if (imgPath && img.getAttribute('src') !== imgPath) {
+    await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('img ' + imgPath)); img.src = imgPath; });
+  }
+  placeVideo(t, scene, idx, imgPath);
+  const comps = [].concat(scene.components || [], scene.component ? [scene.component] : []);
+  const ov = document.getElementById('overlay');
+  // saída rápida do conteúdo da cena anterior nos primeiros ms (fade) para transição limpa
+  let html = comps.map(sp => (C[sp.type] ? C[sp.type](sp, lt) : `<div style="color:red">componente ${esc(sp.type)}?</div>`)).join('');
+  if (idx > 0 && lt < .25) {
+    const prev = PROJECT.scenes[idx - 1];
+    const pc = [].concat(prev.components || [], prev.component ? [prev.component] : []);
+    const fade = 1 - lt / .25;
+    html += `<div style="position:absolute;inset:0;opacity:${fade};transform:translateY(${-(1 - fade) * 30}px)">${pc.map(sp => C[sp.type] ? C[sp.type](sp, prev.e - prev.s + lt) : '').join('')}</div>`;
+  }
+  ov.innerHTML = html;
+  renderCaption(t, scene);
+  await document.fonts.ready;
+  return true;
+};
+</script>
+</body>
+</html>

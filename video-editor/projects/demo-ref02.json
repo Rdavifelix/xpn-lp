@@ -1,0 +1,39 @@
+{
+  "source": "/root/.claude/uploads/83201b9a-7d09-5564-b3a0-38d4200f4a22/6671f38e-02-concorrentes-menores.mp4",
+  "words": "demo-ref02.words.json",
+  "focus": "50% 28%",
+  "keywords": ["Google","Maps","concorrentes","menores","ranqueiam","serviços","melhor","perfil","site","estratégico","Califórnia","top","3","ligações","150","mil","dólares","faturamento","formulário","contato","ranqueando","ranquear","ranqueamento","construction","otimizar","metropolitanas","4","quatro"],
+  "scenes": [
+    { "s": 0, "e": 3.3, "layout": "full", "components": [ { "type": "chip", "text": "Home Service nos EUA", "t": 0.8 } ] },
+    { "s": 3.3, "e": 8.4, "layout": "card", "component": { "type": "ranking", "title": "Concorrentes menores acima de você?",
+        "items": [ { "name": "Concorrente menor A" }, { "name": "Concorrente menor B" }, { "name": "Sua empresa", "badge": { "t": 3.4, "text": "Caiu para 3°" } } ] } },
+    { "s": 8.4, "e": 13.6, "layout": "full", "component": { "type": "notifications", "items": [
+        { "t": 0.6, "kind": "lost", "title": "Serviço perdido", "sub": "Foi pro concorrente" },
+        { "t": 1.5, "kind": "lost", "title": "Serviço perdido", "sub": "Cliente escolheu outro" },
+        { "t": 2.4, "kind": "lost", "title": "Serviço perdido", "sub": "Foi pro concorrente" } ] } },
+    { "s": 13.6, "e": 23.2, "layout": "circle", "component": { "type": "map", "items": [
+        { "type": "zone", "x": 330, "y": 420, "r": 230, "t": 0.4 },
+        { "type": "pin", "x": 330, "y": 420, "label": "Seu endereço", "t": 0.3 },
+        { "type": "tag", "x": 150, "y": 330, "text": "#1", "t": 0.9 }, { "type": "tag", "x": 370, "y": 300, "text": "#2", "t": 1.1 }, { "type": "tag", "x": 300, "y": 510, "text": "#3", "t": 1.3 },
+        { "type": "zone", "x": 760, "y": 190, "r": 120, "color": "red", "t": 2.6 }, { "type": "tag", "x": 710, "y": 150, "text": "#14", "color": "red", "t": 2.9 },
+        { "type": "zone", "x": 720, "y": 560, "r": 110, "color": "red", "t": 3.2 }, { "type": "tag", "x": 670, "y": 540, "text": "#18", "color": "red", "t": 3.5 },
+        { "type": "banner", "x": 300, "y": 380, "text": "Seu perfil não chega aqui", "t": 7.2 } ] } },
+    { "s": 23.2, "e": 28.9, "layout": "card", "component": { "type": "profile", "y": 300, "ratedAt": 1.4, "optimizedAt": 1.8, "siteAt": 3.3 } },
+    { "s": 28.9, "e": 34.3, "layout": "full", "component": { "type": "notifications", "items": [
+        { "t": 0.8, "icon": "pin", "title": "+1 perfil estratégico", "sub": "Região metropolitana" },
+        { "t": 1.7, "icon": "pin", "title": "+1 perfil estratégico", "sub": "Região metropolitana" },
+        { "t": 2.6, "icon": "pin", "title": "+1 perfil estratégico", "sub": "Região metropolitana" } ] } },
+    { "s": 34.3, "e": 40.3, "layout": "circle", "component": { "type": "map", "title": "Construction · Califórnia", "items": [
+        { "type": "pin", "x": 300, "y": 400, "color": "#2BA8E0", "t": 3.3 }, { "type": "pin", "x": 520, "y": 300, "color": "#2BA8E0", "t": 3.5 },
+        { "type": "pin", "x": 640, "y": 520, "color": "#2BA8E0", "t": 3.7 }, { "type": "pin", "x": 420, "y": 600, "color": "#2BA8E0", "t": 3.9 },
+        { "type": "pulse", "x": 300, "y": 400, "t": 3.3 },
+        { "type": "tag", "x": 600, "y": 120, "text": "4 perfis no top 3", "color": "dark", "size": 24, "t": 5.3 } ] } },
+    { "s": 40.3, "e": 45.0, "layout": "full", "component": { "type": "notifications", "items": [
+        { "t": 0.7, "kind": "call", "title": "Ligação recebida", "sub": "Orçamento · agora" },
+        { "t": 1.5, "kind": "call", "title": "Ligação recebida", "sub": "Novo cliente · agora" },
+        { "t": 2.3, "kind": "call", "title": "Ligação recebida", "sub": "Orçamento · agora" } ] } },
+    { "s": 45.0, "e": 48.5, "layout": "stat", "component": { "type": "stat", "label": "Mês passado", "sub": "em faturamento",
+        "values": [ { "t": 0, "text": "US$ 82 mil" }, { "t": 1.2, "text": "US$ 149 mil" }, { "t": 1.8, "text": "US$ 150 mil" } ] } },
+    { "s": 48.5, "e": 60, "layout": "card", "component": { "type": "cta", "stepsAt": 4.2, "steps": [ "Preencha o formulário", "A gente entra em contato", "Te explica como funcionaria" ] } }
+  ]
+}
