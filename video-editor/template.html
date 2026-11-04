@@ -396,8 +396,10 @@ window.renderFrame = async (t, imgPath) => {
   placeVideo(t, scene, idx, imgPath);
   const comps = [].concat(scene.components || [], scene.component ? [scene.component] : []);
   const ov = document.getElementById('overlay');
+  // nos layouts gráficos o card entra um pouco depois do vídeo começar a encolher
+  const clt = (idx > 0 && scene.layout !== 'full') ? lt - .15 : lt;
   // saída rápida do conteúdo da cena anterior nos primeiros ms (fade) para transição limpa
-  let html = comps.map(sp => (C[sp.type] ? C[sp.type](sp, lt) : `<div style="color:red">componente ${esc(sp.type)}?</div>`)).join('');
+  let html = comps.map(sp => (C[sp.type] ? C[sp.type](sp, clt) : `<div style="color:red">componente ${esc(sp.type)}?</div>`)).join('');
   if (idx > 0 && lt < .25) {
     const prev = PROJECT.scenes[idx - 1];
     const pc = [].concat(prev.components || [], prev.component ? [prev.component] : []);
