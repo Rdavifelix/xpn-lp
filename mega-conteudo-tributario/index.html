@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XPN Digital — Mega Conteúdo | 4 a 6 Reuniões Por Semana Para Escritórios Tributários</title>
-  <meta name="description" content="Como escritórios tributários geram 4 a 6 reuniões por semana com donos de empresa que não sabiam do risco que corriam — até o mega conteúdo mostrar. Encontro exclusivo, ao vivo, vagas limitadas a 100 pessoas.">
+  <meta name="description" content="Como escritórios tributários geram 4 a 6 reuniões por semana com donos de empresa que não sabiam do risco que corriam — até o mega conteúdo mostrar. Assista ao vídeo e aplique para uma reunião com um especialista da Máquina de Reuniões.">
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -41,6 +41,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <!-- CRM XPN: receive-lead (aplicação) e RPCs públicas da agenda -->
+  <link rel="preconnect" href="https://gaeimhrftedqdkjkpyyr.supabase.co" crossorigin>
 
   <!-- VTURB Performance -->
   <link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/ab-test/6a6bd571e74a023eeadf1fe5/player.js" as="script">
@@ -302,42 +304,106 @@
       .node__t{font-size:10.5px}
     }
 
-    /* ---------- MODAL DO FORMULÁRIO ([ADV] Aplicação Advogados — 2 etapas) ---------- */
-    .modal{position:fixed;inset:0;z-index:100;display:none}
-    .modal.aberto{display:block}
-    .modal__bg{position:absolute;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
-    /* O form do CRM é claro (fundo branco), então a caixa usa superfície clara — não o dark da página. */
-    .modal__cx{
-      position:relative;z-index:2;
-      width:min(520px,calc(100vw - 24px));
-      max-height:calc(100dvh - 32px);
-      margin:16px auto;
-      top:50%;transform:translateY(-50%);
-      background:#fff;
-      border:1px solid rgba(59,130,246,.45);
-      border-radius:18px;
-      box-shadow:0 40px 90px -30px rgba(0,0,0,.95);
-      padding:24px 18px 16px;
-      overflow-y:auto;
-      animation:sobe .28s cubic-bezier(.2,.8,.3,1);
+    /* ---------- APLICAÇÃO (1 pergunta por tela, mesma mecânica da /vsl/) + AGENDA ---------- */
+    .section-sub strong{color:#fff;font-weight:700}
+    .form-shell{
+      max-width:640px;margin:0 auto;padding:8px;
+      border:1px solid rgba(96,165,250,.28);border-radius:18px;
+      background:linear-gradient(180deg, rgba(59,130,246,.08), rgba(255,255,255,.02));
+      box-shadow:0 0 80px -30px rgba(37,99,235,.45), 0 30px 60px -40px rgba(0,0,0,.9);
+      scroll-margin-top:24px;
     }
-    @keyframes sobe{from{opacity:0;transform:translateY(-46%)}to{opacity:1;transform:translateY(-50%)}}
-    .modal__x{
-      position:absolute;top:10px;right:10px;z-index:3;
-      width:32px;height:32px;border-radius:50%;
-      background:#f1f3f6;border:1px solid #dfe3e9;color:#333;
-      font-size:1.25rem;line-height:1;cursor:pointer;display:grid;place-items:center;
+    .app{position:relative;padding:14px 32px 32px;min-height:420px;text-align:left}
+    .prog{height:4px;background:rgba(96,165,250,.16);border-radius:999px;overflow:hidden;margin:0 0 26px}
+    .prog > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--blue-2));transition:width .3s ease}
+    .q-tit{margin:0 0 6px;font-size:21px;line-height:1.3;font-weight:700;color:#fff;letter-spacing:-.01em}
+    .q-tit .req{color:var(--blue-2);margin-left:2px}
+    .q-sub{margin:0 0 18px;font-size:14.5px;line-height:1.5;color:var(--txt-3)}
+    .ops{display:flex;flex-direction:column;gap:10px}
+    .op{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font:inherit;font-size:16px;line-height:1.35;color:#fff;cursor:pointer;transition:background .12s,border-color .12s}
+    .op:hover,.op:focus-visible{background:rgba(59,130,246,.12);border-color:rgba(96,165,250,.6);outline:none}
+    .op.sel{background:rgba(59,130,246,.18);border-color:var(--blue-2);box-shadow:0 0 0 2px rgba(59,130,246,.25)}
+    .op .k{flex:none;width:26px;height:26px;border:1px solid rgba(96,165,250,.6);border-radius:6px;background:rgba(59,130,246,.1);color:var(--blue-2);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .op.sel .k{background:var(--blue);border-color:var(--blue);color:#fff}
+    .campo{margin:0 0 14px}
+    .campo label{display:block;font-size:13.5px;font-weight:600;color:var(--txt-2);margin:0 0 6px}
+    .campo input{width:100%;font:inherit;font-size:16px;color:#fff;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:13px 14px;outline:none;transition:border-color .12s,box-shadow .12s}
+    .campo input::placeholder{color:rgba(255,255,255,.35)}
+    .campo input:focus{border-color:var(--blue-2);box-shadow:0 0 0 3px rgba(59,130,246,.22)}
+    .campo input.invalido{border-color:var(--red);box-shadow:0 0 0 3px rgba(248,113,113,.18)}
+    .hint{margin:8px 0 0;font-size:13px;color:var(--txt-3)}
+    .erro{display:none;margin:10px 0 0;font-size:14px;color:var(--red);font-weight:600}
+    .erro.on{display:block}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}
+    .bt{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:16px;font-weight:700;padding:14px 26px;border-radius:12px;border:0;cursor:pointer;background:linear-gradient(180deg,var(--blue) 0%,var(--blue-dark) 100%);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 0 -1px 0 rgba(0,0,0,.25),0 10px 26px -10px rgba(37,99,235,.7),0 0 0 1px rgba(59,130,246,.45);transition:transform .12s,filter .12s}
+    .bt:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    .bt:disabled{opacity:.7;cursor:wait;transform:none}
+    .bt.sec{background:transparent;color:var(--txt-2);box-shadow:none;border:1px solid var(--border);font-weight:600}
+    .keyhint{font-size:12px;color:var(--txt-3)}
+    .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:360px;color:var(--txt-2);font-size:15px;text-align:center}
+    .loading b{color:#fff;font-size:18px}
+    .spin{width:28px;height:28px;border:3px solid rgba(96,165,250,.2);border-top-color:var(--blue-2);border-radius:50%;animation:gira 1s linear infinite}
+    @keyframes gira{to{transform:rotate(360deg)}}
+
+    /* Estado: agenda liberada (mesmo contrato da /agendar/ do CRM) */
+    .agenda{display:none;padding:12px 8px 8px;text-align:left}
+    .agenda.on{display:block}
+    .agenda .ok{display:flex;align-items:flex-start;gap:12px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);border-radius:12px;padding:14px 16px;margin:0 0 14px}
+    .agenda .ok b{color:var(--green);display:block;font-size:17px}
+    .agenda .ok p{margin:4px 0 0;font-size:15px;color:var(--txt-2);line-height:1.5}
+    .ag{padding:4px 0 8px}
+    .ag h3{margin:0 0 4px;font-size:21px;font-weight:700;letter-spacing:-.01em;color:#fff}
+    .ag .sub{margin:0 0 18px;font-size:14px;color:var(--txt-3)}
+    .dia{margin:0 0 10px}
+    .dia-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.03);font:inherit;font-size:16px;font-weight:600;color:#fff;cursor:pointer;text-align:left}
+    .dia.aberto .dia-h{background:rgba(59,130,246,.1);border-color:rgba(96,165,250,.4)}
+    .dia-h small{font-size:13px;color:var(--txt-3);font-weight:400}
+    .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;padding:12px 2px 4px}
+    .slot{font:inherit;font-size:15px;font-weight:500;color:#fff;background:rgba(255,255,255,.04);border:2px solid var(--border);border-radius:10px;padding:12px 8px;cursor:pointer;transition:transform .35s,opacity .35s,border-color .12s,background .12s}
+    .slot:hover{border-color:rgba(96,165,250,.6)}
+    .slot.sel{border-color:var(--blue-2);background:rgba(59,130,246,.2);font-weight:700}
+    .slot.some{opacity:0;transform:scale(.85)}
+    .confirmar{position:sticky;bottom:0;padding:14px 0 4px;background:linear-gradient(to top,var(--bg) 70%,transparent)}
+    .confirmar .bt{width:100%;padding:15px 20px;font-size:16px}
+    .ag-ok{text-align:center;padding:48px 16px}
+    .ag-ok .ic{font-size:44px;line-height:1}
+    .ag-ok b{display:block;font-size:22px;margin:14px 0 6px;color:#fff}
+    .ag-ok p{margin:0;color:var(--txt-2);line-height:1.55}
+    .vagas{display:flex;justify-content:center;margin:0 0 12px}
+    .vagas span{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);color:#FBBF24;font-size:13px;font-weight:700;letter-spacing:.02em;padding:8px 14px;border-radius:999px;transition:opacity .25s}
+    .vagas span.troca{opacity:0}
+    .vagas i{font-style:normal;width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(245,158,11,.5);animation:pulsa 1.6s ease-out infinite}
+    @keyframes pulsa{to{box-shadow:0 0 0 8px rgba(245,158,11,0)}}
+    .agenda .pos{margin:12px 0 0;text-align:center;font-size:13px;color:var(--txt-3)}
+    .agenda .fora{display:none;padding:28px 20px;text-align:center;font-size:16px;color:var(--txt-2);line-height:1.6}
+    .agenda .fora b{color:#fff}
+    .agenda.sem-token .ag,.agenda.sem-token .vagas,.agenda.sem-token .pos{display:none}
+    .agenda.sem-token .fora{display:block}
+    .toast{position:fixed;left:50%;bottom:22px;z-index:60;transform:translate(-50%,16px);opacity:0;max-width:92vw;background:rgba(255,255,255,.96);color:#0B1020;font-size:13px;line-height:1.4;padding:10px 14px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.45);pointer-events:none;transition:opacity .3s,transform .3s}
+    .toast.on{opacity:1;transform:translate(-50%,0)}
+    .toast b{color:var(--blue-dark);font-weight:700}
+
+    /* Barra fixa de CTA: aparece depois do hero e some quando o formulário está na
+       tela ou depois da aplicação enviada. */
+    .barra{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom));background:rgba(4,7,15,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid rgba(96,165,250,.2);transform:translateY(110%);transition:transform .28s ease}
+    .barra.on{transform:none}
+    .barra-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .barra-txt{margin:0;color:#fff;font-size:16px;font-weight:600;line-height:1.3}
+    .barra-txt b{color:var(--blue-2);font-weight:700}
+    .barra .cta{margin:0;padding:14px 30px;font-size:15px;white-space:nowrap}
+    body.com-barra{padding-bottom:88px}
+    @media (max-width:640px){
+      .barra-in{flex-direction:column;gap:10px}
+      .barra-txt{font-size:14px;text-align:center}
+      .barra .cta{width:100%;padding:15px 18px;font-size:15px}
+      body.com-barra{padding-bottom:128px}
+      .form-shell{padding:6px}
+      .app{padding:10px 16px 24px}
+      .q-tit{font-size:19px}
+      .op{font-size:15px}
+      .keyhint{display:none}
     }
-    .modal__x:hover{background:#e4e8ee}
-    .modal__tit{text-align:center;font-weight:800;font-size:1.08rem;color:#14181f;margin:2px 34px 2px;letter-spacing:-.02em;line-height:1.25}
-    .modal__sub{text-align:center;font-size:.84rem;color:#5b6472;margin:6px 0 14px}
-    /* min-height é só fallback caso o postMessage de altura não chegue.
-       Fica abaixo da altura real do form para o resize sempre vencer. */
-    .modal iframe{width:100%;min-height:320px;border:0;border-radius:10px;display:block;background:transparent}
-    .modal__seg{text-align:center;font-size:.78rem;color:#5b6472;margin:4px 0 0}
-    body.travado{overflow:hidden}
-    @media(max-width:520px){ .modal__cx{padding:38px 12px 14px} }
-    @media (prefers-reduced-motion:reduce){ .modal__cx{animation:none} }
+    @media (prefers-reduced-motion:reduce){ .barra,.slot,.toast,.prog > span{transition:none} .vagas i{animation:none} }
 
     @media (max-width:820px){
       .results-grid{grid-template-columns:1fr}
@@ -367,7 +433,7 @@
 
       <p class="sub">A revolução para gerar <span class="serif">demanda educada</span> para o seu escritório tributário e lotar a agenda de reuniões com donos de empresa. Toda semana, com previsibilidade.</p>
 
-      <p class="micro">Encontro exclusivo, ao vivo, no Meet · Vagas limitadas a 100 pessoas</p>
+      <p class="micro">Assista ao vídeo e faça a aplicação · Se o seu escritório se encaixar, você escolhe o horário da reunião na hora</p>
 
       <!-- REPLACE: trocar pelo player da VSL do mega conteúdo tributário quando gravar (hoje usa a VSL padrão da lp4) -->
       <div class="vsl-frame">
@@ -382,7 +448,7 @@
         </div>
       </div>
 
-      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+      <a class="cta" href="#aplicar" data-aplicar>FAZER APLICAÇÃO →</a>
       <div class="stars">★★★★★</div>
       <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
     </div>
@@ -459,7 +525,7 @@
       </div>
     </div>
     <div class="ciclos-outro">
-      <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+      <a class="cta" href="#aplicar" data-aplicar>FAZER APLICAÇÃO →</a>
     </div>
   </section>
 
@@ -468,7 +534,7 @@
     <div class="container">
       <p class="eyebrow">Antes de entrar</p>
       <h2>Isso É Para o Seu Escritório?</h2>
-      <p class="section-sub">O encontro tem vagas limitadas a 100 pessoas. Veja se faz sentido para o seu momento.</p>
+      <p class="section-sub">A reunião é individual, com um especialista da Máquina de Reuniões. Veja se faz sentido para o momento do seu escritório antes de aplicar.</p>
 
       <div class="fit-grid">
         <div class="fit-card yes">
@@ -486,7 +552,7 @@
             <li>Ainda não tem um serviço validado nem clientes pagantes.</li>
             <li>Procura fórmula mágica ou resultado sem investir nada.</li>
             <li>Não é o decisor do escritório (colaborador ou estagiário).</li>
-            <li>Não está disposto a participar de um encontro ao vivo por vídeo.</li>
+            <li>Não está disposto a fazer uma reunião por vídeo com o nosso time.</li>
           </ul>
         </div>
       </div>
@@ -508,7 +574,7 @@
         </div>
         <div class="result-card">
           <div class="result-num">50%+ de comparecimento</div>
-          <p>Metade dos inscritos aparece ao vivo — porque o lead entra já consciente do problema, não atraído por brinde ou curiosidade.</p>
+          <p>Metade dos inscritos comparece ao webinar — porque o lead entra já consciente do problema, não atraído por brinde ou curiosidade.</p>
           <div class="result-who"><strong>Metodologia XPN</strong>Dado agregado 2025</div>
         </div>
         <div class="result-card">
@@ -537,33 +603,51 @@
     </div>
   </section>
 
-  <!-- ==================== ÚLTIMO PASSO (CTA abre o modal) ==================== -->
+  <!-- ==================== ÚLTIMO PASSO — APLICAÇÃO (1 pergunta por tela) + AGENDA ==================== -->
+  <!-- Mesma mecânica da /vsl/: perguntas de qualificação (versão para advogados), dados de
+       contato, envio direto ao receive-lead do CRM e, para quem se qualifica, a agenda do
+       time aparece aqui mesmo, no lugar do formulário. Ver o script no fim da página. -->
   <section class="section" id="agendar">
     <div class="container narrow">
       <p class="eyebrow">Último passo</p>
-      <h2>Garanta Sua Vaga no Encontro</h2>
-      <p class="section-sub">A aplicação leva menos de 1 minuto: seus dados e 3 perguntas rápidas sobre o seu escritório. As vagas são limitadas a 100 pessoas.</p>
+      <h2>Aplique Para a Sua Reunião Com um Especialista</h2>
+      <p class="section-sub">Algumas perguntas rápidas sobre o seu escritório. <strong>Se o seu momento se encaixar, você já escolhe o horário da sua reunião com um especialista da Máquina de Reuniões</strong> — sem esperar ligação.</p>
 
-      <div class="final" style="padding-top:8px">
-        <a class="cta" href="#" data-abrir>FAZER APLICAÇÃO →</a>
+      <div class="form-shell" id="aplicar">
+        <div class="app" id="app">
+          <div class="prog" aria-hidden="true"><span id="progBar"></span></div>
+          <div id="quiz" aria-live="polite"></div>
+        </div>
+
+        <div class="agenda" id="agenda">
+          <div class="ok">
+            <span aria-hidden="true">✅</span>
+            <div>
+              <b>Aplicação aprovada!</b>
+              <p id="agendaMsg">Pelo perfil do seu escritório, você se qualificou. Escolha abaixo o melhor horário para a sua reunião com um especialista da Máquina de Reuniões.</p>
+            </div>
+          </div>
+          <div class="vagas" id="vagas" aria-live="polite"><span id="vagasTxt"><i aria-hidden="true"></i>Poucos horários disponíveis nos próximos 2 dias</span></div>
+          <div class="ag" id="agendaNativa" aria-live="polite"></div>
+          <div class="fora" id="agendaFora"></div>
+          <p class="pos">Depois de confirmar o horário você será direcionado para a próxima etapa.</p>
+        </div>
+      </div>
+
+      <div class="final" style="padding:28px 0 0">
         <div class="stars">★★★★★</div>
         <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
       </div>
     </div>
   </section>
 
-  <!-- ==================== MODAL — [ADV] Aplicação Advogados (2 etapas) ==================== -->
-  <div class="modal" id="inscricao" aria-hidden="true">
-    <div class="modal__bg" data-fechar></div>
-    <div class="modal__cx" role="dialog" aria-modal="true" aria-label="Aplicação para o encontro">
-      <button class="modal__x" data-fechar aria-label="Fechar">×</button>
-      <!-- Form do CRM XPN — [ADV] Aplicação Advogados. Altura/UTM/redirect tratados no script no fim da página. -->
-      <iframe
-        id="nf-crm-adv"
-        data-src="https://crm.xpndigital.com/form/5d58f506-8811-4b11-a4c7-e188fc3ea3de"
-        title="[ADV] Aplicação Advogados"
-        scrolling="no"></iframe>
-      <p class="modal__seg">🔒 Seus dados estão seguros com a gente.</p>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Barra fixa de CTA (rodapé) → leva ao formulário -->
+  <div class="barra" id="barra" aria-hidden="true">
+    <div class="barra-in">
+      <p class="barra-txt">Reunião com um especialista — <b>para escritórios que faturam R$20.000+/mês</b></p>
+      <a class="cta" href="#aplicar" data-aplicar>FAZER APLICAÇÃO →</a>
     </div>
   </div>
 
@@ -580,115 +664,587 @@
   </footer>
 
   <script>
-    // Modal do formulário [ADV] Aplicação Advogados — mesmo contrato de lp2 / wb-07:
-    // src só é aplicado ao abrir (iframe escondido se mede como 0px e nunca remede),
-    // UTMs repassadas, altura ajustada por postMessage (essencial num form de 2 etapas,
-    // que muda de altura ao trocar de passo) e redirect pós-envio obedecido.
+    // ========================================================================
+    // APLICAÇÃO (1 pergunta por tela) + AGENDA CONDICIONAL — mesma mecânica da /vsl/
+    //
+    // COMO O ENVIO FUNCIONA:
+    //   - POST JSON no receive-lead do CRM XPN com as respostas (chaves = map_to do
+    //     form "[ADV] Agendamento Tributário" no CRM) + nome/e-mail/WhatsApp + UTMs.
+    //     Mudar uma pergunta aqui = mudar o campo lá (o CRM guarda toda resposta no
+    //     card do lead, extra_data).
+    //   - O CRM devolve booking_token quando o faturamento declarado passa da régua do
+    //     form (settings.booking.faturamento_minimo = R$20.000, a mesma régua MQL do
+    //     [ADV]). Com o token, a agenda do time é desenhada aqui mesmo, com as RPCs
+    //     públicas agenda_slots_livres / agenda_reservar_slot.
+    //
+    // QUEM VÊ A AGENDA (função qualifica()): fatura R$20.000+/mês E não marcou "Estou
+    // só pesquisando por enquanto" E não é estagiário/outro. Quem não se qualifica vai
+    // direto para a obrigado (?q=0) e o time chama no WhatsApp.
+    //
+    // PIXEL / GTM: o Lead dispara AQUI, no envio (eventID = lead_id adv_…), com o mesmo
+    // content_name que a /typ_vsl/ usava para este funil. Lead_qualificado_geral/_vsl
+    // disparam junto quando o faturamento é MQL (mesma régua da typ_vsl). Schedule
+    // dispara ao confirmar o horário. A obrigado deste funil NÃO dispara Lead de novo.
+    // ========================================================================
     (function () {
-      var modal = document.getElementById('inscricao');
-      var form  = document.getElementById('nf-crm-adv');
-      if (!modal || !form) return;
-      var ultimoFoco = null;
+      var CONFIG = {
+        // key = distribution_key do form (api_key "Formulários do Site"); o form
+        // sobrescreve a distribuição para "VSL → Kauan" via distribution_config_id.
+        CRM_ENDPOINT: 'https://gaeimhrftedqdkjkpyyr.supabase.co/functions/v1/receive-lead' +
+          '?key=4de60fab-707c-45ab-ac3d-7635f1fbcc9f&forceFunctionRegion=us-east-1',
+        FORM_ID: 'aedf3645-a366-48ed-9b74-f96ff89bdda5',
+        FORM_NAME: '[ADV] Agendamento Tributário',
+        // RPCs públicas (anon) da agenda — as mesmas da /vsl/ e da /agendar/ do CRM.
+        RPC_BASE: 'https://gaeimhrftedqdkjkpyyr.supabase.co/rest/v1/rpc/',
+        ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhZWltaHJmdGVkcWRramtweXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDI2NDcsImV4cCI6MjA4OTk3ODY0N30.ISF6Z-zuc55C8vdLXmMmK5UOnYCjmT2o_zNRh-0CkkM',
+        VISIVEIS_POR_DIA: 5,      // o CRM manda até 6 por dia; a página mostra no máximo 5
+        MIN_POR_DIA: 4,           // nunca "some" abaixo disto
+        SOME_ENTRE_MS: [12000, 25000],   // quando o 1º horário some (aleatório na faixa)
+        OBRIGADO_URL: 'obrigado/',
+        FUNIL: 'advogados_tributario',
+        CHAVE: 'xpn_adv_tributario_aplicacao',
+        LEAD_NOME: 'Aplicacao Advogados - Mega Conteudo Tributario',
+        LEAD_CATEGORIA: 'advogados_tributario'
+      };
 
-      function carregarForm() {
-        if (form.getAttribute('src')) return;              // já carregado
-        var base = form.getAttribute('data-src');
-        if (!base) return;
-        var par = new URLSearchParams(window.location.search);
-        var chaves = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
-                      'gclid','fbclid','_gl','ttclid','msclkid','li_fat_id'];
-        var q = [];
-        chaves.forEach(function (k) {
-          var v = par.get(k);
-          if (v) q.push(k + '=' + encodeURIComponent(v));
-        });
-        q.push('_lp=' + encodeURIComponent(window.location.href));
-        q.push('_ref=' + encodeURIComponent(document.referrer || ''));
-        q.push('_t=' + Date.now());
-        form.src = base + (base.indexOf('?') > -1 ? '&' : '?') + q.join('&');
+      // Investimento mensal disponível. Valores com número completo (não "5 mil")
+      // para o CRM conseguir ler a faixa; o primeiro número é o piso.
+      var INVESTIMENTO = ['R$0 a R$5.000 por mês','R$5.000 a R$10.000 por mês','R$10.000 a R$20.000 por mês','Mais de R$20.000 por mês'];
+      var SO_PESQUISANDO = 'Estou só pesquisando por enquanto';
+      var ESTAGIARIO = 'Estagiário(a) ou outro';
+      // Faixas de faturamento que são MQL (mesma régua da /typ_vsl/ e do
+      // faturamento_minimo do form no CRM): R$20.000+/mês.
+      var FAT_QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
 
-        // Se nenhuma altura válida chegar, assume uma que cobre as duas etapas.
-        setTimeout(function () {
-          if (!form.style.height) form.style.height = '620px';
-        }, 1500);
+      var PERGUNTAS = [
+        // ocupacao vira job_title no card do lead (mesma chave do [ADV]).
+        { k: 'ocupacao', t: 'Qual é a área de atuação principal do escritório?',
+          o: ['Tributário','Empresarial','Trabalhista','Previdenciário','Civil ou Família','Outra área'] },
+        { k: 'posicao', t: 'Qual é a sua posição no escritório?', s: 'A reunião é para quem decide.',
+          o: ['Sócio(a) titular ou fundador(a)','Sócio(a)','Advogado(a) do escritório (não sócio)','Responsável pelo marketing ou comercial', ESTAGIARIO] },
+        // Faturamento = a régua do CRM (tag MQL, notificação, booking_token). As
+        // opções são EXATAMENTE as do [ADV] / [VSL] — o CRM lê o texto cru
+        // (map_to capital_disponivel). Mudar o texto aqui = mudar lá.
+        { k: 'capital_disponivel', t: 'Qual é o faturamento mensal do escritório hoje?', s: 'Soma dos honorários de todos os sócios.',
+          o: ['Entre R$0 a R$5.000','Entre R$5.000 a R$10.000','Entre R$10.000 a R$20.000','Entre R$20.000 a R$40.000','Entre R$50.000 a R$100.000','Mais de R$100.000'] },
+        { k: 'reunioes_mes', t: 'Quantas reuniões com potenciais clientes o escritório faz por mês?',
+          o: ['Menos de 5','De 5 a 10','De 10 a 20','Mais de 20'] },
+        { k: 'canais_aquisicao', t: 'De onde vêm os clientes do escritório hoje?', s: 'Pode marcar mais de uma.', multi: true,
+          o: ['Indicação de clientes','Parcerias com contadores','Tráfego pago (anúncios)','Instagram ou conteúdo orgânico','Prospecção ativa','Hoje não chegam de forma consistente'] },
+        { k: 'problema_principal', t: 'O que mais trava o crescimento do escritório hoje?',
+          o: ['Dependo de indicação: um mês bom, outro ruim','O lead que chega só quer comparar honorários','A reunião vira consulta gratuita e não fecha','Volume baixo de reuniões qualificadas','Falta tempo: advogo e ainda tenho que prospectar'] },
+        { k: 'investimento_ads', t: 'O escritório investe em anúncios hoje?',
+          o: ['Não invisto ainda','Até R$3.000 por mês','De R$3.000 a R$10.000 por mês','De R$10.000 a R$30.000 por mês','Mais de R$30.000 por mês'] },
+        { k: 'momento', t: 'Qual frase descreve melhor o seu momento?',
+          o: ['Já fecho clientes e quero escalar com previsibilidade','Minhas indicações diminuíram e preciso de outro canal','Estou estruturando o comercial do escritório e quero começar certo', SO_PESQUISANDO] },
+        { k: 'investimento_mensal', t: 'Quanto o escritório pode investir por mês em algo com ROI comprovado e garantia?',
+          o: INVESTIMENTO },
+        { k: 'porque_agora', t: 'Por que agora?',
+          o: ['Quero escalar o que já funciona','Quero parar de depender de indicação','Preciso de previsibilidade de caixa no escritório','Surgiu uma meta ou prazo que exige mais clientes'] }
+      ];
+
+      function fatQualificado() { return FAT_QUALIFICADO.test(resp.capital_disponivel || ''); }
+      // Critério da agenda (ver cabeçalho): faturamento MQL + não está só pesquisando + decide.
+      function qualifica() {
+        return fatQualificado() && resp.momento !== SO_PESQUISANDO && resp.posicao !== ESTAGIARIO;
       }
 
-      function abrir(e) {
-        if (e) e.preventDefault();
-        ultimoFoco = document.activeElement;
-        carregarForm();
-        modal.classList.add('aberto');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('travado');
-        var x = modal.querySelector('.modal__x');
-        if (x) x.focus();
+      var par = new URLSearchParams(window.location.search);
+      var quiz = document.getElementById('quiz');
+      var bar = document.getElementById('progBar');
+      var appBox = document.getElementById('app');
+      var agenda = document.getElementById('agenda');
+      var agendaBox = document.getElementById('agendaNativa');
+      if (!quiz || !bar || !appBox || !agenda || !agendaBox) return;
+      var RAPIDO = /[?&]xpn_rapido=1/.test(window.location.search);   // só para teste: sumiço em ~1s
+      var total = PERGUNTAS.length + 1;   // + tela de contato
+      var resp = {}, cad = {}, passo = 0, enviada = false;
+
+      function esc(v) { var d = document.createElement('div'); d.textContent = v == null ? '' : v; return d.innerHTML; }
+      function soDigitos(t) { return String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); }
+      function letra(i) { return String.fromCharCode(65 + i); }
+      function progresso() { bar.style.width = Math.round(Math.min(passo, total) / total * 100) + '%'; }
+      function push(ev) { try { window.dataLayer = window.dataLayer || []; ev.funil = CONFIG.FUNIL; window.dataLayer.push(ev); } catch (e) {} }
+      function rolarParaForm() {
+        var r = appBox.getBoundingClientRect();
+        if (r.top < 0 || r.top > window.innerHeight * 0.5) document.getElementById('aplicar').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      function fechar() {
-        modal.classList.remove('aberto');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('travado');
-        if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+      function render() {
+        progresso();
+        var voltar = passo > 0 ? '<button type="button" class="bt sec" id="qVoltar">← Voltar</button>' : '<span></span>';
+        var q = PERGUNTAS[passo];
+
+        if (passo < PERGUNTAS.length && q.multi) {
+          var marcadas = Array.isArray(resp[q.k]) ? resp[q.k].slice() : [];
+          quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '<span class="req" aria-hidden="true">*</span></p>' +
+            (q.s ? '<p class="q-sub">' + esc(q.s) + '</p>' : '<div style="height:14px"></div>') +
+            '<div class="ops" role="group" aria-label="' + esc(q.t) + '">' +
+            q.o.map(function (op, i) {
+              var on = marcadas.indexOf(op) > -1;
+              return '<button type="button" class="op' + (on ? ' sel' : '') + '" data-i="' + i + '" role="checkbox" aria-checked="' + on + '">' +
+                '<span class="k">' + letra(i) + '</span><span>' + esc(op) + '</span></button>';
+            }).join('') + '</div>' +
+            '<p class="erro" id="qErro">Marque pelo menos uma opção.</p>' +
+            '<div class="nav">' + voltar + '<button type="button" class="bt" id="qSeguir">Continuar →</button></div>';
+          quiz.querySelectorAll('.op').forEach(function (b) {
+            b.onclick = function () {
+              var op = q.o[+b.getAttribute('data-i')];
+              var ix = marcadas.indexOf(op);
+              if (ix > -1) marcadas.splice(ix, 1); else marcadas.push(op);
+              b.classList.toggle('sel', ix === -1);
+              b.setAttribute('aria-checked', ix === -1);
+              document.getElementById('qErro').classList.remove('on');
+            };
+          });
+          document.getElementById('qSeguir').onclick = function () {
+            if (!marcadas.length) { document.getElementById('qErro').classList.add('on'); return; }
+            resp[q.k] = q.o.filter(function (op) { return marcadas.indexOf(op) > -1; });   // ordem das opções
+            passo++; render(); rolarParaForm();
+          };
+
+        } else if (passo < PERGUNTAS.length) {
+          quiz.innerHTML = '<p class="q-tit">' + esc(q.t) + '<span class="req" aria-hidden="true">*</span></p>' +
+            (q.s ? '<p class="q-sub">' + esc(q.s) + '</p>' : '<div style="height:14px"></div>') +
+            '<div class="ops" role="radiogroup" aria-label="' + esc(q.t) + '">' +
+            q.o.map(function (op, i) {
+              return '<button type="button" class="op' + (resp[q.k] === op ? ' sel' : '') + '" data-i="' + i + '" role="radio" aria-checked="' + (resp[q.k] === op) + '">' +
+                '<span class="k">' + letra(i) + '</span><span>' + esc(op) + '</span></button>';
+            }).join('') + '</div>' +
+            '<div class="nav">' + voltar + '<span class="keyhint">Digite a letra ou clique na opção</span></div>';
+          quiz.querySelectorAll('.op').forEach(function (b) {
+            b.onclick = function () {
+              var i = +b.getAttribute('data-i');
+              resp[q.k] = q.o[i];
+              b.classList.add('sel');
+              setTimeout(function () { passo++; render(); rolarParaForm(); }, 160);
+            };
+          });
+
+        } else {
+          quiz.innerHTML = '<p class="q-tit">Seus dados<span class="req" aria-hidden="true">*</span></p>' +
+            '<p class="q-sub">Última etapa. Se o seu momento se encaixar, você escolhe o horário da reunião logo em seguida.</p>' +
+            '<div class="campo"><label for="cNome">Nome completo</label><input id="cNome" autocomplete="name" placeholder="Seu nome" value="' + esc(cad.name) + '"></div>' +
+            '<div class="campo"><label for="cTel">WhatsApp com DDD</label><input id="cTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" value="' + esc(soDigitos(cad.phone)) + '"></div>' +
+            '<div class="campo"><label for="cEmail">Seu melhor e-mail</label><input id="cEmail" type="email" inputmode="email" autocomplete="email" placeholder="voce@escritorio.com.br" value="' + esc(cad.email) + '"></div>' +
+            '<p class="erro" id="qErro">Confira nome, WhatsApp e e-mail.</p>' +
+            '<div class="nav">' + voltar + '<button type="button" class="bt" id="qEnviar">Enviar aplicação →</button></div>' +
+            '<p class="hint" style="text-align:center;margin-top:16px">🔒 Seus dados estão seguros. Não enviamos spam.</p>';
+          var campoTel = document.getElementById('cTel');
+          function mascara() {
+            var d = soDigitos(campoTel.value).slice(0, 11), r = d;
+            if (d.length > 2) r = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+            if (d.length > 6) r = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+            campoTel.value = r;
+          }
+          campoTel.addEventListener('input', mascara); mascara();
+          document.getElementById('cNome').focus();
+          var botaoEnviar = document.getElementById('qEnviar');
+          function falhar(campoId, msg) {
+            var e = document.getElementById('qErro'); e.textContent = msg; e.classList.add('on');
+            var c = document.getElementById(campoId); if (c) { c.classList.add('invalido'); c.focus(); }
+          }
+          ['cNome', 'cTel', 'cEmail'].forEach(function (id) {
+            document.getElementById(id).addEventListener('input', function () { this.classList.remove('invalido'); document.getElementById('qErro').classList.remove('on'); });
+          });
+          botaoEnviar.onclick = function () {
+            if (botaoEnviar.disabled) return;
+            var n = document.getElementById('cNome').value.trim().replace(/\s+/g, ' ');
+            var m = document.getElementById('cEmail').value.trim().toLowerCase();
+            var t = soDigitos(campoTel.value);
+            var erroNome = validarNome(n); if (erroNome) { falhar('cNome', erroNome); return; }
+            var erroTel = validarTelefone(t); if (erroTel) { falhar('cTel', erroTel); return; }
+            var erroMail = validarEmail(m); if (erroMail) { falhar('cEmail', erroMail); return; }
+            botaoEnviar.disabled = true; botaoEnviar.textContent = 'Verificando…';
+            dominioExiste(m.split('@')[1]).then(function (existe) {
+              if (!existe) {
+                botaoEnviar.disabled = false; botaoEnviar.textContent = 'Enviar aplicação →';
+                falhar('cEmail', 'O domínio desse e-mail não existe. Confira o e-mail.');
+                return;
+              }
+              cad = { name: n, email: m, phone: '55' + t };
+              enviar(botaoEnviar);
+            });
+          };
+        }
+
+        var v = document.getElementById('qVoltar');
+        if (v) v.onclick = function () { passo = Math.max(0, passo - 1); render(); };
       }
 
-      document.querySelectorAll('[data-abrir]').forEach(function (el) {
-        el.addEventListener('click', abrir);
-      });
-      modal.querySelectorAll('[data-fechar]').forEach(function (el) {
-        el.addEventListener('click', fechar);
-      });
+      // -----------------------------------------------------------------------
+      // VALIDAÇÃO DE CONTATO (barra número e e-mail falsos antes de enviar)
+      // -----------------------------------------------------------------------
+      var DDDS = [11,12,13,14,15,16,17,18,19,21,22,24,27,28,31,32,33,34,35,37,38,41,42,43,44,45,46,47,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99];
+      var DESCARTAVEIS = ['mailinator.com','guerrillamail.com','guerrillamail.net','10minutemail.com','10minutemail.net','tempmail.com','temp-mail.org','temp-mail.io','yopmail.com','yopmail.fr','trashmail.com','sharklasers.com','dispostable.com','getnada.com','maildrop.cc','fakeinbox.com','mohmal.com','throwawaymail.com','tempr.email','emailondeck.com','mintemail.com','mailnesia.com','spamgourmet.com','tempmailo.com','burnermail.io','mailtemp.net','tmpmail.net','tmpmail.org','inboxkitten.com','grr.la','guerrillamailblock.com','pokemail.net','spam4.me','trbvm.com','mail-temp.com','tempail.com','minutemail.com','mytemp.email','disposablemail.com','email-fake.com','fakemail.net','mailsac.com','tempinbox.com','luxusmail.org','nwytg.net','byom.de'];
+      var TYPOS = { 'gmail.con': 'gmail.com', 'gmail.co': 'gmail.com', 'gmai.com': 'gmail.com', 'gmial.com': 'gmail.com', 'gamil.com': 'gmail.com', 'gmail.cm': 'gmail.com', 'gmaill.com': 'gmail.com', 'gmail.com.br': 'gmail.com', 'hotmail.con': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'hotmail.co': 'hotmail.com', 'hotmai.com': 'hotmail.com', 'hotmail.cm': 'hotmail.com', 'outlok.com': 'outlook.com', 'outlook.con': 'outlook.com', 'outloo.com': 'outlook.com', 'yahoo.con': 'yahoo.com', 'yaho.com': 'yahoo.com', 'icloud.con': 'icloud.com', 'iclod.com': 'icloud.com', 'live.con': 'live.com' };
+
+      function validarNome(n) {
+        if (n.length < 3) return 'Digite o seu nome completo.';
+        if (n.split(' ').length < 2) return 'Digite nome e sobrenome.';
+        if (!/^[a-zà-ÿ' .-]+$/i.test(n)) return 'O nome só pode ter letras.';
+        if (/^(\w)\1+$/i.test(n.replace(/\s/g, ''))) return 'Esse nome não parece real.';
+        return '';
+      }
+      function validarTelefone(d) {
+        if (!/^\d{10,11}$/.test(d)) return 'Digite o WhatsApp com DDD, por exemplo (31) 99999-0000.';
+        var ddd = +d.slice(0, 2), num = d.slice(2);
+        if (DDDS.indexOf(ddd) < 0) return 'Esse DDD não existe. Confira o número.';
+        if (num.length === 9 && num[0] !== '9') return 'Celular com 9 dígitos precisa começar com 9.';
+        if (num.length === 8 && !/^[2-5]/.test(num)) return 'Esse número não parece válido. Confira o WhatsApp.';
+        var corpo = num.length === 9 ? num.slice(1) : num;
+        var falso = 'Esse número não parece real. Confira o WhatsApp.';
+        if (/^(\d)\1+$/.test(corpo)) return falso;                                   // 99999999
+        if (new Set(corpo.split('')).size <= 2) return falso;                           // 90909090, 12121212
+        if ('01234567890123456789'.indexOf(corpo) > -1 || '98765432109876543210'.indexOf(corpo) > -1) return falso;   // sequências
+        if (/^(\d{2})\1{3}$/.test(corpo) || /^(\d{4})\1$/.test(corpo)) return falso;  // 12121212, 12341234
+        return '';
+      }
+      function validarEmail(m) {
+        if (!/^[a-z0-9._%+\-]+@[a-z0-9\-]+(\.[a-z0-9\-]+)*\.[a-z]{2,}$/.test(m)) return 'Digite um e-mail válido.';
+        var partes = m.split('@'), local = partes[0], dom = partes[1];
+        if (/\.\./.test(m) || /^\./.test(local) || /\.$/.test(local)) return 'Digite um e-mail válido.';
+        if (TYPOS[dom]) return 'Você quis dizer ' + local + '@' + TYPOS[dom] + '? Corrija o e-mail.';
+        if (DESCARTAVEIS.some(function (x) { return dom === x || dom.slice(-x.length - 1) === '.' + x; })) return 'E-mails temporários não são aceitos. Use o seu e-mail principal.';
+        if (/^(teste|test|asdf|qwerty|abc|xyz|aaa|email|exemplo|example|naotenho|nao|sem)(\d*)$/.test(local) && !/^(gmail|hotmail|outlook|yahoo|icloud|live|uol|bol|terra)\./.test(dom)) return 'Esse e-mail não parece real. Use o seu e-mail principal.';
+        if (/^(example|exemplo|teste|test|email|mail|dominio|domain)\./.test(dom)) return 'Esse e-mail não parece real. Use o seu e-mail principal.';
+        return '';
+      }
+      // Checa se o domínio recebe e-mail (MX) ou ao menos existe (A), via DNS over
+      // HTTPS. Falha de rede ou resposta estranha = não bloqueia.
+      function dominioExiste(dom) {
+        var cache = {};
+        try { cache = JSON.parse(sessionStorage.getItem('xpn_dns') || '{}') || {}; } catch (e) {}
+        if (dom in cache) return Promise.resolve(cache[dom]);
+        function consulta(tipo) {
+          return fetch('https://dns.google/resolve?name=' + encodeURIComponent(dom) + '&type=' + tipo, { headers: { accept: 'application/dns-json' } })
+            .then(function (r) { return r.ok ? r.json() : null; });
+        }
+        var limite = new Promise(function (res) { setTimeout(function () { res(null); }, 3500); });
+        return Promise.race([consulta('MX').then(function (j) {
+          if (!j || typeof j.Status !== 'number') return null;
+          if (j.Status === 3) return false;                                    // NXDOMAIN
+          if (Array.isArray(j.Answer) && j.Answer.length) return true;
+          return consulta('A').then(function (a) {
+            if (!a || typeof a.Status !== 'number') return null;
+            if (a.Status === 3) return false;
+            return Array.isArray(a.Answer) && a.Answer.length > 0;
+          });
+        }), limite]).then(function (ok) {
+          if (ok === null) return true;
+          try { cache[dom] = ok; sessionStorage.setItem('xpn_dns', JSON.stringify(cache)); } catch (e) {}
+          return ok;
+        }).catch(function () { return true; });
+      }
+
+      // Teclado: letra escolhe a opção; Enter avança.
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('aberto')) fechar();
+        if (enviada || passo >= PERGUNTAS.length) {
+          if (e.key === 'Enter' && !enviada && passo === PERGUNTAS.length && e.target && e.target.tagName === 'INPUT') {
+            e.preventDefault(); var b = document.getElementById('qEnviar'); if (b) b.click();
+          }
+          return;
+        }
+        var q = PERGUNTAS[passo];
+        if (q.multi && e.key === 'Enter') { e.preventDefault(); var sg = document.getElementById('qSeguir'); if (sg) sg.click(); return; }
+        if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        var i = e.key.length === 1 ? e.key.toUpperCase().charCodeAt(0) - 65 : -1;
+        if (i >= 0 && i < q.o.length) {
+          var opt = quiz.querySelector('.op[data-i="' + i + '"]'); if (opt) opt.click();
+        }
       });
 
-      // Envio concluido: gera o lead_id, avisa o dataLayer e leva o lead para a
-      // /typ_vsl/ (pagina de obrigado deste funil) com lead_id e funil na URL,
-      // preservando UTMs/cliques da LP. O Lead do pixel NAO dispara aqui: dispara
-      // ao acessar a /typ_vsl/, com eventID = lead_id (ver typ_vsl/index.html).
-      // Fica na LP (e nao no redirect_url do form) porque o mesmo form [ADV] roda
-      // no tributario e no advocacia; o redirect configurado no CRM e ignorado.
-      // 400ms para o dataLayer sair antes de trocar de pagina.
-      var ORIGIN = 'https://crm.xpndigital.com';
-      var FUNIL = 'advogados_tributario';
-      var leadId = null, fat = '', temRedirect = false, navTimer = null;
-      function irParaObrigado() {
-        var par = new URLSearchParams(window.location.search);
-        par.delete('fat');
-        par.set('lead_id', leadId);
-        par.set('funil', FUNIL);
-        // fat vai com encodeURIComponent (espaco como %20, nao "+"): e assim que o GTM le a query
-        window.location.href = 'https://maquinadereunioes.com/typ_vsl/?' + par.toString() +
-          (fat ? '&fat=' + encodeURIComponent(fat) : '');
+      // Tela de transição (não é campo): aparece assim que a pessoa envia, enquanto
+      // o CRM responde. Fica no mínimo 1,6s para a mudança não parecer um "pulo".
+      function telaTransicao() {
+        quiz.innerHTML = '<div class="loading" role="status"><div class="spin" aria-hidden="true"></div>' +
+          '<b>Analisando as suas respostas…</b>' +
+          '<span>Só um instante. Estamos verificando se o momento do seu escritório se encaixa na reunião.</span></div>';
       }
-      // urlCrm: URL de redirect configurada no CRM, que traz o faturamento (?fat={{faturamento}}).
-      // Ela nao e seguida; so o fat e aproveitado e repassado para a typ_vsl (lead qualificado).
-      function concluir(urlCrm) {
-        if (urlCrm) {
-          temRedirect = true;
-          try { fat = (new URL(urlCrm).searchParams.get('fat') || fat).trim().slice(0, 80); } catch (err) {}
-        }
-        if (!leadId) {
-          leadId = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
-          try {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({ event: 'aplicacao_enviada', funil: FUNIL, event_id: leadId });
-          } catch (err) {}
-        }
-        // Com o redirect do CRM em maos vai em 400ms (tempo do dataLayer sair);
-        // sem ele, espera ate 1,5s pelo aviso de redirect antes de ir sem o fat.
-        clearTimeout(navTimer);
-        navTimer = setTimeout(irParaObrigado, temRedirect ? 400 : 1500);
+
+      function enviar(botao) {
+        if (enviada) return;
+        botao.disabled = true; botao.textContent = 'Enviando…';
+        var inicioTransicao = Date.now();
+        telaTransicao();
+        var payload = {};
+        Object.keys(resp).forEach(function (k) { payload[k] = Array.isArray(resp[k]) ? resp[k].join(', ') : resp[k]; });
+        payload.name = cad.name; payload.email = cad.email; payload.phone = cad.phone;
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+         'gclid','fbclid','ttclid','msclkid','li_fat_id'].forEach(function (k) { var v = par.get(k); if (v) payload[k] = v; });
+        payload.landing_page = window.location.href;
+        payload.referrer = document.referrer || '';
+        payload.source = CONFIG.FORM_NAME;
+        payload.form_id = CONFIG.FORM_ID;
+        payload.form_name = CONFIG.FORM_NAME;
+
+        fetch(CONFIG.CRM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(function () { return {}; }); })
+          .then(function (corpo) {
+            enviada = true;
+            var token = (corpo && typeof corpo.booking_token === 'string') ? corpo.booking_token : '';
+            var qual = qualifica();
+            var fat = resp.capital_disponivel || '';
+            var eid = 'adv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+            try { sessionStorage.setItem(CONFIG.CHAVE, JSON.stringify({ token: token, qual: qual, fat: fat, eid: eid })); } catch (e) {}
+            push({ event: 'aplicacao_enviada', event_id: eid, faturamento: fat, momento: resp.momento || '', posicao: resp.posicao || '', qualificado: qual, agenda_liberada: !!token });
+            try {
+              fbq('track', 'Lead', { content_name: CONFIG.LEAD_NOME, content_category: CONFIG.LEAD_CATEGORIA }, { eventID: eid });
+              if (fatQualificado()) {
+                fbq('trackCustom', 'Lead_qualificado_geral', { faturamento: fat }, { eventID: eid + '-lq' });
+                fbq('trackCustom', 'Lead_qualificado_vsl',   { faturamento: fat }, { eventID: eid + '-lq' });
+                push({ event: 'lead_qualificado', faturamento: fat, event_id: eid + '-lq' });
+              }
+            } catch (e) {}
+            var resta = Math.max(0, 1600 - (Date.now() - inicioTransicao));
+            setTimeout(function () { concluir(token, qual, eid); }, resta);
+          })
+          .catch(function () {
+            enviada = false;
+            render();   // volta para a tela de dados com o que a pessoa digitou
+            var e = document.getElementById('qErro');
+            if (e) { e.textContent = 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.'; e.classList.add('on'); }
+          });
       }
-      window.addEventListener('message', function (e) {
-        if (e.origin !== ORIGIN || !e.data) return;   // so mensagens do form do CRM
-        if (e.data.type === 'np-form-height' || e.data.type === 'crm-form-height') {
-          var h = parseInt(e.data.height, 10);
-          if (h > 0) form.style.height = h + 'px';   // ignora o 0 do estado escondido
+
+      function salvo() { try { return JSON.parse(sessionStorage.getItem(CONFIG.CHAVE) || '{}') || {}; } catch (e) { return {}; } }
+      function eidSalvo() { return salvo().eid || ''; }
+
+      // Obrigado deste funil: ?q=1|0 (agenda), fat (faturamento, como a typ_vsl lê),
+      // lead_id, funil, dt (início da reunião, quando agendou) + UTMs/cliques.
+      function irParaObrigado(qual, eid, inicio) {
+        var qs = new URLSearchParams();
+        qs.set('q', qual ? '1' : '0');
+        if (eid) qs.set('lead_id', eid);
+        qs.set('funil', CONFIG.FUNIL);
+        if (inicio) qs.set('dt', inicio);
+        ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function (k) { var v = par.get(k); if (v) qs.set(k, v); });
+        var fat = resp.capital_disponivel || salvo().fat || '';
+        // fat vai com encodeURIComponent (espaço como %20, não "+"): é assim que o GTM lê a query
+        window.location.href = CONFIG.OBRIGADO_URL + '?' + qs.toString() + (fat ? '&fat=' + encodeURIComponent(fat) : '');
+      }
+
+      // Qualificado: agenda inline, no lugar do formulário.
+      // Não qualificado: vai direto para a página de obrigado.
+      function concluir(token, qual, eid) {
+        passo = total; progresso();
+        try { document.dispatchEvent(new Event('xpn:aplicacao-enviada')); } catch (e) {}
+        if (!qual) { irParaObrigado(false, eid); return; }
+        appBox.style.display = 'none';
+        agenda.classList.add('on');
+        if (token) {
+          abrirAgenda(token);
+        } else {
+          // Qualificou na página mas o CRM não devolveu token: não deixa o lead
+          // sem próximo passo.
+          semHorarios('Recebemos sua aplicação.');
         }
-        // O form pode avisar por 'crm-form-submitted' e/ou 'crm-form-redirect'; qualquer um conclui.
-        if (e.data.type === 'crm-form-submitted') concluir(null);
-        if (e.data.type === 'crm-form-redirect' && typeof e.data.url === 'string') concluir(e.data.url);
-      });
+        document.getElementById('aplicar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Badge de escassez acima da agenda. Alterna frases a cada poucos segundos;
+      // a primeira usa a quantidade REAL de horários que estão na tela.
+      var badge = { frases: ['Poucos horários disponíveis nos próximos 2 dias', 'Os horários desta semana estão acabando'], i: 0, timer: null };
+      function badgeMostrar(txt) {
+        var el = document.getElementById('vagasTxt'); if (!el) return;
+        el.classList.add('troca');
+        setTimeout(function () { el.innerHTML = '<i aria-hidden="true"></i>' + esc(txt); el.classList.remove('troca'); }, 250);
+      }
+      function badgeAtualizar(nSlots, nDias) {
+        if (nSlots > 0) {
+          badge.frases[0] = 'Só ' + nSlots + (nSlots === 1 ? ' horário disponível' : ' horários disponíveis') +
+            ' nos próximos ' + nDias + (nDias === 1 ? ' dia' : ' dias');
+          if (badge.i === 0) badgeMostrar(badge.frases[0]);
+        }
+        if (!badge.timer) badge.timer = setInterval(function () { badge.i = (badge.i + 1) % badge.frases.length; badgeMostrar(badge.frases[badge.i]); }, 4500);
+      }
+
+      // Aviso discreto (toast) no rodapé.
+      var toastTimer = null;
+      function toast(html, ms) {
+        var t = document.getElementById('toast'); if (!t) return;
+        t.innerHTML = html; t.classList.add('on');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('on'); }, ms || 4200);
+      }
+
+      function rpc(nome, body) {
+        return fetch(CONFIG.RPC_BASE + nome, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: CONFIG.ANON_KEY, Authorization: 'Bearer ' + CONFIG.ANON_KEY },
+          body: JSON.stringify(body)
+        }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+      }
+
+      // -----------------------------------------------------------------------
+      // SELETOR DE HORÁRIOS
+      // -----------------------------------------------------------------------
+      var TZ = 'America/Sao_Paulo';
+      function diaChave(d) { return d.toLocaleDateString('pt-BR', { timeZone: TZ }); }
+      function diaRotulo(d) {
+        var hoje = new Date(), amanha = new Date(Date.now() + 864e5);
+        if (diaChave(d) === diaChave(hoje)) return 'Hoje';
+        if (diaChave(d) === diaChave(amanha)) return 'Amanhã';
+        var t = d.toLocaleDateString('pt-BR', { timeZone: TZ, weekday: 'long', day: '2-digit', month: 'long' });
+        return t.charAt(0).toUpperCase() + t.slice(1);
+      }
+      function hora(d) { return d.toLocaleTimeString('pt-BR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' }); }
+      function espalhar(arr, n) {   // n itens distribuídos ao longo do dia (como o CRM faz)
+        if (arr.length <= n) return arr.slice();
+        var out = [], usados = {};
+        for (var g = 0; g < n; g++) { var ix = Math.round(g * (arr.length - 1) / (n - 1)); if (!usados[ix]) { usados[ix] = 1; out.push(arr[ix]); } }
+        return out;
+      }
+
+      function semHorarios(msg) {
+        agenda.classList.add('sem-token');
+        document.getElementById('agendaFora').innerHTML = '<b>' + esc(msg || 'Recebemos sua aplicação.') + '</b><br>Nosso time vai entrar em contato pelo WhatsApp para marcar o melhor horário da sua reunião.';
+        setTimeout(function () { irParaObrigado(true, eidSalvo()); }, 4000);
+      }
+
+      function abrirAgenda(token) {
+        agendaBox.innerHTML = '<div class="loading" role="status"><div class="spin" aria-hidden="true"></div><span>Carregando os horários…</span></div>';
+        rpc('agenda_slots_livres', { p_token: token })
+          .then(function (slots) {
+            if (!Array.isArray(slots)) throw new Error('resposta');
+            if (!slots.length) { semHorarios('Não há horários livres agora.'); return; }
+            montarAgenda(token, slots);
+          })
+          .catch(function () { semHorarios('Não consegui abrir a agenda agora.'); });
+      }
+
+      function montarAgenda(token, slots) {
+        var porDia = {}, ordem = [];
+        slots.forEach(function (x) {
+          var d = new Date(x.inicio); if (isNaN(d)) return;
+          var k = diaChave(d);
+          if (!porDia[k]) { porDia[k] = []; ordem.push(k); }
+          porDia[k].push(d);
+        });
+        if (!ordem.length) { semHorarios('Não há horários livres agora.'); return; }
+        var dias = ordem.map(function (k) {
+          var lista = porDia[k].sort(function (a, b) { return a - b; });
+          return { k: k, rotulo: diaRotulo(lista[0]), slots: espalhar(lista, CONFIG.VISIVEIS_POR_DIA), ocultos: {} };
+        });
+        var st = { token: token, dias: dias, aberto: dias[0].k, sel: null, reservando: false };
+
+        function visiveis(d) { return d.slots.filter(function (x) { return !d.ocultos[x.getTime()]; }); }
+        function totalVisiveis() { return st.dias.reduce(function (n, d) { return n + visiveis(d).length; }, 0); }
+
+        function desenhar() {
+          var html = '<h3>Escolha o melhor horário</h3><p class="sub">São 60 minutos, por chamada de vídeo. Horário de Brasília.</p>';
+          st.dias.forEach(function (d) {
+            var v = visiveis(d); if (!v.length) return;
+            var ab = st.aberto === d.k;
+            html += '<div class="dia' + (ab ? ' aberto' : '') + '" data-k="' + esc(d.k) + '">' +
+              '<button type="button" class="dia-h" aria-expanded="' + ab + '"><span>' + esc(d.rotulo) + '</span><small>' + v.length + (v.length === 1 ? ' horário' : ' horários') + '</small></button>' +
+              (ab ? '<div class="slots">' + v.map(function (x) {
+                var on = st.sel && st.sel.getTime() === x.getTime();
+                return '<button type="button" class="slot' + (on ? ' sel' : '') + '" data-t="' + x.getTime() + '" aria-pressed="' + !!on + '">' + hora(x) + '</button>';
+              }).join('') + '</div>' : '') + '</div>';
+          });
+          if (st.sel) {
+            html += '<div class="confirmar"><button type="button" class="bt" id="agConfirmar"' + (st.reservando ? ' disabled' : '') + '>' +
+              (st.reservando ? 'Confirmando…' : 'Confirmar ' + diaRotulo(st.sel).toLowerCase() + ' às ' + hora(st.sel)) + '</button></div>';
+          }
+          agendaBox.innerHTML = html;
+          agendaBox.querySelectorAll('.dia-h').forEach(function (b) {
+            b.onclick = function () { var k = b.parentNode.getAttribute('data-k'); st.aberto = st.aberto === k ? null : k; desenhar(); };
+          });
+          agendaBox.querySelectorAll('.slot').forEach(function (b) {
+            b.onclick = function () { st.sel = new Date(+b.getAttribute('data-t')); desenhar(); };
+          });
+          var c = document.getElementById('agConfirmar'); if (c) c.onclick = confirmar;
+          badgeAtualizar(totalVisiveis(), st.dias.filter(function (d) { return visiveis(d).length; }).length);
+        }
+
+        // Um horário por dia some enquanto a pessoa escolhe (só nesta sessão), com
+        // aviso discreto. Nunca o horário selecionado, nunca abaixo de MIN_POR_DIA.
+        function agendarSumico() {
+          st.dias.forEach(function (d, i) {
+            if (visiveis(d).length <= CONFIG.MIN_POR_DIA) return;
+            var faixa = RAPIDO ? [800, 1200] : CONFIG.SOME_ENTRE_MS;
+            var em = faixa[0] + Math.random() * (faixa[1] - faixa[0]) + i * (RAPIDO ? 600 : 9000);
+            setTimeout(function () {
+              if (st.reservando) return;
+              var cand = visiveis(d).filter(function (x) { return !(st.sel && st.sel.getTime() === x.getTime()); });
+              if (visiveis(d).length <= CONFIG.MIN_POR_DIA || !cand.length) return;
+              var alvo = cand[Math.floor(Math.random() * cand.length)];
+              var el = agendaBox.querySelector('.slot[data-t="' + alvo.getTime() + '"]');
+              if (el) el.classList.add('some');
+              setTimeout(function () { d.ocultos[alvo.getTime()] = 1; desenhar(); }, el ? 380 : 0);
+              toast('O horário de <b>' + esc(diaRotulo(alvo).toLowerCase()) + ' às ' + esc(hora(alvo)) + '</b> acabou de ficar indisponível.');
+              push({ event: 'agenda_horario_sumiu', dia: d.k });
+            }, em);
+          });
+        }
+
+        function confirmar() {
+          if (!st.sel || st.reservando) return;
+          st.reservando = true; desenhar();
+          rpc('agenda_reservar_slot', { p_token: st.token, p_inicio: st.sel.toISOString() })
+            .then(function (r) {
+              if (r && r.ok) {
+                var inicio = st.sel.toISOString();
+                try { sessionStorage.setItem(CONFIG.CHAVE, JSON.stringify(Object.assign({}, salvo(), { agendou: true, inicio: inicio }))); } catch (e) {}
+                push({ event: 'reuniao_agendada', inicio: inicio, event_id: eidSalvo() });
+                try { fbq('track', 'Schedule', { content_name: 'Reuniao Advogados - Mega Conteudo Tributario', content_category: CONFIG.LEAD_CATEGORIA }, { eventID: 'sched_' + eidSalvo() }); } catch (e) {}
+                agendaBox.innerHTML = '<div class="ag-ok"><div class="ic">✅</div><b>Seu horário está confirmado!</b><p>' +
+                  esc(diaRotulo(st.sel)) + ' às ' + esc(hora(st.sel)) + ' · com ' + esc(r.responsavel || 'nosso time') + '. Você recebe a confirmação no WhatsApp e no e-mail.</p></div>';
+                document.querySelector('.agenda .pos').textContent = 'Levando você para a próxima etapa…';
+                setTimeout(function () { irParaObrigado(true, eidSalvo(), inicio); }, 1800);
+                return;
+              }
+              st.reservando = false;
+              var erro = r && r.erro;
+              if (erro === 'horario_ocupado' || erro === 'horario_fora_da_janela') {
+                toast('Esse horário acabou de ser reservado por outra pessoa. <b>Escolha outro.</b>', 5000);
+                st.sel = null;
+                rpc('agenda_slots_livres', { p_token: st.token }).then(function (slots) {
+                  if (!Array.isArray(slots) || !slots.length) { semHorarios('Não há horários livres agora.'); return; }
+                  var novos = {};
+                  slots.forEach(function (x) { novos[new Date(x.inicio).getTime()] = 1; });
+                  st.dias.forEach(function (d) { d.slots.forEach(function (x) { if (!novos[x.getTime()]) d.ocultos[x.getTime()] = 1; }); });
+                  desenhar();
+                }).catch(function () { desenhar(); });
+                return;
+              }
+              if (erro === 'link_invalido') { semHorarios('Esse link de agenda expirou.'); return; }
+              toast('Algo deu errado aqui do nosso lado. <b>Tente de novo.</b>');
+              desenhar();
+            })
+            .catch(function () { st.reservando = false; toast('Sem conexão agora. <b>Tente de novo.</b>'); desenhar(); });
+        }
+
+        desenhar();
+        agendarSumico();
+      }
+
+      // Recarregou depois de aplicar: volta direto para a agenda (token é de uso único).
+      var s = salvo();
+      if (s.agendou) { irParaObrigado(true, s.eid, s.inicio); }
+      else if (s.qual && s.token) { enviada = true; concluir(s.token, true, s.eid); }
+      else render();
+    })();
+
+    // Barra fixa de CTA: aparece depois do hero, some com o formulário na tela
+    // ou depois da aplicação enviada.
+    (function () {
+      var barra = document.getElementById('barra');
+      var hero = document.querySelector('.hero');
+      var form = document.getElementById('aplicar');
+      if (!barra || !hero || !form || !('IntersectionObserver' in window)) return;
+      var heroNaTela = true, formNaTela = false, enviada = false;
+      function atualizar() {
+        var on = !heroNaTela && !formNaTela && !enviada;
+        barra.classList.toggle('on', on);
+        barra.setAttribute('aria-hidden', String(!on));
+        document.body.classList.toggle('com-barra', on);
+      }
+      new IntersectionObserver(function (es) { es.forEach(function (e) { heroNaTela = e.isIntersecting; }); atualizar(); }, { threshold: 0 }).observe(hero);
+      new IntersectionObserver(function (es) { es.forEach(function (e) { formNaTela = e.isIntersecting; }); atualizar(); }, { threshold: 0.05 }).observe(form);
+      document.addEventListener('xpn:aplicacao-enviada', function () { enviada = true; atualizar(); });
     })();
 
     // Metodologia: anel sincronizado com o scroll (desktop) / autoplay ao entrar na tela (mobile)

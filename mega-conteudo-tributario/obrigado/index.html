@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+  MEGA CONTEÚDO TRIBUTÁRIO · Página de obrigado da aplicação nativa
+  Chega aqui, vindo de /mega-conteudo-tributario/ (formulário nativo com agenda):
+    - ?q=1 — quem se qualificou e reservou horário na agenda (dt = início da reunião, ISO);
+    - ?q=0 — quem não se qualificou para a agenda: o time chama no WhatsApp.
+  A URL traz também fat=<faturamento>, lead_id=<adv_…>, funil=advogados_tributario e as UTMs.
+
+  PIXEL / GTM: o Lead (e o Lead_qualificado) já disparou na LP, no envio da aplicação —
+  aqui NÃO dispara de novo. O GTM manda o PageView (fallback em 3s se ele não mandar).
+  Esta página só avisa o dataLayer (evento obrigado_advogados).
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Aplicação recebida — XPN Digital</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../obrigado/assets/favicon-32.png">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WBZLWJ8X');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Meta Pixel — base nativa. NAO dispara PageView (o GTM dispara); fallback em 3s. -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','764164756172990');
+  (function(){
+    function jaMandouPageView(){
+      try{
+        return performance.getEntriesByType('resource').some(function(r){
+          return r.name.indexOf('facebook.com/tr')>-1 && r.name.indexOf('ev=PageView')>-1;
+        });
+      }catch(e){ return true; }  // na duvida, NAO duplica
+    }
+    setTimeout(function(){ if(!jaMandouPageView()) fbq('track','PageView'); },3000);
+    var p = new URLSearchParams(window.location.search);
+    try{
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'obrigado_advogados', funil: p.get('funil') || 'advogados_tributario',
+        qualificado: p.get('q') === '1', agendou: p.get('q') === '1' && !!p.get('dt'),
+        faturamento: p.get('fat') || '', event_id: p.get('lead_id') || '' });
+    }catch(e){}
+  })();
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=764164756172990&ev=PageView&noscript=1"></noscript>
+  <!-- End Meta Pixel -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#04070F; --bg-2:#060B18;
+      --line:rgba(96,165,250,.07); --border:rgba(255,255,255,.09); --card:rgba(255,255,255,.03);
+      --txt:#FFFFFF; --txt-2:rgba(255,255,255,.68); --txt-3:rgba(255,255,255,.45);
+      --blue:#3B82F6; --blue-2:#60A5FA; --blue-dark:#1E40AF; --green:#34D399; --amber:#F59E0B;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    [hidden]{display:none !important}
+    body{
+      background-color:var(--bg);
+      background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size:72px 72px;
+      color:var(--txt);font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;
+    }
+    .serif{font-family:'Instrument Serif',ui-serif,Georgia,serif;font-style:italic;font-weight:400}
+    header{padding:22px 0;text-align:center;border-bottom:1px solid rgba(255,255,255,.05)}
+    .logo{font-weight:900;font-size:20px;letter-spacing:.02em;color:#fff;text-decoration:none}
+    .logo small{font-weight:500;font-size:11px;letter-spacing:.28em;color:var(--txt-3);display:block;margin-top:2px;text-transform:uppercase}
+    .container{max-width:720px;margin:0 auto;padding:0 20px}
+    .hero{position:relative;padding:64px 0 32px;text-align:center}
+    .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 45% at 50% 0%, rgba(59,130,246,.14), transparent 70%)}
+    .badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green);border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);padding:8px 16px;border-radius:999px;margin-bottom:26px}
+    h1{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.14;letter-spacing:-.02em;margin:0 auto 18px;max-width:640px}
+    .hl{background:linear-gradient(100deg, var(--blue-2), var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{font-size:clamp(15px,2vw,18px);color:var(--txt-2);line-height:1.6;max-width:560px;margin:0 auto}
+    .sub strong{color:#fff;font-weight:700}
+
+    .quando{max-width:560px;margin:28px auto 0;border:1px solid rgba(96,165,250,.3);border-radius:18px;padding:22px 24px;background:linear-gradient(180deg, rgba(59,130,246,.10), rgba(255,255,255,.02));box-shadow:0 0 80px -30px rgba(37,99,235,.45);text-align:left;display:flex;gap:16px;align-items:center}
+    .quando .ic{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4)}
+    .quando .ic svg{width:26px;height:26px;fill:none;stroke:var(--blue-2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .quando b{display:block;font-size:19px;font-weight:800;letter-spacing:-.01em;color:#fff}
+    .quando span{display:block;font-size:14px;color:var(--txt-2);margin-top:4px}
+    .quando a{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--blue-2);text-decoration:none;border-bottom:1px solid rgba(96,165,250,.4)}
+
+    .box{max-width:560px;margin:28px auto 0;border:1px solid var(--border);border-radius:18px;padding:26px 24px;background:var(--card);text-align:left}
+    .box h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+    .box ol{list-style:none;display:flex;flex-direction:column;gap:14px;counter-reset:p}
+    .box li{display:flex;gap:14px;color:var(--txt-2);font-size:15px;line-height:1.55;counter-increment:p}
+    .box li::before{content:counter(p);flex:0 0 26px;height:26px;border-radius:50%;background:rgba(59,130,246,.15);border:1px solid rgba(96,165,250,.4);display:flex;align-items:center;justify-content:center;color:var(--blue-2);font-size:12px;font-weight:800;margin-top:1px}
+    .box li > span{flex:1}
+    .box li strong{color:#fff;font-weight:700}
+    .aviso{max-width:560px;margin:22px auto 0;text-align:center;font-size:13px;color:var(--txt-3);line-height:1.6}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);padding:36px 0 48px;text-align:center;margin-top:64px}
+    footer .brand{font-weight:800;font-size:15px;margin-bottom:12px}
+    footer nav{display:flex;gap:22px;justify-content:center;margin-bottom:12px}
+    footer nav a{color:var(--txt-2);font-size:13px;text-decoration:none}
+    footer .copy{font-size:12px;color:var(--txt-3)}
+    @media (max-width:640px){
+      .hero{padding-top:44px}
+      .quando{flex-direction:column;align-items:flex-start;gap:12px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBZLWJ8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header>
+    <a class="logo" href="https://maquinadereunioes.com/mega-conteudo-tributario/">XPN DIGITAL<small>Máquina de Reuniões</small></a>
+  </header>
+
+  <main class="hero">
+    <div class="container">
+      <div class="badge" id="badge">✅ Aplicação recebida</div>
+      <h1 id="titulo">Recebemos a sua aplicação, <span class="hl">obrigado!</span></h1>
+      <p class="sub" id="sub">Nosso time vai analisar as respostas sobre o seu escritório e entrar em contato <strong>pelo WhatsApp</strong>.</p>
+
+      <!-- Só para quem agendou (?q=1&dt=…) -->
+      <div class="quando" id="quando" hidden>
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 9h18"></path><path d="m8.5 14.5 2.5 2.5 4.5-4.5"></path></svg></div>
+        <div>
+          <b id="quandoData">Horário confirmado</b>
+          <span id="quandoHora">60 minutos · por chamada de vídeo · horário de Brasília</span>
+          <a id="gcal" href="#" target="_blank" rel="noopener" hidden>+ Adicionar ao Google Agenda</a>
+        </div>
+      </div>
+
+      <div class="box" id="qualificado" hidden>
+        <h2>O que acontece agora</h2>
+        <ol>
+          <li><span><strong>Confirmação no WhatsApp e no e-mail</strong> com o link da reunião — salve na agenda.</span></li>
+          <li><span>Um especialista da Máquina de Reuniões <strong>analisa as suas respostas</strong> antes da reunião, para falar do cenário do seu escritório, não de teoria.</span></li>
+          <li><span>Na reunião, você sai com o <strong>gargalo principal identificado</strong> e um plano de ação para os próximos 90 dias.</span></li>
+        </ol>
+      </div>
+
+      <div class="box" id="nao-qualificado" hidden>
+        <h2>Próximos passos</h2>
+        <ol>
+          <li><span><strong>Fique atento ao seu WhatsApp:</strong> o nosso time vai te chamar por lá.</span></li>
+          <li><span>Enquanto isso, <a href="https://maquinadereunioes.com/mega-conteudo-tributario/" style="color:var(--blue-2)">assista novamente ao vídeo</a> e anote as dúvidas sobre o cenário do seu escritório.</span></li>
+        </ol>
+      </div>
+
+      <p class="aviso" id="aviso" hidden>Se precisar remarcar, responda a mensagem de confirmação no WhatsApp.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="brand">XPN DIGITAL</div>
+      <nav>
+        <a href="https://maquinadereunioes.com/politica-de-privacidade/">Política de Privacidade</a>
+        <a href="https://maquinadereunioes.com/termos-de-uso/">Termos de Uso</a>
+      </nav>
+      <p class="copy">©2026 XPN Digital · Belo Horizonte, MG</p>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var p = new URLSearchParams(window.location.search);
+    var q = p.get('q') === '1';
+    document.getElementById(q ? 'qualificado' : 'nao-qualificado').hidden = false;
+    if (!q) return;
+
+    var TZ = 'America/Sao_Paulo';
+    var d = p.get('dt') ? new Date(p.get('dt')) : null;
+    var agendou = d && !isNaN(d);
+
+    document.getElementById('badge').textContent = agendou ? '✅ Reunião agendada' : '✅ Aplicação aprovada';
+    document.getElementById('titulo').innerHTML = agendou
+      ? 'Sua reunião está <span class="hl">agendada!</span>'
+      : 'Sua aplicação foi <span class="hl">aprovada!</span>';
+    document.getElementById('sub').innerHTML = agendou
+      ? 'Confira o WhatsApp e o e-mail: <strong>a confirmação com o link da reunião já está a caminho.</strong>'
+      : 'Nosso time vai entrar em contato <strong>pelo WhatsApp</strong> para marcar o melhor horário da sua reunião.';
+    if (!agendou) return;
+
+    document.getElementById('aviso').hidden = false;
+    var box = document.getElementById('quando'); box.hidden = false;
+    var dia = d.toLocaleDateString('pt-BR', { timeZone: TZ, weekday: 'long', day: '2-digit', month: 'long' });
+    var hora = d.toLocaleTimeString('pt-BR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
+    document.getElementById('quandoData').textContent = dia.charAt(0).toUpperCase() + dia.slice(1) + ' às ' + hora;
+
+    // Link "adicionar ao Google Agenda" (60 min)
+    function z(x){ return x.toISOString().replace(/[-:]|\.\d{3}/g, ''); }
+    var fim = new Date(d.getTime() + 60 * 60000);
+    var g = document.getElementById('gcal');
+    g.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent('Reunião — Máquina de Reuniões (XPN Digital)') +
+      '&dates=' + z(d) + '/' + z(fim) +
+      '&details=' + encodeURIComponent('Reunião com um especialista da Máquina de Reuniões sobre o seu escritório. O link da chamada chega por WhatsApp e e-mail.') +
+      '&ctz=America/Sao_Paulo';
+    g.hidden = false;
+  })();
+  </script>
+</body>
+</html>
