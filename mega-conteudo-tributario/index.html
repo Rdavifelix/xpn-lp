@@ -135,6 +135,7 @@
       box-shadow:0 0 80px -20px rgba(37,99,235,.45), 0 30px 60px -30px rgba(0,0,0,.8);
     }
     .vsl-inner{border-radius:14px;overflow:hidden;background:#000;line-height:0}
+    .hero .stars{margin-top:28px}
 
     /* ---------- CTA ---------- */
     .cta{
@@ -306,6 +307,10 @@
 
     /* ---------- APLICAÇÃO (1 pergunta por tela, mesma mecânica da /vsl/) + AGENDA ---------- */
     .section-sub strong{color:#fff;font-weight:700}
+    .form-head{max-width:640px;margin:0 auto 18px}
+    .form-head h2{font-size:clamp(22px,3vw,30px);margin-bottom:10px}
+    .form-head p{color:var(--txt-2);font-size:15.5px;line-height:1.6}
+    .form-head p strong{color:#fff;font-weight:700}
     .form-shell{
       max-width:640px;margin:0 auto;padding:8px;
       border:1px solid rgba(96,165,250,.28);border-radius:18px;
@@ -448,7 +453,36 @@
         </div>
       </div>
 
-      <a class="cta" href="#aplicar" data-aplicar>FAZER APLICAÇÃO →</a>
+      <!-- ==================== APLICAÇÃO (1 pergunta por tela) + AGENDA — logo abaixo da VSL ==================== -->
+      <!-- Mesma mecânica da /vsl/: perguntas de qualificação (versão para advogados), dados de
+           contato, envio direto ao receive-lead do CRM e, para quem se qualifica, a agenda do
+           time aparece aqui mesmo, no lugar do formulário. Ver o script no fim da página. -->
+      <div class="form-head">
+        <h2>Aplique Para a Sua Reunião Com um Especialista</h2>
+        <p>Algumas perguntas rápidas sobre o seu escritório. <strong>Se o seu momento se encaixar, você já escolhe o horário da reunião</strong> — sem esperar ligação.</p>
+      </div>
+
+      <div class="form-shell" id="aplicar">
+        <div class="app" id="app">
+          <div class="prog" aria-hidden="true"><span id="progBar"></span></div>
+          <div id="quiz" aria-live="polite"></div>
+        </div>
+
+        <div class="agenda" id="agenda">
+          <div class="ok">
+            <span aria-hidden="true">✅</span>
+            <div>
+              <b>Aplicação aprovada!</b>
+              <p id="agendaMsg">Pelo perfil do seu escritório, você se qualificou. Escolha abaixo o melhor horário para a sua reunião com um especialista da Máquina de Reuniões.</p>
+            </div>
+          </div>
+          <div class="vagas" id="vagas" aria-live="polite"><span id="vagasTxt"><i aria-hidden="true"></i>Poucos horários disponíveis nos próximos 2 dias</span></div>
+          <div class="ag" id="agendaNativa" aria-live="polite"></div>
+          <div class="fora" id="agendaFora"></div>
+          <p class="pos">Depois de confirmar o horário você será direcionado para a próxima etapa.</p>
+        </div>
+      </div>
+
       <div class="stars">★★★★★</div>
       <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
     </div>
@@ -603,38 +637,15 @@
     </div>
   </section>
 
-  <!-- ==================== ÚLTIMO PASSO — APLICAÇÃO (1 pergunta por tela) + AGENDA ==================== -->
-  <!-- Mesma mecânica da /vsl/: perguntas de qualificação (versão para advogados), dados de
-       contato, envio direto ao receive-lead do CRM e, para quem se qualifica, a agenda do
-       time aparece aqui mesmo, no lugar do formulário. Ver o script no fim da página. -->
+  <!-- ==================== ÚLTIMO PASSO (CTA rola até o formulário, no hero) ==================== -->
   <section class="section" id="agendar">
     <div class="container narrow">
       <p class="eyebrow">Último passo</p>
       <h2>Aplique Para a Sua Reunião Com um Especialista</h2>
       <p class="section-sub">Algumas perguntas rápidas sobre o seu escritório. <strong>Se o seu momento se encaixar, você já escolhe o horário da sua reunião com um especialista da Máquina de Reuniões</strong> — sem esperar ligação.</p>
 
-      <div class="form-shell" id="aplicar">
-        <div class="app" id="app">
-          <div class="prog" aria-hidden="true"><span id="progBar"></span></div>
-          <div id="quiz" aria-live="polite"></div>
-        </div>
-
-        <div class="agenda" id="agenda">
-          <div class="ok">
-            <span aria-hidden="true">✅</span>
-            <div>
-              <b>Aplicação aprovada!</b>
-              <p id="agendaMsg">Pelo perfil do seu escritório, você se qualificou. Escolha abaixo o melhor horário para a sua reunião com um especialista da Máquina de Reuniões.</p>
-            </div>
-          </div>
-          <div class="vagas" id="vagas" aria-live="polite"><span id="vagasTxt"><i aria-hidden="true"></i>Poucos horários disponíveis nos próximos 2 dias</span></div>
-          <div class="ag" id="agendaNativa" aria-live="polite"></div>
-          <div class="fora" id="agendaFora"></div>
-          <p class="pos">Depois de confirmar o horário você será direcionado para a próxima etapa.</p>
-        </div>
-      </div>
-
-      <div class="final" style="padding:28px 0 0">
+      <div class="final" style="padding-top:8px">
+        <a class="cta" href="#aplicar" data-aplicar>FAZER APLICAÇÃO →</a>
         <div class="stars">★★★★★</div>
         <p class="proof">+2.500 agendamentos qualificados gerados em 2025</p>
       </div>
@@ -1228,22 +1239,24 @@
       else render();
     })();
 
-    // Barra fixa de CTA: aparece depois do hero, some com o formulário na tela
-    // ou depois da aplicação enviada.
+    // Barra fixa de CTA: aparece quando o hero (onde está o formulário) sai da tela,
+    // some com o formulário ou o CTA final na tela, ou depois da aplicação enviada.
     (function () {
       var barra = document.getElementById('barra');
       var hero = document.querySelector('.hero');
       var form = document.getElementById('aplicar');
+      var fim = document.getElementById('agendar');
       if (!barra || !hero || !form || !('IntersectionObserver' in window)) return;
-      var heroNaTela = true, formNaTela = false, enviada = false;
+      var heroNaTela = true, formNaTela = false, fimNaTela = false, enviada = false;
       function atualizar() {
-        var on = !heroNaTela && !formNaTela && !enviada;
+        var on = !heroNaTela && !formNaTela && !fimNaTela && !enviada;
         barra.classList.toggle('on', on);
         barra.setAttribute('aria-hidden', String(!on));
         document.body.classList.toggle('com-barra', on);
       }
       new IntersectionObserver(function (es) { es.forEach(function (e) { heroNaTela = e.isIntersecting; }); atualizar(); }, { threshold: 0 }).observe(hero);
       new IntersectionObserver(function (es) { es.forEach(function (e) { formNaTela = e.isIntersecting; }); atualizar(); }, { threshold: 0.05 }).observe(form);
+      if (fim) new IntersectionObserver(function (es) { es.forEach(function (e) { fimNaTela = e.isIntersecting; }); atualizar(); }, { threshold: 0.3 }).observe(fim);
       document.addEventListener('xpn:aplicacao-enviada', function () { enviada = true; atualizar(); });
     })();
 
