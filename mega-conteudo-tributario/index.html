@@ -688,9 +688,16 @@
     //     [ADV]). Com o token, a agenda do time é desenhada aqui mesmo, com as RPCs
     //     públicas agenda_slots_livres / agenda_reservar_slot.
     //
-    // QUEM VÊ A AGENDA (função qualifica()): fatura R$20.000+/mês E não marcou "Estou
-    // só pesquisando por enquanto" E não é estagiário/outro. Quem não se qualifica vai
-    // direto para a obrigado (?q=0) e o time chama no WhatsApp.
+    // CRITÉRIOS DE QUALIFICAÇÃO (quem vê a agenda — função qualifica()):
+    //   1. Faturamento do escritório de R$20.000+/mês (as 3 faixas de cima — a mesma
+    //      régua MQL do CRM e da /typ_vsl/);
+    //   2. Quem decide: qualquer posição, menos "Estagiário(a) ou outro".
+    // Só isso. Momento ("só pesquisando"), investimento disponível, canais etc. NÃO
+    // barram a agenda: um sócio que fatura R$100k+ e diz que está "só pesquisando"
+    // ainda é o perfil — o time trata na reunião. Quem não passa nos 2 critérios vai
+    // direto para a obrigado (?q=0) e o time chama no WhatsApp. Mudar a régua =
+    // mudar qualifica() aqui (e o faturamento_minimo do form no CRM, se for de
+    // faturamento).
     //
     // PIXEL / GTM: o Lead dispara AQUI, no envio (eventID = lead_id adv_…), com o mesmo
     // content_name que a /typ_vsl/ usava para este funil. Lead_qualificado_geral/_vsl
@@ -721,9 +728,8 @@
       // Investimento mensal disponível. Valores com número completo (não "5 mil")
       // para o CRM conseguir ler a faixa; o primeiro número é o piso.
       var INVESTIMENTO = ['R$0 a R$5.000 por mês','R$5.000 a R$10.000 por mês','R$10.000 a R$20.000 por mês','Mais de R$20.000 por mês'];
-      var SO_PESQUISANDO = 'Estou só pesquisando por enquanto';
       var ESTAGIARIO = 'Estagiário(a) ou outro';
-      // Faixas de faturamento que são MQL (mesma régua da /typ_vsl/ e do
+      // Faixas de faturamento que qualificam (mesma régua MQL da /typ_vsl/ e do
       // faturamento_minimo do form no CRM): R$20.000+/mês.
       var FAT_QUALIFICADO = /mais de r\$100\.000|entre r\$50\.000 a r\$100\.000|entre r\$20\.000 a r\$40\.000/i;
 
@@ -747,7 +753,7 @@
         { k: 'investimento_ads', t: 'O escritório investe em anúncios hoje?',
           o: ['Não invisto ainda','Até R$3.000 por mês','De R$3.000 a R$10.000 por mês','De R$10.000 a R$30.000 por mês','Mais de R$30.000 por mês'] },
         { k: 'momento', t: 'Qual frase descreve melhor o seu momento?',
-          o: ['Já fecho clientes e quero escalar com previsibilidade','Minhas indicações diminuíram e preciso de outro canal','Estou estruturando o comercial do escritório e quero começar certo', SO_PESQUISANDO] },
+          o: ['Já fecho clientes e quero escalar com previsibilidade','Minhas indicações diminuíram e preciso de outro canal','Estou estruturando o comercial do escritório e quero começar certo','Estou só pesquisando por enquanto'] },
         { k: 'investimento_mensal', t: 'Quanto o escritório pode investir por mês em algo com ROI comprovado e garantia?',
           o: INVESTIMENTO },
         { k: 'porque_agora', t: 'Por que agora?',
@@ -755,9 +761,9 @@
       ];
 
       function fatQualificado() { return FAT_QUALIFICADO.test(resp.capital_disponivel || ''); }
-      // Critério da agenda (ver cabeçalho): faturamento MQL + não está só pesquisando + decide.
+      // Critérios da agenda (ver cabeçalho): faturamento R$20k+ E decide (não estagiário).
       function qualifica() {
-        return fatQualificado() && resp.momento !== SO_PESQUISANDO && resp.posicao !== ESTAGIARIO;
+        return fatQualificado() && resp.posicao !== ESTAGIARIO;
       }
 
       var par = new URLSearchParams(window.location.search);
