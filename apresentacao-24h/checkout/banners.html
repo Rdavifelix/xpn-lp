@@ -75,10 +75,19 @@ s{color:#A3A8B8;text-decoration-thickness:2px}
 /* 3 · lateral 600 x auto (@2x = 1200 de largura) */
 #lat{width:600px;padding:18px;background:#07080D}
 #lat .card{background:#0F1118;border:1px solid #1E2130;border-radius:22px;padding:28px 30px 26px}
-#lat .head{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center}
-#lat .head h2{font-size:25px;font-weight:800;line-height:1.15;letter-spacing:-.01em}
-#lat .head p{font-size:15.5px;line-height:1.45;color:#A3A8B8;margin-top:8px}
-#lat .rows{margin-top:22px}
+#lat .card{padding:0 0 26px;overflow:hidden}
+#lat .card>:not(.hero){margin-left:30px;margin-right:30px}
+#lat .hero{position:relative;aspect-ratio:1200/738}
+#lat .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40px;background:linear-gradient(transparent,#0F1118)}
+#lat .hero .ph{inset:0}
+#lat .hero .mk.L{width:282px;left:26px;top:16px}
+#lat .hero .mk.R{width:282px;right:12px;top:10px}
+#lat .hero .plate{left:134px;top:204px;width:312px;height:116px;gap:6px}
+#lat .hero .plate .k{font-size:8.5px}
+#lat .hero .plate h2{font-size:21px;font-weight:800;line-height:1.1;letter-spacing:-.02em}
+#lat .hero .plate .f{font-size:11px;line-height:1.4}
+#lat .rows{margin-top:6px}
+#lat .rows .row:first-child{border-top:0}
 #lat .row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-top:1px dashed #2A3045;font-size:16.5px;font-weight:600}
 #lat .row small{display:block;font-size:12.5px;font-weight:400;color:#A3A8B8;margin-top:2px}
 #lat .row .v{text-align:right;white-space:nowrap;font-size:13px;font-weight:800;letter-spacing:.08em;color:#C8F542}
@@ -137,9 +146,15 @@ s{color:#A3A8B8;text-decoration-thickness:2px}
 
 <div><div class="lbl">3 · Banner lateral (resumo do pedido) · 1200 de largura</div>
 <div class="bn" id="lat"><div class="card">
-  <div class="head">
-    <div class="mk" data-mk></div>
-    <div><h2>24h Sua Apresentação Pronta</h2><p>Apresentação de vendas feita para o seu nicho + 4 bônus. Acesso imediato.</p></div>
+  <div class="hero">
+    <div class="ph"></div>
+    <div class="mk L" data-mk></div>
+    <div class="mk R" data-mk></div>
+    <div class="plate">
+      <div class="k">XPN · BLACK FRIDAY ANTECIPADA</div>
+      <h2>24h Sua Apresentação Pronta</h2>
+      <div class="f">Feita para o seu nicho + 4 bônus<br>Acesso imediato</div>
+    </div>
   </div>
   <div class="rows">
     <div class="row"><div><span class="tag">PRODUTO PRINCIPAL</span>Sua apresentação pronta em 24h<small>Slide a slide, com a fala de cada slide</small></div><div class="v" style="font-size:17px;letter-spacing:0;color:#fff"><s>R$1.997</s>R$47</div></div>
