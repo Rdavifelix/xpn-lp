@@ -40,22 +40,21 @@ s{color:#A3A8B8;text-decoration-thickness:2px}
 .plate .pr strong{font-weight:800;letter-spacing:-.02em;line-height:1}
 .plate .f{color:#A3A8B8}
 
-/* 1 · topo desktop 1000x500 (@2x = 2000x1000) */
-#topo{width:1000px;height:500px}
-#topo .ph{width:745px;height:458px;top:0;right:-78px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)}
-#topo .txt{position:absolute;left:56px;top:0;height:458px;width:400px;display:flex;flex-direction:column;justify-content:center}
-#topo h1{font-size:37px;line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:18px 0 16px}
-#topo .rule{width:64px;height:4px;background:#C8F542;border-radius:4px;margin-bottom:16px}
-#topo p{font-size:15.5px;line-height:1.5;color:#D7DAE5;max-width:350px}
-#topo .pill{font-size:10px;padding:8px 14px;margin-top:20px;align-self:flex-start}
-#topo .mk.L{width:300px;left:452px;top:14px}
-#topo .mk.R{width:300px;right:8px;top:8px}
-#topo .plate{left:516px;top:268px;width:404px;height:156px;gap:7px}
-#topo .plate .k{font-size:10.5px}
-#topo .plate .pr{gap:14px}
-#topo .plate .pr s{font-size:19px}
-#topo .plate .pr strong{font-size:50px}
-#topo .plate .f{font-size:11.5px}
+/* 1 · topo desktop 1000x500 (@2x = 2000x1000): João com a placa à esquerda, mockups à direita */
+#topo{width:1000px;height:500px;background:radial-gradient(45% 60% at 80% 42%,rgba(255,106,61,.20),transparent 70%),#07080D}
+#topo .ph{width:745px;height:458px;top:0;left:-74px;-webkit-mask-image:linear-gradient(90deg,#000 80%,transparent 97%);mask-image:linear-gradient(90deg,#000 80%,transparent 97%)}
+#topo .plate{left:104px;top:268px;width:404px;height:156px;gap:6px}
+#topo .plate .k{font-size:10px}
+#topo .plate h1{font-size:24px;line-height:1.12;font-weight:800;letter-spacing:-.02em}
+#topo .plate .pr{gap:12px;margin-top:2px}
+#topo .plate .pr s{font-size:15px}
+#topo .plate .pr strong{font-size:33px}
+#topo .plate .f{font-size:11px}
+#topo .side{position:absolute;left:580px;right:28px;top:0;height:458px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+#topo .side .brand{font-size:11px}
+#topo .side .mk{width:392px}
+#topo .side .cap{font-size:17px;font-weight:800;margin-top:8px}
+#topo .side .pill{font-size:10px;padding:8px 14px}
 #topo .bar{height:42px;font-size:14px}
 
 /* 2 · topo mobile 600x400 (@2x = 1200x800) */
@@ -113,19 +112,17 @@ s{color:#A3A8B8;text-decoration-thickness:2px}
 <div><div class="lbl">1 · Banner de topo (desktop) · 2000×1000</div>
 <div class="bn" id="topo">
   <div class="ph"></div>
-  <div class="mk L" data-mk></div>
-  <div class="mk R" data-mk></div>
-  <div class="txt">
-    <div class="brand" style="font-size:11px"><b>XPN</b><span class="lime">24H SUA APRESENTAÇÃO PRONTA</span></div>
-    <h1>Sua apresentação de vendas <span class="lime">pronta em 24&nbsp;horas</span></h1>
-    <div class="rule"></div>
-    <p>Slide a slide, feita para o seu nicho, com a fala de cada slide escrita. <b style="color:#fff">+ 4 bônus</b> para fechar na reunião.</p>
-    <div class="pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C8F542" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>VALIDADO EM MAIS DE 12.000 REUNIÕES</div>
-  </div>
   <div class="plate">
-    <div class="k">APRESENTAÇÃO PRONTA + 4 BÔNUS</div>
+    <div class="k">XPN · 24H SUA APRESENTAÇÃO PRONTA</div>
+    <h1>Sua apresentação de vendas <span class="lime">pronta em 24 horas</span></h1>
     <div class="pr"><s>De R$3.485</s><strong>por <span class="lime">R$47</span></strong></div>
     <div class="f">Pagamento único · Pix ou cartão · Garantia de 60 dias</div>
+  </div>
+  <div class="side">
+    <div class="brand"><span class="lime">TUDO O QUE VOCÊ RECEBE</span></div>
+    <div class="mk" data-mk></div>
+    <div class="cap">Apresentação pronta <span class="lime">+ 4 bônus</span></div>
+    <div class="pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C8F542" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>VALIDADO EM MAIS DE 12.000 REUNIÕES</div>
   </div>
   <div class="bar">BLACK FRIDAY ANTECIPADA<i></i>98% OFF<i></i>R$47 ATÉ 15/11</div>
 </div></div>
