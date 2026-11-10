@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Banners de checkout · 24h Sua Apresentação Pronta</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1b1d26;font-family:Inter,system-ui,sans-serif;color:#F2F3F7;padding:32px;display:flex;flex-direction:column;gap:40px;align-items:flex-start}
+.lbl{font-size:13px;color:#A3A8B8;margin-bottom:8px}
+.bn{position:relative;overflow:hidden;background:#07080D;color:#F2F3F7}
+.glow::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(60% 80% at 78% 38%,rgba(61,165,255,.22),transparent 65%),
+ radial-gradient(40% 60% at 8% 100%,rgba(200,245,66,.10),transparent 70%);pointer-events:none}
+.glow::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(70% 90% at 75% 40%,#000,transparent 75%);-webkit-mask-image:radial-gradient(70% 90% at 75% 40%,#000,transparent 75%);pointer-events:none}
+.bn>*{position:relative;z-index:1}
+.lime{color:#C8F542}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.12em}
+.brand b{background:#C8F542;color:#07080D;border-radius:6px;padding:3px 8px;letter-spacing:.04em}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #2A3045;background:#0F1118;border-radius:99px;font-weight:800;letter-spacing:.08em;color:#D7DAE5}
+.bar{position:absolute!important;left:0;right:0;bottom:0;background:#E11D2E;color:#fff;font-weight:800;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap}
+.bar i{width:5px;height:5px;border-radius:50%;background:#fff;opacity:.7}
+s{color:#A3A8B8;text-decoration-thickness:2px}
+/* mockups */
+.mk{text-align:left;position:relative;container-type:inline-size;aspect-ratio:16/11}
+.mk>div{position:absolute}
+.sk{background:#D9DCE5;border-radius:1cqw;height:1cqw}
+.skd{background:#2A3045;border-radius:1cqw;height:1.2cqw}
+
+/* 1 · topo desktop 1000x500 (@2x = 2000x1000) */
+#topo{width:1000px;height:500px;display:grid;grid-template-columns:455px 1fr;padding:44px 48px 78px 56px;gap:8px}
+#topo h1{font-size:43px;line-height:1.08;font-weight:800;letter-spacing:-.02em;margin:22px 0 18px}
+#topo .rule{width:64px;height:4px;background:#C8F542;border-radius:4px;margin-bottom:18px}
+#topo p{font-size:17px;line-height:1.5;color:#D7DAE5;max-width:400px}
+#topo .pill{font-size:10.5px;padding:8px 14px;margin-top:22px}
+#topo .right{display:flex;flex-direction:column;align-items:center}
+#topo .mk{width:425px;margin-top:-22px}
+#topo>div:first-child{align-self:center}
+#topo .price{display:flex;align-items:baseline;gap:16px;margin-top:10px}
+#topo .price s{font-size:20px}
+#topo .price strong{font-size:52px;font-weight:800;letter-spacing:-.02em;line-height:1}
+#topo .fine{font-size:12.5px;color:#A3A8B8;margin-top:8px}
+#topo .bar{height:42px;font-size:14px}
+
+/* 2 · topo mobile 600x400 (@2x = 1200x800) */
+#mob{width:600px;height:400px;padding:22px 28px 0;display:flex;flex-direction:column;align-items:center;text-align:center}
+#mob .brand{font-size:10px}
+#mob h1{font-size:27px;line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:10px 0 0}
+#mob .mk{width:292px;margin-top:6px}
+#mob .price{display:flex;align-items:baseline;gap:12px;margin-top:6px}
+#mob .price s{font-size:15px}
+#mob .price strong{font-size:32px;font-weight:800;line-height:1}
+#mob .price>span{font-size:11.5px;color:#A3A8B8}
+#mob .bar{height:36px;font-size:11.5px;gap:10px}
+
+/* 3 · lateral 600 x auto (@2x = 1200 de largura) */
+#lat{width:600px;padding:18px;background:#07080D}
+#lat .card{background:#0F1118;border:1px solid #1E2130;border-radius:22px;padding:28px 30px 26px}
+#lat .head{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center}
+#lat .head h2{font-size:25px;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+#lat .head p{font-size:15.5px;line-height:1.45;color:#A3A8B8;margin-top:8px}
+#lat .rows{margin-top:22px}
+#lat .row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-top:1px dashed #2A3045;font-size:16.5px;font-weight:600}
+#lat .row small{display:block;font-size:12.5px;font-weight:400;color:#A3A8B8;margin-top:2px}
+#lat .row .v{text-align:right;white-space:nowrap;font-size:13px;font-weight:800;letter-spacing:.08em;color:#C8F542}
+#lat .row .v s{display:block;font-size:12.5px;font-weight:600;letter-spacing:0;text-decoration-thickness:1px}
+#lat .tag{font-size:10.5px;font-weight:800;letter-spacing:.1em;color:#3DA5FF;display:block;margin-bottom:2px}
+#lat .sum{border-top:1px dashed #2A3045;padding-top:16px;display:flex;justify-content:space-between;font-size:15px;color:#A3A8B8}
+#lat .total{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;font-size:23px;font-weight:800}
+#lat .total strong{font-size:34px;color:#C8F542;letter-spacing:-.02em}
+#lat .fine{display:flex;justify-content:space-between;font-size:13px;color:#A3A8B8;margin-top:6px}
+#lat .off{display:inline-block;background:#E11D2E;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;border-radius:6px;padding:4px 9px;margin-top:14px}
+#lat blockquote{margin-top:24px;border-left:4px solid #C8F542;padding:4px 0 4px 18px;font-size:17px;line-height:1.5;color:#D7DAE5}
+#lat .gar{margin-top:24px;border:1px solid #2A3045;border-radius:14px;overflow:hidden}
+#lat .gar h3{background:#C8F542;color:#07080D;font-size:17.5px;font-weight:800;text-align:center;padding:13px 16px}
+#lat .gar p{padding:16px 20px 18px;font-size:15px;line-height:1.55;color:#D7DAE5;background:#15161F}
+#lat .foot{text-align:center;margin-top:24px}
+#lat .foot .k{font-size:11px;font-weight:800;letter-spacing:.14em;color:#3DA5FF}
+#lat .foot .n{font-size:15px;font-weight:800;margin-top:6px}
+#lat .foot .d{font-size:12.5px;color:#A3A8B8;margin-top:4px}
+</style>
+</head>
+<body>
+
+<div><div class="lbl">1 · Banner de topo (desktop) · 2000×1000</div>
+<div class="bn glow" id="topo">
+  <div>
+    <div class="brand" style="font-size:11.5px"><b>XPN</b><span class="lime">24H SUA APRESENTAÇÃO PRONTA</span></div>
+    <h1>Sua apresentação de vendas <span class="lime">pronta em 24&nbsp;horas</span></h1>
+    <div class="rule"></div>
+    <p>Slide a slide, feita para o seu nicho, com a fala de cada slide escrita. <b style="color:#fff">+ 4 bônus</b> para fechar na reunião.</p>
+    <div class="pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C8F542" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>VALIDADO EM MAIS DE 12.000 REUNIÕES</div>
+  </div>
+  <div class="right">
+    <div class="mk" data-mk></div>
+    <div class="price"><s>De R$3.485</s><strong>por <span class="lime">R$47</span></strong></div>
+    <div class="fine">Pagamento único · Pix ou cartão · Garantia de 60 dias</div>
+  </div>
+  <div class="bar">BLACK FRIDAY ANTECIPADA<i></i>98% OFF<i></i>R$47 ATÉ 15/11</div>
+</div></div>
+
+<div><div class="lbl">2 · Banner de topo (mobile) · 1200×800</div>
+<div class="bn glow" id="mob">
+  <div class="brand"><b>XPN</b><span class="lime">24H SUA APRESENTAÇÃO PRONTA</span></div>
+  <h1>Sua apresentação de vendas <span class="lime">pronta em 24 horas</span></h1>
+  <div class="mk" data-mk></div>
+  <div class="price"><s>De R$3.485</s><strong>por <span class="lime">R$47</span></strong><span>pagamento único</span></div>
+  <div class="bar">BLACK FRIDAY ANTECIPADA<i></i>98% OFF<i></i>R$47 ATÉ 15/11</div>
+</div></div>
+
+<div><div class="lbl">3 · Banner lateral (resumo do pedido) · 1200 de largura</div>
+<div class="bn" id="lat"><div class="card">
+  <div class="head">
+    <div class="mk" data-mk></div>
+    <div><h2>24h Sua Apresentação Pronta</h2><p>Apresentação de vendas feita para o seu nicho + 4 bônus. Acesso imediato.</p></div>
+  </div>
+  <div class="rows">
+    <div class="row"><div><span class="tag">PRODUTO PRINCIPAL</span>Sua apresentação pronta em 24h<small>Slide a slide, com a fala de cada slide</small></div><div class="v" style="font-size:17px;letter-spacing:0;color:#fff"><s>R$1.997</s>R$47</div></div>
+    <div class="row"><div><span class="tag">BÔNUS 01</span>Masterclass O Segredo do Roteiro</div><div class="v"><s>R$497</s>INCLUÍDO</div></div>
+    <div class="row"><div><span class="tag">BÔNUS 02</span>Arsenal de Objeções</div><div class="v"><s>R$297</s>INCLUÍDO</div></div>
+    <div class="row"><div><span class="tag">BÔNUS 03</span>O Ritual do Preço</div><div class="v"><s>R$297</s>INCLUÍDO</div></div>
+    <div class="row"><div><span class="tag">BÔNUS 04</span>Kit Cadeira Cheia</div><div class="v"><s>R$397</s>INCLUÍDO</div></div>
+  </div>
+  <div class="sum"><span>Tudo isso vale</span><s>R$3.485</s></div>
+  <div class="total"><span>Total de hoje</span><strong>R$47</strong></div>
+  <div class="fine"><span>Pagamento único. Sem assinatura.</span><span>Pix ou cartão de crédito</span></div>
+  <span class="off">98% OFF · BLACK FRIDAY ANTECIPADA · ATÉ 15/11</span>
+  <blockquote>Você não precisa nascer vendedor para fechar em reunião. <b style="color:#fff">Você só precisa de um roteiro.</b></blockquote>
+  <div class="gar">
+    <h3>Teste sem risco. Você tem 60 dias.</h3>
+    <p>Use a apresentação em 10 reuniões nos próximos 60 dias. Se não fechar nenhum contrato, envie as gravações: devolvemos seus R$47 e <b style="color:#fff">ainda mandamos um PIX de R$100 pelo seu tempo.</b></p>
+  </div>
+  <div class="foot">
+    <div class="k">XPN DIGITAL SOLUTIONS</div>
+    <div class="n">João Araujo · Fundador e CEO</div>
+    <div class="d">CNPJ 47.765.171/0001-75 · Os resultados dependem da aplicação de cada cliente.</div>
+  </div>
+</div></div></div>
+
+<script>
+const MK=`
+<div style="right:1%;top:2%;width:34%;aspect-ratio:3/4;background:#fff;border-radius:1.6cqw;transform:rotate(7deg);box-shadow:0 3cqw 6cqw rgba(0,0,0,.45);overflow:hidden">
+  <div style="background:#0F1115;color:#fff;padding:2.4cqw;font-size:2cqw;font-weight:800;letter-spacing:.06em">ARSENAL DE OBJEÇÕES</div>
+  <div style="padding:2.4cqw;display:flex;flex-direction:column;gap:1.6cqw;color:#0F1115;font-weight:800;font-size:2.2cqw">
+    <span>"Tá caro"</span><div class="sk" style="width:90%"></div><div class="sk" style="width:70%"></div>
+    <span>"Vou pensar"</span><div class="sk" style="width:86%"></div><div class="sk" style="width:60%"></div>
+    <span>"Falar com o sócio"</span><div class="sk" style="width:80%"></div>
+  </div>
+</div>
+<div style="left:0;top:4%;width:52%;aspect-ratio:16/10;background:#000;border:1px solid #2A2D3A;border-radius:1.8cqw;transform:rotate(-6deg);box-shadow:0 3cqw 6cqw rgba(0,0,0,.5);overflow:hidden;display:flex;flex-direction:column">
+  <div style="padding:1.8cqw 2.4cqw;font-size:2.1cqw;font-weight:800;color:#fff;white-space:nowrap">Masterclass O Segredo do Roteiro</div>
+  <div style="flex:1;position:relative;background:linear-gradient(160deg,#1E2433,#10131C);display:flex;align-items:center;justify-content:center">
+    <span style="position:absolute;left:2.4cqw;top:2.4cqw;padding:.6cqw 1.8cqw;background:#E11D2E;color:#fff;font-size:1.8cqw;font-weight:800;border-radius:99px">AO VIVO</span>
+    <span style="width:9cqw;height:9cqw;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center"><span style="border-top:2cqw solid transparent;border-bottom:2cqw solid transparent;border-left:3cqw solid #0F1115;margin-left:.8cqw"></span></span>
+  </div>
+</div>
+<div style="left:19%;top:26%;width:58%;aspect-ratio:16/9;background:linear-gradient(160deg,#141826,#0B0D14);border:1px solid #2A3045;border-radius:2.2cqw;padding:3.2cqw;display:flex;flex-direction:column;gap:1.6cqw;box-shadow:0 4cqw 8cqw rgba(0,0,0,.55);overflow:hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:2.2cqw;font-weight:800;color:#3DA5FF;letter-spacing:.1em">PRONTA EM 24H</span><span style="font-size:2cqw;font-weight:800;color:#6B7186">XPN</span></div>
+  <span style="font-size:3.6cqw;font-weight:800;line-height:1.15;color:#fff;max-width:70%">Sua apresentação de vendas</span>
+  <div style="margin-top:auto;display:flex;gap:4cqw;align-items:flex-end">
+    <div style="flex:1;display:flex;flex-direction:column;gap:1.4cqw"><div class="skd" style="width:90%"></div><div class="skd" style="width:75%"></div><div class="skd" style="width:82%"></div></div>
+    <div style="flex:1;display:flex;align-items:flex-end;gap:1.4cqw;height:10cqw"><div style="flex:1;height:30%;background:#2A3045;border-radius:.8cqw"></div><div style="flex:1;height:48%;background:#2A3045;border-radius:.8cqw"></div><div style="flex:1;height:70%;background:#3DA5FF;border-radius:.8cqw"></div><div style="flex:1;height:100%;background:#C8F542;border-radius:.8cqw"></div></div>
+  </div>
+</div>
+<div style="left:1%;bottom:1%;width:32%;background:#fff;color:#0F1115;border-radius:1.6cqw;padding:2.4cqw;transform:rotate(-4deg);box-shadow:0 3cqw 6cqw rgba(0,0,0,.5);display:flex;flex-direction:column;gap:.8cqw"><span style="font-size:1.8cqw;font-weight:800;color:#1E6FD9;letter-spacing:.08em">O RITUAL DO PREÇO</span><span style="font-size:2.2cqw;color:#5A5F6B">Investimento</span><div style="height:2.6cqw;width:70%;background:#0F1115;border-radius:1cqw"></div><div class="sk" style="width:50%"></div></div>
+<div style="right:6%;bottom:-2%;width:21%;aspect-ratio:9/19;background:#000;border:1px solid #2A2D3A;border-radius:3.6cqw;padding:1cqw;box-shadow:0 3cqw 6cqw rgba(0,0,0,.6)">
+  <div style="width:100%;height:100%;background:#ECE5DD;border-radius:2.8cqw;overflow:hidden;display:flex;flex-direction:column">
+    <div style="background:#075E54;color:#fff;padding:3cqw 1.6cqw 1.2cqw;font-size:1.6cqw;font-weight:800">Ana · Cliente</div>
+    <div style="padding:1.4cqw;display:flex;flex-direction:column;gap:1.2cqw;color:#0F1115;font-size:1.5cqw;line-height:1.3"><span style="align-self:flex-end;max-width:92%;padding:1cqw 1.2cqw;background:#DCF8C6;border-radius:1cqw">Confirmando nossa reunião amanhã às 10h?</span><span style="align-self:flex-start;padding:1cqw 1.2cqw;background:#fff;border-radius:1cqw">Confirmado!</span></div>
+  </div>
+</div>
+<div style="left:37%;bottom:1%;width:15%;aspect-ratio:1;border-radius:50%;background:#C8F542;color:#07080D;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:2.5cqw;line-height:1.1;transform:rotate(8deg);box-shadow:0 2cqw 4cqw rgba(0,0,0,.5)">+ 4<br>bônus</div>`;
+document.querySelectorAll('[data-mk]').forEach(e=>e.innerHTML=MK);
+</script>
+</body>
+</html>
