@@ -9,7 +9,9 @@
   Configurar na Assiny como URL de redirecionamento pós-compra da Apresentação 24h.
 
   PREENCHER (marcado em vermelho na página, class="fill", ou no bloco CONFIG do script lá embaixo):
-  - embed da VSL dentro de #vsl-slot (apagar o aviso vermelho ao colar)
+  - embed da VSL VERTICAL (9:16) dentro de #vsl-slot (apagar o aviso vermelho ao colar)
+  - o corpo da página e os botões (class="esconder") só aparecem aos 4:25 do vídeo: CONFIG.pitch
+    (para revisar a página inteira sem assistir: /onepage/?liberar=1)
   - CONFIG.aceitar: link/ação de compra com 1 clique do upsell na Assiny
   - CONFIG.recusar: URL do downsell (ou da página de obrigado, se não houver downsell)
   - conferir o prazo da garantia (a página está com 7 dias)
@@ -70,11 +72,15 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 .steps .now{color:#fff}.steps .now i{border-color:#C8F542;color:#C8F542}
 .steps b{width:18px;height:1.5px;background:#3C7A54}
 
-/* 3. vídeo */
-.video{width:100%;aspect-ratio:16/9;background:#0F1118;border:1px solid #1E2130;border-radius:18px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
-.video>iframe,.video>video,.video>div:not(.fill){position:absolute;inset:0;width:100%;height:100%;border:0}
+/* 3. vídeo (VSL vertical 9:16) */
+.video{width:100%;max-width:400px;margin:0 auto;background:#0F1118;border:1px solid #1E2130;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.video vturb-smartplayer{display:block;margin:0 auto;width:100%}
+.video>iframe,.video>video{display:block;width:100%;height:auto;aspect-ratio:9/16;border:0}
 .fill{color:#FF4D4D;font-weight:600;background:rgba(255,77,77,.08);border:1px dashed rgba(255,77,77,.55);border-radius:6px;padding:2px 8px}
-.video .fill{position:absolute;inset:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:15px;border-radius:12px}
+.video .fill{aspect-ratio:9/16;margin:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:15px;border-radius:12px}
+
+/* tudo com .esconder só aparece no momento do pitch (ver script no fim) */
+.esconder{display:none!important}
 
 /* botões */
 @keyframes xpn-shine{0%{left:-40%}60%,100%{left:120%}}
@@ -113,25 +119,26 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 <section style="padding:clamp(28px,5vw,56px) 20px 40px">
 <div class="wrap" style="display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center">
 <h1 style="font-weight:800;font-size:clamp(28px,4.8vw,48px);line-height:1.12;letter-spacing:-0.02em">Sua apresentação chega em 24h. Agora falta saber o que responder quando o cliente disser <span class="blue">“vou pensar”</span>.</h1>
-<p class="soft" style="max-width:600px">Antes de ir para o formulário, assista a este vídeo curto. O João mostra o que acontece depois que a apresentação fica pronta.</p>
+<p class="soft" style="max-width:600px">Antes de ir para o formulário, assista a este vídeo. O João mostra o que acontece depois que a apresentação fica pronta.</p>
 
 <div class="video" id="vsl-slot">
-<!-- COLAR AQUI O EMBED DA VSL e apagar a linha abaixo -->
-<div class="fill">[ESPAÇO DA VSL · colar o embed aqui]</div>
+<!-- COLAR AQUI O EMBED DA VSL (vertical, 9:16) e apagar a linha abaixo -->
+<div class="fill">[ESPAÇO DA VSL VERTICAL · colar o embed aqui]</div>
 </div>
 
-<!-- resumo em texto: a mesma lógica do vídeo, já com o preço -->
-<div class="card" style="width:100%;text-align:left;display:flex;flex-direction:column;gap:12px">
-<span class="eyebrow">O RESUMO, SE VOCÊ ESTIVER COM PRESSA</span>
-<p class="soft">A apresentação leva o cliente até o preço. O contrato se decide no minuto seguinte, quando ele diz “gostei, mas vou pensar”.</p>
-<p class="soft">A <strong style="color:#fff">Central de Fechamento XPN</strong> são 3 especialistas de IA, treinados em mais de 200 reuniões reais que viraram venda, que escrevem a resposta para você nesse momento.</p>
-<p class="soft"><strong style="color:#fff">R$297, pagamento único, acesso vitalício.</strong> Quem entra por esta página leva junto a apresentação comentada que fechou mais de 35% das reuniões em contratos acima de R$12.000.</p>
+<p class="mut" style="font-size:14px">Ligue o som. O acesso à sua apresentação já está a caminho do seu e-mail.</p>
+
+<!-- botão embaixo do vídeo: liberado no pitch -->
+<div class="ctaw esconder">
+<a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL DE FECHAMENTO<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<span class="note2">R$297 · Pagamento único · Acesso vitalício · Garantia de 7 dias</span>
+<a href="#" data-recusar class="no">Não, obrigado. Quero seguir só com a minha apresentação.</a>
 </div>
 </div>
 </section>
 
 <!-- 4. A OFERTA: o problema que ela resolve -->
-<section style="padding:40px 20px 56px">
+<section class="esconder" style="padding:40px 20px 56px">
 <div class="wrap" style="display:flex;flex-direction:column;gap:22px">
 <div style="display:flex;flex-direction:column;gap:12px;text-align:center">
 <h2>Ninguém convence uma emoção com razão</h2>
@@ -149,7 +156,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </section>
 
 <!-- 4. A OFERTA: o que é -->
-<section style="padding:56px 20px;background:#0B0C12;border-top:1px solid #1E2130;border-bottom:1px solid #1E2130">
+<section class="esconder" style="padding:56px 20px;background:#0B0C12;border-top:1px solid #1E2130;border-bottom:1px solid #1E2130">
 <div class="wide" style="display:flex;flex-direction:column;gap:28px">
 <div style="display:flex;flex-direction:column;gap:10px;text-align:center">
 <span class="eyebrow">CENTRAL DE FECHAMENTO XPN</span>
@@ -184,7 +191,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </section>
 
 <!-- 5. PREÇO E BOTÃO DE 1 CLIQUE + 6. NÃO, OBRIGADO -->
-<section id="oferta" style="padding:56px 20px">
+<section class="esconder" id="oferta" style="padding:56px 20px">
 <div class="wrap">
 <div style="background:#0F1118;border:1px solid #1E2130;border-radius:24px;padding:clamp(24px,5vw,40px);display:flex;flex-direction:column;gap:22px">
 <div style="display:flex;flex-direction:column;gap:10px">
@@ -212,7 +219,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </section>
 
 <!-- garantia + dúvidas -->
-<section style="padding:0 20px 56px">
+<section class="esconder" style="padding:0 20px 56px">
 <div class="wrap" style="display:flex;flex-direction:column;gap:18px">
 <div class="card" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
 <svg role="img" aria-label="Selo de 7 dias de garantia" width="96" height="96" viewBox="0 0 200 200" style="flex:0 0 auto"><circle cx="100" cy="100" r="92" fill="none" stroke="#1E6FD9" stroke-width="2" stroke-dasharray="3 6"></circle><circle cx="100" cy="100" r="70" fill="none" stroke="#3DA5FF" stroke-width="3"></circle><text x="100" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="72" font-weight="800" fill="#3DA5FF">7</text><text x="100" y="142" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#D7DAE5" letter-spacing="3">DIAS</text></svg>
@@ -232,7 +239,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </section>
 
 <!-- fechamento: os dois caminhos -->
-<section style="padding:0 20px 72px">
+<section class="esconder" style="padding:0 20px 72px">
 <div class="wrap" style="display:flex;flex-direction:column;gap:20px;text-align:center">
 <h2 style="font-size:clamp(23px,3.2vw,30px)">Você tem dois caminhos</h2>
 <p class="soft">Seguir para o formulário e montar a sua apresentação, e está tudo bem. Ou entrar na próxima reunião com a Central de Fechamento ao seu lado e a apresentação dos 35% como referência.</p>
@@ -255,6 +262,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 <script>
 /* ===== CONFIG: preencher com os links da Assiny ===== */
 var CONFIG = {
+  pitch: 265,   // segundo do vídeo em que o corpo da página e os botões aparecem (4:25)
   aceitar: "",  // link/ação de compra com 1 clique do upsell (Central de Fechamento, R$297)
   recusar: ""   // URL do downsell, ou da página de obrigado se não houver downsell
 };
@@ -271,6 +279,41 @@ var CONFIG = {
   }
   ligar("a[data-aceitar]", CONFIG.aceitar);
   ligar("a[data-recusar]", CONFIG.recusar);
+})();
+
+/* Libera tudo que tem class="esconder" quando o VÍDEO chega em CONFIG.pitch (tempo assistido, não tempo de página).
+   Quem já chegou no pitch uma vez vê a página aberta ao voltar. Para revisar sem assistir: abrir com ?liberar=1 */
+(function(){
+  var CHAVE = "xpn_onepage_pitch", feito = false;
+  function liberar(){
+    if (feito) return; feito = true;
+    Array.prototype.forEach.call(document.querySelectorAll(".esconder"), function(el){ el.classList.remove("esconder"); });
+    try { localStorage.setItem(CHAVE, "1"); } catch(e){}
+  }
+  var ja = false; try { ja = localStorage.getItem(CHAVE) === "1"; } catch(e){}
+  if (ja || /[?&]liberar=1/.test(window.location.search)) { liberar(); return; }
+
+  function checar(t){ if (typeof t === "number" && t >= CONFIG.pitch) liberar(); }
+  var ligados = [];
+  function ligarPlayer(){
+    // VTurb (smartplayer v4): o player expõe o <video> interno em player.video
+    Array.prototype.forEach.call(document.querySelectorAll("vturb-smartplayer"), function(pl){
+      if (ligados.indexOf(pl) > -1) return; ligados.push(pl);
+      pl.addEventListener("player:ready", function(){
+        try { pl.displayHiddenElements(CONFIG.pitch, [".esconder"], { persist: true }); } catch(e){}
+      });
+    });
+    // qualquer <video> na página (inclusive o que o VTurb cria)
+    Array.prototype.forEach.call(document.querySelectorAll("video"), function(v){
+      if (ligados.indexOf(v) > -1) return; ligados.push(v);
+      v.addEventListener("timeupdate", function(){ checar(v.currentTime); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("vturb-smartplayer"), function(pl){
+      try { if (pl.video) checar(pl.video.currentTime); } catch(e){}
+    });
+  }
+  ligarPlayer();
+  var t = setInterval(function(){ if (feito) { clearInterval(t); return; } ligarPlayer(); }, 1000);
 })();
 </script>
 </body>
