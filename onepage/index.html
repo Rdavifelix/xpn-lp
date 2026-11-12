@@ -9,7 +9,6 @@
   Configurar na Assiny como URL de redirecionamento pós-compra da Apresentação 24h.
 
   PREENCHER (marcado em vermelho na página, class="fill", ou no bloco CONFIG do script lá embaixo):
-  - embed da VSL VERTICAL (9:16) dentro de #vsl-slot (apagar o aviso vermelho ao colar)
   - o corpo da página e os botões (class="esconder") só aparecem aos 4:25 do vídeo: CONFIG.pitch
     (para revisar a página inteira sem assistir: /onepage/?liberar=1)
   - CONFIG.aceitar: link/ação de compra com 1 clique do upsell na Assiny
@@ -40,6 +39,10 @@ src="https://www.facebook.com/tr?id=1536075324642200&ev=PageView&noscript=1"
 <link rel="icon" type="image/png" sizes="32x32" href="../formatos/assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../formatos/assets/favicon.png">
 <meta name="theme-color" content="#07080D">
+<link rel="preload" href="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6af501c80103114211706f66/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;display=swap">
@@ -49,7 +52,7 @@ body{margin:0;background:#07080D}
 a{color:#C8F542}a:hover{color:#E2FF8A}
 summary{cursor:pointer;list-style:none}
 summary::-webkit-details-marker{display:none}
-.page{width:100%;background:#07080D;color:#F2F3F7;font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden}
+.page{width:100%;background:#07080D;color:#F2F3F7;font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden;overflow-x:clip}
 .wrap{max-width:760px;margin:0 auto}
 .wide{max-width:1000px;margin:0 auto}
 h1,h2,h3,p{margin:0}
@@ -79,6 +82,27 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 .fill{color:#FF4D4D;font-weight:600;background:rgba(255,77,77,.08);border:1px dashed rgba(255,77,77,.55);border-radius:6px;padding:2px 8px}
 .video .fill{aspect-ratio:9/16;margin:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:15px;border-radius:12px}
 
+.hero{padding:clamp(28px,5vw,56px) 20px 40px}
+.hero-in{display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center}
+
+.fixo{display:none}
+
+/* celular: tarja fixa no topo e só o vídeo ocupando o resto da tela */
+@media (max-width:700px){
+  .bar{position:sticky;top:0;z-index:40;padding:9px 12px}
+  .bar-msg{font-size:13.5px}
+  .steps{display:none}
+  .so-desk{display:none}
+  .hero{padding:0;background:#000}
+  .hero-in{gap:0}
+  .video{max-width:none;border:0;border-radius:0;box-shadow:none;background:#000;min-height:calc(100vh - var(--bar,56px));min-height:calc(100dvh - var(--bar,56px));display:flex;flex-direction:column;justify-content:center}
+  .video vturb-smartplayer{width:min(100vw,calc((100dvh - var(--bar,56px)) * 9 / 16))!important;max-width:none!important}
+  .hero .ctaw{padding:22px 20px 8px;background:#07080D;max-width:none}
+  .fixo{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(7,8,13,0.92);border-top:1px solid #1E2130}
+  .fixo .btn{min-height:54px}
+  .page{padding-bottom:84px}
+}
+
 /* tudo com .esconder só aparece no momento do pitch (ver script no fim) */
 .esconder{display:none!important}
 
@@ -104,7 +128,7 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 <div class="page">
 
 <!-- 1. FAIXA DE CONTINUIDADE -->
-<div class="bar" role="status">
+<div class="bar" id="bar" role="status">
 <div class="bar-in">
 <div class="bar-msg"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3EE07F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><circle cx="12" cy="12" r="9.5"></circle><path d="M7.5 12.5l3 3 6-6.5"></path></svg><span><strong>Pedido confirmado.</strong> Não feche esta página, falta um passo.</span></div>
 <div class="steps" aria-hidden="true">
@@ -116,17 +140,18 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </div>
 
 <!-- 2. HEADLINE-PONTE + 3. VÍDEO -->
-<section style="padding:clamp(28px,5vw,56px) 20px 40px">
-<div class="wrap" style="display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center">
-<h1 style="font-weight:800;font-size:clamp(28px,4.8vw,48px);line-height:1.12;letter-spacing:-0.02em">Sua apresentação chega em 24h. Agora falta saber o que responder quando o cliente disser <span class="blue">“vou pensar”</span>.</h1>
-<p class="soft" style="max-width:600px">Antes de ir para o formulário, assista a este vídeo. O João mostra o que acontece depois que a apresentação fica pronta.</p>
+<section class="hero">
+<div class="wrap hero-in">
+<h1 class="so-desk" style="font-weight:800;font-size:clamp(28px,4.8vw,48px);line-height:1.12;letter-spacing:-0.02em">Sua apresentação chega em 24h. Agora falta saber o que responder quando o cliente disser <span class="blue">“vou pensar”</span>.</h1>
+<p class="soft so-desk" style="max-width:600px">Antes de ir para o formulário, assista a este vídeo. O João mostra o que acontece depois que a apresentação fica pronta.</p>
 
 <div class="video" id="vsl-slot">
-<!-- COLAR AQUI O EMBED DA VSL (vertical, 9:16) e apagar a linha abaixo -->
-<div class="fill">[ESPAÇO DA VSL VERTICAL · colar o embed aqui]</div>
+<!-- VTurb SmartPlayer: VSL vertical do upsell -->
+<vturb-smartplayer id="vid-6af501c80103114211706f66" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
+<script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/b538529b-a043-41f8-96cc-3886a55667c2/players/6af501c80103114211706f66/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
 </div>
 
-<p class="mut" style="font-size:14px">Ligue o som. O acesso à sua apresentação já está a caminho do seu e-mail.</p>
+<p class="mut so-desk" style="font-size:14px">Ligue o som. O acesso à sua apresentação já está a caminho do seu e-mail.</p>
 
 <!-- botão embaixo do vídeo: liberado no pitch -->
 <div class="ctaw esconder">
@@ -251,6 +276,9 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 </div>
 </section>
 
+<!-- celular: botão fixo no pé da tela, liberado no pitch (o vídeo ocupa a tela inteira) -->
+<div class="fixo esconder"><a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL POR&nbsp;R$297</a></div>
+
 <footer style="padding:28px 20px;border-top:1px solid #1E2130;color:#A3A8B8;font-size:13px;text-align:center">
 <p style="font-weight:800;color:#FFFFFF;font-size:15px">XPN DIGITAL SOLUTIONS</p>
 <p style="margin-top:6px">CNPJ 47.765.171/0001-75 · Os resultados dependem da aplicação de cada cliente.</p>
@@ -281,6 +309,14 @@ var CONFIG = {
   ligar("a[data-recusar]", CONFIG.recusar);
 })();
 
+/* altura real da tarja, para o vídeo ocupar exatamente o resto da tela no celular */
+(function(){
+  var bar = document.getElementById("bar"); if (!bar) return;
+  function medir(){ document.documentElement.style.setProperty("--bar", bar.offsetHeight + "px"); }
+  medir(); window.addEventListener("resize", medir);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
+})();
+
 /* Libera tudo que tem class="esconder" quando o VÍDEO chega em CONFIG.pitch (tempo assistido, não tempo de página).
    Quem já chegou no pitch uma vez vê a página aberta ao voltar. Para revisar sem assistir: abrir com ?liberar=1 */
 (function(){
@@ -294,26 +330,22 @@ var CONFIG = {
   if (ja || /[?&]liberar=1/.test(window.location.search)) { liberar(); return; }
 
   function checar(t){ if (typeof t === "number" && t >= CONFIG.pitch) liberar(); }
-  var ligados = [];
+  var ligados = [];   // obs.: não usar displayHiddenElements do VTurb aqui, ele força display:block e quebra o layout
   function ligarPlayer(){
-    // VTurb (smartplayer v4): o player expõe o <video> interno em player.video
+    var videos = Array.prototype.slice.call(document.querySelectorAll("video"));
     Array.prototype.forEach.call(document.querySelectorAll("vturb-smartplayer"), function(pl){
-      if (ligados.indexOf(pl) > -1) return; ligados.push(pl);
-      pl.addEventListener("player:ready", function(){
-        try { pl.displayHiddenElements(CONFIG.pitch, [".esconder"], { persist: true }); } catch(e){}
-      });
+      if (pl.shadowRoot) videos = videos.concat(Array.prototype.slice.call(pl.shadowRoot.querySelectorAll("video")));
     });
-    // qualquer <video> na página (inclusive o que o VTurb cria)
-    Array.prototype.forEach.call(document.querySelectorAll("video"), function(v){
+    videos.forEach(function(v){
       if (ligados.indexOf(v) > -1) return; ligados.push(v);
       v.addEventListener("timeupdate", function(){ checar(v.currentTime); });
     });
     Array.prototype.forEach.call(document.querySelectorAll("vturb-smartplayer"), function(pl){
-      try { if (pl.video) checar(pl.video.currentTime); } catch(e){}
+      try { checar(pl.currentTime); } catch(e){}   // tempo do vídeo pela API do player
     });
   }
   ligarPlayer();
-  var t = setInterval(function(){ if (feito) { clearInterval(t); return; } ligarPlayer(); }, 1000);
+  var t = setInterval(function(){ if (feito) { clearInterval(t); return; } ligarPlayer(); }, 500);
 })();
 </script>
 </body>
