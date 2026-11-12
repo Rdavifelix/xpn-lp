@@ -269,9 +269,9 @@ h1{margin:0;font-size:clamp(24px,3.6vw,38px);line-height:1.25;font-weight:800;le
 /* Galeria de mentores (igual à seção "prova viva" da /apresentacao-24h/) */
 .rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 14px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch;width:calc(100% + 40px)}
 .rail::-webkit-scrollbar{display:none}
-.rail img{flex:0 0 clamp(150px,42vw,230px);scroll-snap-align:center;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;border-radius:16px;display:block;background:#1A1C23}
+.rail img{flex:0 0 auto;width:clamp(150px,42vw,230px);min-width:0;scroll-snap-align:center;height:auto;aspect-ratio:9/16;object-fit:cover;border-radius:16px;display:block;background:#1A1C23}
 .swipe{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink-3);margin-top:-8px}
-@media (min-width:1000px){.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;margin:0;padding:0;width:100%}.swipe{display:none}}
+@media (min-width:1000px){.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;margin:0;padding:0;width:100%}.rail img{width:100%}.swipe{display:none}}
 @media (max-width:640px){.rail{padding:4px 12px 14px;margin:0 -12px;width:calc(100% + 24px)}}
 
 /* Parede de provas: 4 cards iguais (mesma largura, mesma altura) */
