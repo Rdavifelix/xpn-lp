@@ -266,6 +266,14 @@ h1{margin:0;font-size:clamp(24px,3.6vw,38px);line-height:1.25;font-weight:800;le
 .chat .bub b{background:rgba(255,233,154,.95);color:#16171a;padding:0 4px;border-radius:2px}
 .chat .t{font-size:10px;color:#7f93a8;text-align:right}
 
+/* Galeria de mentores (igual à seção "prova viva" da /apresentacao-24h/) */
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 14px;margin:0 -20px;scrollbar-width:none;-webkit-overflow-scrolling:touch;width:calc(100% + 40px)}
+.rail::-webkit-scrollbar{display:none}
+.rail img{flex:0 0 clamp(150px,42vw,230px);scroll-snap-align:center;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;border-radius:16px;display:block;background:#1A1C23}
+.swipe{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink-3);margin-top:-8px}
+@media (min-width:1000px){.rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;margin:0;padding:0;width:100%}.swipe{display:none}}
+@media (max-width:640px){.rail{padding:4px 12px 14px;margin:0 -12px;width:calc(100% + 24px)}}
+
 /* Parede de provas: 4 cards iguais (mesma largura, mesma altura) */
 .wall{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .wcard{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
@@ -426,62 +434,19 @@ body.com-barra{padding-bottom:88px}
   <section class="proof">
     <div class="proof-head">
       <p class="eyebrow">Provas reais</p>
-      <h2>Resultados reais de mentores usando a <span class="hl">Máquina de Reuniões</span></h2>
-      <p>Mentores e consultores que trocaram indicação, conteúdo diário e DM por uma única fonte de demanda — e passaram a vender a mentoria em uma reunião.</p>
+      <h2>Serve para mentores de todos os nichos e <span class="hl">esses são a prova viva</span></h2>
+      <p>Contratos fechados usando a estrutura de vendas da XPN — todos mentores.</p>
     </div>
 
-    <div class="grid3">
-      <!-- Murilo Vila Verde -->
-      <article class="card">
-        <!-- TROCAR: frame do vídeo de depoimento do Murilo (3:2) -->
-        <div class="chat" aria-label="Depoimento em vídeo do Murilo Vila Verde">
-          <div class="who"><i>MV</i>Murilo Vila Verde · podcast com o João</div>
-          <div class="bub">"A gente tava fazendo 70, 80, 90 mil máximo ao mês. Depois que implementamos aquele processinho de comercial, começamos a vender bem as mentorias high ticket. <b>Virou nosso carro-chefe.</b>"</div>
-          <div class="t">Depoimento em vídeo</div>
-        </div>
-        <div class="card-body">
-          <h3>Murilo Vila Verde</h3>
-          <p class="metric"><span class="hl">De R$80k para R$500–600k/mês com a mentoria high ticket</span></p>
-          <p class="where">Mentoria de relacionamento · antes vivia de produtos de R$297–397</p>
-          <p class="quote">Mudou o modelo: a mentoria high ticket virou o carro-chefe da empresa. Já subiu o ticket e a taxa de conversão continua alta.</p>
-          <p class="attrib">Murilo Vila Verde, mentor</p>
-        </div>
-      </article>
-
-      <!-- Moises & Breno Perrucho -->
-      <article class="card">
-        <!-- TROCAR: print ou frame dos sócios (3:2) -->
-        <div class="chat" aria-label="Resumo do resultado de Moises e Breno Perrucho">
-          <div class="who"><i>MB</i>[PAA] Moises &amp; Breno Perrucho</div>
-          <div class="bub">Produtos de R$30 a R$40 mil fechados <b>em uma única reunião</b>.<br>Chegaram faturando R$70–80k/mês. Hoje, mais de R$300k/mês.</div>
-          <div class="t">Mentoria e consultoria</div>
-        </div>
-        <div class="card-body">
-          <h3>Moises &amp; Breno Perrucho</h3>
-          <p class="metric"><span class="hl">De R$70–80k para +R$300k/mês fechando em uma reunião</span></p>
-          <p class="where">Mentoria e consultoria · tickets de R$30–40 mil</p>
-          <p class="quote">High ticket com previsibilidade comercial: o lead chega educado pela apresentação e a venda acontece na primeira reunião, sem "preciso pensar".</p>
-          <p class="attrib">Moises &amp; Breno Perrucho, mentores</p>
-        </div>
-      </article>
-
-      <!-- Eduardo Lustosa -->
-      <article class="card">
-        <!-- TROCAR: frame do vídeo WhatsApp do Eduardo (3:2) -->
-        <div class="chat" aria-label="Depoimento em vídeo do Eduardo Lustosa">
-          <div class="who"><i>EL</i>Eduardo Lustosa · vídeo no WhatsApp</div>
-          <div class="bub">"Pegaram na mão e tiraram literalmente uma empresa do zero. <b>No primeiro mês já batemos mais de 100 mil reais.</b> Rodamos captação ontem e hoje já vendemos mais de 100 mil só essa semana."</div>
-          <div class="t">Depoimento em vídeo</div>
-        </div>
-        <div class="card-body">
-          <h3>Eduardo Lustosa</h3>
-          <p class="metric"><span class="hl">+R$100k no 1º mês com uma mentoria criada do zero</span></p>
-          <p class="where">Consultoria e mentoria · Implementação completa</p>
-          <p class="quote">"Os caras são os melhores do mercado. Eu pesquisei muito antes de fechar com eles e os caras realmente são muito bons. Me surpreendeu a entrega." Projeção: R$300–400k/mês em 3 a 6 meses.</p>
-          <p class="attrib">Eduardo Lustosa, mentor</p>
-        </div>
-      </article>
+    <div class="rail">
+      <img src="img/p1.webp" alt="Mentor de importações: R$5.000.000 com a estrutura de vendas da XPN" width="540" height="960" loading="lazy" decoding="async">
+      <img src="img/p2.webp" alt="Mentor de software e serviço: R$1.000.000 usando o roteiro" width="540" height="960" loading="lazy" decoding="async">
+      <img src="img/p3.webp" alt="Mentor de infoproduto: R$1.000.000 utilizando o roteiro" width="540" height="960" loading="lazy" decoding="async">
+      <img src="img/p4.webp" alt="Mentor de agência: mais de R$100.000 utilizando o roteiro" width="540" height="960" loading="lazy" decoding="async">
+      <img src="img/p5.webp" alt="Mentor de automações: mais de R$100.000 usando o roteiro" width="540" height="960" loading="lazy" decoding="async">
+      <img src="img/p6.webp" alt="Mentor advogado: R$50.000 utilizando o roteiro" width="540" height="960" loading="lazy" decoding="async">
     </div>
+    <span class="swipe">Arraste para o lado<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
 
     <div class="cta-row"><a class="cta" href="#aplicar">Quero aplicar agora</a></div>
 
