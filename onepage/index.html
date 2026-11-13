@@ -11,8 +11,8 @@
   PREENCHER (marcado em vermelho na página, class="fill", ou no bloco CONFIG do script lá embaixo):
   - o corpo da página e os botões (class="esconder") só aparecem aos 4:25 do vídeo: CONFIG.pitch
     (para revisar a página inteira sem assistir: /onepage/?liberar=1)
-  - CONFIG.aceitar: link/ação de compra com 1 clique do upsell na Assiny
-  - CONFIG.recusar: URL do downsell (ou da página de obrigado, se não houver downsell)
+  - CONFIG.oneClick: compra com 1 clique da Central na Assiny (iframe montado em #oneclick-central)
+  - CONFIG.recusar: URL de acesso ao produto ("Não quero melhorar meu comercial, quero acessar o produto")
   - conferir o prazo da garantia (a página está com 7 dias)
 
   Purchase NÃO é disparado aqui: a Assiny já envia a compra ao pixel. Só PageView.
@@ -115,6 +115,9 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 .note2{font-size:13px;color:#A3A8B8}
 .no{font-size:14px;color:#8389A0;text-decoration:underline;text-underline-offset:3px;padding:8px 4px}
 .no:hover{color:#D7DAE5}
+html{scroll-behavior:smooth}
+#comprar{scroll-margin-top:90px}
+.oneclick{width:100%;min-height:150px}
 @media (max-width:480px){.btn{min-height:58px;font-size:15px;padding:10px 14px}.btn svg{display:none}}
 @media (prefers-reduced-motion:reduce){.btn::after{animation:none}}
 
@@ -155,8 +158,9 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 
 <!-- botão embaixo do vídeo: liberado no pitch -->
 <div class="ctaw esconder">
-<a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL DE FECHAMENTO<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="#comprar" data-aceitar class="btn">SIM, QUERO A CENTRAL DE FECHAMENTO<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <span class="note2">R$297 · Pagamento único · Acesso vitalício · Garantia de 7 dias</span>
+<a href="#" data-recusar class="no">Não quero melhorar meu comercial, quero acessar o produto.</a>
 </div>
 </div>
 </section>
@@ -233,9 +237,12 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 <span class="mut" style="font-size:14px">Menos de R$0,82 por dia no primeiro ano. Depois, é seu para sempre.</span>
 </div>
 
-<div class="ctaw">
-<a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL DE FECHAMENTO<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<div class="ctaw" id="comprar">
+<!-- Assiny: compra com 1 clique da Central de Fechamento (montado no pitch, ver montarOneClick no script) -->
+<div id="oneclick-central" class="oneclick"></div>
 <span class="note2">Adicionado ao seu pedido com 1 clique, sem digitar o cartão de novo · Garantia de 7 dias</span>
+<a href="#" data-recusar class="no">Não quero melhorar meu comercial, quero acessar o produto.</a>
+<a href="#" data-checkout class="no" style="font-size:12px;padding:0">O botão não carregou? Comprar pelo checkout</a>
 </div>
 </div>
 </div>
@@ -267,14 +274,15 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 <h2 style="font-size:clamp(23px,3.2vw,30px)">Você tem dois caminhos</h2>
 <p class="soft">Seguir para o formulário e montar a sua apresentação, e está tudo bem. Ou entrar na próxima reunião com a Central de Fechamento ao seu lado e a apresentação dos 35% como referência.</p>
 <div class="ctaw">
-<a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL POR&nbsp;R$297<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="#comprar" data-aceitar class="btn">SIM, QUERO A CENTRAL POR&nbsp;R$297<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <span class="note2">Pagamento único · Acesso vitalício · Garantia de 7 dias</span>
+<a href="#" data-recusar class="no">Não quero melhorar meu comercial, quero acessar o produto.</a>
 </div>
 </div>
 </section>
 
 <!-- celular: botão fixo no pé da tela, liberado no pitch (o vídeo ocupa a tela inteira) -->
-<div class="fixo esconder"><a href="#" data-aceitar class="btn">SIM, QUERO A CENTRAL POR&nbsp;R$297</a></div>
+<div class="fixo esconder"><a href="#comprar" data-aceitar class="btn">SIM, QUERO A CENTRAL POR&nbsp;R$297</a></div>
 
 <footer style="padding:28px 20px;border-top:1px solid #1E2130;color:#A3A8B8;font-size:13px;text-align:center">
 <p style="font-weight:800;color:#FFFFFF;font-size:15px">XPN DIGITAL SOLUTIONS</p>
@@ -288,8 +296,9 @@ h2{font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.15;letter-spac
 /* ===== CONFIG: preencher com os links da Assiny ===== */
 var CONFIG = {
   pitch: 265,   // segundo do vídeo em que o corpo da página e os botões aparecem (4:25)
-  aceitar: "https://pay.assiny.com.br/7212a0/node/202935",  // link/ação de compra com 1 clique do upsell (Central de Fechamento, R$297)
-  recusar: ""   // URL do downsell, ou da página de obrigado se não houver downsell
+  oneClick: "https://pay.assiny.com.br/7212a0/node/202935/one-click",  // compra com 1 clique da Central (R$297) na Assiny
+  checkout: "https://pay.assiny.com.br/7212a0/node/202935",            // checkout normal da Central, só como reserva
+  recusar: ""   // "Não quero melhorar meu comercial": URL de acesso ao produto (área de membros)
 };
 /* ==================================================== */
 (function(){
@@ -302,8 +311,22 @@ var CONFIG = {
       else { a.addEventListener("click", function(e){ e.preventDefault(); }); }
     });
   }
-  ligar("a[data-aceitar]", CONFIG.aceitar);
+  ligar("a[data-checkout]", CONFIG.checkout);
   ligar("a[data-recusar]", CONFIG.recusar);
+})();
+
+/* Assiny one-click: carrega os scripts já na abertura e monta o botão de compra no pitch (montarOneClick) */
+(function(){
+  function js(src, cb){ var e = document.createElement("script"); e.type = "text/javascript"; e.src = src; if (cb) e.onload = cb; document.head.appendChild(e); }
+  js("https://tracker.assiny.com.br/iframeBannerTop.min.js");
+  js("https://tracker.assiny.com.br/iframeResizer.min.js", function(){ js("https://tracker.assiny.com.br/oneClickBuyV2.min.js"); });
+  var montado = false;
+  window.montarOneClick = function(){
+    if (montado) return;
+    if (typeof window.createOneClickBuy !== "function") { setTimeout(window.montarOneClick, 300); return; }
+    montado = true;
+    window.createOneClickBuy("oneclick-central", CONFIG.oneClick);
+  };
 })();
 
 /* altura real da tarja, para o vídeo ocupar exatamente o resto da tela no celular */
@@ -322,6 +345,7 @@ var CONFIG = {
     if (feito) return; feito = true;
     Array.prototype.forEach.call(document.querySelectorAll(".esconder"), function(el){ el.classList.remove("esconder"); });
     try { localStorage.setItem(CHAVE, "1"); } catch(e){}
+    if (window.montarOneClick) window.montarOneClick();
   }
   var ja = false; try { ja = localStorage.getItem(CHAVE) === "1"; } catch(e){}
   if (ja || /[?&]liberar=1/.test(window.location.search)) { liberar(); return; }
